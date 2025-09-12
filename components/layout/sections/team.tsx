@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-} from "@/components/ui/card";
+} from "@/components/ui/Card";
 import Image from "next/image";
 import Link from "next/link";
 interface TeamProps {

@@ -1,0 +1,171 @@
+
+{
+  "es-ES": {
+    "storePage": {
+      "title": "Nuestra Tienda de Bienestar",
+      "subtitle": "Una selección curada de productos para potenciar tu salud y rendimiento.",
+      "filters": {
+        "categoryTitle": "Categorías",
+        "categories": [
+          { "label": "Nutrición", "count": 8 },
+          { "label": "Rendimiento", "count": 5 },
+          { "label": "Recuperación", "count": 3 }
+        ],
+        "priceTitle": "Rango de Precios",
+        "prices": [
+          { "label": "Hasta €50", "count": 12 },
+          { "label": "€50 - €100", "count": 4 }
+        ]
+      },
+      "products": [
+        {
+          "name": "KineticBand Pro",
+          "category": "Rendimiento",
+          "price": 89.99,
+          "imageUrl": "/img/products/kineticband.png",
+          "href": "/store/kineticband-pro"
+        },
+        {
+          "name": "VitaPure Filter",
+          "category": "Nutrición",
+          "price": 49.99,
+          "imageUrl": "/img/products/vitapure.png",
+          "href": "/store/vitapure-filter"
+        },
+        {
+          "name": "NeuroBoost Pods",
+          "category": "Bienestar Mental",
+          "price": 69.99,
+          "imageUrl": "/img/products/neuroboost.png",
+          "href": "/store/neuroboost-pods"
+        }
+      ]
+    }
+  },
+  "en-US": {
+    "storePage": {
+      "title": "Our Wellness Store",
+      "subtitle": "A curated selection of products to boost your health and performance.",
+      "filters": {
+        "categoryTitle": "Categories",
+        "categories": [
+          { "label": "Nutrition", "count": 8 },
+          { "label": "Performance", "count": 5 },
+          { "label": "Recovery", "count": 3 }
+        ],
+        "priceTitle": "Price Range",
+        "prices": [
+          { "label": "Up to $50", "count": 12 },
+          { "label": "$50 - $100", "count": 4 }
+        ]
+      },
+      "products": [
+        {
+          "name": "KineticBand Pro",
+          "category": "Performance",
+          "price": 89.99,
+          "imageUrl": "/img/products/kineticband.png",
+          "href": "/store/kineticband-pro"
+        },
+        {
+          "name": "VitaPure Filter",
+          "category": "Nutrition",
+          "price": 49.99,
+          "imageUrl": "/img/products/vitapure.png",
+          "href": "/store/vitapure-filter"
+        },
+        {
+          "name": "NeuroBoost Pods",
+          "category": "Mental Wellness",
+          "price": 69.99,
+          "imageUrl": "/img/products/neuroboost.png",
+          "href": "/store/neuroboost-pods"
+        }
+      ]
+    }
+  },
+  "pt-BR": {
+    "storePage": {
+      "title": "Nossa Loja de Bem-Estar",
+      "subtitle": "Uma seleção curada de produtos para impulsionar sua saúde e desempenho.",
+      "filters": {
+        "categoryTitle": "Categorias",
+        "categories": [
+          { "label": "Nutrição", "count": 8 },
+          { "label": "Desempenho", "count": 5 },
+          { "label": "Recuperação", "count": 3 }
+        ],
+        "priceTitle": "Faixa de Preço",
+        "prices": [
+          { "label": "Até R$250", "count": 12 },
+          { "label": "R$250 - R$500", "count": 4 }
+        ]
+      },
+      "products": [
+        {
+          "name": "KineticBand Pro",
+          "category": "Desempenho",
+          "price": 89.99,
+          "imageUrl": "/img/products/kineticband.png",
+          "href": "/store/kineticband-pro"
+        },
+        {
+          "name": "VitaPure Filter",
+          "category": "Nutrição",
+          "price": 49.99,
+          "imageUrl": "/img/products/vitapure.png",
+          "href": "/store/vitapure-filter"
+        },
+        {
+          "name": "NeuroBoost Pods",
+          "category": "Bem-Estar Mental",
+          "price": 69.99,
+          "imageUrl": "/img/products/neuroboost.png",
+          "href": "/store/neuroboost-pods"
+        }
+      ]
+    }
+  },
+  "it-IT": {
+    "storePage": {
+      "title": "Il Nostro Negozio del Benessere",
+      "subtitle": "Una selezione curata di prodotti per potenziare la tua salute e le tue prestazioni.",
+      "filters": {
+        "categoryTitle": "Categorie",
+        "categories": [
+          { "label": "Nutrizione", "count": 8 },
+          { "label": "Prestazione", "count": 5 },
+          { "label": "Recupero", "count": 3 }
+        ],
+        "priceTitle": "Fascia di Prezzo",
+        "prices": [
+          { "label": "Fino a €50", "count": 12 },
+          { "label": "€50 - €100", "count": 4 }
+        ]
+      },
+      "products": [
+        {
+          "name": "KineticBand Pro",
+          "category": "Prestazione",
+          "price": 89.99,
+          "imageUrl": "/img/products/kineticband.png",
+          "href": "/store/kineticband-pro"
+        },
+        {
+          "name": "VitaPure Filter",
+          "category": "Nutrizione",
+          "price": 49.99,
+          "imageUrl": "/img/products/vitapure.png",
+          "href": "/store/vitapure-filter"
+        },
+        {
+          "name": "NeuroBoost Pods",
+          "category": "Benessere Mentale",
+          "price": 69.99,
+          "imageUrl": "/img/products/neuroboost.png",
+          "href": "/store/neuroboost-pods"
+        }
+      ]
+    }
+  }
+}

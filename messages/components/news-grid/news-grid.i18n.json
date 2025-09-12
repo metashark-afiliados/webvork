@@ -1,0 +1,60 @@
+{
+  "es-ES": {
+    "newsGrid": {
+      "title": "Últimas Noticias y Artículos",
+      "articles": [
+        {
+          "category": "Nutrición",
+          "title": "5 Superalimentos que Deberías Incluir en Tu Dieta",
+          "summary": "Descubre cómo estos alimentos pueden potenciar tu energía y defensas de forma natural.",
+          "imageUrl": "/img/news/superfoods.jpg",
+          "href": "/news/5-superalimentos"
+        },
+        {
+          "category": "Fitness",
+          "title": "Entrenamiento Funcional: La Guía Definitiva para Principiantes",
+          "summary": "Maximiza tus resultados en el gimnasio con una rutina que imita los movimientos de la vida real.",
+          "imageUrl": "/img/news/functional-training.jpg",
+          "href": "/news/guia-entrenamiento-funcional"
+        },
+        {
+          "category": "Bienestar Mental",
+          "title": "Mindfulness y Reducción del Estrés: Técnicas Comprobadas",
+          "summary": "Aprende a calmar tu mente y mejorar tu enfoque con prácticas sencillas que puedes hacer en cualquier lugar.",
+          "imageUrl": "/img/news/mindfulness.jpg",
+          "href": "/news/mindfulness-reduccion-estres"
+        }
+      ]
+    }
+  },
+  "en-US": {
+    "newsGrid": {
+      "title": "Latest News & Articles",
+      "articles": [
+        {
+          "category": "Nutrition",
+          "title": "5 Superfoods You Should Add to Your Diet",
+          "summary": "Discover how these foods can naturally boost your energy and defenses.",
+          "imageUrl": "/img/news/superfoods.jpg",
+          "href": "/news/5-superfoods"
+        },
+        {
+          "category": "Fitness",
+          "title": "Functional Training: The Ultimate Beginner's Guide",
+          "summary": "Maximize your gym results with a routine that mimics real-life movements.",
+          "imageUrl": "/img/news/functional-training.jpg",
+          "href": "/news/functional-training-guide"
+        },
+        {
+          "category": "Mental Wellness",
+          "title": "Mindfulness and Stress Reduction: Proven Techniques",
+          "summary": "Learn to calm your mind and improve your focus with simple practices you can do anywhere.",
+          "imageUrl": "/img/news/mindfulness.jpg",
+          "href": "/news/mindfulness-stress-reduction"
+        }
+      ]
+    }
+  },
+  "pt-BR": { },
+  "it-IT": { }
+}

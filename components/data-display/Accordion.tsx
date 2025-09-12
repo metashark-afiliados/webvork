@@ -1,91 +1,58 @@
-// src/components/data-display/Accordion.tsx
+// components/layout/sections/faq.tsx
 /**
- * @file Accordion.tsx
- * @description Aparato de UI atómico para un item de acordeón individual.
- *              Permite mostrar y ocultar contenido de forma interactiva.
+ * @file faq.tsx
+ * @description Sección de FAQ. Refactorizada para usar el componente AccordionItem
+ *              nivelado y consumir datos desde el diccionario i18n.
  * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
-"use client";
+import { AccordionItem } from "@/components/data-display/Accordion"; // <<-- CORRECCIÓN #1: Ruta de importación corregida.
+import { clientLogger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { twMerge } from "tailwind-merge";
-import { clsx } from "clsx";
+// <<-- CORRECCIÓN #2: Se elimina la lista hardcodeada `FAQList`.
 
-/**
- * @interface AccordionItemProps
- * @description Define el contrato de propiedades para el componente AccordionItem.
- */
-interface AccordionItemProps {
-  /**
-   * @param title El texto que siempre es visible y actúa como el botón para expandir/colapsar.
-   */
-  title: string;
-  /**
-   * @param children El contenido que se muestra cuando el acordeón está expandido.
-   */
-  children: React.ReactNode;
+interface FAQSectionProps {
+  // <<-- CORRECCIÓN #3: Se define un contrato de props basado en el diccionario.
+  content: Dictionary["faqAccordion"];
 }
 
-/**
- * @component AccordionItem
- * @description Renderiza un único panel expandible/colapsable. Es un componente
- *              cliente que gestiona su propio estado de visibilidad.
- * @param {AccordionItemProps} props - Las propiedades para renderizar el item.
- * @returns {React.ReactElement} El elemento JSX del item de acordeón.
- */
-export function AccordionItem({
-  title,
-  children,
-}: AccordionItemProps): React.ReactElement {
-  console.log(`[Observabilidad] Renderizando AccordionItem (Título: ${title})`);
-  const [isOpen, setIsOpen] = useState(false);
+export const FAQSection = ({
+  content,
+}: FAQSectionProps): React.ReactElement | null => {
+  clientLogger.info("Renderizando FAQSection (Nivelada)");
 
-  const panelId = React.useId();
+  // Guarda de seguridad: si no hay contenido, no se renderiza la sección.
+  if (!content) {
+    clientLogger.warn(
+      "[FAQSection] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
+
+  const { title, faqs } = content;
 
   return (
-    <div className="border-b border-muted/50">
-      <h3>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex justify-between items-center py-4 text-left font-semibold text-foreground hover:text-primary transition-colors"
-          aria-expanded={isOpen}
-          aria-controls={panelId}
-        >
-          <span>{title}</span>
-          <ChevronDown
-            className={twMerge(
-              clsx(
-                "h-5 w-5 transform transition-transform duration-300",
-                isOpen && "rotate-180"
-              )
-            )}
-            aria-hidden="true"
-          />
-        </button>
-      </h3>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            id={panelId}
-            role="region"
-            initial="collapsed"
-            animate="open"
-            exit="collapsed"
-            variants={{
-              open: { opacity: 1, height: "auto" },
-              collapsed: { opacity: 0, height: 0 },
-            }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="pb-4 pr-8 text-muted-foreground">{children}</div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <section id="faq" className="container md:w-[700px] py-24 sm:py-32">
+      <div className="text-center mb-8">
+        <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
+          FAQS
+        </h2>
+
+        <h2 className="text-3xl md:text-4xl text-center font-bold">{title}</h2>
+      </div>
+
+      {/* 
+        El componente `Accordion` de Radix ya no es necesario aquí.
+        Simplemente renderizamos una lista de nuestros `AccordionItem` autocontenidos.
+      */}
+      <div className="space-y-2">
+        {faqs.map((faqItem) => (
+          // <<-- CORRECCIÓN #4: Se utiliza nuestro componente y se le pasa la prop `content`.
+          <AccordionItem key={faqItem.question} content={faqItem} />
+        ))}
+      </div>
+    </section>
   );
-}
-// src/components/data-display/Accordion.tsx
+};
+// components/layout/sections/faq.tsx

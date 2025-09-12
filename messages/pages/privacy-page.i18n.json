@@ -1,0 +1,74 @@
+{
+  "es-ES": {
+    "privacyPage": {
+      "title": "Política de Privacidad",
+      "subtitle": "Tu confianza y la protección de tus datos son nuestra máxima prioridad.",
+      "content": [
+        { "type": "h2", "text": "1. Recopilación de Información" },
+        {
+          "type": "p",
+          "text": "Recopilamos información que nos proporcionas directamente, como tu nombre y correo electrónico cuando te suscribes a nuestro boletín. También recopilamos datos técnicos automáticamente, como tu dirección IP y tipo de navegador."
+        },
+        { "type": "h2", "text": "2. Uso de la Información" },
+        {
+          "type": "p",
+          "text": "Utilizamos tu información para procesar pedidos, personalizar tu experiencia y comunicarnos contigo sobre nuestros productos y ofertas. Nunca compartiremos tus datos personales con terceros no afiliados sin tu consentimiento explícito."
+        }
+      ]
+    }
+  },
+  "en-US": {
+    "privacyPage": {
+      "title": "Privacy Policy",
+      "subtitle": "Your trust and data protection are our highest priority.",
+      "content": [
+        { "type": "h2", "text": "1. Information Collection" },
+        {
+          "type": "p",
+          "text": "We collect information you provide directly to us, such as your name and email when you subscribe to our newsletter. We also collect technical data automatically, such as your IP address and browser type."
+        },
+        { "type": "h2", "text": "2. Use of Information" },
+        {
+          "type": "p",
+          "text": "We use your information to process orders, personalize your experience, and communicate with you about our products and offers. We will never share your personal data with unaffiliated third parties without your explicit consent."
+        }
+      ]
+    }
+  },
+  "pt-BR": {
+    "privacyPage": {
+      "title": "Política de Privacidade",
+      "subtitle": "Sua confiança e a proteção de seus dados são nossa maior prioridade.",
+      "content": [
+        { "type": "h2", "text": "1. Coleta de Informações" },
+        {
+          "type": "p",
+          "text": "Coletamos informações que você nos fornece diretamente, como seu nome e e-mail ao se inscrever em nossa newsletter. Também coletamos dados técnicos automaticamente, como seu endereço IP e tipo de navegador."
+        },
+        { "type": "h2", "text": "2. Uso das Informações" },
+        {
+          "type": "p",
+          "text": "Usamos suas informações para processar pedidos, personalizar sua experiência e nos comunicar com você sobre nossos produtos e ofertas. Nunca compartilharemos seus dados pessoais com terceiros não afiliados sem seu consentimento explícito."
+        }
+      ]
+    }
+  },
+  "it-IT": {
+    "privacyPage": {
+      "title": "Informativa sulla Privacy",
+      "subtitle": "La vostra fiducia e la protezione dei vostri dati sono la nostra massima priorità.",
+      "content": [
+        { "type": "h2", "text": "1. Raccolta delle Informazioni" },
+        {
+          "type": "p",
+          "text": "Raccogliamo le informazioni che ci fornite direttamente, come il vostro nome e indirizzo email quando vi iscrivete alla nostra newsletter. Raccogliamo anche dati tecnici automaticamente, come il vostro indirizzo IP e il tipo di browser."
+        },
+        { "type": "h2", "text": "2. Utilizzo delle Informazioni" },
+        {
+          "type": "p",
+          "text": "Utilizziamo le vostre informazioni per elaborare gli ordini, personalizzare la vostra esperienza e comunicare con voi riguardo ai nostri prodotti e offerte. Non condivideremo mai i vostri dati personali con terze parti non affiliate senza il vostro esplicito consenso."
+        }
+      ]
+    }
+  }
+}

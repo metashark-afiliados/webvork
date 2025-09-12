@@ -1,0 +1,34 @@
+{
+  "it-IT": {
+    "cookieConsentBanner": {
+      "message": "Utilizziamo i cookie per migliorare la tua esperienza.",
+      "acceptButtonText": "Accetta",
+      "rejectButtonText": "Rifiuta",
+      "policyLinkText": "Leggi la nostra politica sui cookie"
+    }
+  },
+  "es-ES": {
+    "cookieConsentBanner": {
+      "message": "Usamos cookies para mejorar tu experiencia.",
+      "acceptButtonText": "Aceptar",
+      "rejectButtonText": "Rechazar",
+      "policyLinkText": "Lee nuestra política de cookies"
+    }
+  },
+  "en-US": {
+    "cookieConsentBanner": {
+      "message": "We use cookies to enhance your experience.",
+      "acceptButtonText": "Accept",
+      "rejectButtonText": "Decline",
+      "policyLinkText": "Read our cookie policy"
+    }
+  },
+  "pt-BR": {
+    "cookieConsentBanner": {
+      "message": "Usamos cookies para melhorar sua experiência.",
+      "acceptButtonText": "Aceitar",
+      "rejectButtonText": "Recusar",
+      "policyLinkText": "Leia nossa política de cookies"
+    }
+  }
+}

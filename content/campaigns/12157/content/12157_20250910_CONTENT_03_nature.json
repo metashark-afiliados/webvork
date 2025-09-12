@@ -1,0 +1,370 @@
+{
+  "it-IT": {
+    "scrollingBanner": {
+      "message": "Disponibilità limitata. Una formula creata per chi non si accontenta del comune."
+    },
+    "hero": {
+      "title": "Perché la maggior parte degli integratori naturali fallisce?",
+      "subtitle": "La risposta non è negli ingredienti, ma nella loro sinergia. Abbiamo decifrato la combinazione ottimale per sbloccare il vero potenziale della natura."
+    },
+    "ingredientAnalysis": {
+      "title": "Il Segreto della Nostra Sinergia",
+      "ingredients": [
+        {
+          "name": "Oro Giallo: Curcumina",
+          "description": "Selezioniamo solo l'estratto più puro, il cuore pulsante della nostra formula, per le sue proprietà leggendarie."
+        },
+        {
+          "name": "Diamante Nero: Piperina",
+          "description": "La chiave che apre le porte del corpo, assicurando che ogni preziosa molecola di curcumina venga assorbita."
+        },
+        {
+          "name": "Filo Rosso: Zafferano",
+          "description": "L'ingrediente di lusso che eleva la formula, supportando l'equilibrio e l'armonia interiore."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "I Risultati di una Formula Superiore",
+      "subtitle": "Quando gli elementi della natura lavorano in perfetta armonia, l'effetto è esponenziale.",
+      "benefits": [
+        "Un'esperienza di benessere profondo e totale",
+        "Protezione antiossidante di livello superiore",
+        "Sinergia che amplifica i benefici di ogni singolo ingrediente",
+        "Equilibrio naturale per corpo e mente"
+      ]
+    },
+    "thumbnailCarousel": {
+      "thumbnails": [
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
+          "alt": "Primo piano macro di una radice di curcuma"
+        },
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
+          "alt": "Stigmi di zafferano su una superficie scura"
+        }
+      ],
+      "affiliateUrl": "https://example.com/order?lang=it",
+      "playButtonAriaLabel": "Esplora la formula e accedi all'offerta",
+      "playButtonTitle": "Icona di esplorazione"
+    },
+    "testimonialGrid": {
+      "title": "La Scoperta dei Nostri Clienti d'Élite",
+      "testimonials": [
+        {
+          "quote": "Ho provato molti integratori, ma questo è diverso. Si percepisce una qualità e un'efficacia che non avevo mai sperimentato prima. È diventato il mio segreto.",
+          "author": "F. Rossi",
+          "location": "Como, IT",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 90,
+      "discountedPrice": 45,
+      "originalPriceLabel": "Valore Esclusivo",
+      "discountedPriceLabel": "Offerta Privata",
+      "nameInputLabel": "Nome",
+      "nameInputPlaceholder": "Il tuo nome",
+      "phoneInputLabel": "Telefono",
+      "phoneInputPlaceholder": "Il tuo contatto",
+      "submitButtonText": "Accedi all'Offerta Esclusiva",
+      "submitButtonLoadingText": "Confermando..."
+    },
+    "guaranteeSection": {
+      "title": "La Tua Decisione, Protetta",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Garanzia di Pura Soddisfazione"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "Approfondimenti sulla Formula",
+      "faqs": [
+        {
+          "question": "In che modo questa formula è diversa dalle altre?",
+          "answer": "La nostra differenza risiede nella sinergia e nella qualità. Non ci limitiamo a combinare ingredienti, ma li selezioniamo e dosiamo per creare un effetto potenziato che va oltre la somma delle singole parti, il tutto con standard di produzione svizzeri."
+        }
+      ]
+    }
+  },
+  "es-ES": {
+    "scrollingBanner": {
+      "message": "Disponibilidad limitada. Una fórmula creada para quienes no se conforman con lo común."
+    },
+    "hero": {
+      "title": "¿Por qué fracasa la mayoría de los suplementos naturales?",
+      "subtitle": "La respuesta no está en los ingredientes, sino en su sinergia. Hemos descifrado la combinación óptima para desbloquear el verdadero potencial de la naturaleza."
+    },
+    "ingredientAnalysis": {
+      "title": "El Secreto de Nuestra Sinergia",
+      "ingredients": [
+        {
+          "name": "Oro Amarillo: Curcumina",
+          "description": "Seleccionamos solo el extracto más puro, el corazón latente de nuestra fórmula, por sus legendarias propiedades."
+        },
+        {
+          "name": "Diamante Negro: Piperina",
+          "description": "La llave que abre las puertas del cuerpo, asegurando que cada preciosa molécula de curcumina sea absorbida."
+        },
+        {
+          "name": "Hilo Rojo: Azafrán",
+          "description": "El ingrediente de lujo que eleva la fórmula, apoyando el equilibrio y la armonía interior."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "Los Resultados de una Fórmula Superior",
+      "subtitle": "Cuando los elementos de la naturaleza trabajan en perfecta armonía, el efecto es exponencial.",
+      "benefits": [
+        "Una experiencia de bienestar profundo y total",
+        "Protección antioxidante de nivel superior",
+        "Sinergia que amplifica los beneficios de cada ingrediente",
+        "Equilibrio natural para cuerpo y mente"
+      ]
+    },
+    "thumbnailCarousel": {
+      "thumbnails": [
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
+          "alt": "Primer plano macro de una raíz de cúrcuma"
+        },
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
+          "alt": "Estigmas de azafrán sobre una superficie oscura"
+        }
+      ],
+      "affiliateUrl": "https://example.com/order?lang=es",
+      "playButtonAriaLabel": "Explora la fórmula y accede a la oferta",
+      "playButtonTitle": "Icono de exploración"
+    },
+    "testimonialGrid": {
+      "title": "El Descubrimiento de Nuestros Clientes de Élite",
+      "testimonials": [
+        {
+          "quote": "He probado muchos suplementos, pero este es diferente. Se percibe una calidad y eficacia que nunca antes había experimentado. Se ha convertido en mi secreto.",
+          "author": "F. Rossi",
+          "location": "Como, IT",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 90,
+      "discountedPrice": 45,
+      "originalPriceLabel": "Valor Exclusivo",
+      "discountedPriceLabel": "Oferta Privada",
+      "nameInputLabel": "Nombre",
+      "nameInputPlaceholder": "Tu nombre",
+      "phoneInputLabel": "Teléfono",
+      "phoneInputPlaceholder": "Tu contacto",
+      "submitButtonText": "Accede a la Oferta Exclusiva",
+      "submitButtonLoadingText": "Confirmando..."
+    },
+    "guaranteeSection": {
+      "title": "Tu Decisión, Protegida",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Garantía de Pura Satisfacción"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "Profundización en la Fórmula",
+      "faqs": [
+        {
+          "question": "¿En qué se diferencia esta fórmula de otras?",
+          "answer": "Nuestra diferencia radica en la sinergia y la calidad. No nos limitamos a combinar ingredientes, sino que los seleccionamos y dosificamos para crear un efecto potenciado que va más allá de la suma de las partes, todo con estándares de producción suizos."
+        }
+      ]
+    }
+  },
+  "en-US": {
+    "scrollingBanner": {
+      "message": "Limited availability. A formula created for those who don't settle for the ordinary."
+    },
+    "hero": {
+      "title": "Why do most natural supplements fail?",
+      "subtitle": "The answer isn't in the ingredients, but in their synergy. We've deciphered the optimal combination to unlock nature's true potential."
+    },
+    "ingredientAnalysis": {
+      "title": "The Secret of Our Synergy",
+      "ingredients": [
+        {
+          "name": "Yellow Gold: Curcumin",
+          "description": "We select only the purest extract, the beating heart of our formula, for its legendary properties."
+        },
+        {
+          "name": "Black Diamond: Piperine",
+          "description": "The key that unlocks the body's doors, ensuring every precious molecule of curcumin is absorbed."
+        },
+        {
+          "name": "Red Thread: Saffron",
+          "description": "The luxury ingredient that elevates the formula, supporting balance and inner harmony."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "The Results of a Superior Formula",
+      "subtitle": "When nature's elements work in perfect harmony, the effect is exponential.",
+      "benefits": [
+        "A deep and total wellness experience",
+        "Superior-level antioxidant protection",
+        "Synergy that amplifies the benefits of each ingredient",
+        "Natural balance for body and mind"
+      ]
+    },
+    "thumbnailCarousel": {
+      "thumbnails": [
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
+          "alt": "Macro shot of a turmeric root"
+        },
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
+          "alt": "Saffron stigmas on a dark surface"
+        }
+      ],
+      "affiliateUrl": "https://example.com/order?lang=en",
+      "playButtonAriaLabel": "Explore the formula and access the offer",
+      "playButtonTitle": "Exploration icon"
+    },
+    "testimonialGrid": {
+      "title": "The Discovery of Our Elite Clients",
+      "testimonials": [
+        {
+          "quote": "I've tried many supplements, but this one is different. You can feel a quality and effectiveness I've never experienced before. It has become my secret.",
+          "author": "F. Rossi",
+          "location": "Como, IT",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 90,
+      "discountedPrice": 45,
+      "originalPriceLabel": "Exclusive Value",
+      "discountedPriceLabel": "Private Offer",
+      "nameInputLabel": "Name",
+      "nameInputPlaceholder": "Your name",
+      "phoneInputLabel": "Phone",
+      "phoneInputPlaceholder": "Your contact",
+      "submitButtonText": "Access the Exclusive Offer",
+      "submitButtonLoadingText": "Confirming..."
+    },
+    "guaranteeSection": {
+      "title": "Your Decision, Protected",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Pure Satisfaction Guarantee"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "In-depth Insights on the Formula",
+      "faqs": [
+        {
+          "question": "How is this formula different from others?",
+          "answer": "Our difference lies in synergy and quality. We don't just combine ingredients; we select and dose them to create an enhanced effect that goes beyond the sum of its parts, all with Swiss production standards."
+        }
+      ]
+    }
+  },
+  "pt-BR": {
+    "scrollingBanner": {
+      "message": "Disponibilidade limitada. Uma fórmula criada para quem não se contenta com o comum."
+    },
+    "hero": {
+      "title": "Por que a maioria dos suplementos naturais falha?",
+      "subtitle": "A resposta não está nos ingredientes, mas na sua sinergia. Deciframos a combinação ideal para desbloquear o verdadeiro potencial da natureza."
+    },
+    "ingredientAnalysis": {
+      "title": "O Segredo da Nossa Sinergia",
+      "ingredients": [
+        {
+          "name": "Ouro Amarelo: Curcumina",
+          "description": "Selecionamos apenas o extrato mais puro, o coração pulsante da nossa fórmula, por suas propriedades lendárias."
+        },
+        {
+          "name": "Diamante Negro: Piperina",
+          "description": "A chave que abre as portas do corpo, garantindo que cada preciosa molécula de curcumina seja absorvida."
+        },
+        {
+          "name": "Fio Vermelho: Açafrão",
+          "description": "O ingrediente de luxo que eleva a fórmula, apoiando o equilíbrio e a harmonia interior."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "Os Resultados de uma Fórmula Superior",
+      "subtitle": "Quando os elementos da natureza trabalham em perfeita harmonia, o efeito é exponencial.",
+      "benefits": [
+        "Uma experiência de bem-estar profundo e total",
+        "Proteção antioxidante de nível superior",
+        "Sinergia que amplifica os benefícios de cada ingrediente",
+        "Equilíbrio natural para corpo e mente"
+      ]
+    },
+    "thumbnailCarousel": {
+      "thumbnails": [
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
+          "alt": "Close-up macro de uma raiz de cúrcuma"
+        },
+        {
+          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
+          "alt": "Estigmas de açafrão sobre uma superfície escura"
+        }
+      ],
+      "affiliateUrl": "https://example.com/order?lang=pt",
+      "playButtonAriaLabel": "Explore a fórmula e acesse a oferta",
+      "playButtonTitle": "Ícone de exploração"
+    },
+    "testimonialGrid": {
+      "title": "A Descoberta dos Nossos Clientes de Elite",
+      "testimonials": [
+        {
+          "quote": "Já experimentei muitos suplementos, mas este é diferente. Sente-se uma qualidade e eficácia que nunca tinha experienciado. Tornou-se o meu segredo.",
+          "author": "F. Rossi",
+          "location": "Como, IT",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 90,
+      "discountedPrice": 45,
+      "originalPriceLabel": "Valor Exclusivo",
+      "discountedPriceLabel": "Oferta Privada",
+      "nameInputLabel": "Nome",
+      "nameInputPlaceholder": "Seu nome",
+      "phoneInputLabel": "Telefone",
+      "phoneInputPlaceholder": "Seu contato",
+      "submitButtonText": "Acessar a Oferta Exclusiva",
+      "submitButtonLoadingText": "Confirmando..."
+    },
+    "guaranteeSection": {
+      "title": "Sua Decisão, Protegida",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Garantia de Pura Satisfação"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "Aprofundamentos sobre a Fórmula",
+      "faqs": [
+        {
+          "question": "Como esta fórmula difere das outras?",
+          "answer": "Nossa diferença está na sinergia e na qualidade. Não nos limitamos a combinar ingredientes; nós os selecionamos e dosamos para criar um efeito potencializado que vai além da soma das partes, tudo com padrões de produção suíços."
+        }
+      ]
+    }
+  }
+}

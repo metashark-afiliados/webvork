@@ -1,0 +1,82 @@
+{
+  "it-IT": {
+    "devDashboardPage": {
+      "title": "Developer Command Center",
+      "subtitle": "Strumenti per lo sviluppo e la simulazione delle campagne.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Component Canvas",
+          "description": "Visualizza e testa i componenti UI in modo isolato."
+        },
+        "campaignSimulator": {
+          "name": "Simulatore Campagne",
+          "description": "Renderizza e visualizza in anteprima le varianti della campagna in tempo reale."
+        },
+        "branding": {
+          "name": "Branding & Theming",
+          "description": "Rivedi i token di design, le palette di colori e le tipografie di base."
+        }
+      }
+    }
+  },
+  "es-ES": {
+    "devDashboardPage": {
+      "title": "Centro de Comando del Desarrollador",
+      "subtitle": "Herramientas para el desarrollo y simulación de campañas.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Lienzo de Componentes",
+          "description": "Visualiza y prueba componentes de UI de forma aislada."
+        },
+        "campaignSimulator": {
+          "name": "Simulador de Campañas",
+          "description": "Renderiza y previsualiza variantes de campaña en tiempo real."
+        },
+        "branding": {
+          "name": "Branding y Temas",
+          "description": "Revisa los tokens de diseño, paletas de colores y tipografías base."
+        }
+      }
+    }
+  },
+  "en-US": {
+    "devDashboardPage": {
+      "title": "Developer Command Center",
+      "subtitle": "Tools for campaign development and simulation.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Component Canvas",
+          "description": "Visualize and test UI components in isolation."
+        },
+        "campaignSimulator": {
+          "name": "Campaign Simulator",
+          "description": "Render and preview campaign variants in real-time."
+        },
+        "branding": {
+          "name": "Branding & Theming",
+          "description": "Review the design tokens, color palettes, and base typography."
+        }
+      }
+    }
+  },
+  "pt-BR": {
+    "devDashboardPage": {
+      "title": "Centro de Comando do Desenvolvedor",
+      "subtitle": "Ferramentas para o desenvolvimento e simulação de campanhas.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Canvas de Componentes",
+          "description": "Visualize e teste componentes de UI de forma isolada."
+        },
+        "campaignSimulator": {
+          "name": "Simulador de Campanhas",
+          "description": "Renderize e pré-visualize variantes de campanha em tempo real."
+        },
+        "branding": {
+          "name": "Branding e Temas",
+          "description": "Revise os tokens de design, paletas de cores e tipografias base."
+        }
+      }
+    }
+  }
+}

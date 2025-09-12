@@ -1,0 +1,33 @@
+
+{
+  "it-IT": {
+    "faqAccordion": {
+      "title": "Domande Frequenti",
+      "faqs": [
+        {
+          "question": "Questo template è gratuito?",
+          "answer": "Sì. È un template NextJS Shadcn gratuito."
+        },
+        {
+          "question": "Come posso personalizzare lo stile?",
+          "answer": "Puoi personalizzare i colori e i caratteri direttamente nel file `app/globals.css` utilizzando le variabili di tema di Tailwind CSS v4."
+        }
+      ]
+    }
+  },
+  "es-ES": {
+    "faqAccordion": {
+      "title": "Preguntas Frecuentes",
+      "faqs": [
+        {
+          "question": "¿Esta plantilla es gratuita?",
+          "answer": "Sí. Es una plantilla gratuita de NextJS Shadcn."
+        },
+        {
+          "question": "¿Cómo puedo personalizar el estilo?",
+          "answer": "Puedes personalizar los colores y las fuentes directamente en el archivo `app/globals.css` usando las variables de tema de Tailwind CSS v4."
+        }
+      ]
+    }
+  }
+}

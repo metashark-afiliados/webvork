@@ -1,0 +1,470 @@
+{
+  "it-IT": {
+    "scrollingBanner": {
+      "message": "Qualità Svizzera certificata. Il tuo benessere merita precisione, non promesse."
+    },
+    "hero": {
+      "title": "Benessere Basato sull'Evidenza Scientifica.",
+      "subtitle": "Una formula sinergica sviluppata con standard svizzeri per supportare in modo intelligente la tua salute a lungo termine. Senza promesse esagerate, solo risultati."
+    },
+    "ingredientAnalysis": {
+      "title": "Analisi Dettagliata della Formula",
+      "ingredients": [
+        {
+          "name": "Curcumina (500mg)",
+          "description": "Standardizzata al 10% per garantire la massima potenza antiossidante, come dimostrato da numerosi studi."
+        },
+        {
+          "name": "Piperina (1mg - BioPerine®)",
+          "description": "Un bio-potenziatore clinicamente testato che aumenta l'assorbimento della curcumina fino al 2000%."
+        },
+        {
+          "name": "Spirulina, Zenzero, Zafferano",
+          "description": "Un complesso di supporto sinergico per massimizzare i benefici generali e le proprietà della formula."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "Risultati Supportati dalla Scienza",
+      "subtitle": "Ogni ingrediente è stato selezionato per le sue proprietà documentate e la sua efficacia.",
+      "benefits": [
+        "Azione antiossidante per la protezione cellulare",
+        "Supporto scientificamente provato per la salute articolare",
+        "Miglioramento della biodisponibilità per massima efficacia",
+        "Formula basata su ingredienti puri e testati in laboratorio",
+        "Supporto al benessere digestivo e generale"
+      ]
+    },
+    "guaranteeSection": {
+      "title": "La Nostra Garanzia di Qualità e Trasparenza",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Sigillo Qualità Svizzera"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-2.jpg",
+          "imageAlt": "Sigillo Testato in Laboratorio di Terze Parti"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-3.jpg",
+          "imageAlt": "Sigillo GMP (Good Manufacturing Practice)"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-4.jpg",
+          "imageAlt": "Sigillo Non-OGM"
+        }
+      ]
+    },
+    "testimonialGrid": {
+      "title": "Cosa Dicono i Professionisti e i Clienti Informati",
+      "testimonials": [
+        {
+          "quote": "Come nutrizionista, apprezzo la trasparenza della formula e l'inclusione di BioPerine®. È una scelta intelligente per chi cerca un integratore di curcuma efficace.",
+          "author": "Dr. A. Bianchi",
+          "location": "Nutrizionista, Milano",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_doctor-a.jpg"
+        },
+        {
+          "quote": "Finalmente un prodotto che non fa promesse vuote. Ho fatto le mie ricerche e questa combinazione di ingredienti è la più supportata dalla scienza.",
+          "author": "Marco G.",
+          "location": "Ingegnere, Torino",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_marco-g.jpg"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "Domande Tecniche Frequenti",
+      "faqs": [
+        {
+          "question": "Qual è la fonte della vostra curcumina?",
+          "answer": "Utilizziamo un estratto di Curcuma longa di alta qualità, standardizzato per contenere il 10% di curcuminoidi, garantendo una dose potente e consistente in ogni capsula."
+        },
+        {
+          "question": "Perché la piperina è così importante?",
+          "answer": "La curcumina da sola ha una bassa biodisponibilità. La piperina, l'alcaloide del pepe nero, inibisce alcuni enzimi metabolici, permettendo alla curcumina di rimanere attiva nel corpo più a lungo e di essere assorbita in modo significativamente maggiore."
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 78,
+      "discountedPrice": 39,
+      "originalPriceLabel": "Valore al Pubblico",
+      "discountedPriceLabel": "Prezzo per i Nostri Lettori",
+      "nameInputLabel": "Nome e Cognome",
+      "nameInputPlaceholder": "Inserisci nome e cognome",
+      "phoneInputLabel": "Telefono",
+      "phoneInputPlaceholder": "Numero di telefono per la conferma",
+      "submitButtonText": "Richiedi la Tua Fornitura",
+      "submitButtonLoadingText": "Elaborazione..."
+    },
+    "socialProof": {
+      "title": "Standard di Produzione Certificati",
+      "logos": [
+        {
+          "src": "/img/sections/social-proof-logos/seal_gmp.svg",
+          "alt": "Logo GMP Certified"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_iso-9001.svg",
+          "alt": "Logo ISO 9001"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_non-gmo.svg",
+          "alt": "Logo Non-GMO Project"
+        }
+      ]
+    }
+  },
+  "es-ES": {
+    "scrollingBanner": {
+      "message": "Calidad Suiza certificada. Su bienestar merece precisión, no promesas."
+    },
+    "hero": {
+      "title": "Bienestar Basado en Evidencia Científica.",
+      "subtitle": "Una fórmula sinérgica desarrollada con estándares suizos para apoyar inteligentemente su salud a largo plazo. Sin promesas exageradas, solo resultados."
+    },
+    "ingredientAnalysis": {
+      "title": "Análisis Detallado de la Fórmula",
+      "ingredients": [
+        {
+          "name": "Curcumina (500mg)",
+          "description": "Estandarizada al 10% para garantizar la máxima potencia antioxidante, como demuestran numerosos estudios."
+        },
+        {
+          "name": "Piperina (1mg - BioPerine®)",
+          "description": "Un bio-potenciador clínicamente probado que aumenta la absorción de la curcumina hasta en un 2000%."
+        },
+        {
+          "name": "Espirulina, Jengibre, Azafrán",
+          "description": "Un complejo de apoyo sinérgico para maximizar los beneficios generales y las propiedades de la fórmula."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "Resultados Respaldados por la Ciencia",
+      "subtitle": "Cada ingrediente ha sido seleccionado por sus propiedades documentadas y su eficacia.",
+      "benefits": [
+        "Acción antioxidante para la protección celular",
+        "Soporte científicamente probado para la salud articular",
+        "Mejora de la biodisponibilidad para máxima eficacia",
+        "Fórmula basada en ingredientes puros y probados en laboratorio",
+        "Apoyo al bienestar digestivo y general"
+      ]
+    },
+    "guaranteeSection": {
+      "title": "Nuestra Garantía de Calidad y Transparencia",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Sello de Calidad Suiza"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-2.jpg",
+          "imageAlt": "Sello Probado en Laboratorio de Terceros"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-3.jpg",
+          "imageAlt": "Sello GMP (Buenas Prácticas de Manufactura)"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-4.jpg",
+          "imageAlt": "Sello No-OGM"
+        }
+      ]
+    },
+    "testimonialGrid": {
+      "title": "Lo que Dicen los Profesionales y Clientes Informados",
+      "testimonials": [
+        {
+          "quote": "Como nutricionista, valoro la transparencia de la fórmula y la inclusión de BioPerine®. Es una elección inteligente para quien busca un suplemento de cúrcuma eficaz.",
+          "author": "Dr. A. Bianchi",
+          "location": "Nutricionista, Milán",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_doctor-a.jpg"
+        },
+        {
+          "quote": "Finalmente un producto que no hace promesas vacías. Investigué y esta combinación de ingredientes es la más respaldada por la ciencia.",
+          "author": "Marco G.",
+          "location": "Ingeniero, Turín",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_marco-g.jpg"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "Preguntas Técnicas Frecuentes",
+      "faqs": [
+        {
+          "question": "¿Cuál es la fuente de su curcumina?",
+          "answer": "Utilizamos un extracto de Curcuma longa de alta calidad, estandarizado para contener un 10% de curcuminoides, garantizando una dosis potente y consistente en cada cápsula."
+        },
+        {
+          "question": "¿Por qué es tan importante la piperina?",
+          "answer": "La curcumina por sí sola tiene una baja biodisponibilidad. La piperina, el alcaloide de la pimienta negra, inhibe ciertas enzimas metabólicas, permitiendo que la curcumina permanezca activa en el cuerpo por más tiempo y sea absorbida de manera significativamente mayor."
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 78,
+      "discountedPrice": 39,
+      "originalPriceLabel": "Valor al Público",
+      "discountedPriceLabel": "Precio para Nuestros Lectores",
+      "nameInputLabel": "Nombre y Apellido",
+      "nameInputPlaceholder": "Ingrese nombre y apellido",
+      "phoneInputLabel": "Teléfono",
+      "phoneInputPlaceholder": "Número de teléfono para confirmación",
+      "submitButtonText": "Solicite su Suministro",
+      "submitButtonLoadingText": "Procesando..."
+    },
+    "socialProof": {
+      "title": "Estándares de Producción Certificados",
+      "logos": [
+        {
+          "src": "/img/sections/social-proof-logos/seal_gmp.svg",
+          "alt": "Logo Certificado GMP"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_iso-9001.svg",
+          "alt": "Logo ISO 9001"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_non-gmo.svg",
+          "alt": "Logo Proyecto No-OGM"
+        }
+      ]
+    }
+  },
+  "en-US": {
+    "scrollingBanner": {
+      "message": "Certified Swiss Quality. Your well-being deserves precision, not promises."
+    },
+    "hero": {
+      "title": "Wellness Based on Scientific Evidence.",
+      "subtitle": "A synergistic formula developed with Swiss standards to intelligently support your long-term health. No exaggerated promises, just results."
+    },
+    "ingredientAnalysis": {
+      "title": "Detailed Formula Analysis",
+      "ingredients": [
+        {
+          "name": "Curcumin (500mg)",
+          "description": "Standardized to 10% to ensure maximum antioxidant power, as demonstrated by numerous studies."
+        },
+        {
+          "name": "Piperine (1mg - BioPerine®)",
+          "description": "A clinically tested bio-enhancer that increases curcumin absorption by up to 2000%."
+        },
+        {
+          "name": "Spirulina, Ginger, Saffron",
+          "description": "A synergistic support complex to maximize the overall benefits and properties of the formula."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "Results Backed by Science",
+      "subtitle": "Each ingredient has been selected for its documented properties and effectiveness.",
+      "benefits": [
+        "Antioxidant action for cellular protection",
+        "Scientifically proven support for joint health",
+        "Enhanced bioavailability for maximum effectiveness",
+        "Formula based on pure, lab-tested ingredients",
+        "Support for digestive and general well-being"
+      ]
+    },
+    "guaranteeSection": {
+      "title": "Our Guarantee of Quality and Transparency",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Swiss Quality Seal"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-2.jpg",
+          "imageAlt": "Third-Party Lab Tested Seal"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-3.jpg",
+          "imageAlt": "GMP (Good Manufacturing Practice) Seal"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-4.jpg",
+          "imageAlt": "Non-GMO Seal"
+        }
+      ]
+    },
+    "testimonialGrid": {
+      "title": "What Professionals and Informed Customers Say",
+      "testimonials": [
+        {
+          "quote": "As a nutritionist, I appreciate the formula's transparency and the inclusion of BioPerine®. It's a smart choice for anyone seeking an effective curcumin supplement.",
+          "author": "Dr. A. Bianchi",
+          "location": "Nutritionist, Milan",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_doctor-a.jpg"
+        },
+        {
+          "quote": "Finally, a product that doesn't make empty promises. I did my research, and this combination of ingredients is the most backed by science.",
+          "author": "Marco G.",
+          "location": "Engineer, Turin",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_marco-g.jpg"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "Frequent Technical Questions",
+      "faqs": [
+        {
+          "question": "What is the source of your curcumin?",
+          "answer": "We use a high-quality Curcuma longa extract, standardized to contain 10% curcuminoids, ensuring a potent and consistent dose in every capsule."
+        },
+        {
+          "question": "Why is piperine so important?",
+          "answer": "Curcumin alone has low bioavailability. Piperine, the alkaloid from black pepper, inhibits certain metabolic enzymes, allowing curcumin to remain active in the body longer and be absorbed significantly more."
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 78,
+      "discountedPrice": 39,
+      "originalPriceLabel": "Retail Value",
+      "discountedPriceLabel": "Price for Our Readers",
+      "nameInputLabel": "Full Name",
+      "nameInputPlaceholder": "Enter full name",
+      "phoneInputLabel": "Phone",
+      "phoneInputPlaceholder": "Phone number for confirmation",
+      "submitButtonText": "Request Your Supply",
+      "submitButtonLoadingText": "Processing..."
+    },
+    "socialProof": {
+      "title": "Certified Production Standards",
+      "logos": [
+        {
+          "src": "/img/sections/social-proof-logos/seal_gmp.svg",
+          "alt": "GMP Certified Logo"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_iso-9001.svg",
+          "alt": "ISO 9001 Logo"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_non-gmo.svg",
+          "alt": "Non-GMO Project Logo"
+        }
+      ]
+    }
+  },
+  "pt-BR": {
+    "scrollingBanner": {
+      "message": "Qualidade Suíça certificada. Seu bem-estar merece precisão, não promessas."
+    },
+    "hero": {
+      "title": "Bem-estar Baseado em Evidência Científica.",
+      "subtitle": "Uma fórmula sinérgica desenvolvida com padrões suíços para apoiar inteligentemente sua saúde a longo prazo. Sem promessas exageradas, apenas resultados."
+    },
+    "ingredientAnalysis": {
+      "title": "Análise Detalhada da Fórmula",
+      "ingredients": [
+        {
+          "name": "Curcumina (500mg)",
+          "description": "Padronizada em 10% para garantir o máximo poder antioxidante, como demonstrado por numerosos estudos."
+        },
+        {
+          "name": "Piperina (1mg - BioPerine®)",
+          "description": "Um bio-potenciador clinicamente testado que aumenta a absorção da curcumina em até 2000%."
+        },
+        {
+          "name": "Spirulina, Gengibre, Açafrão",
+          "description": "Um complexo de suporte sinérgico para maximizar os benefícios gerais e as propriedades da fórmula."
+        }
+      ]
+    },
+    "benefitsSection": {
+      "title": "Resultados Apoiados pela Ciência",
+      "subtitle": "Cada ingrediente foi selecionado por suas propriedades documentadas e sua eficácia.",
+      "benefits": [
+        "Ação antioxidante para proteção celular",
+        "Suporte cientificamente comprovado para a saúde das articulações",
+        "Melhora da biodisponibilidade para máxima eficácia",
+        "Fórmula baseada em ingredientes puros e testados em laboratório",
+        "Apoio ao bem-estar digestivo e geral"
+      ]
+    },
+    "guaranteeSection": {
+      "title": "Nossa Garantia de Qualidade e Transparência",
+      "seals": [
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
+          "imageAlt": "Selo de Qualidade Suíça"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-2.jpg",
+          "imageAlt": "Selo Testado em Laboratório de Terceiros"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-3.jpg",
+          "imageAlt": "Selo GMP (Boas Práticas de Fabricação)"
+        },
+        {
+          "imageUrl": "/img/guarantee-section/seal_garantia-4.jpg",
+          "imageAlt": "Selo Não-OGM"
+        }
+      ]
+    },
+    "testimonialGrid": {
+      "title": "O que Dizem os Profissionais e Clientes Informados",
+      "testimonials": [
+        {
+          "quote": "Como nutricionista, aprecio a transparência da fórmula e a inclusão de BioPerine®. É uma escolha inteligente para quem busca um suplemento de cúrcuma eficaz.",
+          "author": "Dr. A. Bianchi",
+          "location": "Nutricionista, Milão",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_doctor-a.jpg"
+        },
+        {
+          "quote": "Finalmente um produto que não faz promessas vazias. Pesquisei e esta combinação de ingredientes é a mais apoiada pela ciência.",
+          "author": "Marco G.",
+          "location": "Engenheiro, Turim",
+          "imageSrc": "/img/sections/testimonial-grid/avatar_marco-g.jpg"
+        }
+      ]
+    },
+    "faqAccordion": {
+      "title": "Perguntas Técnicas Frequentes",
+      "faqs": [
+        {
+          "question": "Qual é a fonte da sua curcumina?",
+          "answer": "Utilizamos um extrato de Curcuma longa de alta qualidade, padronizado para conter 10% de curcuminoides, garantindo uma dose potente e consistente em cada cápsula."
+        },
+        {
+          "question": "Por que a piperina é tão importante?",
+          "answer": "A curcumina sozinha tem baixa biodisponibilidade. A piperina, o alcaloide da pimenta preta, inibe certas enzimas metabólicas, permitindo que a curcumina permaneça ativa no corpo por mais tempo e seja absorvida de forma significativamente maior."
+        }
+      ]
+    },
+    "orderForm": {
+      "originalPrice": 78,
+      "discountedPrice": 39,
+      "originalPriceLabel": "Valor de Varejo",
+      "discountedPriceLabel": "Preço para Nossos Leitores",
+      "nameInputLabel": "Nome Completo",
+      "nameInputPlaceholder": "Digite o nome completo",
+      "phoneInputLabel": "Telefone",
+      "phoneInputPlaceholder": "Número de telefone para confirmação",
+      "submitButtonText": "Solicite Seu Suprimento",
+      "submitButtonLoadingText": "Processando..."
+    },
+    "socialProof": {
+      "title": "Padrões de Produção Certificados",
+      "logos": [
+        {
+          "src": "/img/sections/social-proof-logos/seal_gmp.svg",
+          "alt": "Logo Certificado GMP"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_iso-9001.svg",
+          "alt": "Logo ISO 9001"
+        },
+        {
+          "src": "/img/sections/social-proof-logos/seal_non-gmo.svg",
+          "alt": "Logo Projeto Não-OGM"
+        }
+      ]
+    }
+  }
+}

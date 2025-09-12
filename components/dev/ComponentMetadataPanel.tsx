@@ -1,27 +1,21 @@
-// src/components/dev/ComponentMetadataPanel.tsx
+// components/dev/ComponentMetadataPanel.tsx
 /**
  * @file src/components/dev/ComponentMetadataPanel.tsx
- * @description Componente de presentación para mostrar los metadatos detallados de un componente
- *              y su contexto de tema en el Dev Component Canvas.
- * @version 1.0.0
+ * @description Componente de presentación para mostrar los metadatos de un componente.
+ *              - v1.1.0: Corregida la ruta de importación de la configuración de branding.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import { Palette, Ruler, Text, LayoutGrid } from "lucide-react";
-import { GLOBAL_DESIGN_TOKENS } from "@config/branding.config";
+// --- CORRECCIÓN DE RUTA ---
+import { GLOBAL_DESIGN_TOKENS } from "@/config/branding.config";
 
 interface ComponentMetadataPanelProps {
   appliedTheme: any;
   componentProps: Record<string, any>;
 }
 
-/**
- * @component ComponentMetadataPanel
- * @description Renderiza un panel con información detallada sobre el tema aplicado,
- *              la tipografía y las props de mock para el componente que se está visualizando.
- * @param {ComponentMetadataPanelProps} props - Las propiedades del panel de metadatos.
- * @returns {React.ReactElement} El elemento JSX del panel.
- */
 export function ComponentMetadataPanel({
   appliedTheme,
   componentProps,
@@ -71,4 +65,4 @@ export function ComponentMetadataPanel({
     </div>
   );
 }
-// src/components/dev/ComponentMetadataPanel.tsx
+// components/dev/ComponentMetadataPanel.tsx

@@ -1,0 +1,22 @@
+{
+  "colors": {
+    "primary": "217 91% 60%",
+    "secondary": "215 28% 17%",
+    "accent": "22 96% 54%",
+    "background": "0 0% 98%",
+    "foreground": "224 71% 10%"
+  },
+  "fonts": { "sans": "Inter, sans-serif" },
+  "layout": {
+    "sections": [
+      { "name": "Hero" },
+      { "name": "IngredientAnalysis" },
+      { "name": "BenefitsSection" },
+      { "name": "GuaranteeSection" },
+      { "name": "TestimonialGrid" },
+      { "name": "FaqAccordion" },
+      { "name": "OrderSection" },
+      { "name": "SocialProofLogos" }
+    ]
+  }
+}

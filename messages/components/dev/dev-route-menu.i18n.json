@@ -1,0 +1,86 @@
+{
+  "it-IT": {
+    "devRouteMenu": {
+      "devToolsGroup": "DEV TOOLS",
+      "campaignPagesGroup": "PAGINE CAMPAGNA",
+      "portalPagesGroup": "PAGINE PORTALE",
+      "legalPagesGroup": "PAGINE LEGALI",
+      "componentCanvas": "Component Canvas",
+      "campaignSimulator": "Simulatore di Campagne",
+      "branding": "Guida di Stile",
+      "campaignPage": "Campagna (ID 12157)",
+      "home": "Homepage",
+      "store": "Negozio",
+      "news": "Notizie",
+      "about": "Chi Siamo",
+      "terms": "Termini",
+      "privacy": "Privacy",
+      "cookies": "Cookies",
+      "changeLanguage": "Cambia lingua",
+      "currentLanguageIs": "Lingua attuale"
+    }
+  },
+  "es-ES": {
+    "devRouteMenu": {
+      "devToolsGroup": "HERRAMIENTAS DEV",
+      "campaignPagesGroup": "PÁGINAS DE CAMPAÑA",
+      "portalPagesGroup": "PÁGINAS DEL PORTAL",
+      "legalPagesGroup": "PÁGINAS LEGALES",
+      "componentCanvas": "Lienzo de Componentes",
+      "campaignSimulator": "Simulador de Campañas",
+      "branding": "Guía de Estilo",
+      "campaignPage": "Campaña (ID 12157)",
+      "home": "Página de Inicio",
+      "store": "Tienda",
+      "news": "Noticias",
+      "about": "Sobre Nosotros",
+      "terms": "Términos",
+      "privacy": "Privacidad",
+      "cookies": "Cookies",
+      "changeLanguage": "Cambiar idioma",
+      "currentLanguageIs": "Idioma actual"
+    }
+  },
+  "en-US": {
+    "devRouteMenu": {
+      "devToolsGroup": "DEV TOOLS",
+      "campaignPagesGroup": "CAMPAIGN PAGES",
+      "portalPagesGroup": "PORTAL PAGES",
+      "legalPagesGroup": "LEGAL PAGES",
+      "componentCanvas": "Component Canvas",
+      "campaignSimulator": "Campaign Simulator",
+      "branding": "Style Guide",
+      "campaignPage": "Campaign (ID 12157)",
+      "home": "Homepage",
+      "store": "Store",
+      "news": "News",
+      "about": "About Us",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "cookies": "Cookies",
+      "changeLanguage": "Change language",
+      "currentLanguageIs": "Current language"
+    }
+  },
+  "pt-BR": {
+    "devRouteMenu": {
+      "devToolsGroup": "FERRAMENTAS DEV",
+      "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
+      "portalPagesGroup": "PÁGINAS DO PORTAL",
+      "legalPagesGroup": "PÁGINAS LEGAIS",
+      "componentCanvas": "Canvas de Componentes",
+      "campaignSimulator": "Simulador de Campanhas",
+      "branding": "Guia de Estilo",
+      "campaignPage": "Campanha (ID 12157)",
+      "home": "Página Inicial",
+      "store": "Loja",
+      "news": "Notícias",
+      "about": "Sobre Nós",
+      "terms": "Termos",
+      "privacy": "Privacidade",
+      "cookies": "Cookies",
+      "changeLanguage": "Mudar idioma",
+      "currentLanguageIs": "Idioma atual"
+    }
+  }
+}

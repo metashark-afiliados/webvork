@@ -1,0 +1,31 @@
+{
+  "productId": "12157",
+  "campaignName": "Curcumin Spirulina Saffron",
+  "description": "Manifiesto de Mapeo de Activos (MMAC) v2.0. Apunta a activos soberanos de tema y contenido.",
+  "variants": {
+    "01": {
+      "name": "Scientific",
+      "description": "Ángulo de marketing enfocado en la ciencia, credibilidad y datos.",
+      "theme": "./themes/12157_20250910_THEME_01_scientific.json",
+      "content": "./content/12157_20250910_CONTENT_01_scientific.json"
+    },
+    "02": {
+      "name": "Vitality",
+      "description": "Ángulo de marketing enfocado en la emoción, energía y aspiración.",
+      "theme": "./themes/12157_20250910_THEME_02_vitality.json",
+      "content": "./content/12157_20250910_CONTENT_02_vitality.json"
+    },
+    "03": {
+      "name": "Nature",
+      "description": "Ángulo enfocado en la exclusividad, el misterio y la potencia natural.",
+      "theme": "./themes/12157_20250910_THEME_03_nature.json",
+      "content": "./content/12157_20250910_CONTENT_03_nature.json"
+    },
+    "04": {
+      "name": "Metabolism",
+      "description": "Ángulo enfocado en el apoyo a la gestión del peso y el metabolismo.",
+      "theme": "./themes/12157_20250910_THEME_04_metabolism.json",
+      "content": "./content/12157_20250910_CONTENT_04_metabolism.json"
+    }
+  }
+}

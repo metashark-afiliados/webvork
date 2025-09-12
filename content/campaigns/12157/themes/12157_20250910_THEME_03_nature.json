@@ -1,0 +1,22 @@
+{
+  "colors": {
+    "primary": "40 90% 55%",
+    "secondary": "220 10% 25%",
+    "accent": "35 100% 60%",
+    "background": "224 71% 4%",
+    "foreground": "210 40% 98%"
+  },
+  "fonts": { "serif": "Playfair Display, serif", "sans": "Inter, sans-serif" },
+  "layout": {
+    "sections": [
+      { "name": "Hero" },
+      { "name": "IngredientAnalysis" },
+      { "name": "BenefitsSection" },
+      { "name": "ThumbnailCarousel" },
+      { "name": "TestimonialGrid" },
+      { "name": "OrderSection" },
+      { "name": "GuaranteeSection" },
+      { "name": "FaqAccordion" }
+    ]
+  }
+}

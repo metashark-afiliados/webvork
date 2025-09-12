@@ -1,0 +1,42 @@
+{
+  "es-ES": {
+    "footer": {
+      "copyright": "© 2025 Global Fitwell. Todos los derechos reservados.",
+      "links": [
+        { "label": "Términos", "href": "/terms" },
+        { "label": "Privacidad", "href": "/privacy" }
+      ],
+      "disclaimer": "Este producto no está destinado a diagnosticar, tratar, curar o prevenir ninguna enfermedad."
+    }
+  },
+  "it-IT": {
+    "footer": {
+      "copyright": "© 2025 Global Fitwell. Tutti i diritti riservati.",
+      "links": [
+        { "label": "Termini", "href": "/terms" },
+        { "label": "Privacy", "href": "/privacy" }
+      ],
+      "disclaimer": "Questo prodotto non è destinato a diagnosticare, trattare, curare o prevenire alcuna malattia."
+    }
+  },
+  "en-US": {
+    "footer": {
+      "copyright": "© 2025 Global Fitwell. All rights reserved.",
+      "links": [
+        { "label": "Terms", "href": "/terms" },
+        { "label": "Privacy", "href": "/privacy" }
+      ],
+      "disclaimer": "This product is not intended to diagnose, treat, cure, or prevent any disease."
+    }
+  },
+  "pt-BR": {
+    "footer": {
+      "copyright": "© 2025 Global Fitwell. Todos os direitos reservados.",
+      "links": [
+        { "label": "Termos", "href": "/terms" },
+        { "label": "Privacidade", "href": "/privacy" }
+      ],
+      "disclaimer": "Este produto não se destina a diagnosticar, tratar, curar ou prevenir qualquer doença."
+    }
+  }
+}

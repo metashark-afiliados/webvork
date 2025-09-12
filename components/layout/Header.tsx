@@ -1,11 +1,9 @@
-// src/components/layout/Header.tsx
+// components/layout/Header.tsx
 /**
  * @file Header.tsx
  * @description Componente de cabecera principal del portal.
- *              Refactorizado para pasar la prop 'dictionary' correcta a DevToolsDropdown,
- *              manejar contenido ausente de forma robusta y cumplir con todos los
- *              estándares de calidad del proyecto.
- * @version 16.0.0
+ *              - v16.1.0: Corregido el nombre de la prop pasada a DevToolsDropdown.
+ * @version 16.1.0
  * @author RaZ podesta - MetaShark Tech
  * @see .docs-espejo/components/layout/Header.tsx.md
  */
@@ -14,7 +12,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button"; // Asumiendo que ahora usa nuestra SSoT Button
 import { clientLogger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
@@ -23,13 +21,6 @@ interface PortalHeaderProps {
   devDictionary: Dictionary["devRouteMenu"];
 }
 
-/**
- * @component PortalHeader
- * @description Renderiza la cabecera principal y la navegación para el portal.
- *              También inyecta las herramientas de desarrollo en modo 'development'.
- * @param {PortalHeaderProps} props Las propiedades con el contenido necesario.
- * @returns {React.ReactElement | null} El elemento JSX de la cabecera, o null si no hay contenido.
- */
 const PortalHeader = ({
   content,
   devDictionary,
@@ -38,7 +29,6 @@ const PortalHeader = ({
     "[PortalHeader] Renderizando cabecera principal del portal."
   );
 
-  // <<-- MEJORA DE ROBUSTEZ: Guarda de seguridad para contenido ausente.
   if (!content) {
     clientLogger.warn(
       "[PortalHeader] No se proporcionó contenido. El header no se renderizará."
@@ -79,9 +69,8 @@ const PortalHeader = ({
           {ctaButton.label}
         </Button>
 
-        {/* El Dropdown de desarrollo solo se renderiza si estamos en ese entorno Y si su diccionario existe. */}
         {process.env.NODE_ENV === "development" && devDictionary && (
-          // <<-- SOLUCIÓN: Se pasa la prop correcta 'dictionary' en lugar de 'devDictionary'.
+          // <<-- CORRECCIÓN: Se pasa la prop con el nombre correcto 'dictionary'.
           <DevToolsDropdown dictionary={devDictionary} />
         )}
       </div>
@@ -90,4 +79,4 @@ const PortalHeader = ({
 };
 
 export default PortalHeader;
-// src/components/layout/Header.tsx
+// components/layout/Header.tsx

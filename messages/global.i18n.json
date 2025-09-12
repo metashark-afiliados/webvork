@@ -1,0 +1,26 @@
+{
+  "es-ES": {
+    "metadata": {
+      "title": "Global Fitwell",
+      "description": "El futuro del bienestar. Tecnología y ciencia para tu potencial."
+    }
+  },
+  "pt-BR": {
+    "metadata": {
+      "title": "Global Fitwell",
+      "description": "O futuro do bem-estar. Tecnologia e ciência para o seu potencial."
+    }
+  },
+  "en-US": {
+    "metadata": {
+      "title": "Global Fitwell",
+      "description": "The future of wellness. Technology and science for your potential."
+    }
+  },
+  "it-IT": {
+    "metadata": {
+      "title": "Global Fitwell",
+      "description": "Il futuro del benessere. Tecnologia e scienza per il tuo potenziale."
+    }
+  }
+}
