@@ -1,0 +1,1 @@
+.docs/checklist/campaigns/00a_SISTEMA_NOMENCLATURA_ESTRUCTURADA.md

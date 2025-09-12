@@ -1,0 +1,23 @@
+{
+  "it-IT": {
+    "lightRays": {
+      "raysColor": "accent",
+      "raysOrigin": "top-center",
+      "raysSpeed": 1.2,
+      "lightSpread": 0.7,
+      "rayLength": 1.5,
+      "followMouse": true,
+      "mouseInfluence": 0.08,
+      "noiseAmount": 0.05,
+      "distortion": 0.02
+    }
+  },
+  "es-ES": {
+    "lightRays": {
+      "raysColor": "primary",
+      "raysOrigin": "bottom-center",
+      "raysSpeed": 1.0,
+      "lightSpread": 1.0
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "it-IT": {
+    "magicBento": {
+      "config": {
+        "textAutoHide": true,
+        "enableStars": true,
+        "enableSpotlight": true,
+        "enableBorderGlow": true,
+        "enableTilt": true,
+        "glowColor": "accent"
+      },
+      "cards": [
+        {
+          "title": "Analisi Avanzata",
+          "description": "Traccia il comportamento degli utenti con precisione.",
+          "label": "Intuizioni"
+        },
+        {
+          "title": "Dashboard Unificata",
+          "description": "Una vista centralizzata di tutti i tuoi dati.",
+          "label": "Panoramica"
+        },
+        {
+          "title": "Collaborazione",
+          "description": "Lavora in team senza interruzioni.",
+          "label": "Squadra"
+        },
+        {
+          "title": "Automazione",
+          "description": "Semplifica i flussi di lavoro complessi.",
+          "label": "Efficienza"
+        },
+        {
+          "title": "Integrazione",
+          "description": "Connetti i tuoi strumenti preferiti.",
+          "label": "Connettività"
+        },
+        {
+          "title": "Sicurezza",
+          "description": "Protezione di livello enterprise per i tuoi dati.",
+          "label": "Protezione"
+        }
+      ]
+    }
+  },
+  "es-ES": {
+    "magicBento": {
+      "config": {
+        "glowColor": "primary"
+      },
+      "cards": [
+        {
+          "title": "Análisis Avanzado",
+          "description": "Rastrea el comportamiento del usuario con precisión.",
+          "label": "Insights"
+        },
+        {
+          "title": "Dashboard Unificado",
+          "description": "Una vista centralizada de todos tus datos.",
+          "label": "Visión General"
+        },
+        {
+          "title": "Colaboración",
+          "description": "Trabaja en equipo sin interrupciones.",
+          "label": "Equipo"
+        }
+      ]
+    }
+  }
+}
