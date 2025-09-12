@@ -1,13 +1,32 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-html {
-  scroll-behavior: smooth;
+@config '../tailwind.config.ts';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
 }
 
-/* *=========== Default theme =========== */
-/* @layer base {
+@layer utilities {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* *=========== Default theme =========== */
+  /* @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -73,7 +92,8 @@ html {
   }
 } */
 
-/* *=========== Orange theme =========== */
+  /* *=========== Orange theme =========== */
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -137,12 +157,14 @@ html {
   }
 }
 
-.shadow-light {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.085);
-}
+@layer utilities {
+  .shadow-light {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.085);
+  }
 
-.shadow-dark {
-  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.141);
+  .shadow-dark {
+    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.141);
+  }
 }
 
 @layer base {

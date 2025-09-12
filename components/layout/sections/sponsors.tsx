@@ -49,9 +49,9 @@ export const SponsorsSection = () => {
 
       <div className="mx-auto">
         <Marquee
-          className="gap-[3rem]"
+          className="gap-12"
           fade
-          innerClassName="gap-[3rem]"
+          innerClassName="gap-12"
           pauseOnHover
         >
           {sponsors.map(({ icon, name }) => (
