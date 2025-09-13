@@ -1,0 +1,121 @@
+
+{
+  "it-IT": {
+    "teamSection": {
+      "eyebrow": "Team",
+      "title": "Il Dream Team dell'Azienda",
+      "members": [
+        {
+          "imageUrl": "https://i.pravatar.cc/250?img=58",
+          "firstName": "Leo",
+          "lastName": "Miranda",
+          "positions": ["Sviluppatore Frontend", "Creatore di Questo Sito"],
+          "socialNetworks": [
+            {
+              "name": "LinkedIn",
+              "url": "https://linkedin.com",
+              "icon": "Linkedin"
+            },
+            { "name": "Github", "url": "https://github.com", "icon": "Github" },
+            { "name": "X", "url": "https://x.com", "icon": "Twitter" }
+          ]
+        },
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "firstName": "Elizabeth",
+          "lastName": "Moore",
+          "positions": ["Designer UI/UX"],
+          "socialNetworks": [
+            {
+              "name": "LinkedIn",
+              "url": "https://linkedin.com",
+              "icon": "Linkedin"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "es-ES": {
+    "teamSection": {
+      "eyebrow": "Equipo",
+      "title": "El Dream Team de la Compañía",
+      "members": [
+        {
+          "imageUrl": "https://i.pravatar.cc/250?img=58",
+          "firstName": "Leo",
+          "lastName": "Miranda",
+          "positions": ["Desarrollador Frontend", "Creador de Este Sitio Web"],
+          "socialNetworks": [
+            {
+              "name": "LinkedIn",
+              "url": "https://linkedin.com",
+              "icon": "Linkedin"
+            },
+            { "name": "Github", "url": "https://github.com", "icon": "Github" },
+            { "name": "X", "url": "https://x.com", "icon": "Twitter" }
+          ]
+        },
+        {
+          "imageUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "firstName": "Elizabeth",
+          "lastName": "Moore",
+          "positions": ["Diseñadora UI/UX"],
+          "socialNetworks": [
+            {
+              "name": "LinkedIn",
+              "url": "https://linkedin.com",
+              "icon": "Linkedin"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "en-US": {
+    "teamSection": {
+      "eyebrow": "Team",
+      "title": "The Company Dream Team",
+      "members": [
+        {
+          "imageUrl": "https://i.pravatar.cc/250?img=58",
+          "firstName": "Leo",
+          "lastName": "Miranda",
+          "positions": ["Frontend Developer", "Creator Of This Website"],
+          "socialNetworks": [
+            {
+              "name": "LinkedIn",
+              "url": "https://linkedin.com",
+              "icon": "Linkedin"
+            },
+            { "name": "Github", "url": "https://github.com", "icon": "Github" },
+            { "name": "X", "url": "https://x.com", "icon": "Twitter" }
+          ]
+        }
+      ]
+    }
+  },
+  "pt-BR": {
+    "teamSection": {
+      "eyebrow": "Equipe",
+      "title": "A Equipe dos Sonhos da Empresa",
+      "members": [
+        {
+          "imageUrl": "https://i.pravatar.cc/250?img=58",
+          "firstName": "Leo",
+          "lastName": "Miranda",
+          "positions": ["Desenvolvedor Frontend", "Criador Deste Site"],
+          "socialNetworks": [
+            {
+              "name": "LinkedIn",
+              "url": "https://linkedin.com",
+              "icon": "Linkedin"
+            },
+            { "name": "Github", "url": "https://github.com", "icon": "Github" },
+            { "name": "X", "url": "https://x.com", "icon": "Twitter" }
+          ]
+        }
+      ]
+    }
+  }
+}

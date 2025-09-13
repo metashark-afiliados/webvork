@@ -10,7 +10,7 @@
 
 import { useEffect, useRef } from "react";
 import { producerConfig } from "@/config/producer.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 const YANDEX_SCRIPT_ID = "yandex-metrika-init";
 
@@ -41,8 +41,8 @@ export function useYandexMetrika(enabled: boolean): void {
       return;
     }
 
-    clientLogger.startGroup("Hook: useYandexMetrika");
-    clientLogger.trace(
+    logger.startGroup("Hook: useYandexMetrika");
+    logger.trace(
       `Activado. Inyectando script de Yandex Metrika con ID: ${yandexId}`
     );
 
@@ -57,13 +57,13 @@ export function useYandexMetrika(enabled: boolean): void {
     script.innerHTML = ymScriptContent;
     document.head.appendChild(script);
 
-    clientLogger.info("Pixel de Yandex Metrika inyectado y activado.", {
+    logger.info("Pixel de Yandex Metrika inyectado y activado.", {
       id: yandexId,
     });
 
     // Marcamos como ejecutado para prevenir futuras ejecuciones.
     hasExecuted.current = true;
-    clientLogger.endGroup();
+    logger.endGroup();
   }, [enabled]); // La única dependencia es el interruptor de activación.
 }
 // src/hooks/tracking/useYandexMetrika.ts

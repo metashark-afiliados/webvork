@@ -1,8 +1,11 @@
-// src/lib/schemas/i18n.schema.ts
+// lib/schemas/i18n.schema.ts
 /**
  * @file i18n.schema.ts
  * @description SSoT Ensamblador para la estructura de datos de i18n global.
- * @version 22.0.0
+ *              Esta versión se ha refactorizado exhaustivamente para incluir TODOS
+ *              los schemas de componentes y páginas, resolviendo errores críticos de
+ *              validación de contenido en tiempo de ejecución.
+ * @version 24.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
@@ -26,6 +29,14 @@ import { NewsGridLocaleSchema } from "./components/news-grid.schema";
 import { HeroNewsLocaleSchema } from "./components/hero-news.schema";
 import { ProductShowcaseLocaleSchema } from "./components/product-showcase.schema";
 import { CookieConsentBannerLocaleSchema } from "./components/cookie-consent-banner.schema";
+import { CommunitySectionLocaleSchema } from "./components/community-section.schema";
+import { ContactSectionLocaleSchema } from "./components/contact-section.schema";
+import { FeaturesSectionLocaleSchema } from "./components/features-section.schema";
+import { PricingSectionLocaleSchema } from "./components/pricing-section.schema";
+import { ServicesSectionLocaleSchema } from "./components/services-section.schema";
+import { SponsorsSectionLocaleSchema } from "./components/sponsors-section.schema";
+import { TeamSectionLocaleSchema } from "./components/team-section.schema";
+import { TestimonialCarouselSectionLocaleSchema } from "./components/testimonial-carousel-section.schema";
 
 // --- Schemas de Componentes Naturalizados (razBits) ---
 import { CardNavLocaleSchema } from "@/components/razBits/CardNav/card-nav.schema";
@@ -66,6 +77,14 @@ export const i18nSchema = z
   .merge(HeroNewsLocaleSchema)
   .merge(ProductShowcaseLocaleSchema)
   .merge(CookieConsentBannerLocaleSchema)
+  .merge(CommunitySectionLocaleSchema)
+  .merge(ContactSectionLocaleSchema)
+  .merge(FeaturesSectionLocaleSchema)
+  .merge(PricingSectionLocaleSchema)
+  .merge(ServicesSectionLocaleSchema)
+  .merge(SponsorsSectionLocaleSchema)
+  .merge(TeamSectionLocaleSchema)
+  .merge(TestimonialCarouselSectionLocaleSchema)
 
   // Componentes Naturalizados (razBits)
   .merge(CardNavLocaleSchema)
@@ -88,4 +107,4 @@ export const i18nSchema = z
 
 // --- Tipo de Diccionario Global ---
 export type Dictionary = z.infer<typeof i18nSchema>;
-// src/lib/schemas/i18n.schema.ts
+// lib/schemas/i18n.schema.ts

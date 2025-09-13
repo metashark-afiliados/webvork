@@ -1,59 +1,81 @@
-// src/lib/i18n/campaign.map.resolver.ts
+// lib/i18n/campaign.map.resolver.ts
 /**
  * @file campaign.map.resolver.ts
- * @description Aparato Atómico: Resolver de Mapas de Campaña. Su única
- *              responsabilidad es leer el manifiesto `campaign.map.json` y
- *              devolver las rutas de los activos para una variante específica.
- * @version 1.0.0
+ * @description Aparato Atómico: Resolver de Mapas de Campaña. Refactorizado para
+ *              reutilizar el `loader` refactorizado y añadir validación de schema con
+ *              Zod, garantizando la robustez y el cumplimiento del principio DRY.
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import "server-only";
-import { clientLogger } from "@/lib/logging";
-
-interface CampaignVariantMap {
-  name: string;
-  theme: string;
-  content: string;
-}
+import { logger } from "@/lib/logging";
+import { loadCampaignAsset } from "./campaign.data.loader";
+import {
+  CampaignMapSchema,
+  type CampaignMap,
+  type CampaignVariantMap,
+} from "@/lib/schemas/campaigns/campaign-map.schema";
 
 /**
  * @function resolveCampaignAssets
- * @description Carga el mapa de una campaña y resuelve las rutas para una variante.
- * @param campaignId El ID de la campaña.
- * @param variantId El ID de la variante (ej. "01", "02").
+ * @description Carga, valida y resuelve las rutas de activos para una variante de campaña específica.
+ * @param {string} campaignId - El ID de la campaña.
+ * @param {string} variantId - El ID de la variante a resolver (ej. "01", "02").
  * @returns {Promise<CampaignVariantMap>} Un objeto con las rutas relativas al tema y contenido.
- * @throws {Error} Si el mapa o la variante no se encuentran.
+ * @throws {Error} Si el archivo `campaign.map.json` es inválido o la variante no se encuentra.
  */
 export async function resolveCampaignAssets(
   campaignId: string,
   variantId: string
 ): Promise<CampaignVariantMap> {
-  clientLogger.trace(
+  logger.trace(
     `[Resolver] Resolviendo activos para campaña ${campaignId}, variante ${variantId}`
   );
 
   try {
-    const mapModule = await import(
-      `@/content/campaigns/${campaignId}/campaign.map.json`
+    // 1. Delegar la carga del archivo al loader, adhiriendo al principio DRY.
+    const campaignMapData = await loadCampaignAsset<CampaignMap>(
+      campaignId,
+      "campaign.map.json"
     );
-    const campaignMap = mapModule.default;
 
-    if (!campaignMap.variants || !campaignMap.variants[variantId]) {
+    // 2. Validar la estructura del mapa contra el schema de Zod.
+    const validation = CampaignMapSchema.safeParse(campaignMapData);
+    if (!validation.success) {
+      logger.error(
+        `[Resolver] El archivo campaign.map.json para la campaña "${campaignId}" es inválido.`,
+        { errors: validation.error.flatten().fieldErrors }
+      );
       throw new Error(
-        `Variante "${variantId}" no encontrada en campaign.map.json para la campaña "${campaignId}".`
+        `Validación fallida para campaign.map.json de la campaña ${campaignId}.`
       );
     }
 
-    clientLogger.trace(`[Resolver] Rutas de activos encontradas con éxito.`);
-    return campaignMap.variants[variantId];
+    const campaignMap = validation.data;
+    const variant = campaignMap.variants[variantId];
+
+    // 3. Verificar que la variante solicitada exista en el mapa validado.
+    if (!variant) {
+      throw new Error(
+        `Variante "${variantId}" no encontrada en campaign.map.json para la campaña "${campaignId}". Las variantes disponibles son: ${Object.keys(
+          campaignMap.variants
+        ).join(", ")}.`
+      );
+    }
+
+    logger.success(
+      `[Resolver] Rutas de activos para la variante "${variant.name}" (${variantId}) resueltas con éxito.`
+    );
+    return variant;
   } catch (error) {
-    clientLogger.error(
-      `[Resolver] No se pudo cargar o parsear el campaign.map.json para la campaña "${campaignId}".`,
-      { error }
+    // El error ya fue logueado en el `loader` o en este mismo bloque.
+    // Simplemente enriquecemos el mensaje para el consumidor final.
+    logger.error(
+      `[Resolver] Fallo al resolver activos para Campaña ${campaignId} / Variante ${variantId}.`
     );
     throw new Error(
-      `No se pudo resolver el mapa de activos para la campaña "${campaignId}".`
+      `No se pudo resolver el mapa de activos para la campaña "${campaignId}". Revisa los logs para más detalles.`
     );
   }
 }
-// src/lib/i18n/campaign.map.resolver.ts
+// lib/i18n/campaign.map.resolver.ts

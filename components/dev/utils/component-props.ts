@@ -8,7 +8,7 @@
  */
 import React from "react";
 import { Gauge } from "lucide-react";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 /**
  * @function getFallbackProps
@@ -19,9 +19,7 @@ import { clientLogger } from "@/lib/logging";
  * @returns {Record<string, any>} Objeto de props de fallback estructuradas.
  */
 export function getFallbackProps(name: string): Record<string, any> {
-  clientLogger.trace(
-    `[getFallbackProps] Generando props de fallback para: ${name}`
-  );
+  logger.trace(`[getFallbackProps] Generando props de fallback para: ${name}`);
   switch (name) {
     case "Hero":
       return {
@@ -45,12 +43,12 @@ export function getFallbackProps(name: string): Record<string, any> {
           {
             icon: React.createElement(Gauge, { size: 18 }),
             label: "Default Mock Item C",
-            onClick: () => clientLogger.info("Default Mock Item C clicked!"),
+            onClick: () => logger.info("Default Mock Item C clicked!"),
           },
           {
             icon: React.createElement(Gauge, { size: 18 }),
             label: "Default Mock Item D",
-            onClick: () => clientLogger.info("Default Mock Item D clicked!"),
+            onClick: () => logger.info("Default Mock Item D clicked!"),
           },
         ],
         config: {},

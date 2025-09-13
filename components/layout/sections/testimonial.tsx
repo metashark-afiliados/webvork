@@ -1,3 +1,11 @@
+// components/layout/sections/testimonial.tsx
+/**
+ * @file testimonial.tsx
+ * @description Sección de carrusel de testimonios. Renombrada a TestimonialCarouselSection
+ *              y refactorizada para ser data-driven.
+ * @version 2.0.0
+ * @author RaZ podesta - MetaShark Tech
+ */
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import {
@@ -13,90 +21,49 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "@/components/ui/Carousel";
 import { Star } from "lucide-react";
+import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { ReviewItem } from "@/lib/schemas/components/testimonial-carousel-section.schema";
 
-interface ReviewProps {
-  image: string;
-  name: string;
-  userName: string;
-  comment: string;
-  rating: number;
+interface TestimonialCarouselSectionProps {
+  content: Dictionary["testimonialCarouselSection"];
 }
 
-const reviewList: ReviewProps[] = [
-  {
-    image: "https://github.com/shadcn.png",
-    name: "John Doe",
-    userName: "Product Manager",
-    comment:
-      "Wow NextJs + Shadcn is awesome!. This template lets me change colors, fonts and images to match my brand identity. ",
-    rating: 5.0,
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "Sophia Collins",
-    userName: "Cybersecurity Analyst",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna. ",
-    rating: 4.8,
-  },
+export const TestimonialCarouselSection = ({
+  content,
+}: TestimonialCarouselSectionProps): React.ReactElement | null => {
+  logger.info("[Observabilidad] Renderizando TestimonialCarouselSection");
 
-  {
-    image: "https://github.com/shadcn.png",
-    name: "Adam Johnson",
-    userName: "Chief Technology Officer",
-    comment:
-      "Lorem ipsum dolor sit amet,exercitation. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    rating: 4.9,
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "Ethan Parker",
-    userName: "Data Scientist",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod labore et dolore magna aliqua. Ut enim ad minim veniam.",
-    rating: 5.0,
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "Ava Mitchell",
-    userName: "IT Project Manager",
-    comment:
-      "Lorem ipsum dolor sit amet, tempor incididunt  aliqua. Ut enim ad minim veniam, quis nostrud incididunt consectetur adipiscing elit.",
-    rating: 5.0,
-  },
-  {
-    image: "https://github.com/shadcn.png",
-    name: "Isabella Reed",
-    userName: "DevOps Engineer",
-    comment:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    rating: 4.9,
-  },
-];
+  if (!content) {
+    logger.warn(
+      "[TestimonialCarouselSection] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
 
-export const TestimonialSection = () => {
+  const { eyebrow, title, reviews } = content;
+
   return (
     <section id="testimonials" className="container py-24 sm:py-32">
       <div className="text-center mb-8">
         <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
-          Testimonials
+          {eyebrow}
         </h2>
-
-        <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
-          Hear What Our 1000+ Clients Say
-        </h2>
+        <h3 className="text-3xl md:text-4xl text-center font-bold mb-4">
+          {title}
+        </h3>
       </div>
 
       <Carousel
         opts={{
           align: "start",
         }}
-        className="relative w-[80%] sm:w-[90%] lg:max-w-(--breakpoint-xl) mx-auto"
+        className="relative w-[80%] sm:w-[90%] lg:max-w-screen-xl mx-auto"
       >
         <CarouselContent>
-          {reviewList.map((review) => (
+          {reviews.map((review: ReviewItem) => (
             <CarouselItem
               key={review.name}
               className="md:basis-1/2 lg:basis-1/3"
@@ -104,11 +71,16 @@ export const TestimonialSection = () => {
               <Card className="bg-muted/50 dark:bg-card">
                 <CardContent className="pt-6 pb-0">
                   <div className="flex gap-1 pb-6">
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
-                    <Star className="size-4 fill-primary text-primary" />
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star
+                        key={i}
+                        className={
+                          i < review.rating
+                            ? "size-4 fill-primary text-primary"
+                            : "size-4 fill-muted-foreground text-muted-foreground"
+                        }
+                      />
+                    ))}
                   </div>
                   {`"${review.comment}"`}
                 </CardContent>
@@ -116,13 +88,11 @@ export const TestimonialSection = () => {
                 <CardHeader>
                   <div className="flex flex-row items-center gap-4">
                     <Avatar>
-                      <AvatarImage
-                        src="https://avatars.githubusercontent.com/u/75042455?v=4"
-                        alt="radix"
-                      />
-                      <AvatarFallback>SV</AvatarFallback>
+                      <AvatarImage src={review.image} alt={review.userName} />
+                      <AvatarFallback>
+                        {review.name.substring(0, 2)}
+                      </AvatarFallback>
                     </Avatar>
-
                     <div className="flex flex-col">
                       <CardTitle className="text-lg">{review.name}</CardTitle>
                       <CardDescription>{review.userName}</CardDescription>
@@ -139,3 +109,4 @@ export const TestimonialSection = () => {
     </section>
   );
 };
+// components/layout/sections/testimonial.tsx

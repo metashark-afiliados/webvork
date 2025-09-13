@@ -1,16 +1,20 @@
-// src/components/razBits/LightRays/LightRays.tsx
+// components/razBits/LightRays/LightRays.tsx
 /**
  * @file LightRays.tsx
  * @description Componente de presentación puro para el efecto de fondo de rayos de luz.
- * @version 1.1.0
+ *              - v2.0.0: Resuelve el error de linting `react-hooks/rules-of-hooks` al
+ *                mover la llamada al hook `useLightRays` al nivel superior del componente,
+ *                asegurando que se ejecute incondicionalmente.
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React, { useRef } from "react";
 import { twMerge } from "tailwind-merge";
-import { useLightRays } from "./useLightRays"; // <<-- Ruta relativa al hook co-ubicado
+import { useLightRays } from "./useLightRays";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/lib/logging";
 
 /**
  * @interface LightRaysProps
@@ -37,18 +41,24 @@ export function LightRays({
   config,
   className,
 }: LightRaysProps): React.ReactElement | null {
-  console.log("[Observabilidad] Renderizando componente LightRays");
+  logger.info("[Observabilidad] Renderizando componente LightRays");
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Guarda de seguridad: Si no hay configuración, no renderizamos el efecto.
-  // Esto hace que el componente sea más resiliente.
+  // --- INICIO DE LA CORRECCIÓN ---
+  // El hook `useLightRays` ahora se llama incondicionalmente en el nivel superior,
+  // cumpliendo con las reglas de los hooks. Le pasamos el `config` o un objeto
+  // vacío para que el hook siempre reciba un objeto definido.
+  useLightRays(containerRef, config || {});
+
+  // La guarda de seguridad para no renderizar el componente si no hay config
+  // se mantiene, pero se ejecuta DESPUÉS de todas las llamadas a hooks.
   if (!config) {
+    logger.warn(
+      "[LightRays] No se proporcionó configuración. El efecto no se renderizará."
+    );
     return null;
   }
-
-  // El hook `useLightRays` es invocado aquí. No devuelve nada, pero
-  // aplica el efecto de WebGL al `div` referenciado.
-  useLightRays(containerRef, config);
+  // --- FIN DE LA CORRECCIÓN ---
 
   return (
     <div
@@ -61,4 +71,4 @@ export function LightRays({
     />
   );
 }
-// src/components/razBits/LightRays/LightRays.tsx
+// components/razBits/LightRays/LightRays.tsx

@@ -1,9 +1,10 @@
-// src/components/sections/GuaranteeSection.tsx
+// components/sections/GuaranteeSection.tsx
 /**
  * @file GuaranteeSection.tsx
  * @description Muestra una marquesina con los sellos de calidad y confianza.
- * @version 3.0.0
- * @author IA Ingeniera de Software Senior v2.0
+ *              Resuelve el error de tipo TS7006 al utilizar un tipo explícito `Seal`.
+ * @version 4.0.0
+ * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
@@ -12,6 +13,10 @@ import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { Container } from "@/components/ui/Container";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+// --- INICIO DE MODIFICACIÓN ---
+import type { Seal } from "@/lib/schemas/components/guarantee-section.schema";
+import { logger } from "@/lib/logging";
+// --- FIN DE MODIFICACIÓN ---
 
 interface GuaranteeSectionProps {
   content: Dictionary["guaranteeSection"];
@@ -20,9 +25,16 @@ interface GuaranteeSectionProps {
 export function GuaranteeSection({
   content,
 }: GuaranteeSectionProps): React.ReactElement | null {
-  console.log("[Observabilidad] Renderizando GuaranteeSection");
+  logger.info(
+    "[Observabilidad] Renderizando GuaranteeSection (v4.0.0 - Tipo explícito)"
+  );
 
-  if (!content) return null;
+  if (!content) {
+    logger.warn(
+      "[GuaranteeSection] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
   const { title, seals } = content;
 
   return (
@@ -39,7 +51,8 @@ export function GuaranteeSection({
           autoFill={true}
           pauseOnHover={true}
         >
-          {seals.map((seal) => (
+          {/* --- INICIO DE CORRECCIÓN --- */}
+          {seals.map((seal: Seal) => (
             <div
               key={seal.imageAlt}
               className="mx-12 flex items-center justify-center"
@@ -53,9 +66,10 @@ export function GuaranteeSection({
               />
             </div>
           ))}
+          {/* --- FIN DE CORRECCIÓN --- */}
         </Marquee>
       </Container>
     </section>
   );
 }
-// src/components/sections/GuaranteeSection.tsx
+// components/sections/GuaranteeSection.tsx

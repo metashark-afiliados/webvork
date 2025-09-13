@@ -10,7 +10,7 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import { producerConfig } from "@/config/producer.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 // --- Helper Puro ---
 const setCookie = (name: string, value: string, days: number = 30): void => {
@@ -38,45 +38,45 @@ export function useWebvorkGuid(enabled: boolean): void {
       return;
     }
 
-    clientLogger.startGroup("Hook: useWebvorkGuid");
+    logger.startGroup("Hook: useWebvorkGuid");
 
     const { LANDING_ID, OFFER_ID } = producerConfig;
 
     // Guarda de seguridad: Verifica que la configuración necesaria esté presente.
     if (!LANDING_ID || !OFFER_ID) {
-      clientLogger.warn(
+      logger.warn(
         "LANDING_ID o OFFER_ID no configurados. Abortando llamada de GUID."
       );
-      clientLogger.endGroup();
+      logger.endGroup();
       return;
     }
 
-    clientLogger.trace("Activado. Iniciando solicitud de GUID a Webvork...");
+    logger.trace("Activado. Iniciando solicitud de GUID a Webvork...");
 
     const callbackName = "jsonp_callback_" + Math.round(100000 * Math.random());
     const scriptTagId = `script_${callbackName}`;
 
     (window as any)[callbackName] = () => {
-      clientLogger.startGroup("Callback: Webvork GUID Recibido");
+      logger.startGroup("Callback: Webvork GUID Recibido");
       try {
         const guidFromHtml = document.documentElement.getAttribute("data-guid");
         if (guidFromHtml) {
-          clientLogger.info(
+          logger.info(
             `GUID confirmado desde atributo data-guid: ${guidFromHtml}`
           );
           setCookie("wv_guid", guidFromHtml, 30);
         } else {
-          clientLogger.warn(
+          logger.warn(
             "Callback recibido, pero el atributo data-guid no fue encontrado."
           );
         }
       } catch (error) {
-        clientLogger.error("Error procesando callback de GUID.", { error });
+        logger.error("Error procesando callback de GUID.", { error });
       } finally {
         delete (window as any)[callbackName];
         const scriptElement = document.getElementById(scriptTagId);
         scriptElement?.remove();
-        clientLogger.endGroup();
+        logger.endGroup();
       }
     };
 
@@ -88,7 +88,7 @@ export function useWebvorkGuid(enabled: boolean): void {
 
     // Marcamos como ejecutado para prevenir futuras ejecuciones.
     hasExecuted.current = true;
-    clientLogger.endGroup();
+    logger.endGroup();
   }, [enabled]); // La única dependencia es el interruptor de activación.
 }
 // src/hooks/tracking/useWebvorkGuid.ts

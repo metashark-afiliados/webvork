@@ -1,4 +1,6 @@
-import { Separator } from "@/components/ui/separator";
+// components/layout/sections/footer.tsx
+// --- CORRECCIÓN DE RUTA ---
+import { Separator } from "@/components/ui/Separator";
 import { ChevronsDownIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -117,3 +119,4 @@ export const FooterSection = () => {
     </footer>
   );
 };
+// components/layout/sections/footer.tsx

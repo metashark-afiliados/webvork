@@ -1,13 +1,12 @@
-// frontend/src/lib/config/sections.config.ts
+// lib/config/sections.config.ts
 /**
  * @file sections.config.ts
  * @description SSoT para la configuración de secciones. Implementa el "Patrón de Registro".
- *              Este aparato es el mapa central que conecta los nombres de sección (strings
- *              provenientes de los archivos de tema JSON) con los componentes React reales
- *              y sus correspondientes claves en el diccionario de i18n.
- *              Esta arquitectura permite que el SectionRenderer sea dinámico y extensible,
- *              cumpliendo con el Principio Abierto/Cerrado.
- * @version 6.0.0
+ *              Este aparato es el mapa central que conecta los nombres de sección con los
+ *              componentes React reales y sus claves en el diccionario i18n. Su correcta
+ *              sincronización con el schema i18n global es crítica para la integridad
+ *              del sistema de renderizado.
+ * @version 8.0.0
  * @author RaZ podesta - MetaShark Tech
  * @see .docs-espejo/lib/config/sections.config.ts.md
  */
@@ -25,6 +24,7 @@ import { OrderSection } from "@/components/sections/OrderSection";
 import { NewsGrid } from "@/components/sections/NewsGrid";
 import { HeroNews } from "@/components/sections/HeroNews";
 import { ProductShowcase } from "@/components/sections/ProductShowcase";
+import { CommunitySection } from "@/components/layout/sections/community";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
 /**
@@ -32,23 +32,15 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
  * @description Define el contrato para cada entrada en el registro de secciones.
  */
 interface SectionConfigEntry {
-  /**
-   * @property component - La referencia al componente React. Se usa `React.ComponentType<any>`
-   *           porque cada sección tiene su propio contrato de props. La seguridad de tipos
-   *           se garantiza en la capa de datos a través de los esquemas de Zod.
-   */
+  /** El componente de React a renderizar. */
   component: React.ComponentType<any>;
-  /**
-   * @property dictionaryKey - La clave para buscar el objeto de contenido de esta
-   *           sección dentro del diccionario i18n global.
-   */
+  /** La clave en el objeto Dictionary que contiene el contenido para este componente. */
   dictionaryKey: keyof Dictionary;
 }
 
 /**
- * @constant sectionNames
- * @description La lista canónica y SSoT de todos los nombres de sección disponibles.
- *              Se usa para generar el tipo `SectionName`.
+ * @const sectionNames
+ * @description SSoT para los nombres válidos de las secciones. Usado para el tipo `SectionName`.
  */
 export const sectionNames = [
   "Hero",
@@ -64,14 +56,20 @@ export const sectionNames = [
   "NewsGrid",
   "HeroNews",
   "ProductShowcase",
+  "CommunitySection",
 ] as const;
 
+/**
+ * @type SectionName
+ * @description Un tipo unión de todos los nombres de sección válidos.
+ */
 export type SectionName = (typeof sectionNames)[number];
 
 /**
- * @constant sectionsConfig
- * @description El registro principal de secciones. Mapea un `SectionName` a su
- *              configuración (`SectionConfigEntry`).
+ * @const sectionsConfig
+ * @description El registro central. Mapea un `SectionName` a su componente y su `dictionaryKey`.
+ *              Este objeto permite al `SectionRenderer` renderizar dinámicamente cualquier sección
+ *              basada en una simple cadena de texto proveniente del manifiesto de tema de la campaña.
  */
 export const sectionsConfig: Record<SectionName, SectionConfigEntry> = {
   Hero: { component: Hero, dictionaryKey: "hero" },
@@ -111,5 +109,9 @@ export const sectionsConfig: Record<SectionName, SectionConfigEntry> = {
     component: ProductShowcase,
     dictionaryKey: "productShowcase",
   },
+  CommunitySection: {
+    component: CommunitySection,
+    dictionaryKey: "communitySection", // Este mapeo ahora es válido.
+  },
 };
-// frontend/src/lib/config/sections.config.ts
+// lib/config/sections.config.ts

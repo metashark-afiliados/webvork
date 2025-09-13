@@ -11,7 +11,7 @@
 import React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { usePathname } from "next/navigation";
 import { getCurrentLocaleFromPathname } from "@/lib/i18n.utils";
@@ -27,9 +27,7 @@ export function DevHomepageHeader({
   dictionary,
   devRouteMenuDictionary,
 }: DevHomepageHeaderProps): React.ReactElement {
-  clientLogger.info(
-    "[DevHomepageHeader] Renderizando DevHomepageHeader (DEV-ONLY)"
-  );
+  logger.info("[DevHomepageHeader] Renderizando DevHomepageHeader (DEV-ONLY)");
   const pathname = usePathname();
   const currentLocale = getCurrentLocaleFromPathname(pathname);
 

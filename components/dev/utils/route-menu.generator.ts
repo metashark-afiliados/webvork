@@ -1,9 +1,9 @@
-// src/components/dev/utils/route-menu.generator.ts
+// components/dev/utils/route-menu.generator.ts
 /**
  * @file route-menu.generator.ts
  * @description Aparato de lógica pura para generar la estructura de datos del menú de desarrollo.
- *              Refactorizado para usar las claves de ruta correctas desde la SSoT `navigation.ts`,
- *              resolviendo errores de tipo TS2339 y mejorando la observabilidad.
+ *              Actúa como un "builder" que consume las SSoT de rutas (navigation.ts) y
+ *              contenido (i18n) para producir un modelo de vista para el componente presentacional.
  * @version 6.0.0
  * @author RaZ podesta - MetaShark Tech
  * @see .docs-espejo/components/dev/utils/route-menu.generator.ts.md
@@ -13,7 +13,7 @@ import { producerConfig } from "@/config/producer.config";
 import { routes } from "@/lib/navigation";
 import { type Locale } from "@/lib/i18n.config";
 import { type Dictionary } from "@/lib/schemas/i18n.schema";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 export interface RouteItem {
   name: string;
@@ -28,7 +28,8 @@ export interface RouteGroup {
 
 /**
  * @function generateDevRoutes
- * @description Construye la estructura de datos para el menú de desarrollo.
+ * @description Construye la estructura de datos para el menú de desarrollo. Es una función pura
+ *              que transforma la configuración y el contenido en un view-model.
  * @param {NonNullable<Dictionary["devRouteMenu"]>} dictionary - El objeto de contenido para el menú.
  * @param {Locale} locale - El locale actual para generar las URLs.
  * @returns {RouteGroup[]} La estructura de datos completa para renderizar el menú.
@@ -37,7 +38,7 @@ export function generateDevRoutes(
   dictionary: NonNullable<Dictionary["devRouteMenu"]>,
   locale: Locale
 ): RouteGroup[] {
-  clientLogger.trace(
+  logger.trace(
     "[RouteMenuGenerator] Generando estructura de datos del menú de desarrollo."
   );
 
@@ -49,14 +50,11 @@ export function generateDevRoutes(
       items: [
         {
           name: dictionary.componentCanvas,
-          // <<-- CORRECCIÓN: La página de listado no existe. Se enlaza al dashboard principal como fallback.
-          // Se usa la clave correcta 'devDashboard' del snapshot de navigation.ts.
-          path: routes.devDashboard.path({ locale }),
+          path: routes.devComponentCanvas.path({ locale }),
           iconName: "FlaskConical",
         },
         {
           name: dictionary.campaignSimulator,
-          // <<-- CORRECCIÓN: Se usa la clave correcta 'devCampaignSimulator' del snapshot de navigation.ts.
           path: routes.devCampaignSimulator.path({ locale }),
           iconName: "Rocket",
         },
@@ -72,7 +70,6 @@ export function generateDevRoutes(
       items: [
         {
           name: dictionary.campaignPage,
-          // <<-- CORRECCIÓN: Se usa la clave correcta 'campaign' del snapshot de navigation.ts.
           path: routes.campaign.path({ locale, campaignId: CAMPAIGN_ID }),
           iconName: "Rocket",
         },
@@ -125,4 +122,4 @@ export function generateDevRoutes(
     },
   ];
 }
-// src/components/dev/utils/route-menu.generator.ts
+// components/dev/utils/route-menu.generator.ts

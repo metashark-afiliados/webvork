@@ -12,7 +12,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import { producerConfig } from "@/config/producer.config";
 import { useCookieConsent } from "./useCookieConsent";
 import { useUtmTracker } from "./tracking/useUtmTracker";
@@ -43,7 +43,7 @@ export function useProducerLogic(): void {
     if (hasInteracted) return;
 
     const handleInteraction = () => {
-      clientLogger.info(
+      logger.info(
         "[useProducerLogic] Interacción de usuario detectada. Activando lógica de tracking diferido."
       );
       setHasInteracted(true);
@@ -87,14 +87,14 @@ export function useProducerLogic(): void {
   // --- Efecto de Logging y Estado ---
   useEffect(() => {
     if (!producerConfig.TRACKING_ENABLED) {
-      clientLogger.warn(
+      logger.warn(
         "[useProducerLogic] Tracking deshabilitado por configuración global."
       );
       return;
     }
 
     if (consentStatus === "rejected") {
-      clientLogger.info(
+      logger.info(
         "[useProducerLogic] Tracking deshabilitado por preferencia del usuario."
       );
     } else if (consentStatus === "accepted" && !hasInteracted) {

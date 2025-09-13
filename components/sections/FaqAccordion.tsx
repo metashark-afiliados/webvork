@@ -1,20 +1,20 @@
-// src/components/sections/FaqAccordion.tsx
+// components/sections/FaqAccordion.tsx
 /**
  * @file FaqAccordion.tsx
- * @description Sección de Preguntas Frecuentes (FAQ).
- * @version 2.1.0
- * @author IA Ingeniera de Software Senior v2.0
+ * @description Sección de Preguntas Frecuentes (FAQ). Nivelada para consumir
+ *              el componente AccordionItem de élite y sus contratos de datos,
+ *              resolviendo el error de tipo implícito TS7006.
+ * @version 4.0.0
+ * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import { AccordionItem } from "@/components/data-display/Accordion";
 import { Container } from "@/components/ui/Container";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-
-// <<-- CORREGIDO: Interfaz para tipado explícito
-interface Faq {
-  question: string;
-  answer: string;
-}
+import { logger } from "@/lib/logging";
+// --- INICIO DE MODIFICACIÓN ---
+import type { FaqItem } from "@/lib/schemas/components/faq-accordion.schema";
+// --- FIN DE MODIFICACIÓN ---
 
 interface FaqAccordionProps {
   content: Dictionary["faqAccordion"];
@@ -23,9 +23,17 @@ interface FaqAccordionProps {
 export function FaqAccordion({
   content,
 }: FaqAccordionProps): React.ReactElement | null {
-  console.log("[Observabilidad] Renderizando FaqAccordion");
+  logger.info(
+    "[FaqAccordion] Renderizando sección de FAQ (v4.0.0 - Tipo explícito)"
+  );
 
-  if (!content) return null;
+  if (!content) {
+    logger.warn(
+      "[FaqAccordion] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
+
   const { title, faqs } = content;
 
   return (
@@ -35,18 +43,15 @@ export function FaqAccordion({
           {title}
         </h2>
         <div className="space-y-4">
-          {faqs.map(
-            (
-              faq: Faq // <<-- CORREGIDO: Tipo explícito
-            ) => (
-              <AccordionItem key={faq.question} title={faq.question}>
-                {faq.answer}
-              </AccordionItem>
-            )
-          )}
+          {/* --- INICIO DE CORRECCIÓN --- */}
+          {/* Se aplica el tipo explícito `FaqItem` al parámetro del map. */}
+          {faqs.map((faqItem: FaqItem) => (
+            <AccordionItem key={faqItem.question} content={faqItem} />
+          ))}
+          {/* --- FIN DE CORRECCIÓN --- */}
         </div>
       </Container>
     </section>
   );
 }
-// src/components/sections/FaqAccordion.tsx
+// components/sections/FaqAccordion.tsx

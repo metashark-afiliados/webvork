@@ -1,42 +1,36 @@
-// src/components/forms/HiddenFormFields.tsx
+// components/forms/HiddenFormFields.tsx
 /**
  * @file HiddenFormFields.tsx
- * @description Aparato atômico de apresentação, focado em uma única responsabilidade:
- *              renderizar todos os campos de formulário ocultos necessários para a
- *              atribuição de tracking e a integração com o sistema do produtor.
+ * @description Aparato atómico de presentación, con la única responsabilidad de
+ *              renderizar todos los campos de formulario ocultos necesarios para la
+ *              atribución de tracking y la integración con el sistema del productor.
  * @version 1.0.0
  * @author RaZ podesta - MetaShark Tech
  * @see .docs/development/TODO.md - Tarefa 2.3
+ * @principle Principio de Responsabilidad Única (PRU)
  */
 import React from "react";
-
-/**
- * @interface HiddenFormFieldsProps
- * @description Define as propriedades para o componente. Atualmente não requer props,
- *              mas está preparado para receber valores dinâmicos no futuro, alinhando-se
- *              com a nossa estratégia de gestão de configuração centralizada.
- */
-interface HiddenFormFieldsProps {
-  // Atualmente vazio, mas preparado para extensibilidade.
-}
+import { logger } from "@/lib/logging";
 
 /**
  * @component HiddenFormFields
- * @description Renderiza o payload de dados ocultos para o formulário de pedido.
- *              Esta é uma peça crucial da clonagem da lógica do produtor, garantindo
- *              que o sistema deles receba todos os dados necessários de forma transparente.
- * @returns {React.ReactElement} O fragmento JSX com os inputs ocultos.
+ * @description Renderiza el payload de datos ocultos para el formulario de pedido.
+ *              Esta es una pieza crucial de la clonación de la lógica del productor,
+ *              garantizando que el sistema de ellos reciba todos los datos necesarios
+ *              de forma transparente. El script 'webvork.js' inyectado globalmente
+ *              encontrará estos campos por su atributo 'name' y llenará sus valores.
+ * @returns {React.ReactElement} Un fragmento JSX con los inputs ocultos.
  */
-export function HiddenFormFields({}: HiddenFormFieldsProps): React.ReactElement {
-  console.log(
+export function HiddenFormFields(): React.ReactElement {
+  logger.info(
     "[Observabilidad] Renderizando HiddenFormFields (Payload de Tracking)"
   );
 
   return (
     <>
       {/* 
-        Estes campos são uma réplica exata e completa dos campos encontrados na página do produtor.
-        O script `webvork.js` (que será injetado globalmente) encontrará estes inputs
+        Estos campos son una réplica exacta y completa de los campos encontrados en la página del productor.
+        El script `webvork.js` (que será injetado globalmente) encontrará estes inputs
         pelo seu atributo 'name' e preencherá seus valores dinamicamente.
       */}
       <input name="lang" type="hidden" defaultValue="it" />
@@ -58,4 +52,4 @@ export function HiddenFormFields({}: HiddenFormFieldsProps): React.ReactElement 
     </>
   );
 }
-// src/components/forms/HiddenFormFields.tsx
+// components/forms/HiddenFormFields.tsx

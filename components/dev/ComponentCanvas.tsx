@@ -1,15 +1,14 @@
-// src/components/dev/ComponentCanvas.tsx
+// components/dev/ComponentCanvas.tsx
 /**
  * @file ComponentCanvas.tsx
  * @description Componente orquestador para el Dev Component Canvas.
- *              Su única responsabilidad es invocar al `ComponentLoader` y pasar los
- *              datos resultantes a los sub-componentes de presentación, siguiendo
- *              el Principio de Responsabilidad Única.
- * @version 3.0.0
+ *              - v3.1.0: Corrige el error de linting `react/no-unescaped-entities`
+ *                escapando las comillas dobles literales en el mensaje de error.
+ * @version 3.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import { ComponentCanvasHeader } from "./ComponentCanvasHeader";
 import { ComponentMetadataPanel } from "./ComponentMetadataPanel";
 import { loadComponentAndProps } from "./ComponentLoader";
@@ -24,8 +23,10 @@ export async function ComponentCanvas({
   componentName,
   locale,
 }: ComponentCanvasProps): Promise<React.ReactElement> {
-  clientLogger.info(
-    `[CanvasOrchestrator] Orquestando renderizado para: ${componentName || "Indefinido"}, locale: ${locale}`
+  logger.info(
+    `[CanvasOrchestrator] Orquestando renderizado para: ${
+      componentName || "Indefinido"
+    }, locale: ${locale}`
   );
 
   if (!componentName) {
@@ -63,19 +64,22 @@ export async function ComponentCanvas({
       </div>
     );
   } catch (error: any) {
-    clientLogger.error(
+    logger.error(
       `[CanvasOrchestrator] Falla crítica al cargar "${componentName}":`,
       { error: error.message }
     );
     return (
       <div className="text-center text-destructive border border-red-500 p-8 rounded-lg">
         <h2 className="text-2xl font-bold">Error de Carga del Componente</h2>
+        {/* --- INICIO DE LA CORRECCIÓN --- */}
         <p className="text-muted-foreground">
-          No se pudo cargar el componente "<strong>{componentName}</strong>".
+          No se pudo cargar el componente &quot;
+          <strong>{componentName}</strong>&quot;.
         </p>
+        {/* --- FIN DE LA CORRECCIÓN --- */}
         <p className="text-sm text-muted-foreground mt-2">{error.message}</p>
       </div>
     );
   }
 }
-// src/components/dev/ComponentCanvas.tsx
+// components/dev/ComponentCanvas.tsx

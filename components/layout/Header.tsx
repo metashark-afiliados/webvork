@@ -1,9 +1,9 @@
 // components/layout/Header.tsx
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal.
- *              - v16.1.0: Corregido el nombre de la prop pasada a DevToolsDropdown.
- * @version 16.1.0
+ * @description Componente de cabecera principal del portal. Resuelve el error de tipo
+ *              TS7006 al importar y utilizar el tipo explícito `NavLink` desde su SSoT.
+ * @version 17.0.0
  * @author RaZ podesta - MetaShark Tech
  * @see .docs-espejo/components/layout/Header.tsx.md
  */
@@ -12,26 +12,35 @@
 import Image from "next/image";
 import Link from "next/link";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
-import { Button } from "@/components/ui/Button"; // Asumiendo que ahora usa nuestra SSoT Button
-import { clientLogger } from "@/lib/logging";
+import { Button } from "@/components/ui/Button";
+import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+// --- INICIO DE MODIFICACIÓN ---
+import type { NavLink } from "@/lib/schemas/components/header.schema";
+// --- FIN DE MODIFICACIÓN ---
 
-interface PortalHeaderProps {
+interface HeaderProps {
   content: Dictionary["header"];
   devDictionary: Dictionary["devRouteMenu"];
 }
 
-const PortalHeader = ({
+/**
+ * @component Header
+ * @description Renderiza la cabecera principal del portal, incluyendo navegación y CTA.
+ * @param {HeaderProps} props Las propiedades con el contenido i18n necesario.
+ * @returns {React.ReactElement | null} El elemento JSX de la cabecera o null si no hay contenido.
+ */
+const Header = ({
   content,
   devDictionary,
-}: PortalHeaderProps): React.ReactElement | null => {
-  clientLogger.info(
-    "[PortalHeader] Renderizando cabecera principal del portal."
+}: HeaderProps): React.ReactElement | null => {
+  logger.info(
+    "[Observabilidad] Renderizando Header (v17.0.0 - Tipo explícito)"
   );
 
   if (!content) {
-    clientLogger.warn(
-      "[PortalHeader] No se proporcionó contenido. El header no se renderizará."
+    logger.warn(
+      "[Header] No se proporcionó contenido. El header no se renderizará."
     );
     return null;
   }
@@ -53,7 +62,9 @@ const PortalHeader = ({
       </Link>
 
       <nav className="hidden md:flex md:items-center md:gap-6 text-sm font-medium">
-        {navLinks.map((route) => (
+        {/* --- INICIO DE CORRECCIÓN --- */}
+        {/* Se aplica el tipo explícito `NavLink` al parámetro `route`. */}
+        {navLinks.map((route: NavLink) => (
           <Link
             key={route.href}
             href={route.href}
@@ -62,6 +73,7 @@ const PortalHeader = ({
             {route.label}
           </Link>
         ))}
+        {/* --- FIN DE CORRECCIÓN --- */}
       </nav>
 
       <div className="flex items-center gap-4 ml-auto">
@@ -70,7 +82,6 @@ const PortalHeader = ({
         </Button>
 
         {process.env.NODE_ENV === "development" && devDictionary && (
-          // <<-- CORRECCIÓN: Se pasa la prop con el nombre correcto 'dictionary'.
           <DevToolsDropdown dictionary={devDictionary} />
         )}
       </div>
@@ -78,5 +89,5 @@ const PortalHeader = ({
   );
 };
 
-export default PortalHeader;
+export default Header;
 // components/layout/Header.tsx

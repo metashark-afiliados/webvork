@@ -11,7 +11,7 @@ import { z } from "zod";
 import { i18nSchema, type Dictionary } from "@/lib/schemas/i18n.schema";
 import { type Locale } from "@/lib/i18n.config";
 import { sectionNames } from "@/lib/config/sections.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 // El schema y tipo del tema viven aquí, ya que es su dominio de procesamiento.
 export const CampaignThemeSchema = z.object({
@@ -38,7 +38,7 @@ export function processCampaignData(
   campaignTheme: any,
   locale: Locale
 ): { dictionary: Dictionary; theme: CampaignTheme } {
-  clientLogger.trace(
+  logger.trace(
     `[Procesador] Procesando y validando datos para locale: ${locale}`
   );
 
@@ -50,7 +50,7 @@ export function processCampaignData(
 
   const dictValidation = i18nSchema.safeParse(fullMergedDictionary);
   if (!dictValidation.success) {
-    clientLogger.error(
+    logger.error(
       `[Procesador] Error de validación del diccionario fusionado:`,
       {
         errors: dictValidation.error.flatten().fieldErrors,
@@ -61,13 +61,13 @@ export function processCampaignData(
 
   const themeValidation = CampaignThemeSchema.safeParse(campaignTheme);
   if (!themeValidation.success) {
-    clientLogger.error(`[Procesador] Error de validación del tema:`, {
+    logger.error(`[Procesador] Error de validación del tema:`, {
       errors: themeValidation.error.flatten().fieldErrors,
     });
     throw new Error("El tema de la campaña es inválido.");
   }
 
-  clientLogger.trace(`[Procesador] Datos validados exitosamente.`);
+  logger.trace(`[Procesador] Datos validados exitosamente.`);
   return {
     dictionary: dictValidation.data,
     theme: themeValidation.data,

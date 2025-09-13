@@ -1,0 +1,78 @@
+{
+  "it-IT": {
+    "contactSection": {
+      "eyebrow": "Contatto",
+      "title": "Connettiti con Noi",
+      "description": "Hai una domanda o un progetto in mente? Compila il modulo o utilizza le informazioni di contatto qui sotto. Saremo lieti di sentirti.",
+      "contactInfo": [
+        {
+          "iconName": "Mail",
+          "label": "Email",
+          "value": "support@globalfitwell.com"
+        },
+        {
+          "iconName": "Phone",
+          "label": "Telefono",
+          "value": "+39 012 345 6789"
+        },
+        {
+          "iconName": "Building2",
+          "label": "Ufficio",
+          "value": "Via Roma 1, Milano, IT"
+        }
+      ],
+      "form": {
+        "firstNameLabel": "Nome",
+        "firstNamePlaceholder": "Mario",
+        "lastNameLabel": "Cognome",
+        "lastNamePlaceholder": "Rossi",
+        "emailLabel": "Email",
+        "emailPlaceholder": "mario.rossi@example.com",
+        "subjectLabel": "Oggetto",
+        "subjectPlaceholder": "Seleziona un oggetto",
+        "subjectOptions": ["Sviluppo Web", "Marketing Digitale", "Altro"],
+        "messageLabel": "Messaggio",
+        "messagePlaceholder": "Il tuo messaggio...",
+        "submitButtonText": "Invia Messaggio"
+      }
+    }
+  },
+  "es-ES": {
+    "contactSection": {
+      "eyebrow": "Contacto",
+      "title": "Conecta con Nosotros",
+      "description": "¿Tienes una pregunta o un proyecto en mente? Rellena el formulario o utiliza la información de contacto a continuación. Nos encantará saber de ti.",
+      "contactInfo": [
+        {
+          "iconName": "Mail",
+          "label": "Email",
+          "value": "soporte@globalfitwell.com"
+        },
+        {
+          "iconName": "Phone",
+          "label": "Teléfono",
+          "value": "+34 912 345 678"
+        },
+        {
+          "iconName": "Building2",
+          "label": "Oficina",
+          "value": "Calle Principal 1, Madrid, ES"
+        }
+      ],
+      "form": {
+        "firstNameLabel": "Nombre",
+        "firstNamePlaceholder": "Juan",
+        "lastNameLabel": "Apellido",
+        "lastNamePlaceholder": "Pérez",
+        "emailLabel": "Email",
+        "emailPlaceholder": "juan.perez@example.com",
+        "subjectLabel": "Asunto",
+        "subjectPlaceholder": "Selecciona un asunto",
+        "subjectOptions": ["Desarrollo Web", "Marketing Digital", "Otro"],
+        "messageLabel": "Mensaje",
+        "messagePlaceholder": "Tu mensaje...",
+        "submitButtonText": "Enviar Mensaje"
+      }
+    }
+  }
+}

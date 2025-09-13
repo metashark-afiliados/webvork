@@ -1,29 +1,33 @@
-// src/lib/schemas/components/header.schema.ts
+// lib/schemas/components/header.schema.ts
 /**
  * @file header.schema.ts
  * @description Esquema de Zod que define el contrato de datos para el contenido
- *              del nuevo Header profesional. Corregido con tipado explícito para
- *              soportar correctamente la recursividad.
- * @version 5.1.0
+ *              del Header. Corregida la definición de tipo duplicada.
+ * @version 6.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
 
-// --- Tipado Explícito para Recursividad ---
-type NavLink = {
-  label: string;
-  href: string;
+// --- INICIO DE CORRECCIÓN ---
+// Se define el schema base primero.
+const baseNavLinkSchema = z.object({
+  label: z.string(),
+  href: z.string(),
+});
+
+// El tipo recursivo se define una sola vez, utilizando el schema base.
+type NavLink = z.infer<typeof baseNavLinkSchema> & {
   subLinks?: NavLink[];
 };
 
-// <<-- CORRECCIÓN: Se añade el tipo explícito z.ZodType<NavLink>
-const NavLinkSchema: z.ZodType<NavLink> = z.lazy(() =>
-  z.object({
-    label: z.string(),
-    href: z.string(),
-    subLinks: z.array(NavLinkSchema).optional(),
-  })
-);
+// El schema recursivo ahora usa el tipo explícito para validarse a sí mismo.
+const NavLinkSchema: z.ZodType<NavLink> = baseNavLinkSchema.extend({
+  subLinks: z.lazy(() => z.array(NavLinkSchema)).optional(),
+});
+
+// Se exporta el tipo que ya fue definido.
+export type { NavLink };
+// --- FIN DE CORRECCIÓN ---
 
 export const HeaderLocaleSchema = z.object({
   header: z.object({
@@ -43,4 +47,4 @@ export const HeaderI18nSchema = z.object({
   "en-US": HeaderLocaleSchema,
   "it-IT": HeaderLocaleSchema,
 });
-// src/lib/schemas/components/header.schema.ts
+// lib/schemas/components/header.schema.ts

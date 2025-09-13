@@ -12,7 +12,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Globe, ChevronDown } from "lucide-react";
 import { type Locale } from "@/lib/i18n.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;
@@ -23,7 +23,7 @@ export function LanguageSwitcher({
   currentLocale,
   supportedLocales,
 }: LanguageSwitcherProps): React.ReactElement {
-  clientLogger.info("[LanguageSwitcher] Renderizando componente puro.");
+  logger.info("[LanguageSwitcher] Renderizando componente puro.");
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -61,7 +61,9 @@ export function LanguageSwitcher({
         </span>
         <ChevronDown
           size={16}
-          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
         />
       </button>
 

@@ -1,10 +1,10 @@
-// src/components/ui/DropdownMenu/Content.tsx
+// components/ui/DropdownMenu/Content.tsx
 /**
  * @file Content.tsx
- * @description Panel de contenido animado para el DropdownMenu.
- * @version 4.0.0
+ * @description Panel de contenido animado y accesible para el DropdownMenu.
+ *              Gestiona su visibilidad y el cierre automático.
+ * @version 5.0.0
  * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/components/ui/DropdownMenu/DropdownMenu.md
  */
 "use client";
 
@@ -19,8 +19,14 @@ interface ContentProps {
   align?: "start" | "end";
 }
 
+/**
+ * @component Content
+ * @description El contenedor que aparece cuando el menú está abierto. Incluye
+ *              animaciones y lógica para cerrarse al hacer clic fuera o presionar Escape.
+ */
 export const Content = React.forwardRef<HTMLDivElement, ContentProps>(
   ({ children, className, align = "end" }, ref) => {
+    console.log("[Observabilidad] Renderizando DropdownMenu.Content");
     const { isOpen, setIsOpen } = useDropdownMenuContext();
     const internalRef = React.useRef<HTMLDivElement>(null);
 
@@ -28,19 +34,22 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(
 
     React.useEffect(() => {
       const handleEscape = (event: KeyboardEvent) => {
-        if (isOpen && event.key === "Escape") setIsOpen(false);
+        if (event.key === "Escape") setIsOpen(false);
       };
       const handleClickOutside = (event: MouseEvent) => {
         if (
-          isOpen &&
           internalRef.current &&
           !internalRef.current.contains(event.target as Node)
         ) {
           setIsOpen(false);
         }
       };
-      document.addEventListener("keydown", handleEscape);
-      document.addEventListener("mousedown", handleClickOutside);
+
+      if (isOpen) {
+        document.addEventListener("keydown", handleEscape);
+        document.addEventListener("mousedown", handleClickOutside);
+      }
+
       return () => {
         document.removeEventListener("keydown", handleEscape);
         document.removeEventListener("mousedown", handleClickOutside);
@@ -76,4 +85,4 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(
   }
 );
 Content.displayName = "DropdownMenuContent";
-// src/components/ui/DropdownMenu/Content.tsx
+// components/ui/DropdownMenu/Content.tsx

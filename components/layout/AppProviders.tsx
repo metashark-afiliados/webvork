@@ -14,7 +14,7 @@ import { useProducerLogic } from "@/hooks/useProducerLogic";
 import { CookieConsentBanner } from "./CookieConsentBanner";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -33,7 +33,7 @@ export default function AppProviders({
   locale,
   cookieConsentContent,
 }: AppProvidersProps): React.ReactElement {
-  clientLogger.info("[AppProviders] Inicializando proveedores de cliente...");
+  logger.info("[AppProviders] Inicializando proveedores de cliente...");
 
   // Hook soberano que orquesta toda la lógica de tracking del productor.
   useProducerLogic();

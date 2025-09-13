@@ -30,7 +30,7 @@ import React, {
 } from "react";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import { DockConfigSchema } from "./dock.schema";
 
 // --- CONTRATOS DE DATOS Y PROPS ---
@@ -189,7 +189,7 @@ export function Dock({
   config,
   spring = { mass: 0.1, stiffness: 150, damping: 12 },
 }: DockProps): React.ReactElement {
-  clientLogger.info("[Dock] Renderizando componente Dock (Naturalizado)");
+  logger.info("[Dock] Renderizando componente Dock (Naturalizado)");
 
   const validatedConfig = DockConfigSchema.parse(config || {});
   const { magnification, distance, panelHeight, dockHeight, baseItemSize } =

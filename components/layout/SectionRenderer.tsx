@@ -11,7 +11,7 @@
 import React from "react";
 import { type SectionName, sectionsConfig } from "@/lib/config/sections.config";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 interface SectionRendererProps {
   sectionName: SectionName;
@@ -28,7 +28,7 @@ export function SectionRenderer({
   const config = sectionsConfig[sectionName];
 
   if (!config) {
-    clientLogger.warn(
+    logger.warn(
       `[SectionRenderer] No se encontró configuración para la sección "${sectionName}". No se renderizará.`
     );
     return null;

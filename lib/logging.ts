@@ -1,13 +1,12 @@
 // lib/logging.ts
 /**
  * @file logging.ts
- * @description Aparato SSoT para el logging del lado del cliente.
- *              - v5.0.0 (Élite): Introduce funcionalidades avanzadas para una
- *                observabilidad de élite en desarrollo:
- *                - Medición de rendimiento con `time()` y `timeEnd()`.
- *                - Trazabilidad de flujos de ejecución con `startTrace()`.
- * @version 5.0.0
+ * @description Aparato SSoT para el logging. Es isomórfico (seguro para servidor y cliente),
+ *              resolviendo errores de SSR al verificar el entorno antes de usar APIs de navegador.
+ *              La exportación unificada 'logger' es la causa de los errores en cascada que se corregirán.
+ * @version 6.0.0
  * @author RaZ podesta - MetaShark Tech
+ * @see .docs-espejo/lib/logging.ts.md
  */
 
 const STYLES = {
@@ -19,14 +18,21 @@ const STYLES = {
   error: "color: #ef4444; font-weight: bold;",
   trace: "color: #a1a1aa;",
   timestamp: "color: #64748b;",
-  timer: "color: #14b8a6;", // Verde azulado para timers
+  timer: "color: #14b8a6;",
 };
 
 /**
- * @interface ClientLogger
- * @description Contrato para el logger del lado del cliente.
+ * @function isBrowser
+ * @description Verifica de forma segura si el código se está ejecutando en un entorno de navegador.
+ * @returns {boolean} True si está en el navegador, false en caso contrario.
  */
-interface ClientLogger {
+const isBrowser = (): boolean => typeof window !== "undefined";
+
+/**
+ * @interface Logger
+ * @description Define el contrato de la API para nuestro sistema de logging.
+ */
+interface Logger {
   startGroup: (label: string, style?: string) => void;
   endGroup: () => void;
   success: (message: string, context?: object) => void;
@@ -34,36 +40,18 @@ interface ClientLogger {
   warn: (message: string, context?: object) => void;
   error: (message: string, context?: object) => void;
   trace: (message: string, context?: object) => void;
-  /**
-   * Inicia un temporizador de alta precisión.
-   * @param label - Un identificador único para el temporizador.
-   */
   time: (label: string) => void;
-  /**
-   * Detiene un temporizador y registra la duración.
-   * @param label - El identificador del temporizador a detener.
-   */
   timeEnd: (label: string) => void;
-  /**
-   * Inicia una nueva traza para agrupar logs relacionados.
-   * @param traceName - Un nombre descriptivo para la traza (ej. "user-login").
-   * @returns Un ID de traza único para pasar a `traceEvent`.
-   */
   startTrace: (traceName: string) => string;
-  /**
-   * Registra un evento dentro de una traza existente.
-   * @param traceId - El ID devuelto por `startTrace`.
-   * @param eventName - El nombre del evento (ej. "form-validation-success").
-   * @param context - Datos adicionales sobre el evento.
-   */
   traceEvent: (traceId: string, eventName: string, context?: object) => void;
-  /**
-   * Marca el final de una traza.
-   * @param traceId - El ID de la traza a finalizar.
-   */
   endTrace: (traceId: string) => void;
 }
 
+/**
+ * @function getTimestamp
+ * @description Genera un timestamp formateado para los logs.
+ * @returns {string} El timestamp en formato HH:MM:SS.ms.
+ */
 const getTimestamp = (): string => {
   const now = new Date();
   const h = String(now.getHours()).padStart(2, "0");
@@ -73,92 +61,113 @@ const getTimestamp = (): string => {
   return `${h}:${m}:${s}.${ms}`;
 };
 
-const formatMessage = (
+const timers = new Map<string, number>();
+
+/**
+ * @function logFormatted
+ * @description Helper interno para formatear logs, consciente del entorno.
+ * @private
+ */
+function logFormatted(
   icon: string,
   message: string,
   style: string,
   context?: object
-) => {
+) {
   const timestamp = getTimestamp();
-  if (context) {
-    console.log(
-      `%c${timestamp} %c${icon} ${message}`,
-      STYLES.timestamp,
-      style,
-      context
-    );
+  if (isBrowser()) {
+    if (context) {
+      console.log(
+        `%c${timestamp} %c${icon} ${message}`,
+        STYLES.timestamp,
+        style,
+        context
+      );
+    } else {
+      console.log(
+        `%c${timestamp} %c${icon} ${message}`,
+        STYLES.timestamp,
+        style
+      );
+    }
   } else {
-    console.log(`%c${timestamp} %c${icon} ${message}`, STYLES.timestamp, style);
+    // Formato simple para el servidor
+    const logObject = context ? { ...context } : {};
+    console.log(`[${timestamp}] ${icon} ${message}`, logObject);
   }
-};
+}
 
-// --- Implementación para Desarrollo ---
-const timers = new Map<string, number>();
-
-const developmentLogger: ClientLogger = {
+// Implementación para Desarrollo
+const developmentLogger: Logger = {
   startGroup: (label, style = STYLES.hook) => {
     const timestamp = getTimestamp();
-    console.groupCollapsed(
-      `%c${timestamp} %c▶ ${label}`,
-      STYLES.timestamp,
-      style
-    );
+    if (isBrowser() && console.groupCollapsed) {
+      console.groupCollapsed(
+        `%c${timestamp} %c▶ ${label}`,
+        STYLES.timestamp,
+        style
+      );
+    } else {
+      console.log(`[${timestamp}] ▶ GROUP START: ${label}`);
+    }
   },
-  endGroup: () => console.groupEnd(),
+  endGroup: () => {
+    if (isBrowser() && console.groupEnd) {
+      console.groupEnd();
+    }
+  },
   success: (message, context) =>
-    formatMessage("✔", message, STYLES.success, context),
-  info: (message, context) => formatMessage("ℹ", message, STYLES.info, context),
+    logFormatted("✔", message, STYLES.success, context),
+  info: (message, context) => logFormatted("ℹ", message, STYLES.info, context),
   warn: (message, context) =>
-    formatMessage("⚠", message, STYLES.warning, context),
+    logFormatted("⚠", message, STYLES.warning, context),
   error: (message, context) =>
-    formatMessage("✖", message, STYLES.error, context),
+    logFormatted("✖", message, STYLES.error, context),
   trace: (message, context) =>
-    formatMessage("•", message, STYLES.trace, context),
+    logFormatted("•", message, STYLES.trace, context),
   time: (label) => {
-    timers.set(label, performance.now());
-    formatMessage("⏱️", `Timer started: ${label}`, STYLES.timer);
+    if (isBrowser()) {
+      timers.set(label, performance.now());
+      logFormatted("⏱️", `Timer started: ${label}`, STYLES.timer);
+    }
   },
   timeEnd: (label) => {
-    const startTime = timers.get(label);
-    if (startTime !== undefined) {
-      const duration = (performance.now() - startTime).toFixed(2);
-      formatMessage(
-        "⏱️",
-        `Timer ended: ${label} (${duration}ms)`,
-        STYLES.timer
-      );
-      timers.delete(label);
-    } else {
-      formatMessage("⏱️", `Timer '${label}' no encontrado.`, STYLES.warning);
+    if (isBrowser()) {
+      const startTime = timers.get(label);
+      if (startTime !== undefined) {
+        const duration = (performance.now() - startTime).toFixed(2);
+        logFormatted(
+          "⏱️",
+          `Timer ended: ${label} (${duration}ms)`,
+          STYLES.timer
+        );
+        timers.delete(label);
+      }
     }
   },
   startTrace: (traceName) => {
     const traceId = `${traceName}-${Math.random()
       .toString(36)
       .substring(2, 9)}`;
-    formatMessage("🔗", `Trace Start: ${traceId}`, STYLES.orchestrator);
+    logFormatted("🔗", `Trace Start: ${traceId}`, STYLES.orchestrator);
     return traceId;
   },
   traceEvent: (traceId, eventName, context) => {
-    formatMessage(`➡️ [${traceId}]`, eventName, STYLES.info, context);
+    logFormatted(`➡️ [${traceId}]`, eventName, STYLES.info, context);
   },
   endTrace: (traceId) => {
-    formatMessage("🏁", `Trace End: ${traceId}`, STYLES.orchestrator);
+    logFormatted("🏁", `Trace End: ${traceId}`, STYLES.orchestrator);
   },
 };
 
-// --- Implementación para Producción ---
-const productionLogger: ClientLogger = {
+// Implementación para Producción
+const productionLogger: Logger = {
   startGroup: () => {},
   endGroup: () => {},
   success: () => {},
   info: () => {},
-  warn: () => {},
-  error: (message, context) => {
-    // Se mantiene el console.error en producción, ya que es el único nivel
-    // de log que Vercel captura por defecto en sus funciones de cliente.
-    console.error(`[ERROR] ${message}`, context);
-  },
+  warn: (message, context) => console.warn(`[WARN] ${message}`, context),
+  error: (message, context) => console.error(`[ERROR] ${message}`, context),
   trace: () => {},
   time: () => {},
   timeEnd: () => {},
@@ -167,6 +176,12 @@ const productionLogger: ClientLogger = {
   endTrace: () => {},
 };
 
-export const clientLogger =
+/**
+ * @const logger
+ * @description Exportación unificada del logger. Se selecciona la implementación
+ *              adecuada (development o production) en tiempo de build basándose en
+ *              la variable de entorno NODE_ENV.
+ */
+export const logger =
   process.env.NODE_ENV === "development" ? developmentLogger : productionLogger;
 // lib/logging.ts

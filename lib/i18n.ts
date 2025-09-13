@@ -1,8 +1,8 @@
-// src/lib/i18n.ts
+// lib/i18n.ts
 /**
  * @file i18n.ts
  * @description Aparato ensamblador de diccionarios para el portal.
- * @version 5.0.0
+ * @version 6.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import "server-only";
@@ -12,7 +12,7 @@ import {
   defaultLocale,
   type Locale,
 } from "@/lib/i18n.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 // --- Importaciones de Contenido ---
 import globalI18n from "@/messages/global.i18n.json";
@@ -24,6 +24,9 @@ import newsGridI18n from "@/messages/components/news-grid/news-grid.i18n.json";
 import productShowcaseI18n from "@/messages/components/product-showcase/product-showcase.i18n.json";
 import socialProofI18n from "@/messages/components/social-proof/social-proof.i18n.json";
 import cookieConsentBannerI18n from "@/messages/components/cookie-consent-banner/cookie-consent-banner.i18n.json";
+// --- INICIO DE MODIFICACIÓN ---
+import benefitsSectionI18n from "@/messages/components/benefits-section/benefits-section.i18n.json";
+// --- FIN DE MODIFICACIÓN ---
 import cardNavI18n from "@/components/razBits/CardNav/card-nav.i18n.json";
 import lightRaysI18n from "@/components/razBits/LightRays/light-rays.i18n.json";
 import magicBentoI18n from "@/components/razBits/MagicBento/magic-bento.i18n.json";
@@ -52,6 +55,9 @@ const allI18nModules: I18nModuleContent[] = [
   productShowcaseI18n,
   socialProofI18n,
   cookieConsentBannerI18n,
+  // --- INICIO DE MODIFICACIÓN ---
+  benefitsSectionI18n,
+  // --- FIN DE MODIFICACIÓN ---
   cardNavI18n,
   lightRaysI18n,
   magicBentoI18n,
@@ -75,13 +81,13 @@ export const getDictionary = async (locale: string): Promise<Dictionary> => {
     : defaultLocale;
 
   if (dictionariesCache[validatedLocale]) {
-    clientLogger.trace(
+    logger.trace(
       `[i18n] Diccionario para '${validatedLocale}' encontrado en caché.`
     );
     return dictionariesCache[validatedLocale] as Dictionary;
   }
 
-  clientLogger.info(
+  logger.info(
     `[i18n] Ensamblando y validando diccionario para locale: ${validatedLocale}`
   );
 
@@ -93,7 +99,7 @@ export const getDictionary = async (locale: string): Promise<Dictionary> => {
   const validation = i18nSchema.safeParse(fullDictionary);
 
   if (!validation.success) {
-    clientLogger.error(
+    logger.error(
       `[i18n] Error de validación de contenido para portal en locale "${validatedLocale}":`,
       {
         errors: validation.error.flatten().fieldErrors,
@@ -106,9 +112,9 @@ export const getDictionary = async (locale: string): Promise<Dictionary> => {
   }
 
   dictionariesCache[validatedLocale] = validation.data;
-  clientLogger.info(
+  logger.info(
     `[i18n] Diccionario para '${validatedLocale}' ensamblado y validado exitosamente.`
   );
   return validation.data;
 };
-// src/lib/i18n.ts
+// lib/i18n.ts

@@ -1,0 +1,26 @@
+// .eslintignore
+/**
+ * @file .eslintignore
+ * @description Manifiesto de exclusión para ESLint. Este archivo es la SSoT que
+ *              define qué partes del proyecto DEBEN ser ignoradas por el proceso de
+ *              linting. Su propósito es prevenir errores de linting en código
+ *              autogenerado o de terceros que no controlamos.
+ * @version 1.0.0
+ * @author RaZ podesta - MetaShark Tech
+ */
+
+# Ignorar todos los artefactos de build y dependencias
+.next/
+node_modules/
+
+# Ignorar archivos de configuración de nivel superior que no son JS/TS
+*.mjs
+*.md
+
+# --- REGLA CRÍTICA ---
+# Ignorar el directorio de scripts de proveedores de terceros.
+# Esto resuelve el error `@next/next/no-assign-module-variable` en `webvork.js`
+# sin modificar código que no nos pertenece.
+public/vendor/*.js
+
+// .eslintignore

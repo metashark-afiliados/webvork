@@ -1,8 +1,8 @@
-// src/components/ui/DropdownMenu/Group.tsx
+// components/ui/DropdownMenu/Group.tsx
 /**
  * @file Group.tsx
- * @description Componente de agrupación semántica.
- * @version 4.0.0
+ * @description Componente de agrupación semántica para items de menú.
+ * @version 5.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -12,11 +12,14 @@ interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 export const Group = React.forwardRef<HTMLDivElement, GroupProps>(
-  ({ children, className, ...props }, ref) => (
-    <div ref={ref} className={twMerge(className)} role="group" {...props}>
-      {children}
-    </div>
-  )
+  ({ children, className, ...props }, ref) => {
+    console.log("[Observabilidad] Renderizando DropdownMenu.Group");
+    return (
+      <div ref={ref} className={twMerge(className)} role="group" {...props}>
+        {children}
+      </div>
+    );
+  }
 );
 Group.displayName = "DropdownMenuGroup";
-// src/components/ui/DropdownMenu/Group.tsx
+// components/ui/DropdownMenu/Group.tsx

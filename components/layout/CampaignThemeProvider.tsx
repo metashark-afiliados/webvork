@@ -10,7 +10,7 @@
 import React from "react";
 import type { CampaignData } from "@/lib/i18n/campaign.i18n";
 import { generateCampaignThemeVariablesStyle } from "@/lib/utils/theme.utils";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 interface CampaignThemeProviderProps {
   theme: CampaignData["theme"];
@@ -30,7 +30,7 @@ export function CampaignThemeProvider({
   theme,
   children,
 }: CampaignThemeProviderProps): React.ReactElement {
-  clientLogger.info(
+  logger.info(
     "[CampaignThemeProvider] Inyectando tema de campaña en el servidor."
   );
 

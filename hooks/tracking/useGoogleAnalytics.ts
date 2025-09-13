@@ -10,7 +10,7 @@
 
 import { useEffect, useRef } from "react";
 import { producerConfig } from "@/config/producer.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 const GA_REMOTE_SCRIPT_ID = "google-analytics-gtag";
 const GA_INIT_SCRIPT_ID = "google-analytics-init";
@@ -45,8 +45,8 @@ export function useGoogleAnalytics(enabled: boolean): void {
       return;
     }
 
-    clientLogger.startGroup("Hook: useGoogleAnalytics");
-    clientLogger.trace(
+    logger.startGroup("Hook: useGoogleAnalytics");
+    logger.trace(
       `Activado. Inyectando scripts de Google Analytics con ID: ${gaId}`
     );
 
@@ -66,13 +66,13 @@ export function useGoogleAnalytics(enabled: boolean): void {
     `;
     document.head.appendChild(initScript);
 
-    clientLogger.info("Pixel de Google Analytics inyectado y activado.", {
+    logger.info("Pixel de Google Analytics inyectado y activado.", {
       id: gaId,
     });
 
     // Marcamos como ejecutado para prevenir futuras ejecuciones.
     hasExecuted.current = true;
-    clientLogger.endGroup();
+    logger.endGroup();
   }, [enabled]); // La única dependencia es el interruptor de activación.
 }
 // src/hooks/tracking/useGoogleAnalytics.ts

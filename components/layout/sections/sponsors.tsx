@@ -1,71 +1,64 @@
+// components/layout/sections/sponsors.tsx
+/**
+ * @file sponsors.tsx
+ * @description Sección de patrocinadores. Totalmente refactorizada para ser
+ *              data-driven, unificar la dependencia de marquesina a `react-fast-marquee`,
+ *              y cumplir con todos los estándares del proyecto.
+ * @version 2.0.0
+ * @author RaZ podesta - MetaShark Tech
+ */
 "use client";
 
-import { Icon } from "@/components/ui/icon";
-import { Marquee } from "@devnomic/marquee";
-import "@devnomic/marquee/dist/index.css";
-import { icons } from "lucide-react";
-interface sponsorsProps {
-  icon: string;
-  name: string;
+import React from "react";
+import Marquee from "react-fast-marquee";
+import DynamicIcon from "@/components/ui/DynamicIcon";
+import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { SponsorItem } from "@/lib/schemas/components/sponsors-section.schema";
+
+interface SponsorsSectionProps {
+  content: Dictionary["sponsorsSection"];
 }
 
-const sponsors: sponsorsProps[] = [
-  {
-    icon: "Crown",
-    name: "Acmebrand",
-  },
-  {
-    icon: "Vegan",
-    name: "Acmelogo",
-  },
-  {
-    icon: "Ghost",
-    name: "Acmesponsor",
-  },
-  {
-    icon: "Puzzle",
-    name: "Acmeipsum",
-  },
-  {
-    icon: "Squirrel",
-    name: "Acme",
-  },
-  {
-    icon: "Cookie",
-    name: "Accmee",
-  },
-  {
-    icon: "Drama",
-    name: "Acmetech",
-  },
-];
+export const SponsorsSection = ({
+  content,
+}: SponsorsSectionProps): React.ReactElement | null => {
+  logger.info("[Observabilidad] Renderizando SponsorsSection");
 
-export const SponsorsSection = () => {
+  if (!content) {
+    logger.warn(
+      "[SponsorsSection] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
+
+  const { title, sponsors } = content;
+
   return (
-    <section id="sponsors" className="max-w-[75%] mx-auto pb-24 sm:pb-32">
-      <h2 className="text-lg md:text-xl text-center mb-6">
-        Our Platinum Sponsors
+    <section id="sponsors" className="container mx-auto pb-24 sm:pb-32">
+      <h2 className="text-lg md:text-xl text-center text-muted-foreground mb-6">
+        {title}
       </h2>
-
       <div className="mx-auto">
         <Marquee
-          className="gap-12"
-          fade
-          innerClassName="gap-12"
-          pauseOnHover
+          gradient={true}
+          gradientColor="hsl(var(--background))"
+          gradientWidth={100}
+          speed={40}
+          autoFill={true}
+          pauseOnHover={true}
         >
-          {sponsors.map(({ icon, name }) => (
+          {sponsors.map((sponsor: SponsorItem) => (
             <div
-              key={name}
-              className="flex items-center text-xl md:text-2xl font-medium"
+              key={sponsor.name}
+              className="flex items-center text-xl md:text-2xl font-medium text-foreground mx-8"
             >
-              <Icon
-                name={icon as keyof typeof icons}
+              <DynamicIcon
+                name={sponsor.icon}
                 size={32}
-                color="white"
-                className="mr-2"
+                className="mr-3 text-primary"
               />
-              {name}
+              {sponsor.name}
             </div>
           ))}
         </Marquee>
@@ -73,3 +66,4 @@ export const SponsorsSection = () => {
     </section>
   );
 };
+// components/layout/sections/sponsors.tsx

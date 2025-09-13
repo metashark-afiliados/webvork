@@ -12,7 +12,7 @@ import {
   getComponentByName,
   type ComponentRegistryEntry,
 } from "./ComponentRegistry";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import { getDictionary } from "@/lib/i18n";
 import { getCampaignData } from "@/lib/i18n/campaign.i18n";
 import { getFallbackProps } from "./utils/component-props";
@@ -49,15 +49,15 @@ export async function loadComponentAndProps(
   componentName: string,
   locale: string
 ): Promise<ComponentLoadResult> {
-  clientLogger.startGroup(`[Loader] Cargando "${componentName}"`);
+  logger.startGroup(`[Loader] Cargando "${componentName}"`);
 
   // 1. Obtener metadatos del componente desde la SSoT (`ComponentRegistry`).
   const entry = getComponentByName(componentName);
   if (!entry) {
-    clientLogger.error(
+    logger.error(
       `Componente "${componentName}" no encontrado en ComponentRegistry.`
     );
-    clientLogger.endGroup();
+    logger.endGroup();
     throw new Error(
       `Componente "${componentName}" no encontrado en el registro.`
     );
@@ -95,9 +95,9 @@ export async function loadComponentAndProps(
       componentProps.devDictionary = dictionary.devRouteMenu;
     }
 
-    clientLogger.trace("Props de i18n cargadas exitosamente.");
+    logger.trace("Props de i18n cargadas exitosamente.");
   } catch (error) {
-    clientLogger.error(
+    logger.error(
       `Fallo al cargar datos para ${componentName}. Usando fallback.`,
       { error }
     );
@@ -122,18 +122,18 @@ export async function loadComponentAndProps(
       );
     }
 
-    clientLogger.info(
+    logger.info(
       `Componente "${componentName}" y sus props cargados con éxito.`
     );
-    clientLogger.endGroup();
+    logger.endGroup();
 
     return { ComponentToRender, componentProps, appliedTheme, entry };
   } catch (error) {
-    clientLogger.error(
+    logger.error(
       `Error crítico al importar dinámicamente el módulo para "${componentName}".`,
       { path: entry.componentPath, error }
     );
-    clientLogger.endGroup();
+    logger.endGroup();
     throw new Error(
       `No se pudo cargar el módulo del componente: ${entry.componentPath}`
     );

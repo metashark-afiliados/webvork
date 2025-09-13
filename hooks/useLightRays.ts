@@ -10,7 +10,7 @@
 
 import { useRef, useEffect } from "react";
 import { Renderer, Program, Triangle, Mesh } from "ogl";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import type { z } from "zod";
 // <<-- CORRECCIÓN: Se ha corregido la ruta de importación.
 import type {
@@ -124,7 +124,7 @@ export const useLightRays = (
         renderer.render({ scene: mesh });
         animationFrameId.current = requestAnimationFrame(loop);
       } catch (e) {
-        clientLogger.warn("Error en el bucle de renderizado de WebGL.", {
+        logger.warn("Error en el bucle de renderizado de WebGL.", {
           error: e,
         });
       }
@@ -146,7 +146,7 @@ export const useLightRays = (
     };
 
     const initializeWebGL = () => {
-      clientLogger.startGroup("useLightRays: WebGL Initialization");
+      logger.startGroup("useLightRays: WebGL Initialization");
       renderer = new Renderer({
         dpr: Math.min(window.devicePixelRatio, 2),
         alpha: true,
@@ -168,7 +168,7 @@ export const useLightRays = (
         raysSpeed: { value: config.raysSpeed ?? 1.5 },
         lightSpread: { value: config.lightSpread ?? 0.8 },
         rayLength: { value: config.rayLength ?? 1.2 },
-        pulsating: { value: (config.pulsating ?? false) ? 1.0 : 0.0 },
+        pulsating: { value: config.pulsating ?? false ? 1.0 : 0.0 },
         fadeDistance: { value: config.fadeDistance ?? 1.0 },
         saturation: { value: config.saturation ?? 1.0 },
         mousePos: { value: [0.5, 0.5] },
@@ -187,8 +187,8 @@ export const useLightRays = (
 
       window.addEventListener("resize", updateSize);
       updateSize();
-      clientLogger.info("WebGL inicializado correctamente.");
-      clientLogger.endGroup();
+      logger.info("WebGL inicializado correctamente.");
+      logger.endGroup();
 
       if (isVisible) {
         animationFrameId.current = requestAnimationFrame(loop);
@@ -201,13 +201,13 @@ export const useLightRays = (
         if (isVisible) {
           if (!renderer) initializeWebGL();
           if (animationFrameId.current === null) {
-            clientLogger.trace("[useLightRays] Animación reanudada.");
+            logger.trace("[useLightRays] Animación reanudada.");
             animationFrameId.current = requestAnimationFrame(loop);
           }
         } else if (animationFrameId.current) {
           cancelAnimationFrame(animationFrameId.current);
           animationFrameId.current = null;
-          clientLogger.trace("[useLightRays] Animación pausada.");
+          logger.trace("[useLightRays] Animación pausada.");
         }
       },
       { threshold: 0.01 }
@@ -228,7 +228,7 @@ export const useLightRays = (
     }
 
     return () => {
-      clientLogger.startGroup("useLightRays: WebGL Cleanup");
+      logger.startGroup("useLightRays: WebGL Cleanup");
       observer.disconnect();
       window.removeEventListener("resize", updateSize);
       if (config.followMouse) {
@@ -245,13 +245,13 @@ export const useLightRays = (
             container.removeChild(gl.canvas);
           }
         } catch (e) {
-          clientLogger.warn("Error durante la limpieza de WebGL.", {
+          logger.warn("Error durante la limpieza de WebGL.", {
             error: e as Error, // <<-- CORRECCIÓN: Se añade un casting a Error.
           });
         }
       }
-      clientLogger.info("Recursos de WebGL liberados.");
-      clientLogger.endGroup();
+      logger.info("Recursos de WebGL liberados.");
+      logger.endGroup();
     };
   }, [containerRef, config]);
 };

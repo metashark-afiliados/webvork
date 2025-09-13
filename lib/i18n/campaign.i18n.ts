@@ -21,7 +21,7 @@ import {
   type CampaignTheme,
 } from "./campaign.data.processor";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 export type CampaignData = {
   dictionary: Dictionary;
@@ -45,7 +45,7 @@ export const getCampaignData = async (
     ? (locale as Locale)
     : defaultLocale;
 
-  clientLogger.startGroup(
+  logger.startGroup(
     `[Orquestador] getCampaignData para Campaña ${campaignId} / Variante ${variantId}`
   );
 
@@ -68,19 +68,19 @@ export const getCampaignData = async (
       validatedLocale
     );
 
-    clientLogger.info(
+    logger.info(
       `[Orquestador] Datos para campaña ${campaignId} / ${variantId} ensamblados con éxito.`
     );
     return processedData;
   } catch (error) {
-    clientLogger.error(
+    logger.error(
       `[Orquestador] Fallo crítico en el ensamblaje de datos de campaña.`,
       { error }
     );
     // Re-lanzar el error para que la página pueda manejarlo.
     throw error;
   } finally {
-    clientLogger.endGroup();
+    logger.endGroup();
   }
 };
 // src/lib/i18n/campaign.i18n.ts

@@ -10,7 +10,7 @@
 
 import { useEffect, useRef } from "react";
 import { producerConfig } from "@/config/producer.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 const TRUFFLE_SCRIPT_ID = "truffle-pixel-init";
 
@@ -41,8 +41,8 @@ export function useTrufflePixel(enabled: boolean): void {
       return;
     }
 
-    clientLogger.startGroup("Hook: useTrufflePixel");
-    clientLogger.trace(
+    logger.startGroup("Hook: useTrufflePixel");
+    logger.trace(
       `Activado. Inyectando script de Truffle.bid con ID: ${truffleId}`
     );
 
@@ -56,13 +56,13 @@ export function useTrufflePixel(enabled: boolean): void {
     script.innerHTML = truffleScriptContent;
     document.head.appendChild(script);
 
-    clientLogger.info("Pixel de Truffle.bid inyectado y activado.", {
+    logger.info("Pixel de Truffle.bid inyectado y activado.", {
       id: truffleId,
     });
 
     // Marcamos como ejecutado para prevenir futuras ejecuciones.
     hasExecuted.current = true;
-    clientLogger.endGroup();
+    logger.endGroup();
   }, [enabled]); // La única dependencia es el interruptor de activación.
 }
 // src/hooks/tracking/useTrufflePixel.ts

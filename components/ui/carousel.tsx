@@ -1,3 +1,4 @@
+// components/ui/Carousel.tsx
 "use client";
 
 import * as React from "react";
@@ -34,11 +35,9 @@ const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
 function useCarousel() {
   const context = React.useContext(CarouselContext);
-
   if (!context) {
     throw new Error("useCarousel must be used within a <Carousel />");
   }
-
   return context;
 }
 
@@ -72,7 +71,6 @@ const Carousel = React.forwardRef<
       if (!api) {
         return;
       }
-
       setCanScrollPrev(api.canScrollPrev());
       setCanScrollNext(api.canScrollNext());
     }, []);
@@ -102,7 +100,6 @@ const Carousel = React.forwardRef<
       if (!api || !setApi) {
         return;
       }
-
       setApi(api);
     }, [api, setApi]);
 
@@ -110,11 +107,9 @@ const Carousel = React.forwardRef<
       if (!api) {
         return;
       }
-
       onSelect(api);
       api.on("reInit", onSelect);
       api.on("select", onSelect);
-
       return () => {
         api?.off("select", onSelect);
       };
@@ -155,7 +150,6 @@ const CarouselContent = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const { carouselRef, orientation } = useCarousel();
-
   return (
     <div ref={carouselRef} className="overflow-hidden">
       <div
@@ -177,7 +171,6 @@ const CarouselItem = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const { orientation } = useCarousel();
-
   return (
     <div
       ref={ref}
@@ -197,9 +190,8 @@ CarouselItem.displayName = "CarouselItem";
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, variant = "outline-solid", size = "icon", ...props }, ref) => {
+>(({ className, variant = "secondary", size = "icon", ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
-
   return (
     <Button
       ref={ref}
@@ -226,9 +218,8 @@ CarouselPrevious.displayName = "CarouselPrevious";
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, variant = "outline-solid", size = "icon", ...props }, ref) => {
+>(({ className, variant = "secondary", size = "icon", ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
-
   return (
     <Button
       ref={ref}
@@ -260,3 +251,4 @@ export {
   CarouselPrevious,
   CarouselNext,
 };
+// components/ui/Carousel.tsx

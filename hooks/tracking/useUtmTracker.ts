@@ -9,7 +9,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 // --- Constantes y Tipos ---
 const UTM_PARAMS = [
@@ -53,8 +53,8 @@ export function useUtmTracker(enabled: boolean): void {
       return;
     }
 
-    clientLogger.startGroup("Hook: useUtmTracker");
-    clientLogger.trace("Activado. Rastreando parâmetros UTM na URL...");
+    logger.startGroup("Hook: useUtmTracker");
+    logger.trace("Activado. Rastreando parâmetros UTM na URL...");
 
     const collectedParams: Partial<Record<UtmParam, string>> = {};
 
@@ -67,17 +67,17 @@ export function useUtmTracker(enabled: boolean): void {
     });
 
     if (Object.keys(collectedParams).length > 0) {
-      clientLogger.info(
+      logger.info(
         "Parámetros UTM capturados y persistidos en cookies.",
         collectedParams
       );
     } else {
-      clientLogger.trace("No se encontraron parámetros UTM en la URL.");
+      logger.trace("No se encontraron parámetros UTM en la URL.");
     }
 
     // Marcamos como ejecutado para prevenir futuras ejecuciones.
     hasExecuted.current = true;
-    clientLogger.endGroup();
+    logger.endGroup();
   }, [enabled]); // La única dependencia es el interruptor de activación.
 }
 // src/hooks/tracking/useUtmTracker.ts

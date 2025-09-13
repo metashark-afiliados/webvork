@@ -15,7 +15,7 @@ import Link from "next/link";
 import { FlaskConical } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { getDictionary } from "@/lib/i18n";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import { routes } from "@/lib/navigation";
 import { type Locale } from "@/lib/i18n.config";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
@@ -35,7 +35,7 @@ interface DevHeaderProps {
 export default async function DevHeader({
   locale,
 }: DevHeaderProps): Promise<React.ReactElement> {
-  clientLogger.info(`[DevHeader] Renderizando para locale: ${locale}`);
+  logger.info(`[DevHeader] Renderizando para locale: ${locale}`);
 
   const t: Dictionary = await getDictionary(locale);
   const content: Dictionary["devHeader"] = t.devHeader;

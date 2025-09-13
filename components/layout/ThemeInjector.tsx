@@ -8,7 +8,7 @@
  */
 import React from "react";
 import { generateThemeVariablesStyle } from "@/lib/utils/theme.utils";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 
 /**
  * @component ThemeInjector
@@ -18,7 +18,7 @@ import { clientLogger } from "@/lib/logging";
  * @returns {React.ReactElement | null} La etiqueta <style> o null.
  */
 export function ThemeInjector(): React.ReactElement | null {
-  clientLogger.trace("[ThemeInjector] Inyectando tema global en el servidor.");
+  logger.trace("[ThemeInjector] Inyectando tema global en el servidor.");
   const themeStyleString = generateThemeVariablesStyle();
 
   if (!themeStyleString) {

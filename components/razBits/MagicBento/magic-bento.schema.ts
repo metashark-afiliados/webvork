@@ -1,8 +1,8 @@
-// src/components/razBits/MagicBento/magic-bento.schema.ts
+// components/razBits/MagicBento/magic-bento.schema.ts
 /**
  * @file magic-bento.schema.ts
  * @description Esquema de Zod para el contenido y configuración del componente MagicBento.
- * @version 1.0.0
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
@@ -13,6 +13,9 @@ export const BentoCardSchema = z.object({
   description: z.string(),
   label: z.string(),
 });
+
+// Exporta el tipo para ser usado en el componente
+export type BentoCardData = z.infer<typeof BentoCardSchema>;
 
 // Contrato para el objeto de configuración de los efectos visuales
 export const MagicBentoConfigSchema = z.object({
@@ -38,4 +41,4 @@ export const MagicBentoLocaleSchema = z.object({
     })
     .optional(),
 });
-// src/components/razBits/MagicBento/magic-bento.schema.ts
+// components/razBits/MagicBento/magic-bento.schema.ts

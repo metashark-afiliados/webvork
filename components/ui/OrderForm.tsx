@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { User, Phone } from "lucide-react";
 import { producerConfig } from "@/config/producer.config";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import { useProducerLogic } from "@/hooks/useProducerLogic";
 import { HiddenFormFields } from "@/components/forms/HiddenFormFields";
 import { FormInput } from "@/components/ui/FormInput";
@@ -64,7 +64,7 @@ export function OrderForm({
   });
 
   const onSubmit: SubmitHandler<OrderFormData> = (data) => {
-    clientLogger.info(
+    logger.info(
       "[OrderForm] Validação do cliente bem-sucedida. Acionando submissão nativa...",
       { action: producerConfig.ACTION_URL, data }
     );

@@ -14,7 +14,7 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ArrowUpRight } from "lucide-react";
 import { twMerge } from "tailwind-merge";
-import { clientLogger } from "@/lib/logging";
+import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
 type CardNavItem = NonNullable<Dictionary["cardNav"]>["navItems"][number];
@@ -35,18 +35,18 @@ export function CardNav({
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
   useLayoutEffect(() => {
-    clientLogger.startGroup("CardNav GSAP Initialization");
+    logger.startGroup("CardNav GSAP Initialization");
     if (!navRef.current || !content) {
-      clientLogger.warn(
+      logger.warn(
         "GSAP no se pudo inicializar: Ref de navegación o contenido no disponible."
       );
-      clientLogger.endGroup();
+      logger.endGroup();
       return;
     }
     const collapsedHeight = 60;
     const calculateExpandedHeight = () =>
       window.matchMedia("(max-width: 768px)").matches
-        ? (navRef.current?.scrollHeight ?? 260)
+        ? navRef.current?.scrollHeight ?? 260
         : 260;
     gsap.set(navRef.current, { height: collapsedHeight, overflow: "hidden" });
     gsap.set(cardsRef.current, { y: 50, opacity: 0 });
@@ -61,12 +61,12 @@ export function CardNav({
       "-=0.3"
     );
     timelineRef.current = tl;
-    clientLogger.info("GSAP timeline creada exitosamente.");
+    logger.info("GSAP timeline creada exitosamente.");
     return () => {
       tl.kill();
       timelineRef.current = null;
-      clientLogger.trace("GSAP timeline destruida.");
-      clientLogger.endGroup();
+      logger.trace("GSAP timeline destruida.");
+      logger.endGroup();
     };
   }, [content]);
 
@@ -75,8 +75,10 @@ export function CardNav({
     if (!tl) return;
     setMenuOpen((prev) => {
       const newOpenState = !prev;
-      clientLogger.trace(
-        `toggleMenu: El menú ahora está ${newOpenState ? "ABIERTO" : "CERRADO"}.`
+      logger.trace(
+        `toggleMenu: El menú ahora está ${
+          newOpenState ? "ABIERTO" : "CERRADO"
+        }.`
       );
       if (newOpenState) tl.play();
       else tl.reverse();
@@ -85,7 +87,7 @@ export function CardNav({
   };
 
   if (!content) {
-    clientLogger.error(
+    logger.error(
       "[CardNav] No se proporcionó contenido. El componente no se renderizará."
     );
     return null;
