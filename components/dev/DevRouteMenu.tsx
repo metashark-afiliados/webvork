@@ -1,18 +1,19 @@
 // components/dev/DevRouteMenu.tsx
 /**
  * @file DevRouteMenu.tsx
- * @description Componente de presentación puro para el menú desplegable de herramientas de desarrollo.
- *              - v20.1.0: Estandariza todas las importaciones de componentes de UI
- *                para usar el alias de ruta canónico `@/ui`, resolviendo errores de build.
- * @version 20.1.0
+ * @description Componente de presentación puro para el menú de desarrollo.
+ *              - v20.2.0: Refactoriza los alias de importación al patrón robusto
+ *                `@/components/...` para garantizar la compatibilidad con el build.
+ * @version 20.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import { Wrench } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/ui/Button";
-import DynamicIcon from "@/ui/DynamicIcon";
+// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
+import { Button } from "@/components/ui/Button";
+import DynamicIcon from "@/components/ui/DynamicIcon";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,21 +22,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/ui/DropdownMenu";
+} from "@/components/ui/DropdownMenu";
+// --- FIN DE CORRECCIÓN ---
 import { type RouteGroup } from "./utils/route-menu.generator";
 
 interface DevRouteMenuProps {
   routeGroups: RouteGroup[];
 }
 
-/**
- * @component DevRouteMenu
- * @description Renderiza la UI del menú desplegable de desarrollo. Es un componente "dumb"
- *              que no contiene lógica de negocio, recibiendo todos sus datos
- *              y estructura a través de props.
- * @param {DevRouteMenuProps} props Las propiedades con la estructura de rutas a renderizar.
- * @returns {React.ReactElement} El elemento JSX del menú desplegable.
- */
 export const DevRouteMenu = ({
   routeGroups,
 }: DevRouteMenuProps): React.ReactElement => {

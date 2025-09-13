@@ -2,9 +2,9 @@
 /**
  * @file CookieConsentBanner.tsx
  * @description Banner para solicitar el consentimiento de cookies.
- *              - v1.2.0: Estandariza las importaciones de componentes para usar
- *                el alias de ruta canónico `@/ui`, resolviendo errores de build.
- * @version 1.2.0
+ *              - v1.3.0: Refactoriza los alias de importación al patrón robusto
+ *                `@/components/...` para garantizar la compatibilidad con el build.
+ * @version 1.3.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -12,8 +12,10 @@
 import React from "react";
 import Link from "next/link";
 import { useCookieConsent } from "@/hooks/useCookieConsent";
-import { Button } from "@/ui/Button";
-import { Container } from "@/ui/Container";
+// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
+import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
+// --- FIN DE CORRECCIÓN ---
 
 interface CookieConsentBannerProps {
   message: string;

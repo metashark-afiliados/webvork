@@ -2,8 +2,9 @@
 /**
  * @file page.tsx
  * @description Página de login para el Developer Command Center.
- *              - v1.3.0: Estandariza la importación de alias de ruta a '@-ui/-'.
- * @version 1.3.0
+ *              - v1.4.0: Refactoriza los alias de importación al patrón robusto
+ *                `@/components/...` para garantizar la compatibilidad con el build.
+ * @version 1.4.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -12,13 +13,15 @@ import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
 import type { Dictionary } from "@/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
+// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/ui/Card";
+} from "@/components/ui/Card";
+// --- FIN DE CORRECCIÓN ---
 import { LoginForm } from "./_components/LoginForm";
 
 interface DevLoginPageProps {
@@ -36,7 +39,6 @@ const backgroundImages = [
 export default async function DevLoginPage({
   params: { locale },
 }: DevLoginPageProps) {
-  // ... (El resto del código del componente, que ya era correcto, va aquí)
   const dictionary: Partial<Dictionary> = await getDictionary(locale);
   const content = dictionary.devLoginPage;
 

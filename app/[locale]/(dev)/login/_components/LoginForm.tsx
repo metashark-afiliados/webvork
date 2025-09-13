@@ -2,10 +2,9 @@
 /**
  * @file LoginForm.tsx
  * @description Componente de cliente para el formulario de login del DCC.
- *              - v1.2.0: Se estandarizan y verifican todas las importaciones de alias
- *                de ruta para cumplir con la SSoT de tsconfig.json, garantizando la
- *                resolución de módulos en el build de producción.
- * @version 1.2.0
+ *              - v1.3.0: Refactoriza los alias de importación al patrón robusto
+ *                `@/components/...` para garantizar la compatibilidad con el build.
+ * @version 1.3.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -17,8 +16,10 @@ import { logger } from "@/lib/logging";
 import { routes } from "@/lib/navigation";
 import type { Dictionary } from "@/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
-import { FormInput } from "@/ui/FormInput";
-import { Button } from "@/ui/Button";
+// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
+import { FormInput } from "@/components/ui/FormInput";
+import { Button } from "@/components/ui/Button";
+// --- FIN DE CORRECCIÓN ---
 
 interface LoginFormProps {
   content: NonNullable<Dictionary["devLoginPage"]>;

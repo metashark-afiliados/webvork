@@ -2,18 +2,19 @@
 /**
  * @file Header.tsx
  * @description Componente de cabecera principal del portal.
- *              - v17.1.0: Estandariza todas las importaciones de componentes para usar
- *                los alias de ruta canónicos (`@/ui`, `@/dev-components`),
- *                resolviendo errores de build.
- * @version 17.1.0
+ *              - v17.2.0: Refactoriza los alias de importación al patrón robusto
+ *                `@/components/...` para garantizar la compatibilidad con el build.
+ * @version 17.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import DevToolsDropdown from "@/dev-components/DevToolsDropdown";
-import { Button } from "@/ui/Button";
+// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
+import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
+import { Button } from "@/components/ui/Button";
+// --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/schemas/i18n.schema";
 import type { NavLink } from "@/schemas/components/header.schema";
