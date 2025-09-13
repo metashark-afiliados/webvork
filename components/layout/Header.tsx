@@ -1,42 +1,33 @@
 // components/layout/Header.tsx
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal. Resuelve el error de tipo
- *              TS7006 al importar y utilizar el tipo explícito `NavLink` desde su SSoT.
- * @version 17.0.0
+ * @description Componente de cabecera principal del portal.
+ *              - v17.1.0: Estandariza todas las importaciones de componentes para usar
+ *                los alias de ruta canónicos (`@/ui`, `@/dev-components`),
+ *                resolviendo errores de build.
+ * @version 17.1.0
  * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/components/layout/Header.tsx.md
  */
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
-import { Button } from "@/components/ui/Button";
+import DevToolsDropdown from "@/dev-components/DevToolsDropdown";
+import { Button } from "@/ui/Button";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- INICIO DE MODIFICACIÓN ---
-import type { NavLink } from "@/lib/schemas/components/header.schema";
-// --- FIN DE MODIFICACIÓN ---
+import type { Dictionary } from "@/schemas/i18n.schema";
+import type { NavLink } from "@/schemas/components/header.schema";
 
 interface HeaderProps {
   content: Dictionary["header"];
   devDictionary: Dictionary["devRouteMenu"];
 }
 
-/**
- * @component Header
- * @description Renderiza la cabecera principal del portal, incluyendo navegación y CTA.
- * @param {HeaderProps} props Las propiedades con el contenido i18n necesario.
- * @returns {React.ReactElement | null} El elemento JSX de la cabecera o null si no hay contenido.
- */
 const Header = ({
   content,
   devDictionary,
 }: HeaderProps): React.ReactElement | null => {
-  logger.info(
-    "[Observabilidad] Renderizando Header (v17.0.0 - Tipo explícito)"
-  );
+  logger.info("[Observabilidad] Renderizando Header");
 
   if (!content) {
     logger.warn(
@@ -48,7 +39,7 @@ const Header = ({
   const { logoUrl, logoAlt, navLinks, ctaButton } = content;
 
   return (
-    <header className="fixed top-16 left-0 right-0 z-40 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur-sm md:px-6 border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur-sm md:px-6 border-b border-white/10">
       <Link href="/" className="mr-6 flex items-center">
         <Image
           src={logoUrl}
@@ -62,8 +53,6 @@ const Header = ({
       </Link>
 
       <nav className="hidden md:flex md:items-center md:gap-6 text-sm font-medium">
-        {/* --- INICIO DE CORRECCIÓN --- */}
-        {/* Se aplica el tipo explícito `NavLink` al parámetro `route`. */}
         {navLinks.map((route: NavLink) => (
           <Link
             key={route.href}
@@ -73,7 +62,6 @@ const Header = ({
             {route.label}
           </Link>
         ))}
-        {/* --- FIN DE CORRECCIÓN --- */}
       </nav>
 
       <div className="flex items-center gap-4 ml-auto">
@@ -90,4 +78,3 @@ const Header = ({
 };
 
 export default Header;
-// components/layout/Header.tsx

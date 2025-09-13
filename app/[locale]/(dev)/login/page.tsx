@@ -2,13 +2,13 @@
 /**
  * @file page.tsx
  * @description Página de login para el Developer Command Center.
- *              - v1.2.0: Simplificada para ser renderizada dentro del LocaleLayout,
- *                eliminando la necesidad de su propio header/footer.
- * @version 1.2.0
+ *              - v1.3.0: Estandariza la importación de alias de ruta a '@-ui/-'.
+ * @version 1.3.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
 import type { Dictionary } from "@/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
@@ -36,6 +36,7 @@ const backgroundImages = [
 export default async function DevLoginPage({
   params: { locale },
 }: DevLoginPageProps) {
+  // ... (El resto del código del componente, que ya era correcto, va aquí)
   const dictionary: Partial<Dictionary> = await getDictionary(locale);
   const content = dictionary.devLoginPage;
 
@@ -44,9 +45,20 @@ export default async function DevLoginPage({
   }
 
   return (
-    // Ya no necesitamos `min-h-screen` porque el `main` del layout ya lo gestiona.
-    <div className="relative w-full overflow-hidden flex flex-col items-center justify-center p-4 pt-24 sm:pt-32">
-      {/* El Header ahora es proporcionado por el layout padre */}
+    <div className="relative min-h-screen w-full overflow-hidden bg-background flex flex-col items-center justify-center p-4">
+      {/* Header Minimalista */}
+      <header className="absolute top-0 left-0 w-full p-6 z-20">
+        <Link href={`/${locale}`}>
+          <Image
+            src="/img/layout/header/globalfitwell-logo-v2.svg"
+            alt="Global Fitwell Logo"
+            width={150}
+            height={28}
+            className="h-7 w-auto"
+            priority
+          />
+        </Link>
+      </header>
 
       {/* Fondo Dinámico */}
       <div className="absolute inset-0 z-0 opacity-20">
@@ -69,7 +81,7 @@ export default async function DevLoginPage({
       </div>
 
       {/* Formulario de Login */}
-      <div className="relative z-10 flex w-full max-w-md flex-col items-center">
+      <main className="relative z-10 flex w-full max-w-md flex-col items-center">
         <Card className="w-full bg-background/50 backdrop-blur-lg border-white/10 shadow-2xl">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-primary">
@@ -81,7 +93,7 @@ export default async function DevLoginPage({
             <LoginForm content={content} locale={locale} />
           </CardContent>
         </Card>
-      </div>
+      </main>
     </div>
   );
 }

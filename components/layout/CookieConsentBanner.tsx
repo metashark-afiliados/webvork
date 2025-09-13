@@ -1,16 +1,19 @@
-// src/components/layout/CookieConsentBanner.tsx
+// components/layout/CookieConsentBanner.tsx
 /**
  * @file CookieConsentBanner.tsx
  * @description Banner para solicitar el consentimiento de cookies.
- * @version 1.1.0
+ *              - v1.2.0: Estandariza las importaciones de componentes para usar
+ *                el alias de ruta canónico `@/ui`, resolviendo errores de build.
+ * @version 1.2.0
+ * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React from "react";
 import Link from "next/link";
 import { useCookieConsent } from "@/hooks/useCookieConsent";
-import { Button } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
+import { Button } from "@/ui/Button";
+import { Container } from "@/ui/Container";
 
 interface CookieConsentBannerProps {
   message: string;
@@ -62,4 +65,3 @@ export function CookieConsentBanner({
     </div>
   );
 }
-// src/components/layout/CookieConsentBanner.tsx

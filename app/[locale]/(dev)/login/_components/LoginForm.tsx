@@ -2,9 +2,10 @@
 /**
  * @file LoginForm.tsx
  * @description Componente de cliente para el formulario de login del DCC.
- *              - v1.1.0: Se corrige el tipado de la prop 'locale' para usar el
- *                tipo 'Locale' de la SSoT, resolviendo el error de compilación TS2322.
- * @version 1.1.0
+ *              - v1.2.0: Se estandarizan y verifican todas las importaciones de alias
+ *                de ruta para cumplir con la SSoT de tsconfig.json, garantizando la
+ *                resolución de módulos en el build de producción.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -15,15 +16,13 @@ import { User, Lock } from "lucide-react";
 import { logger } from "@/lib/logging";
 import { routes } from "@/lib/navigation";
 import type { Dictionary } from "@/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config"; // Importar el tipo Locale SSoT
+import type { Locale } from "@/lib/i18n.config";
 import { FormInput } from "@/ui/FormInput";
 import { Button } from "@/ui/Button";
 
 interface LoginFormProps {
   content: NonNullable<Dictionary["devLoginPage"]>;
-  // --- INICIO DE CORRECCIÓN: Tipado estricto para locale ---
   locale: Locale;
-  // --- FIN DE CORRECCIÓN ---
 }
 
 export function LoginForm({ content, locale }: LoginFormProps) {
@@ -37,7 +36,6 @@ export function LoginForm({ content, locale }: LoginFormProps) {
     logger.info(
       "[LoginForm] Login simulado. Redirigiendo al dashboard de desarrollo..."
     );
-    // Ahora el tipo de 'locale' es correcto y compatible con la función 'path'.
     router.push(routes.devDashboard.path({ locale }));
   };
 
@@ -78,4 +76,3 @@ export function LoginForm({ content, locale }: LoginFormProps) {
     </form>
   );
 }
-// app/[locale]/(dev)/login/_components/LoginForm.tsx

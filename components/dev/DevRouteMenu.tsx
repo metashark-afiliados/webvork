@@ -2,18 +2,17 @@
 /**
  * @file DevRouteMenu.tsx
  * @description Componente de presentación puro para el menú desplegable de herramientas de desarrollo.
- *              Recibe una estructura de datos pre-procesada y se encarga únicamente de renderizar la UI,
- *              respetando al máximo el Principio de Responsabilidad Única.
- * @version 20.0.0
+ *              - v20.1.0: Estandariza todas las importaciones de componentes de UI
+ *                para usar el alias de ruta canónico `@/ui`, resolviendo errores de build.
+ * @version 20.1.0
  * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/components/dev/DevRouteMenu.tsx.md
  */
 "use client";
 
 import { Wrench } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { Button } from "@/ui/Button";
+import DynamicIcon from "@/ui/DynamicIcon";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,7 +21,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
+} from "@/ui/DropdownMenu";
 import { type RouteGroup } from "./utils/route-menu.generator";
 
 interface DevRouteMenuProps {
@@ -62,7 +61,6 @@ export const DevRouteMenu = ({
                 </DropdownMenuItem>
               </Link>
             ))}
-            {/* No añade un separador después del último grupo para una UI más limpia */}
             {groupIndex < routeGroups.length - 1 && <DropdownMenuSeparator />}
           </DropdownMenuGroup>
         ))}
@@ -70,4 +68,3 @@ export const DevRouteMenu = ({
     </DropdownMenu>
   );
 };
-// components/dev/DevRouteMenu.tsx
