@@ -1,16 +1,25 @@
-// src/components/sections/TestimonialGrid.tsx
+// components/sections/TestimonialGrid.tsx
 /**
  * @file TestimonialGrid.tsx
- * @description Muestra una cuadrícula de testimonios de clientes, un elemento
- *              clave para la prueba social.
- * @version 2.0.0
- * @author IA Ingeniera de Software Senior v2.0
+ * @description Sección de prueba social. Muestra una cuadrícula de testimonios de clientes.
+ *              - v3.1.0: Corrige la ruta de importación de `TestimonialCard` para alinearla
+ *                con la estructura de archivos del snapshot SSoT actual.
+ * @version 3.1.0
+ * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";
-import { TestimonialCard } from "@/components/feedback/TestimonialCard";
+// --- INICIO DE CORRECCIÓN: Ruta de importación alineada con el snapshot SSoT ---
+import { TestimonialCard } from "@/components/ui/TestimonialCard";
+// --- FIN DE CORRECCIÓN ---
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/lib/logging";
+import type { Testimonial } from "@/lib/schemas/components/testimonial-grid.schema";
 
+/**
+ * @interface TestimonialGridProps
+ * @description Contrato de props unificado para el SectionRenderer.
+ */
 interface TestimonialGridProps {
   content: Dictionary["testimonialGrid"];
 }
@@ -18,15 +27,20 @@ interface TestimonialGridProps {
 /**
  * @component TestimonialGrid
  * @description Renderiza la sección de testimonios completa.
- * @param {TestimonialGridProps} props Las propiedades con el contenido.
- * @returns {React.ReactElement | null} El elemento JSX de la sección.
+ * @param {TestimonialGridProps} props Las propiedades con el contenido a renderizar.
+ * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
  */
 export function TestimonialGrid({
   content,
 }: TestimonialGridProps): React.ReactElement | null {
-  console.log("[Observabilidad] Renderizando TestimonialGrid");
+  logger.info("[Observabilidad] Renderizando TestimonialGrid");
 
-  if (!content) return null;
+  if (!content) {
+    logger.warn(
+      "[TestimonialGrid] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
   const { title, testimonials } = content;
 
   return (
@@ -36,7 +50,7 @@ export function TestimonialGrid({
           {title}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials.map((testimonial) => (
+          {testimonials.map((testimonial: Testimonial) => (
             <TestimonialCard
               key={testimonial.author}
               quote={testimonial.quote}
@@ -50,4 +64,4 @@ export function TestimonialGrid({
     </section>
   );
 }
-// src/components/sections/TestimonialGrid.tsx
+// components/sections/TestimonialGrid.tsx

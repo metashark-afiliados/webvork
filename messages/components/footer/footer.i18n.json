@@ -1,42 +1,90 @@
 {
-  "es-ES": {
-    "footer": {
-      "copyright": "© 2025 Global Fitwell. Todos los derechos reservados.",
-      "links": [
-        { "label": "Términos", "href": "/terms" },
-        { "label": "Privacidad", "href": "/privacy" }
-      ],
-      "disclaimer": "Este producto no está destinado a diagnosticar, tratar, curar o prevenir ninguna enfermedad."
-    }
-  },
   "it-IT": {
     "footer": {
-      "copyright": "© 2025 Global Fitwell. Tutti i diritti riservati.",
-      "links": [
-        { "label": "Termini", "href": "/terms" },
-        { "label": "Privacy", "href": "/privacy" }
+      "logoName": "Shadcn",
+      "linkColumns": [
+        {
+          "title": "Contatti",
+          "links": [
+            { "label": "Github", "href": "#" },
+            { "label": "Twitter", "href": "#" },
+            { "label": "Instagram", "href": "#" }
+          ]
+        },
+        {
+          "title": "Piattaforme",
+          "links": [
+            { "label": "iOS", "href": "#" },
+            { "label": "Android", "href": "#" },
+            { "label": "Web", "href": "#" }
+          ]
+        },
+        {
+          "title": "Aiuto",
+          "links": [
+            { "label": "Contattaci", "href": "#" },
+            { "label": "FAQ", "href": "#" },
+            { "label": "Feedback", "href": "#" }
+          ]
+        },
+        {
+          "title": "Social",
+          "links": [
+            { "label": "Twitch", "href": "#" },
+            { "label": "Discord", "href": "#" },
+            { "label": "Dribbble", "href": "#" }
+          ]
+        }
       ],
-      "disclaimer": "Questo prodotto non è destinato a diagnosticare, trattare, curare o prevenire alcuna malattia."
+      "copyright": "© 2024 Progettato e sviluppato da",
+      "developerLink": {
+        "text": "Leo Miranda",
+        "href": "https://github.com/leoMirandaa"
+      }
     }
   },
-  "en-US": {
+  "es-ES": {
     "footer": {
-      "copyright": "© 2025 Global Fitwell. All rights reserved.",
-      "links": [
-        { "label": "Terms", "href": "/terms" },
-        { "label": "Privacy", "href": "/privacy" }
+      "logoName": "Shadcn",
+      "linkColumns": [
+        {
+          "title": "Contacto",
+          "links": [
+            { "label": "Github", "href": "#" },
+            { "label": "Twitter", "href": "#" },
+            { "label": "Instagram", "href": "#" }
+          ]
+        },
+        {
+          "title": "Plataformas",
+          "links": [
+            { "label": "iOS", "href": "#" },
+            { "label": "Android", "href": "#" },
+            { "label": "Web", "href": "#" }
+          ]
+        },
+        {
+          "title": "Ayuda",
+          "links": [
+            { "label": "Contáctanos", "href": "#" },
+            { "label": "FAQ", "href": "#" },
+            { "label": "Feedback", "href": "#" }
+          ]
+        },
+        {
+          "title": "Sociales",
+          "links": [
+            { "label": "Twitch", "href": "#" },
+            { "label": "Discord", "href": "#" },
+            { "label": "Dribbble", "href": "#" }
+          ]
+        }
       ],
-      "disclaimer": "This product is not intended to diagnose, treat, cure, or prevent any disease."
-    }
-  },
-  "pt-BR": {
-    "footer": {
-      "copyright": "© 2025 Global Fitwell. Todos os direitos reservados.",
-      "links": [
-        { "label": "Termos", "href": "/terms" },
-        { "label": "Privacidade", "href": "/privacy" }
-      ],
-      "disclaimer": "Este produto não se destina a diagnosticar, tratar, curar ou prevenir qualquer doença."
+      "copyright": "© 2024 Diseñado y desarrollado por",
+      "developerLink": {
+        "text": "Leo Miranda",
+        "href": "https://github.com/leoMirandaa"
+      }
     }
   }
 }

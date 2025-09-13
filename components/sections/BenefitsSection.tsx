@@ -1,9 +1,11 @@
 // components/sections/BenefitsSection.tsx
 /**
  * @file BenefitsSection.tsx
- * @description Componente de presentación para la sección de Beneficios. Muestra los
- *              beneficios clave en un formato de cuadrícula fácil de escanear.
- * @version 3.0.0
+ * @description Componente de presentación para la sección de Beneficios.
+ *              - v3.1.0: Se introduce el tipado explícito para los parámetros del
+ *                mapa de beneficios, resolviendo el error TS7006 de forma definitiva
+ *                y mejorando la robustez del código.
+ * @version 3.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -11,11 +13,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+// --- INICIO DE MODIFICACIÓN ---
+// Se importa el tipo atómico para un ítem de beneficio desde su SSoT.
+import type { BenefitItem } from "@/lib/schemas/components/benefits-section.schema";
+// --- FIN DE MODIFICACIÓN ---
 
 /**
  * @interface BenefitsSectionProps
- * @description Define el contrato de props para el componente. Espera un único objeto
- *              'content' que contiene todos los datos necesarios para renderizar la sección.
+ * @description Define el contrato de props para el componente.
  */
 interface BenefitsSectionProps {
   content: Dictionary["benefitsSection"];
@@ -23,16 +28,14 @@ interface BenefitsSectionProps {
 
 /**
  * @component BenefitsSection
- * @description Renderiza la sección de beneficios. Es un componente de presentación puro que
- *              recibe todo su contenido a través de props, garantizando la separación de
- *              intereses y la reutilización.
+ * @description Renderiza la sección de beneficios.
  * @param {BenefitsSectionProps} props Las propiedades con el contenido textual y de datos.
  * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
  */
 export const BenefitsSection = ({
   content,
 }: BenefitsSectionProps): React.ReactElement | null => {
-  logger.info("[Observabilidad] Renderizando BenefitsSection");
+  logger.info("[Observabilidad] Renderizando componente: BenefitsSection");
 
   if (!content) {
     logger.warn(
@@ -55,7 +58,10 @@ export const BenefitsSection = ({
         </div>
 
         <div className="grid lg:grid-cols-2 gap-4 w-full">
-          {benefits.map((benefit, index) => (
+          {/* --- INICIO DE CORRECCIÓN --- */}
+          {/* Se aplica el tipado explícito a los parámetros del map. */}
+          {benefits.map((benefit: BenefitItem, index: number) => (
+            // --- FIN DE CORRECCIÓN ---
             <Card
               key={benefit.title}
               className="bg-muted/50 dark:bg-card hover:bg-background transition-all delay-75 group/number"

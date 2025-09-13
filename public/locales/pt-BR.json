@@ -1,0 +1,473 @@
+{
+  "metadata": {
+    "title": "Global Fitwell",
+    "description": "O futuro do bem-estar. Tecnologia e ciência para o seu potencial."
+  },
+  "storePage": {
+    "title": "Nossa Loja de Bem-Estar",
+    "subtitle": "Uma seleção curada de produtos para impulsionar sua saúde e desempenho.",
+    "filters": {
+      "categoryTitle": "Categorias",
+      "categories": [
+        {
+          "label": "Nutrição",
+          "count": 8
+        },
+        {
+          "label": "Desempenho",
+          "count": 5
+        },
+        {
+          "label": "Recuperação",
+          "count": 3
+        }
+      ],
+      "priceTitle": "Faixa de Preço",
+      "prices": [
+        {
+          "label": "Até R$250",
+          "count": 12
+        },
+        {
+          "label": "R$250 - R$500",
+          "count": 4
+        }
+      ]
+    },
+    "products": [
+      {
+        "name": "KineticBand Pro",
+        "category": "Desempenho",
+        "price": 89.99,
+        "imageUrl": "/img/products/kineticband.png",
+        "slug": "kineticband-pro"
+      },
+      {
+        "name": "VitaPure Filter",
+        "category": "Nutrição",
+        "price": 49.99,
+        "imageUrl": "/img/products/vitapure.png",
+        "slug": "vitapure-filter"
+      },
+      {
+        "name": "NeuroBoost Pods",
+        "category": "Bem-Estar Mental",
+        "price": 69.99,
+        "imageUrl": "/img/products/neuroboost.png",
+        "slug": "neuroboost-pods"
+      }
+    ]
+  },
+  "aboutPage": {
+    "title": "Sobre Nós",
+    "subtitle": "Nossa missão é potenciar o bem-estar global através da ciência e da inovação.",
+    "content": [
+      {
+        "type": "p",
+        "text": "A Global Fitwell nasceu da crença de que todos merecem acesso a soluções de bem-estar que sejam seguras, eficazes e baseadas em evidências científicas. Nossa equipe é formada por especialistas em nutrição, cientistas e entusiastas do fitness dedicados a pesquisar e desenvolver produtos que fazem uma diferença real na vida das pessoas."
+      },
+      {
+        "type": "h2",
+        "text": "Nosso Compromisso"
+      },
+      {
+        "type": "p",
+        "text": "Estamos comprometidos com a transparência, a qualidade e a sustentabilidade em tudo o que fazemos. Desde a obtenção dos ingredientes mais puros até a realização de testes rigorosos em laboratórios terceirizados, nossa prioridade é a sua confiança e os seus resultados."
+      }
+    ]
+  },
+  "privacyPage": {
+    "title": "Política de Privacidade",
+    "subtitle": "Sua confiança e a proteção de seus dados são nossa maior prioridade.",
+    "content": [
+      {
+        "type": "h2",
+        "text": "1. Coleta de Informações"
+      },
+      {
+        "type": "p",
+        "text": "Coletamos informações que você nos fornece diretamente, como seu nome e e-mail ao se inscrever em nossa newsletter. Também coletamos dados técnicos automaticamente, como seu endereço IP e tipo de navegador."
+      },
+      {
+        "type": "h2",
+        "text": "2. Uso das Informações"
+      },
+      {
+        "type": "p",
+        "text": "Usamos suas informações para processar pedidos, personalizar sua experiência e nos comunicar com você sobre nossos produtos e ofertas. Nunca compartilharemos seus dados pessoais com terceiros não afiliados sem seu consentimento explícito."
+      }
+    ]
+  },
+  "termsPage": {
+    "title": "Termos de Serviço",
+    "subtitle": "Ao utilizar nosso site, você concorda com os seguintes termos e condições.",
+    "content": [
+      {
+        "type": "h2",
+        "text": "1. Uso do Site"
+      },
+      {
+        "type": "p",
+        "text": "Este site e seu conteúdo são para seu uso pessoal e não comercial. Você não pode modificar, copiar, distribuir ou vender qualquer informação obtida deste site."
+      },
+      {
+        "type": "h2",
+        "text": "2. Propriedade Intelectual"
+      },
+      {
+        "type": "p",
+        "text": "Todo o conteúdo, incluindo texto, gráficos, logotipos e imagens, é propriedade da Global Fitwell e está protegido pelas leis de direitos autorais."
+      }
+    ]
+  },
+  "devDashboardPage": {
+    "title": "Centro de Comando do Desenvolvedor",
+    "subtitle": "Ferramentas para o desenvolvimento e simulação de campanhas.",
+    "tools": {
+      "componentCanvas": {
+        "name": "Canvas de Componentes",
+        "description": "Visualize e teste componentes de UI de forma isolada."
+      },
+      "campaignSimulator": {
+        "name": "Simulador de Campanhas",
+        "description": "Renderize e pré-visualize variantes de campanha em tempo real."
+      },
+      "branding": {
+        "name": "Branding e Temas",
+        "description": "Revise os tokens de design, paletas de cores e tipografias base."
+      }
+    }
+  },
+  "devCampaignSimulatorPage": {
+    "title": "Simulador de Campanhas",
+    "subtitle": "Selecione uma variante de campanha para pré-visualizar a landing page.",
+    "campaignLabel": "Campanha",
+    "variantLabel": "Variante",
+    "descriptionLabel": "Descrição"
+  },
+  "devLayoutConfiguratorPage": {
+    "title": "Configurador de Layout de Campanha",
+    "subtitle": "Selecione uma campanha e variante para editar visualmente as seções renderizadas.",
+    "selectCampaignLabel": "Campanha",
+    "selectCampaignPlaceholder": "Selecione uma campanha...",
+    "selectVariantLabel": "Variante",
+    "selectVariantPlaceholder": "Selecione uma variante...",
+    "activeSectionsTitle": "Seções Ativas (Renderizadas)",
+    "availableSectionsTitle": "Seções Disponíveis",
+    "saveButtonText": "Salvar Layout",
+    "savingButtonText": "Salvando...",
+    "successMessage": "Layout salvo com sucesso!",
+    "errorMessage": "Erro ao salvar o layout."
+  },
+  "benefitsSection": {
+    "eyebrow": "Benefícios",
+    "title": "Seu Atalho para o Sucesso",
+    "subtitle": "Uma arquitetura de landing page projetada para máxima conversão e uma Developer Experience de elite. Construa mais rápido, converta mais.",
+    "benefits": [
+      {
+        "icon": "Blocks",
+        "title": "Construa Confiança na Marca",
+        "description": "Uma apresentação profissional e baseada em evidências que gera credibilidade instantânea com seu público."
+      },
+      {
+        "icon": "LineChart",
+        "title": "Mais Leads Qualificados",
+        "description": "Um caminho de conversão otimizado que guia o usuário de forma intuitiva, aumentando a qualidade e a quantidade de leads."
+      },
+      {
+        "icon": "Wallet",
+        "title": "Conversões Mais Altas",
+        "description": "Cada elemento é projetado com um único propósito: transformar visitantes em clientes, maximizando seu ROI."
+      },
+      {
+        "icon": "Sparkle",
+        "title": "Teste Ideias de Marketing",
+        "description": "A arquitetura modular permite que você teste rapidamente diferentes ângulos e mensagens para encontrar a fórmula vencedora."
+      }
+    ]
+  },
+  "communitySection": {
+    "iconName": "MessageSquare",
+    "title": "Pronto para se juntar à nossa <span class='text-primary'>Comunidade?</span>",
+    "description": "Junte-se à nossa vibrante comunidade! Conecte-se, compartilhe e cresça com entusiastas que pensam como você. Clique para mergulhar! 🚀",
+    "buttonLabel": "Junte-se Agora",
+    "buttonHref": "https://example.com/discord/pt"
+  },
+  "cookieConsentBanner": {
+    "message": "Usamos cookies para melhorar sua experiência.",
+    "acceptButtonText": "Aceitar",
+    "rejectButtonText": "Recusar",
+    "policyLinkText": "Leia nossa política de cookies"
+  },
+  "header": {
+    "logoUrl": "/img/layout/header/globalfitwell-logo-v2.svg",
+    "logoAlt": "Logo da Global Fitwell",
+    "navLinks": [
+      {
+        "label": "Início",
+        "href": "/"
+      },
+      {
+        "label": "Loja",
+        "href": "/store"
+      },
+      {
+        "label": "Sobre Nós",
+        "href": "/about"
+      }
+    ],
+    "ctaButton": {
+      "label": "Ver Campanha",
+      "href": "/campaigns/12157"
+    }
+  },
+  "heroNews": {
+    "mainTitle": "O Futuro do Bem-Estar é Hoje",
+    "featuredArticle": {
+      "tag": "Notícia em Destaque",
+      "title": "A Conexão Mente-Músculo: Neurociência Aplicada ao Treinamento",
+      "author": "Dra. Elena Ríos",
+      "readTime": 6
+    }
+  },
+  "newsGrid": {
+    "title": "Últimas Notícias e Artigos",
+    "articles": [
+      {
+        "category": "Nutrição",
+        "title": "5 Superalimentos que Você Deve Adicionar à Sua Dieta",
+        "summary": "Descubra como esses alimentos podem impulsionar sua energia e defesas naturalmente.",
+        "imageUrl": "/img/news/superfoods.jpg",
+        "slug": "5-superalimentos"
+      },
+      {
+        "category": "Fitness",
+        "title": "Treinamento Funcional: O Guia Definitivo para Iniciantes",
+        "summary": "Maximize seus resultados na academia com uma rotina que imita os movimentos da vida real.",
+        "imageUrl": "/img/news/functional-training.jpg",
+        "slug": "guia-treinamento-funcional"
+      },
+      {
+        "category": "Bem-estar Mental",
+        "title": "Mindfulness e Redução de Estresse: Técnicas Comprovadas",
+        "summary": "Aprenda a acalmar sua mente e melhorar seu foco com práticas simples que você pode fazer em qualquer lugar.",
+        "imageUrl": "/img/news/mindfulness.jpg",
+        "slug": "mindfulness-reducao-estresse"
+      }
+    ]
+  },
+  "orderSection": {
+    "originalPrice": 78,
+    "discountedPrice": 39,
+    "originalPriceLabel": "Preço de Varejo",
+    "discountedPriceLabel": "Preço da Oferta Especial",
+    "nameInputLabel": "Nome Completo",
+    "nameInputPlaceholder": "Ex. João da Silva",
+    "phoneInputLabel": "Telefone",
+    "phoneInputPlaceholder": "Seu número para confirmação",
+    "submitButtonText": "Peça Agora com 50% de Desconto",
+    "submitButtonLoadingText": "Enviando..."
+  },
+  "pricingSection": {
+    "eyebrow": "Preços",
+    "title": "Obtenha Acesso Ilimitado",
+    "subtitle": "Escolha o plano que melhor se adapta às suas necessidades e comece a construir hoje.",
+    "currency": "BRL",
+    "plans": [
+      {
+        "title": "Grátis",
+        "isPopular": false,
+        "price": 0,
+        "priceSuffix": "/mês",
+        "description": "Perfeito para projetos pessoais e para explorar a plataforma.",
+        "buttonText": "Começar Teste Grátis",
+        "benefitList": [
+          "1 membro da equipe",
+          "1 GB de armazenamento",
+          "Até 2 páginas",
+          "Suporte da comunidade"
+        ]
+      },
+      {
+        "title": "Premium",
+        "isPopular": true,
+        "price": 250,
+        "priceSuffix": "/mês",
+        "description": "A melhor escolha para equipes e empresas em crescimento.",
+        "buttonText": "Comece Agora",
+        "benefitList": [
+          "4 membros da equipe",
+          "8 GB de armazenamento",
+          "Até 6 páginas",
+          "Suporte prioritário"
+        ]
+      },
+      {
+        "title": "Enterprise",
+        "isPopular": false,
+        "price": 700,
+        "priceSuffix": "/mês",
+        "description": "Soluções personalizadas para grandes organizações.",
+        "buttonText": "Fale Conosco",
+        "benefitList": [
+          "10 membros da equipe",
+          "20 GB de armazenamento",
+          "Até 10 páginas",
+          "Suporte por telefone e email"
+        ]
+      }
+    ]
+  },
+  "productShowcase": {
+    "title": "Ferramentas para Sua Jornada de Bem-Estar",
+    "products": [
+      {
+        "name": "KineticBand Pro",
+        "description": "Monitoramento de atividade com biossensores.",
+        "imageUrl": "/img/products/kineticband.png"
+      },
+      {
+        "name": "VitaPure Filter",
+        "description": "Sistema de purificação de água inteligente.",
+        "imageUrl": "/img/products/vitapure.png"
+      },
+      {
+        "name": "NeuroBoost Pods",
+        "description": "Suplemento nootrópico para foco mental.",
+        "imageUrl": "/img/products/neuroboost.png"
+      }
+    ]
+  },
+  "scrollingBanner": {
+    "message": "Oferta por tempo limitado: Estoque quase esgotado!"
+  },
+  "socialProofLogos": {
+    "title": "Com a confiança das principais autoridades em bem-estar",
+    "logos": [
+      {
+        "src": "/img/sections/social-proof-logos/logo-wellness-insider.svg",
+        "alt": "Logo da Wellness Insider"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-health-journal.svg",
+        "alt": "Logo do The Health Journal"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-bio-innovate.svg",
+        "alt": "Logo do Fórum Bio-Innovate"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-nutrition-council.svg",
+        "alt": "Logo do Conselho de Nutrição"
+      }
+    ]
+  },
+  "sponsorsSection": {
+    "title": "Nossos Patrocinadores Platinum",
+    "sponsors": [
+      {
+        "icon": "Crown",
+        "name": "Acmebrand"
+      },
+      {
+        "icon": "Vegan",
+        "name": "Acmelogo"
+      },
+      {
+        "icon": "Ghost",
+        "name": "Acmesponsor"
+      },
+      {
+        "icon": "Puzzle",
+        "name": "Acmeipsum"
+      },
+      {
+        "icon": "Squirrel",
+        "name": "Acme"
+      },
+      {
+        "icon": "Cookie",
+        "name": "Accmee"
+      },
+      {
+        "icon": "Drama",
+        "name": "Acmetech"
+      }
+    ]
+  },
+  "teamSection": {
+    "eyebrow": "Equipe",
+    "title": "A Equipe dos Sonhos da Empresa",
+    "members": [
+      {
+        "imageUrl": "/pravatar/58",
+        "firstName": "Leo",
+        "lastName": "Miranda",
+        "positions": [
+          "Desenvolvedor Frontend",
+          "Criador Deste Site"
+        ],
+        "socialNetworks": [
+          {
+            "name": "LinkedIn",
+            "url": "https://linkedin.com",
+            "icon": "Linkedin"
+          },
+          {
+            "name": "Github",
+            "url": "https://github.com",
+            "icon": "Github"
+          },
+          {
+            "name": "X",
+            "url": "https://x.com",
+            "icon": "Twitter"
+          }
+        ]
+      }
+    ]
+  },
+  "devHeader": {
+    "title": "Global Fitwell - Canvas Dev"
+  },
+  "devHomepageHeader": {
+    "homeLink": "Início",
+    "aboutLink": "Sobre Nós",
+    "storeLink": "Loja",
+    "blogLink": "Blog",
+    "devMenuLabel": "Menu Dev"
+  },
+  "devRouteMenu": {
+    "devToolsGroup": "FERRAMENTAS DEV",
+    "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
+    "portalPagesGroup": "PÁGINAS DO PORTAL",
+    "legalPagesGroup": "PÁGINAS LEGAIS",
+    "componentCanvas": "Canvas de Componentes",
+    "campaignSimulator": "Simulador de Campanhas",
+    "branding": "Guia de Estilo",
+    "campaignPage": "Campanha (ID 12157)",
+    "home": "Página Inicial",
+    "store": "Loja",
+    "news": "Notícias",
+    "about": "Sobre Nós",
+    "terms": "Termos",
+    "privacy": "Privacidade",
+    "cookies": "Cookies",
+    "changeLanguage": "Mudar idioma",
+    "currentLanguageIs": "Idioma atual"
+  },
+  "routeTester": {
+    "devToolsGroup": "FERRAMENTAS DEV",
+    "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
+    "legalPagesGroup": "PÁGINAS LEGAIS",
+    "campaignDesignSuite": "Suite de Design de Campanha",
+    "bridgePage": "Página Bridge",
+    "reviewPage": "Página de Revisão",
+    "terms": "Termos",
+    "privacy": "Privacidade",
+    "cookies": "Cookies",
+    "changeLanguage": "Mudar idioma",
+    "currentLanguageIs": "O idioma atual é"
+  },
+  "dock": {}
+}

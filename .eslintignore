@@ -1,26 +1,39 @@
-// .eslintignore
-/**
- * @file .eslintignore
- * @description Manifiesto de exclusión para ESLint. Este archivo es la SSoT que
- *              define qué partes del proyecto DEBEN ser ignoradas por el proceso de
- *              linting. Su propósito es prevenir errores de linting en código
- *              autogenerado o de terceros que no controlamos.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+# .eslintignore
+# Este archivo es la SSoT para instruir a ESLint sobre qué directorios y
+# archivos ignorar durante el proceso de linting.
 
-# Ignorar todos los artefactos de build y dependencias
-.next/
-node_modules/
+# Ignorar todas las dependencias de Node
+node_modules
+public
 
-# Ignorar archivos de configuración de nivel superior que no son JS/TS
-*.mjs
-*.md
+# Ignorar el directorio de build de Next.js
+.next
 
-# --- REGLA CRÍTICA ---
-# Ignorar el directorio de scripts de proveedores de terceros.
-# Esto resuelve el error `@next/next/no-assign-module-variable` en `webvork.js`
-# sin modificar código que no nos pertenece.
-public/vendor/*.js
+# Ignorar la caché de PNPM (si aplica en la raíz)
+.pnpm-store
 
-// .eslintignore
+# Ignorar archivos de documentación y configuración que no son JS/TS
+.docs
+.docs-espejo
+# Ignorar archivos de entorno locales
+.env
+.env.local
+.env.production
+.env.development
+
+# Ignorar logs de PNPM
+pnpm-debug.log
+
+# Ignorar archivos de caché y salida de otras herramientas
+coverage
+dist
+build
+out
+
+# Ignorar archivos específicos de configuración de IDEs
+.vscode
+.idea
+
+# Ignorar snapshots y reportes generados
+snapshot-reports
+# .eslintignore

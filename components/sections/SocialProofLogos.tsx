@@ -1,4 +1,13 @@
-// src/components/sections/SocialProofLogos.tsx
+// components/sections/SocialProofLogos.tsx
+/**
+ * @file SocialProofLogos.tsx
+ * @description Componente de prueba social con logos en marquesina.
+ *              - v5.0.0 (Alineación de Contrato): Refactorizado para consumir la clave
+ *                correcta del diccionario ('socialProofLogos') y utilizar tipos
+ *                explícitos, resolviendo los errores de TypeScript TS2339 y TS7006.
+ * @version 5.0.0
+ * @author RaZ podesta - MetaShark Tech
+ */
 "use client";
 
 import React from "react";
@@ -6,25 +15,26 @@ import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { Container } from "@/components/ui/Container";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/lib/logging";
+// --- INICIO DE CORRECCIÓN: Se importa el tipo atómico desde su SSoT ---
+import type { Logo } from "@/lib/schemas/components/social-proof-logos.schema";
+// --- FIN DE CORRECCIÓN ---
 
-/**
- * @file SocialProofLogos.tsx
- * @description Componente de prueba social. Actualizado para aceptar `content`.
- * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
- */
-
-// <<-- CORRECCIÓN: La prop ahora es un objeto `content`
 interface SocialProofLogosProps {
-  content: NonNullable<Dictionary["socialProof"]>;
+  // --- INICIO DE CORRECCIÓN: Se consume la clave correcta del diccionario ---
+  content: Dictionary["socialProofLogos"];
+  // --- FIN DE CORRECCIÓN ---
 }
 
 export function SocialProofLogos({
   content,
 }: SocialProofLogosProps): React.ReactElement | null {
-  console.log("[Observabilidad] Renderizando SocialProofLogos");
+  logger.info("[Observabilidad] Renderizando SocialProofLogos");
 
   if (!content || !content.logos || content.logos.length === 0) {
+    logger.warn(
+      "[SocialProofLogos] No se proporcionó contenido válido. La sección no se renderizará."
+    );
     return null;
   }
   const { title, logos } = content;
@@ -49,7 +59,8 @@ export function SocialProofLogos({
           autoFill={true}
           pauseOnHover={true}
         >
-          {logos.map((logo) => (
+          {/* --- INICIO DE CORRECCIÓN: Se aplica el tipo explícito 'Logo' --- */}
+          {logos.map((logo: Logo) => (
             <div
               key={logo.alt}
               className="mx-12 flex items-center justify-center"
@@ -63,9 +74,10 @@ export function SocialProofLogos({
               />
             </div>
           ))}
+          {/* --- FIN DE CORRECCIÓN --- */}
         </Marquee>
       </Container>
     </section>
   );
 }
-// src/components/sections/SocialProofLogos.tsx
+// components/sections/SocialProofLogos.tsx

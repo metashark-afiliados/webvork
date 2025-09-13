@@ -2,21 +2,16 @@
 /**
  * @file navigation.ts
  * @description Manifiesto y SSoT (Single Source of Truth) para la definición de TODAS
- *              las rutas de la aplicación. Centraliza las plantillas de URL, los tipos
- *              de ruta y los manifiestos de menú estáticos para garantizar la consistencia
- *              y facilitar el mantenimiento.
- * @version 6.0.0
- * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/lib/navigation.ts.md
+ *              las rutas de la aplicación.
+ *              - v7.0.0: Añade rutas dinámicas para productos (`storeProduct`) y
+ *                artículos de noticias (`newsArticle`), permitiendo la construcción
+ *                de URLs desacopladas del contenido.
+ * @version 7.0.0
+ * @author Gemini AI - Asistente de IA de Google
  */
 import { type LucideIconName } from "@/config/lucide-icon-names";
 import { defaultLocale, type Locale } from "@/lib/i18n.config";
 
-/**
- * @constant RouteType
- * @description Define los tipos de acceso para las rutas, utilizados por el middleware
- *              para aplicar la lógica de control de acceso.
- */
 export const RouteType = {
   Public: "public",
   Guest: "guest",
@@ -26,31 +21,16 @@ export const RouteType = {
 
 export type RouteType = (typeof RouteType)[keyof typeof RouteType];
 
-/**
- * @type RouteParams
- * @description Define la estructura base para los parámetros de una función de ruta.
- *              Toda función `path` aceptará un objeto con `locale` y otros parámetros dinámicos.
- */
 export type RouteParams = {
   locale?: Locale;
   [key: string]: string | number | undefined;
 };
 
-/**
- * @interface RouteConfig
- * @description Define el contrato para una entrada individual en el objeto `routes`.
- */
 export interface RouteConfig {
   path: (params?: RouteParams) => string;
   type: RouteType;
 }
 
-/**
- * @constant routes
- * @description El objeto SSoT que contiene todas las rutas de la aplicación.
- *              Cada entrada proporciona una función `path` para generar la URL de forma segura
- *              y un `type` para la lógica de middleware.
- */
 export const routes = {
   home: {
     path: (params: RouteParams = {}) => `/${params.locale || defaultLocale}`,
@@ -66,13 +46,19 @@ export const routes = {
       `/${params.locale || defaultLocale}/store`,
     type: RouteType.Public,
   },
+  storeProduct: {
+    path: (params: RouteParams & { slug: string }) =>
+      `/${params.locale || defaultLocale}/store/${params.slug}`,
+    type: RouteType.Public,
+  },
   news: {
     path: (params: RouteParams = {}) =>
       `/${params.locale || defaultLocale}/news`,
     type: RouteType.Public,
   },
   newsArticle: {
-    path: (params: RouteParams) => `/${params.locale}/news/${params.slug}`,
+    path: (params: RouteParams & { slug: string }) =>
+      `/${params.locale || defaultLocale}/news/${params.slug}`,
     type: RouteType.Public,
   },
   campaign: {
@@ -121,43 +107,4 @@ export const routes = {
     type: RouteType.DevOnly,
   },
 } as const;
-
-/**
- * @interface NavLink
- * @description Contrato para los enlaces de navegación, utilizado para construir menús estáticos.
- */
-export interface NavLink {
-  href: string;
-  label: string;
-  icon?: LucideIconName; // <<-- MEJORA: Utiliza la SSoT LucideIconName (PascalCase)
-}
-
-/**
- * @constant navigationManifest
- * @description Manifiesto estático para menús de navegación, como el menú de desarrollo.
- */
-export const navigationManifest: { devRoutes: NavLink[] } = {
-  devRoutes: [
-    {
-      href: routes.devDashboard.path(),
-      label: "Dashboard",
-      icon: "LayoutDashboard", // <<-- CORRECCIÓN: PascalCase
-    },
-    {
-      href: routes.devComponentCanvas.path(),
-      label: "Component Canvas",
-      icon: "Component", // <<-- CORRECCIÓN: PascalCase
-    },
-    {
-      href: routes.devCampaignSimulator.path(),
-      label: "Campaign Simulator",
-      icon: "PlayCircle", // <<-- CORRECCIÓN: PascalCase (Resuelve el error TS2322)
-    },
-    {
-      href: routes.devBranding.path(),
-      label: "Branding",
-      icon: "Palette", // <<-- CORRECCIÓN: PascalCase
-    },
-  ],
-};
 // lib/navigation.ts

@@ -1,14 +1,15 @@
-// src/components/dev/DevHeader.tsx
+// components/dev/DevHeader.tsx
 /**
  * @file DevHeader.tsx
- * @description Encabezado para el entorno de desarrollo. Proporciona una identidad
- *              visual clara para las páginas de herramientas de desarrollo y un enlace
- *              para volver al dashboard principal del DCC. Refactorizado para ser
- *              resiliente ante la falta de contenido i18n.
+ * @description Encabezado para el entorno de desarrollo.
+ *              - v4.0.0 (Ingeniería de Resiliencia): Refactorizado para ser antifrágil.
+ *                Ahora maneja correctamente el tipo `Partial<Dictionary>` devuelto
+ *                por el motor de i18n, utilizando acceso seguro a propiedades y
+ *                valores de fallback para prevenir errores de tipo (TS2322) y mejorar
+ *                la robustez del componente.
  * @devonly
- * @version 3.0.0
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/components/dev/DevHeader.tsx.md
  */
 import React from "react";
 import Link from "next/link";
@@ -27,8 +28,7 @@ interface DevHeaderProps {
 /**
  * @component DevHeader
  * @description Renderiza la barra de navegación superior para todas las páginas del
- *              dominio de desarrollo (`/dev/*`). Es un Server Component que obtiene
- *              su propio contenido.
+ *              dominio de desarrollo (`/dev/*`).
  * @param {DevHeaderProps} props - Las propiedades que contienen el locale.
  * @returns {Promise<React.ReactElement>} El elemento JSX del header.
  */
@@ -37,12 +37,19 @@ export default async function DevHeader({
 }: DevHeaderProps): Promise<React.ReactElement> {
   logger.info(`[DevHeader] Renderizando para locale: ${locale}`);
 
-  const t: Dictionary = await getDictionary(locale);
-  const content: Dictionary["devHeader"] = t.devHeader;
+  // --- INICIO DE CORRECCIÓN: Se maneja el tipo Partial<Dictionary> ---
+  const t: Partial<Dictionary> = await getDictionary(locale);
+  const content = t?.devHeader; // Acceso seguro
 
-  // <<-- MEJORA DE ROBUSTEZ: Se utiliza un fallback si el contenido no está definido.
-  //      Esto previene un error si la clave `devHeader` falta en el diccionario.
-  const headerTitle = content?.title ?? "Dev Canvas - Content Missing";
+  // Se utiliza un fallback si el contenido no está definido.
+  const headerTitle = content?.title ?? "Dev Canvas [Fallback]";
+
+  if (!content) {
+    logger.warn(
+      "[DevHeader] Contenido para 'devHeader' no encontrado en el diccionario. Usando fallback."
+    );
+  }
+  // --- FIN DE CORRECCIÓN ---
 
   return (
     <header className="py-3 sticky top-0 z-50 backdrop-blur-lg bg-background/70 border-b border-muted/50 shadow-sm">
@@ -58,10 +65,9 @@ export default async function DevHeader({
               {headerTitle}
             </span>
           </Link>
-          {/* Espacio reservado para futuros controles en el header de desarrollo, como un LanguageSwitcher específico para dev. */}
         </div>
       </Container>
     </header>
   );
 }
-// src/components/dev/DevHeader.tsx
+// components/dev/DevHeader.tsx

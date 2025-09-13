@@ -1,59 +1,65 @@
-// src/components/layout/SectionRenderer.tsx
+// src/components/sections/IngredientAnalysis.tsx
 /**
- * @file SectionRenderer.tsx
- * @description Componente de renderizado dinámico. Actúa como una fábrica que
- *              consulta el registro de secciones y renderiza el componente
- *              apropiado, adhiriéndose al Principio Abierto/Cerrado.
+ * @file IngredientAnalysis.tsx
+ * @description Sección de Análisis de Ingredientes.
+ *              - v2.0.0: Refactorizado para adherirse al contrato de props unificado
+ *                del `SectionRenderer`, aceptando un único prop `content`.
  * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/components/layout/SectionRenderer.md
  */
 import React from "react";
-import { type SectionName, sectionsConfig } from "@/lib/config/sections.config";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { Container } from "@/components/ui/Container";
 import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
-interface SectionRendererProps {
-  sectionName: SectionName;
-  dictionary: Dictionary;
-  locale: string;
+// --- INICIO DE CORRECCIÓN: Contrato de Props Unificado ---
+interface IngredientAnalysisProps {
+  content: Dictionary["ingredientAnalysis"];
 }
+// --- FIN DE CORRECCIÓN ---
 
-export function SectionRenderer({
-  sectionName,
-  dictionary,
-  locale,
-}: SectionRendererProps): React.ReactElement | null {
-  // 1. Consultar el registro para obtener la configuración de la sección.
-  const config = sectionsConfig[sectionName];
+/**
+ * @component IngredientAnalysis
+ * @description Renderiza una sección informativa sobre los ingredientes.
+ * @param {IngredientAnalysisProps} props Las propiedades con el contenido.
+ * @returns {React.ReactElement | null} El elemento JSX que representa la sección.
+ */
+export function IngredientAnalysis({
+  content,
+}: IngredientAnalysisProps): React.ReactElement | null {
+  logger.info("[Observabilidad] Renderizando IngredientAnalysis");
 
-  if (!config) {
+  if (!content) {
     logger.warn(
-      `[SectionRenderer] No se encontró configuración para la sección "${sectionName}". No se renderizará.`
+      "[IngredientAnalysis] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
 
-  const { component: ComponentToRender, dictionaryKey } = config;
+  // Desestructuración de datos desde el objeto `content`.
+  const { title, ingredients } = content;
 
-  // 2. Extraer los datos específicos para este componente del diccionario.
-  const componentProps = dictionary[dictionaryKey];
-
-  // 3. Renderizar el componente solo si sus datos existen.
-  if (componentProps) {
-    // Para casos especiales como TestimonialGrid u OrderSection, que tienen una
-    // estructura de props anidada, los renombramos para que coincidan con lo que
-    // el componente espera. Se podría mejorar en el futuro.
-    const propsToPass = {
-      content: componentProps, // Prop genérica para la mayoría de los componentes
-      ...componentProps, // Desestructurar para componentes que esperan props de nivel superior
-      locale: locale, // Pasar el locale a todos por consistencia.
-    };
-
-    return <ComponentToRender {...propsToPass} />;
-  }
-
-  // Si no hay datos para esta sección en el diccionario, no se renderiza.
-  return null;
+  return (
+    <section className="py-16 sm:py-24 bg-background">
+      <Container>
+        <h2 className="text-3xl font-bold text-center text-foreground mb-12 sm:text-4xl">
+          {title}
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          {ingredients.map((ingredient) => (
+            <div
+              key={ingredient.name}
+              className="p-6 border border-white/10 rounded-lg text-center transition-all duration-300 hover:shadow-xl hover:border-primary/50 hover:-translate-y-1"
+            >
+              <h3 className="text-xl font-bold text-primary mb-2">
+                {ingredient.name}
+              </h3>
+              <p className="text-foreground/80">{ingredient.description}</p>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
 }
-// src/components/layout/SectionRenderer.tsx
+// src/components/sections/IngredientAnalysis.tsx

@@ -1,56 +1,52 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/layout/theme-provider";
-// --- INICIO DE MODIFICACIONES ---
-import { getDictionary } from "@/lib/i18n"; // 1. Importar el motor de i18n
-import { CardNav } from "@/components/razBits/CardNav/CardNav"; // 2. Importar nuestro componente SSoT
+// app/[locale]/layout.tsx
+/**
+ * @file layout.tsx
+ * @description Layout principal para todas las rutas localizadas. Contiene la UI
+ *              compartida como el Header, Footer y el banner de cookies.
+ * @version 1.0.0
+ * @author RaZ podesta - MetaShark Tech
+ */
+import React from "react";
+import { getDictionary } from "@/lib/i18n";
+import type { Dictionary } from "@/schemas/i18n.schema";
+import type { Locale } from "@/lib/i18n.config";
+import AppProviders from "@/layout/AppProviders";
+import Header from "@/layout/Header";
+// Asumimos que existirá un Footer en el futuro
+// import Footer from "@/layout/Footer";
 
-// Se elimina la importación de la Navbar obsoleta
-// import { Navbar } from "@/components/layout/navbar";
-// --- FIN DE MODIFICACIONES ---
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Shadcn - Landing template",
-  description: "Landing template from Shadcn",
-  icons: {
-    icon: "/icon.png",
-  },
-};
-
-// --- MODIFICACIÓN: La función ahora es `async` para poder usar `await` ---
-export default async function RootLayout({
-  children,
-  params, // Next.js nos pasa los params, incluyendo el locale
-}: Readonly<{
+interface LocaleLayoutProps {
   children: React.ReactNode;
-  params: { locale: string };
-}>) {
-  // 3. Obtener el diccionario para el locale actual
-  const dictionary = await getDictionary(params.locale);
+  params: { locale: Locale };
+}
+
+export default async function LocaleLayout({
+  children,
+  params: { locale },
+}: LocaleLayoutProps) {
+  // Log para confirmar que el layout localizado se renderiza
+  console.log(`[Observabilidad] Renderizando LocaleLayout para [${locale}]`);
+
+  const dictionary: Partial<Dictionary> = await getDictionary(locale);
 
   return (
-    <html lang={params.locale} suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background", inter.className)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* 4. Renderizar CardNav pasándole su contenido desde el diccionario */}
-          <CardNav content={dictionary.cardNav} />
+    <AppProviders
+      locale={locale}
+      cookieConsentContent={dictionary.cookieConsentBanner}
+    >
+      {/* El Header ahora vive aquí, asegurando que se muestre en todas las páginas localizadas */}
+      {dictionary.header && dictionary.devRouteMenu && (
+        <Header
+          content={dictionary.header}
+          devDictionary={dictionary.devRouteMenu}
+        />
+      )}
 
-          {/* Se elimina la llamada a <Navbar /> */}
+      {/* El 'children' aquí será el componente page.tsx de la ruta activa */}
+      <main>{children}</main>
 
-          <main>{children}</main>
-        </ThemeProvider>
-      </body>
-    </html>
+      {/* Aquí iría el Footer en el futuro */}
+      {/* {dictionary.footer && <Footer content={dictionary.footer} />} */}
+    </AppProviders>
   );
 }
-// app/layout.tsx

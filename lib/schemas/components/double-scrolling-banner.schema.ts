@@ -1,8 +1,10 @@
-// src/lib/schemas/components/double-scrolling-banner.schema.ts
+// lib/schemas/components/double-scrolling-banner.schema.ts
 /**
  * @file double-scrolling-banner.schema.ts
  * @description Esquema de Zod para el contenido del DoubleScrollingBanner.
- * @version 1.0.0
+ *              - v2.0.0: Exporta los tipos atómicos `TestimonialItem` y `LogoItem`.
+ * @version 2.0.0
+ * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
 
@@ -18,6 +20,9 @@ const LogoItemSchema = z.object({
   altText: z.string(),
 });
 
+export type TestimonialItem = z.infer<typeof TestimonialItemSchema>;
+export type LogoItem = z.infer<typeof LogoItemSchema>;
+
 export const DoubleScrollingBannerLocaleSchema = z.object({
   doubleScrollingBanner: z
     .object({
@@ -30,5 +35,7 @@ export const DoubleScrollingBannerLocaleSchema = z.object({
 export const DoubleScrollingBannerI18nSchema = z.object({
   "es-ES": DoubleScrollingBannerLocaleSchema,
   "it-IT": DoubleScrollingBannerLocaleSchema,
+  "en-US": DoubleScrollingBannerLocaleSchema,
+  "pt-BR": DoubleScrollingBannerLocaleSchema,
 });
-// src/lib/schemas/components/double-scrolling-banner.schema.ts
+// lib/schemas/components/double-scrolling-banner.schema.ts

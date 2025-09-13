@@ -1,10 +1,12 @@
-// src/components/dev/ComponentLoader.ts
+// components/dev/ComponentLoader.ts
 /**
  * @file ComponentLoader.ts
  * @description Módulo de servicio para la carga dinámica de componentes en el Dev Canvas.
- *              Refactorizado para eliminar el mapa de módulos estático y depender exclusivamente
- *              de `ComponentRegistry` como la única fuente de verdad (SSoT), respetando el principio DRY.
- * @version 3.0.0
+ *              - v4.0.0 (Ingeniería de Resiliencia): Refactorizado para ser antifrágil.
+ *                Ahora maneja correctamente el tipo `Partial<Dictionary>` devuelto por el
+ *                motor de i18n, utilizando acceso seguro a propiedades y activando el
+ *                fallback de forma robusta. Resuelve el error de tipo TS2322.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -19,10 +21,6 @@ import { getFallbackProps } from "./utils/component-props";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { CampaignData } from "@/lib/i18n/campaign.i18n";
 
-/**
- * @interface ComponentLoadResult
- * @description Define la estructura del objeto devuelto por el loader.
- */
 interface ComponentLoadResult {
   ComponentToRender: React.ComponentType<any>;
   componentProps: Record<string, any>;
@@ -30,28 +28,14 @@ interface ComponentLoadResult {
   entry: ComponentRegistryEntry;
 }
 
-/**
- * @constant DEV_MOCK_VARIANT_ID
- * @description Define la variante de campaña por defecto a usar para mock data en el Canvas.
- *              Centralizado para facilitar futuras modificaciones.
- */
 const DEV_MOCK_VARIANT_ID = "02"; // Vitality
 
-/**
- * @function loadComponentAndProps
- * @description Carga dinámicamente un componente y sus props de i18n para el Dev Canvas.
- * @param {string} componentName El identificador del componente en el registro.
- * @param {string} locale El locale para cargar el contenido.
- * @returns {Promise<ComponentLoadResult>} Un objeto con el componente, sus props, el tema y la entrada del registro.
- * @throws {Error} Si el componente o su módulo no se encuentran.
- */
 export async function loadComponentAndProps(
   componentName: string,
   locale: string
 ): Promise<ComponentLoadResult> {
   logger.startGroup(`[Loader] Cargando "${componentName}"`);
 
-  // 1. Obtener metadatos del componente desde la SSoT (`ComponentRegistry`).
   const entry = getComponentByName(componentName);
   if (!entry) {
     logger.error(
@@ -65,34 +49,36 @@ export async function loadComponentAndProps(
 
   let componentProps: Record<string, any> = {};
   let appliedTheme: CampaignData["theme"] | null = null;
-  let dictionary: Dictionary;
+
+  // --- INICIO DE CORRECCIÓN: Manejo de Partial<Dictionary> ---
+  let dictionary: Partial<Dictionary>;
 
   try {
-    // 2. Cargar el diccionario de datos apropiado basado en los metadatos.
     if (entry.isCampaignComponent) {
       const campaignData = await getCampaignData(
-        "12157", // ID de campaña hardcodeado para desarrollo
+        "12157",
         locale,
         DEV_MOCK_VARIANT_ID
       );
+      // El diccionario de campaña ya es completo y validado por su propio orquestador.
       dictionary = campaignData.dictionary;
       appliedTheme = campaignData.theme;
     } else {
+      // getDictionary devuelve un diccionario potencialmente parcial.
       dictionary = await getDictionary(locale);
     }
 
-    // 3. Extraer las props específicas del componente desde el diccionario.
-    const key = entry.dictionaryKey as keyof typeof dictionary;
+    const key = entry.dictionaryKey as keyof Dictionary;
     const propsFromDict = dictionary[key];
 
-    // Si las props no se encuentran en el diccionario, usa el fallback.
+    // Lógica de fallback robusta: si la clave no existe en el diccionario parcial, usa el fallback.
     componentProps = propsFromDict
       ? { content: propsFromDict }
       : getFallbackProps(componentName);
 
-    // Caso especial para Header que necesita dos props de diccionario
+    // Caso especial para Header, ahora con acceso seguro.
     if (componentName === "Header") {
-      componentProps.devDictionary = dictionary.devRouteMenu;
+      componentProps.devDictionary = dictionary?.devRouteMenu;
     }
 
     logger.trace("Props de i18n cargadas exitosamente.");
@@ -103,10 +89,9 @@ export async function loadComponentAndProps(
     );
     componentProps = getFallbackProps(componentName);
   }
+  // --- FIN DE CORRECCIÓN ---
 
   try {
-    // 4. Importar dinámicamente el módulo del componente usando la ruta de la SSoT.
-    // La advertencia de "dependencia crítica" es aceptada aquí por la naturaleza de la herramienta.
     const componentModule = await import(
       /* @vite-ignore */ `${entry.componentPath}`
     );
@@ -139,4 +124,4 @@ export async function loadComponentAndProps(
     );
   }
 }
-// src/components/dev/ComponentLoader.ts
+// components/dev/ComponentLoader.ts

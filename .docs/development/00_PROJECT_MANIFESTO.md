@@ -1,71 +1,79 @@
-# Blueprint & Roadmap v3.0: O Manifesto do Hub de Conteúdo de Elite
+// .docs/checklist/campaigns/00_CHECKLIST_MAESTRO_CAMPANAS.md
+/**
+ * @file 00_CHECKLIST_MAESTRO_CAMPANAS.md
+ * @description El Checklist Maestro y SSoT para el ciclo de vida completo de la
+ *              creación, implementación y lanzamiento de una campaña de marketing.
+ * @version 2.0.0
+ * @author RaZ podesta - MetaShark Tech
+ */
 
-## 1. Visão Geral e Missão do Projeto
+# Checklist Maestro de Creación de Campañas v2.0
 
-**O Que Estamos Construindo:**
-Não estamos construindo uma simples `Pre-Lander`. Estamos arquitetando um **Hub de Conteúdo de Autoridade** para o mercado italiano. Este é um micro-site focado no produto "Curcumin Spirulina Piperine Saffron", projetado para operar em duas frentes estratégicas:
+## Filosofía
 
-1.  **A "Página de Apresentação" (Home):** Uma máquina de conversão de elite, otimizada para tráfego pago (Google Ads), cujo único objetivo é capturar leads de alta qualidade através de uma experiência educativa e confiável.
-2.  **O "Motor de Conteúdo" (Blog):** Um motor de SEO de longo prazo, projetado para atrair tráfego orgânico, construir autoridade de marca e nutrir potenciais clientes que ainda estão em fase de pesquisa.
-
-**Nossa Missão:**
-Transformar o ceticismo do consumidor em confiança através de conteúdo baseado em evidências, e converter essa confiança em leads de alta qualidade para nosso parceiro, garantindo ao mesmo tempo 100% de conformidade com as políticas de publicidade do Google.
-
----
-
-## 2. Decisões Arquitetônicas Fundamentais
-
-Esta seção documenta as decisões estratégicas e técnicas mais importantes tomadas ao longo da nossa análise.
-
-### **2.1. A Estratégia de "Ponte Educativa" (Em vez de Cloaking)**
-
-*   **Decisão:** Rejeitamos explicitamente qualquer forma de "cloaking" ou dissimulação. Em vez disso, adotamos uma estratégia de **Página Ponte Educativa**.
-*   **Justificativa:** O "cloaking" é uma violação grave que leva ao banimento. Nossa abordagem constrói um ativo sustentável. Criamos uma página de apresentação (`Pre-Lander`) com conteúdo de alto valor (baseado em estudos científicos) que aquece e qualifica o lead. O Google vê uma página útil, o usuário se sente informado e a taxa de conversão de leads para vendas aumenta, o que beneficia a nós e ao produtor.
-
-### **2.2. A Clonagem da Lógica de Conversão (Não da Aparência)**
-
-*   **Decisão:** Vamos replicar a **mecânica** do formulário do produtor, não necessariamente sua aparência. O componente `OrderForm.tsx` será visualmente integrado ao nosso design, mas funcionalmente será um clone perfeito do sistema deles.
-*   **Justificativa:** Para garantir que cada lead seja atribuído a nós, precisamos enviar os dados para o endpoint deles (`order.php`) com a estrutura exata que eles esperam. Isso inclui todos os campos ocultos (`landing_id`, `offer_id`, `utm_source`, etc.). A melhor maneira de garantir 100% de compatibilidade é usar a própria engenharia deles.
-
-### **2.3. A Questão da "Não Detecção" e o Foco em Qualidade**
-
-*   **Decisão:** Nossa estratégia não se baseia em "não ser detectado", mas em sermos um **afiliado de tão alta qualidade** que o produtor não tenha incentivos para nos investigar.
-*   **Justificativa:** As redes de afiliados de COD (Cash on Delivery) vivem da **taxa de confirmação** dos pedidos. Ao educar o cliente, nossa Pre-Lander gera leads mais qualificados, que tendem a ter uma taxa de confirmação maior. Para o produtor, seremos uma fonte de receita premium.
-
-### **2.4. A Arquitetura de Componentes Atômicos**
-
-*   **Decisão:** O projeto seguirá uma filosofia de **Atomização Radical**.
-*   **Justificativa:** Cada componente terá uma única responsabilidade (Princípio da Responsabilidade Única - PRU).
-    *   **Átomos/Moléculas (`/ui`):** Componentes de apresentação puros.
-    *   **Organismos (`/ui`):** Seções complexas que unem moléculas.
-    *   **Layouts (`/layout`):** Estrutura da página.
-    *   **Páginas (`/app`):** Orquestradores que montam tudo.
-    Isso resulta em um código mais limpo, reutilizável, testável e fácil de manter.
-
-### **2.5. Internacionalização (i18n) com Arquitetura IMAS**
-
-*   **Decisão:** Manteremos e expandiremos a arquitetura de i18n **IMAS (I18n Mirrored Atomic Structure)** já presente no projeto.
-*   **Justificativa:** A estrutura de arquivos de tradução em `/messages` que espelha a estrutura de `/components` é a melhor prática da indústria para escalabilidade e co-localização da lógica, facilitando o trabalho dos desenvolvedores e tradutores.
-
-### **2.6. Escolha Tecnológica: React (Next.js) para SSG**
-
-*   **Decisão:** Utilizaremos o projeto base em Next.js, com o objetivo de gerar um site estático (Static Site Generation - SSG).
-*   **Justificativa:**
-    *   **Performance:** SSG produz arquivos HTML/CSS/JS puros, resultando em tempos de carregamento extremamente rápidos, o que é crucial para a conversão e para o SEO.
-    *   **Hospedagem:** O output estático é compatível com qualquer provedor de hospedagem de baixo custo, como o Hostinger, sem a necessidade de um servidor Node.js.
-    *   **Segurança:** A superfície de ataque de um site estático é drasticamente menor.
+Este checklist es el "protocolo de vuelo" para lanzar campañas de alto rendimiento. Su cumplimiento garantiza la coherencia, la calidad y la alineación entre la estrategia y la implementación técnica. La versión 2.0 formaliza el uso de la **Suite de Diseño de Campañas (SDC)** como la herramienta central para la creación de activos.
 
 ---
 
-## 3. O Fluxo do Usuário e da Tecnologia
+### **FASE 0: INTELIGENCIA Y FUNDAMENTOS (Sin cambios)**
+*El objetivo es comprender el terreno de juego: el producto, el mercado y las reglas.*
 
-1.  **Atração:** Um usuário clica em nosso anúncio no Google Ads (otimizado com palavras-chave de cauda longa e baixo custo).
-2.  **Aterrissagem:** Ele chega à nossa **Página de Apresentação** (`nossodominio.com/it-IT`), que é um Server Component do Next.js, renderizada estaticamente para máxima velocidade.
-3.  **Captura de Atribuição:** O script **`webvork.js`**, injetado globalmente, lê os parâmetros UTM da URL (ex: `?utm_source=nosso_id`) e os armazena.
-4.  **Educação e Confiança:** O usuário consome nosso conteúdo baseado em evidências, visualiza os depoimentos realistas e os benefícios claros.
-5.  **Ação:** O usuário clica em um CTA, que rola suavemente até o componente `OrderForm.tsx`.
-6.  **Preenchimento:** O `webvork.js` (ou nossa lógica de fallback) preenche os campos ocultos do formulário. O usuário preenche nome e telefone.
-7.  **Submissão:** Ao clicar em "Enviar", a lógica do nosso `OrderForm.tsx` executa uma submissão de formulário POST tradicional diretamente para o endpoint `https://it4.curcumacomplex.com/order.php`, enviando todos os dados, incluindo nosso ID de afiliado.
-8.  **Resultado:** O usuário é redirecionado para a página de agradecimento do produtor, e o lead é corretamente atribuído a nós no sistema deles.
+*   **[ ] 0.1: Recopilar Inteligencia de Campaña** (`03a_RECOPILACION_INTELIGENCIA_CAMPANA.md`)
+*   **[ ] 0.2: Definir Estándares de Nomenclatura y Mapeo** (`00a_...`, `00b_...`)
 
-Este manifesto estabelece a base conceitual do nosso projeto. Os próximos documentos detalharão a implementação de cada um desses pontos.
+---
+
+### **FASE 1: ESTRATEGIA Y CONCEPTUALIZACIÓN (Sin cambios)**
+*El objetivo es diseñar el "blueprint" creativo y persuasivo de la campaña.*
+
+*   **[ ] 1.1: Perfilar el Avatar del Cliente** (`02_DEFINICION_AVATAR_CLIENTE_ITALIA.md`)
+*   **[ ] 1.2: Definir el Branding Base del Producto** (`03b_BRANDING_BASE_PRODUCTO.md`)
+*   **[ ] 1.3: Desarrollar Variantes Estratégicas (Sub-Campañas)** (`05_METADATOS_Y_COPY_ESTRATEGICO.md`)
+*   **[ ] 1.4: Elaborar la Estrategia de Palabras Clave (SEO)** (`03c_KEYWORD_STRATEGY.md`)
+
+---
+
+### **FASE 2: PRODUCCIÓN DE ACTIVOS CON LA SUITE DE DISEÑO (Flujo Refactorizado)**
+*El objetivo es utilizar el asistente guiado del DCC para generar activos de campaña validados, eliminando la edición manual de archivos JSON.*
+
+*   **[ ] 2.1: Iniciar el Asistente de Creación de Campañas**
+    *   **Acción:** Navegar a la **Suite de Diseño de Campañas** en el Developer Command Center (`/dev/campaigns/create`).
+    *   **Manifiesto de Soporte:** `03_CAMPAIGN_DESIGN_SUITE_WORKFLOW.md` (Nuevo documento)
+
+*   **[ ] 2.2: Definir Metadatos y SEO de la Variante**
+    *   **Acción:** En el asistente, introducir el Nombre de la Variante, Descripción y Palabras Clave para la generación del slug de URL semántico.
+
+*   **[ ] 2.3: Configurar Layout y Tema**
+    *   **Acción:** Seleccionar un tema base (preset) y personalizar el layout (orden y selección de secciones) a través de la interfaz drag-and-drop del asistente.
+
+*   **[ ] 2.4: Rellenar Contenido por Sección**
+    *   **Acción:** Utilizar los formularios generados dinámicamente por el asistente para introducir todo el contenido textual (i18n) para cada sección del layout definido.
+
+*   **[ ] 2.5: Generar y Validar Activos**
+    *   **Acción:** Utilizar la función "Generar Activos" del asistente. El sistema creará automáticamente los archivos `..._THEME_...json`, `..._CONTENT_...json` y actualizará el `campaign.map.json`.
+    *   **Criterio de Aceptación:** El proceso finaliza con éxito, confirmando que los activos generados han pasado la validación de Zod.
+
+---
+
+### **FASE 3: ENSAMBLAJE Y VERIFICACIÓN (Flujo Refactorizado)**
+*El objetivo es asegurar que la campaña se renderiza y funciona correctamente antes del despliegue.*
+
+*   **[ ] 3.1: Verificación Primaria en el Simulador de Campañas**
+    *   **Acción:** Navegar al **Simulador de Campañas** (`/dev/simulator`). La nueva variante debe aparecer automáticamente.
+    *   **Criterio de Aceptación:** Hacer clic en la nueva variante. La página se renderiza sin errores, aplicando el tema y contenido generados. La URL debe reflejar el nuevo slug semántico.
+
+*   **[ ] 3.2: Ejecutar el Checklist de Verificación Manual (MVT)**
+    *   **Acción:** Realizar pruebas de responsividad, compatibilidad de navegadores y, crucialmente, el flujo de conversión (envío del formulario).
+    *   **Manifiesto de Soporte:** `QUALITY_AND_TESTING_STRATEGY.md`
+
+*   **[ ] 3.3: Compilación Exitosa (`pnpm run build`)**
+    *   **Acción:** Ejecutar el comando de build de producción.
+    *   **Criterio de Aceptación:** El proceso finaliza sin errores de TypeScript o ESLint.
+
+---
+
+### **ADENDUM 1: Metodología Aprendida y Refinamientos (Actualizado)**
+
+*   **Evolución a DX de Élite:** La transición de la edición manual de JSON a una **Suite de Diseño de Campañas (SDC)** guiada es la evolución clave. Este enfoque de "calidad por diseño" previene errores de sintaxis y de contrato de datos, y empodera al equipo de marketing para iterar con una velocidad y seguridad sin precedentes.
+*   **SEO Semántico en el Núcleo:** La nueva arquitectura de enrutamiento (`/c/[id]/[slug-semantico]`) integra el SEO directamente en el proceso de creación de la campaña, transformándolo de una ocurrencia tardía a un pilar fundamental de la estrategia.
+// .docs/checklist/campaigns/00_CHECKLIST_MAESTRO_CAMPANAS.md

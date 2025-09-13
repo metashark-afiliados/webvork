@@ -1,31 +1,39 @@
 // components/sections/FaqAccordion.tsx
 /**
  * @file FaqAccordion.tsx
- * @description Sección de Preguntas Frecuentes (FAQ). Nivelada para consumir
- *              el componente AccordionItem de élite y sus contratos de datos,
- *              resolviendo el error de tipo implícito TS7006.
- * @version 4.0.0
+ * @description Sección de Preguntas Frecuentes (FAQ). Totalmente refactorizada
+ *              para ser un componente de presentación puro, data-driven y alineado
+ *              con el contrato de props unificado del SectionRenderer.
+ * @version 6.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
-import { AccordionItem } from "@/components/data-display/Accordion";
+// Oportunidad de Atomización: Se consume el componente atómico desde su ubicación canónica.
+import { AccordionItem } from "@/components/ui/Accordion";
 import { Container } from "@/components/ui/Container";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
-// --- INICIO DE MODIFICACIÓN ---
 import type { FaqItem } from "@/lib/schemas/components/faq-accordion.schema";
-// --- FIN DE MODIFICACIÓN ---
 
+/**
+ * @interface FaqAccordionProps
+ * @description Contrato de props unificado para el SectionRenderer.
+ */
 interface FaqAccordionProps {
   content: Dictionary["faqAccordion"];
 }
 
+/**
+ * @component FaqAccordion
+ * @description Renderiza la sección completa de FAQ, mapeando los datos y
+ *              utilizando el componente atómico `AccordionItem`.
+ * @param {FaqAccordionProps} props - Las propiedades que contienen el contenido de la sección.
+ * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
+ */
 export function FaqAccordion({
   content,
 }: FaqAccordionProps): React.ReactElement | null {
-  logger.info(
-    "[FaqAccordion] Renderizando sección de FAQ (v4.0.0 - Tipo explícito)"
-  );
+  logger.info("[Observabilidad] Renderizando FaqAccordion (Data-Driven)");
 
   if (!content) {
     logger.warn(
@@ -43,12 +51,11 @@ export function FaqAccordion({
           {title}
         </h2>
         <div className="space-y-4">
-          {/* --- INICIO DE CORRECCIÓN --- */}
-          {/* Se aplica el tipo explícito `FaqItem` al parámetro del map. */}
           {faqs.map((faqItem: FaqItem) => (
+            // La clave ahora está en el componente mapeado directamente.
+            // Se pasa el objeto `content` completo al componente hijo.
             <AccordionItem key={faqItem.question} content={faqItem} />
           ))}
-          {/* --- FIN DE CORRECCIÓN --- */}
         </div>
       </Container>
     </section>

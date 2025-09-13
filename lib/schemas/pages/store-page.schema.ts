@@ -1,9 +1,11 @@
-// src/lib/schemas/pages/store-page.schema.ts
+// lib/schemas/pages/store-page.schema.ts
 /**
  * @file store-page.schema.ts
  * @description Schema para el contenido de la página de la tienda.
- *              Actualizado para ser opcional a nivel de clave.
- * @version 2.0.0
+ *              - v3.0.0: Desacopla las rutas del contenido reemplazando `href` por `slug`,
+ *                alineando el contrato de datos con la estrategia de rutas centralizada.
+ * @version 3.0.0
+ * @author Gemini AI - Asistente de IA de Google
  */
 import { z } from "zod";
 
@@ -17,13 +19,12 @@ const ProductCardSchema = z.object({
   category: z.string(),
   price: z.number(),
   imageUrl: z.string().startsWith("/"),
-  href: z.string(),
+  // --- INICIO DE CORRECCIÓN: Se reemplaza 'href' por 'slug' ---
+  slug: z.string().min(1, "El slug del producto es obligatorio."),
+  // --- FIN DE CORRECCIÓN ---
 });
 
 export const StorePageLocaleSchema = z.object({
-  // <<-- MEJORA: La clave 'storePage' ahora es opcional.
-  // Esto permite que un diccionario sea válido incluso si no define el contenido
-  // para esta página específica.
   storePage: z
     .object({
       title: z.string(),
@@ -38,4 +39,4 @@ export const StorePageLocaleSchema = z.object({
     })
     .optional(),
 });
-// src/lib/schemas/pages/store-page.schema.ts
+// lib/schemas/pages/store-page.schema.ts

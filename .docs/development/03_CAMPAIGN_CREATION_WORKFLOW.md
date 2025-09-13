@@ -1,61 +1,66 @@
-// .docs/development/03_CAMPAIGN_CREATION_WORKFLOW.md
+// .docs/development/03_CAMPAIGN_DESIGN_SUITE_WORKFLOW.md
 /**
- * @file 03_CAMPAIGN_CREATION_WORKFLOW.md
- * @description Manifiesto de Usabilidad para la Creación de Campañas v1.0 (Temporario).
- *              Define el proceso paso a paso para ensamblar y personalizar
- *              landing pages de campaña dentro de la arquitectura "Curcumin Simplex".
+ * @file 03_CAMPAIGN_DESIGN_SUITE_WORKFLOW.md
+ * @description Manifiesto y SSoT para la Suite de Diseño de Campañas (SDC).
+ *              Define el proceso guiado para la creación de activos de campaña,
+ *              reemplazando el obsoleto flujo de trabajo manual.
  * @version 1.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 
-# Manifiesto de Creación de Campañas v1.0 (Guía Táctica)
+# Manifiesto de la Suite de Diseño de Campañas (SDC)
 
-## 1. Propósito y Filosofía
+## 1. Visión y Filosofía
 
-Este documento es la Guía de Campo y Única Fuente de Verdad (SSoT) para el **proceso** de creación y modificación de Landing Pages. La filosofía es **"Configuración sobre Código"**: el arquitecto tiene el poder de diseñar y personalizar campañas sin escribir una sola línea de código React.
+La SDC es una herramienta interna de élite, diseñada para transformar la creación de campañas de un proceso técnico y propenso a errores a un **flujo de trabajo estratégico, visual y guiado**. Su filosofía es **"Calidad por Diseño"**: los activos de campaña (`THEME` y `CONTENT`) se generan a partir de una interfaz controlada que se basa directamente en los schemas de Zod, garantizando que todo lo creado sea sintáctica y estructuralmente perfecto desde su concepción.
 
-## 2. Lógica Fundamental: El Ecosistema de una Campaña
+Esta suite es ahora la **única vía autorizada** para crear o modificar variantes de campaña.
 
-Cada campaña, identificada por su `campaignId`, es un ecosistema autocontenido que se define por tres pilares:
+## 2. Arquitectura de Alto Nivel
 
-1.  **El Manifiesto de Layout (`theme.json`):**
-    *   **Ubicación:** `src/content/campaigns/[campaignId]/theme.json`
-    *   **Función:** Es su panel de control. La clave `"layout.sections"` en este archivo es un array que dicta **qué componentes de sección se renderizan y en qué orden exacto**. Modificar este array es equivalente a rediseñar la estructura de la landing page.
+La SDC reside en el Developer Command Center (DCC) y se compone de tres elementos principales:
 
-2.  **El Contenido Específico (`.../components/*.i18n.json`):**
-    *   **Ubicación:** `src/content/campaigns/[campaignId]/components/`
-    *   **Función:** Permite la **personalización del texto**. Si desea cambiar el texto de una sección para una campaña específica, copie el archivo de contenido por defecto desde `src/messages/components/[nombre-seccion]/` a este directorio y modifíquelo. El sistema lo detectará y usará su versión personalizada automáticamente (mecanismo de "override").
+1.  **El Asistente de Creación (Frontend):** Una página en `/dev/campaigns/create` que guía al usuario a través de un proceso paso a paso.
+2.  **El Intérprete de Schemas (Componente):** Un componente reutilizable (`SchemaDrivenForm`) capaz de leer un schema de Zod y renderizar un formulario de edición apropiado.
+3.  **El Generador de Activos (Backend):** Una Server Action (`generateCampaignAssetsAction`) que recibe los datos del asistente, los valida por última vez y escribe los archivos `.json` en el sistema de archivos.
 
-3.  **Los Activos Visuales (Imágenes):**
-    *   **Ubicación:** `public/img/campaigns/[campaignId]/` (Recomendado)
-    *   **Función:** Almacena las imágenes específicas de la campaña. Siga las directrices del `ASSET_MANAGEMENT_MANIFESTO.md`.
+## 3. Flujo de Trabajo Detallado
 
-## 3. Workflow de Creación y Modificación (Paso a Paso)
+### Paso 1: Creación y Configuración de Metadatos
+-   **Interfaz:** Un formulario inicial donde el usuario define:
+    -   **Campaña Base:** Selecciona de una lista de campañas existentes (ej. "12157 - Curcumin").
+    -   **Nombre de Variante:** Un nombre legible (ej. "Vitality Boost").
+    -   **Palabras Clave SEO:** Una lista de términos (ej. `energia, curcuma, vitalita`) que se usarán para generar un slug de URL amigable para SEO.
 
-Este es el proceso canónico para ensamblar o modificar una landing page.
+### Paso 2: Diseño de Layout y Tema Visual
+-   **Interfaz:** Un panel de diseño visual.
+    -   **Presets de Tema:** El usuario elige un tema visual base (ej. "Scientific", "Nature") que precarga una paleta de colores y tipografías. Los valores HSL del tema son editables.
+    -   **Constructor de Layout:** Una interfaz de dos columnas.
+        -   **Columna 1 (Disponibles):** Lista de todas las secciones disponibles registradas en `sections.config.ts`.
+        -   **Columna 2 (Layout Actual):** Una lista reordenable (drag-and-drop) que representa el layout de la landing page. El usuario arrastra las secciones deseadas desde la columna 1 a la 2.
 
-### Paso 0: Identificación de la Campaña
-Asegúrese de tener el `campaignId` correcto. Para nuestro caso actual, es `12157`.
+### Paso 3: Edición de Contenido Internacionalizado
+-   **Interfaz:** Una vista previa del layout.
+    -   Al hacer clic en una sección del layout (ej. "Hero"), se abre un modal.
+    -   Dentro del modal, el componente `SchemaDrivenForm` inspecciona el schema correspondiente (`HeroLocaleSchema`) y genera los campos de entrada (`title`, `subtitle`).
+    -   El formulario presenta pestañas para cada locale soportado (`it-IT`, `es-ES`, etc.), permitiendo la carga de todo el contenido i18n en un solo lugar.
 
-### Paso 1: Definir la Estructura (El "Blueprint")
-1.  **Navegue a:** `src/content/campaigns/12157/`
-2.  **Abra el manifiesto:** `theme.json`
-3.  **Edite el array `layout.sections`**:
-    *   Para **añadir** una sección: Inserte un nuevo objeto `{ "name": "NombreDeLaSeccion" }` en la posición deseada.
-    *   Para **eliminar** una sección: Simplemente borre su objeto del array.
-    *   Para **reordenar** secciones: Cambie el orden de los objetos en el array.
+### Paso 4: Generación y Despliegue Simulado
+-   **Acción:** El usuario presiona "Generar Activos".
+-   **Proceso (Server Action):**
+    1.  Recopila todos los datos de los pasos anteriores.
+    2.  Construye los objetos `themeObject` y `contentObject`.
+    3.  Valida ambos objetos contra `CampaignThemeSchema` y `i18nSchema` respectivamente.
+    4.  Si la validación es exitosa, genera los nombres de archivo estandarizados.
+    5.  Escribe los archivos `.json` en la ruta `/src/content/campaigns/[campaignId]/...`.
+    6.  Lee, actualiza y reescribe el archivo `campaign.map.json` para incluir la nueva variante.
+    7.  **Respuesta:** Redirige al usuario al **Simulador de Campañas** (`/dev/simulator`), donde la nueva variante recién creada ya está disponible para su previsualización inmediata.
 
-### Paso 2: Personalizar el Contenido (El "Copywriting")
-1.  **Identifique la sección** cuyo texto desea cambiar (ej. `Hero`).
-2.  **Localice el contenido por defecto** en `src/messages/components/hero/hero.i18n.json`.
-3.  **Copie** ese archivo a `src/content/campaigns/12157/components/hero.i18n.json`.
-4.  **Modifique el texto** dentro del nuevo archivo copiado. El sistema dará prioridad a esta versión. Si el archivo no existe en la carpeta de la campaña, usará la versión por defecto.
+Este flujo de trabajo cerrado asegura un ciclo de vida de creación de campañas rápido, seguro y totalmente alineado con la arquitectura del proyecto.
+// .docs/development/03_CAMPAIGN_DESIGN_SUITE_WORKFLOW.md```
 
-### Paso 3: Verificación en Tiempo Real
-1.  Ejecute el servidor de desarrollo: `pnpm run dev`.
-2.  Navegue a la URL de su campaña: `http://localhost:3000/[locale]/campaigns/12157`.
-3.  Observe sus cambios reflejados instantáneamente.
+---
 
-Este workflow le otorga control total sobre la estructura y contenido de cada landing page de manera independiente y segura.
+La documentación estratégica ha sido actualizada para reflejar la nueva visión. Ahora continúo con la refactorización técnica para resolver los errores pendientes.
 
-// .docs/development/03_CAMPAIGN_CREATION_WORKFLOW.md
+**Siguiente aparato a refactorizar:** `lib/i18n/campaign.i18n.ts`

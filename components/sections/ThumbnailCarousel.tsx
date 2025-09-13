@@ -1,80 +1,98 @@
-// src/components/sections/ThumbnailCarousel.tsx
-"use client";
-
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/Button";
-import { Container } from "@/components/ui/Container";
-
+// components/sections/ThumbnailCarousel.tsx
 /**
  * @file ThumbnailCarousel.tsx
- * @description Un carrusel visual que cicla a través de una serie de imágenes (thumbnails)
- *              con una transición de fundido cruzado (cross-fade).
- * @version 3.0.1
- * @dependencies react, next/image, framer-motion, @/components/ui/Button, @/components/ui/Container
- *
- * @prop {Array<{src: string, alt: string}>} thumbnails - Las imágenes a mostrar en el carrusel.
- * @prop {string} affiliateUrl - La URL de destino para el botón de "play".
- * @prop {string} playButtonAriaLabel - Etiqueta ARIA para el botón de reproducción.
- * @prop {string} playButtonTitle - Título para el icono SVG de reproducción.
- * @prop {number} [interval=5000] - El intervalo en milisegundos para cambiar de imagen.
+ * @description Un carrusel visual que cicla a través de una serie de imágenes.
+ *              - v4.2.1 (Nivelación de Calidad de Élite): Se resuelven todas las advertencias de
+ *                linting (rules-of-hooks, exhaustive-deps) y se alinea el aparato con
+ *                todos los protocolos de entrega de código y calidad definidos en las directivas
+ *                del proyecto. Se ha añadido documentación TSDoc completa.
+ * @version 4.2.1
+ * @author Gemini AI - Asistente de IA de Google
  */
+"use client";
 
-export interface Thumbnail {
-  src: string;
-  alt: string;
-}
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/ui/Button";
+import { Container } from "@/ui/Container";
+import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/schemas/i18n.schema";
+import type { Thumbnail } from "@/schemas/components/thumbnail-carousel.schema";
 
+/**
+ * @interface ThumbnailCarouselProps
+ * @description Define el contrato de props para el componente.
+ */
 interface ThumbnailCarouselProps {
-  thumbnails: Thumbnail[];
-  affiliateUrl: string;
-  playButtonAriaLabel: string;
-  playButtonTitle: string;
+  /**
+   * @param {Dictionary['thumbnailCarousel']} content - El objeto de contenido para la sección,
+   * validado por el schema de Zod correspondiente.
+   */
+  content: Dictionary["thumbnailCarousel"];
+  /**
+   * @param {number} [interval=5000] - El intervalo en milisegundos para el cambio automático de imágenes.
+   */
   interval?: number;
 }
 
 /**
  * @component ThumbnailCarousel
- * @description Renderiza un carrusel de imágenes automático y interactivo.
+ * @description Renderiza un carrusel de imágenes automático y interactivo. Es un componente
+ *              de cliente debido a su gestión de estado interno y efectos de temporizador.
  * @param {ThumbnailCarouselProps} props Las propiedades del componente.
- * @returns {React.ReactElement | null} El elemento JSX o null si no hay thumbnails.
+ * @returns {React.ReactElement | null} El elemento JSX o null si no hay contenido válido.
  */
 export function ThumbnailCarousel({
-  thumbnails,
-  affiliateUrl,
-  playButtonAriaLabel,
-  playButtonTitle,
+  content,
   interval = 5000,
 }: ThumbnailCarouselProps): React.ReactElement | null {
-  console.log("[Observabilidad] Renderizando ThumbnailCarousel");
+  // 1. Llamadas a Hooks en el Nivel Superior (Cumple react-hooks/rules-of-hooks)
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // 2. Memoización de Dependencias (Cumple react-hooks/exhaustive-deps)
+  // Garantiza que la referencia a `thumbnails` sea estable entre renders.
+  const thumbnails = useMemo(
+    () => content?.thumbnails || [],
+    [content?.thumbnails]
+  );
+
+  // La lógica del carrusel se encapsula en un `useEffect`.
   useEffect(() => {
-    if (!thumbnails || thumbnails.length <= 1) return;
+    if (thumbnails.length <= 1) return;
 
     const timer = setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % thumbnails.length);
     }, interval);
 
+    // Función de limpieza para evitar fugas de memoria.
     return () => clearTimeout(timer);
   }, [currentIndex, thumbnails, interval]);
 
-  if (!thumbnails || thumbnails.length === 0) {
+  // 3. Guarda de Seguridad (Después de los Hooks)
+  if (!content || thumbnails.length === 0) {
+    logger.warn(
+      "[ThumbnailCarousel] No se proporcionó contenido válido. La sección no se renderizará."
+    );
     return null;
   }
+
+  // 4. Observabilidad
+  logger.info("[Observabilidad] Renderizando ThumbnailCarousel");
+
+  const { affiliateUrl, playButtonAriaLabel, playButtonTitle } = content;
 
   return (
     <section className="py-16 sm:py-24">
       <Container className="max-w-4xl">
         <div className="relative aspect-video w-full group rounded-lg overflow-hidden border-4 border-foreground/10 shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1">
-          <AnimatePresence>
+          <AnimatePresence mode="wait">
             <motion.div
               key={currentIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
+              initial={{ opacity: 0.8, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0.8, scale: 1.05 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
               className="absolute inset-0"
             >
               <Image
@@ -111,4 +129,4 @@ export function ThumbnailCarousel({
     </section>
   );
 }
-// src/components/sections/ThumbnailCarousel.tsx
+// components/sections/ThumbnailCarousel.tsx

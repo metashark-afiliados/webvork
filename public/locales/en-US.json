@@ -1,0 +1,473 @@
+{
+  "metadata": {
+    "title": "Global Fitwell",
+    "description": "The future of wellness. Technology and science for your potential."
+  },
+  "storePage": {
+    "title": "Our Wellness Store",
+    "subtitle": "A curated selection of products to boost your health and performance.",
+    "filters": {
+      "categoryTitle": "Categories",
+      "categories": [
+        {
+          "label": "Nutrition",
+          "count": 8
+        },
+        {
+          "label": "Performance",
+          "count": 5
+        },
+        {
+          "label": "Recovery",
+          "count": 3
+        }
+      ],
+      "priceTitle": "Price Range",
+      "prices": [
+        {
+          "label": "Up to $50",
+          "count": 12
+        },
+        {
+          "label": "$50 - $100",
+          "count": 4
+        }
+      ]
+    },
+    "products": [
+      {
+        "name": "KineticBand Pro",
+        "category": "Performance",
+        "price": 89.99,
+        "imageUrl": "/img/products/kineticband.png",
+        "slug": "kineticband-pro"
+      },
+      {
+        "name": "VitaPure Filter",
+        "category": "Nutrition",
+        "price": 49.99,
+        "imageUrl": "/img/products/vitapure.png",
+        "slug": "vitapure-filter"
+      },
+      {
+        "name": "NeuroBoost Pods",
+        "category": "Mental Wellness",
+        "price": 69.99,
+        "imageUrl": "/img/products/neuroboost.png",
+        "slug": "neuroboost-pods"
+      }
+    ]
+  },
+  "aboutPage": {
+    "title": "About Us",
+    "subtitle": "Our mission is to enhance global wellness through science and innovation.",
+    "content": [
+      {
+        "type": "p",
+        "text": "Global Fitwell was born from the belief that everyone deserves access to wellness solutions that are safe, effective, and based on scientific evidence. Our team consists of nutrition experts, scientists, and fitness enthusiasts dedicated to researching and developing products that make a real difference in people's lives."
+      },
+      {
+        "type": "h2",
+        "text": "Our Commitment"
+      },
+      {
+        "type": "p",
+        "text": "We are committed to transparency, quality, and sustainability in everything we do. From sourcing the purest ingredients to conducting rigorous third-party lab testing, our priority is your trust and your results."
+      }
+    ]
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "subtitle": "Your trust and data protection are our highest priority.",
+    "content": [
+      {
+        "type": "h2",
+        "text": "1. Information Collection"
+      },
+      {
+        "type": "p",
+        "text": "We collect information you provide directly to us, such as your name and email when you subscribe to our newsletter. We also collect technical data automatically, such as your IP address and browser type."
+      },
+      {
+        "type": "h2",
+        "text": "2. Use of Information"
+      },
+      {
+        "type": "p",
+        "text": "We use your information to process orders, personalize your experience, and communicate with you about our products and offers. We will never share your personal data with unaffiliated third parties without your explicit consent."
+      }
+    ]
+  },
+  "termsPage": {
+    "title": "Terms of Service",
+    "subtitle": "By using our website, you agree to the following terms and conditions.",
+    "content": [
+      {
+        "type": "h2",
+        "text": "1. Use of the Site"
+      },
+      {
+        "type": "p",
+        "text": "This website and its content are for your personal, non-commercial use. You may not modify, copy, distribute, or sell any information obtained from this site."
+      },
+      {
+        "type": "h2",
+        "text": "2. Intellectual Property"
+      },
+      {
+        "type": "p",
+        "text": "All content, including text, graphics, logos, and images, is the property of Global Fitwell and is protected by copyright laws."
+      }
+    ]
+  },
+  "devDashboardPage": {
+    "title": "Developer Command Center",
+    "subtitle": "Tools for campaign development and simulation.",
+    "tools": {
+      "componentCanvas": {
+        "name": "Component Canvas",
+        "description": "Visualize and test UI components in isolation."
+      },
+      "campaignSimulator": {
+        "name": "Campaign Simulator",
+        "description": "Render and preview campaign variants in real-time."
+      },
+      "branding": {
+        "name": "Branding & Theming",
+        "description": "Review the design tokens, color palettes, and base typography."
+      }
+    }
+  },
+  "devCampaignSimulatorPage": {
+    "title": "Campaign Simulator",
+    "subtitle": "Select a campaign variant to preview the landing page.",
+    "campaignLabel": "Campaign",
+    "variantLabel": "Variant",
+    "descriptionLabel": "Description"
+  },
+  "devLayoutConfiguratorPage": {
+    "title": "Campaign Layout Configurator",
+    "subtitle": "Select a campaign and variant to visually edit the rendered sections.",
+    "selectCampaignLabel": "Campaign",
+    "selectCampaignPlaceholder": "Select a campaign...",
+    "selectVariantLabel": "Variant",
+    "selectVariantPlaceholder": "Select a variant...",
+    "activeSectionsTitle": "Active Sections (Rendered)",
+    "availableSectionsTitle": "Available Sections",
+    "saveButtonText": "Save Layout",
+    "savingButtonText": "Saving...",
+    "successMessage": "Layout saved successfully!",
+    "errorMessage": "Error saving layout."
+  },
+  "benefitsSection": {
+    "eyebrow": "Benefits",
+    "title": "Your Shortcut to Success",
+    "subtitle": "A landing page architecture designed for maximum conversion and an elite Developer Experience. Build faster, convert more.",
+    "benefits": [
+      {
+        "icon": "Blocks",
+        "title": "Build Brand Trust",
+        "description": "A professional and evidence-based presentation that builds instant credibility with your audience."
+      },
+      {
+        "icon": "LineChart",
+        "title": "More Qualified Leads",
+        "description": "An optimized conversion path that guides the user intuitively, increasing the quality and quantity of leads."
+      },
+      {
+        "icon": "Wallet",
+        "title": "Higher Conversions",
+        "description": "Every element is designed with a single purpose: to turn visitors into customers, maximizing your ROI."
+      },
+      {
+        "icon": "Sparkle",
+        "title": "Test Marketing Ideas",
+        "description": "The modular architecture allows you to quickly test different angles and messages to find the winning formula."
+      }
+    ]
+  },
+  "communitySection": {
+    "iconName": "MessageSquare",
+    "title": "Ready to join our <span class='text-primary'>Community?</span>",
+    "description": "Join our vibrant community! Connect, share, and grow with like-minded enthusiasts. Click to dive in! 🚀",
+    "buttonLabel": "Join Now",
+    "buttonHref": "https://example.com/discord/en"
+  },
+  "cookieConsentBanner": {
+    "message": "We use cookies to enhance your experience.",
+    "acceptButtonText": "Accept",
+    "rejectButtonText": "Decline",
+    "policyLinkText": "Read our cookie policy"
+  },
+  "header": {
+    "logoUrl": "/img/layout/header/globalfitwell-logo-v2.svg",
+    "logoAlt": "Global Fitwell Logo",
+    "navLinks": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "Store",
+        "href": "/store"
+      },
+      {
+        "label": "About Us",
+        "href": "/about"
+      }
+    ],
+    "ctaButton": {
+      "label": "View Campaign",
+      "href": "/campaigns/12157"
+    }
+  },
+  "heroNews": {
+    "mainTitle": "The Future of Wellness is Now",
+    "featuredArticle": {
+      "tag": "Featured Story",
+      "title": "The Mind-Muscle Connection: Neuroscience Applied to Training",
+      "author": "Dr. Elena Rios",
+      "readTime": 6
+    }
+  },
+  "newsGrid": {
+    "title": "Latest News & Articles",
+    "articles": [
+      {
+        "category": "Nutrition",
+        "title": "5 Superfoods You Should Add to Your Diet",
+        "summary": "Discover how these foods can naturally boost your energy and defenses.",
+        "imageUrl": "/img/news/superfoods.jpg",
+        "slug": "5-superfoods"
+      },
+      {
+        "category": "Fitness",
+        "title": "Functional Training: The Ultimate Beginner's Guide",
+        "summary": "Maximize your gym results with a routine that mimics real-life movements.",
+        "imageUrl": "/img/news/functional-training.jpg",
+        "slug": "functional-training-guide"
+      },
+      {
+        "category": "Mental Wellness",
+        "title": "Mindfulness and Stress Reduction: Proven Techniques",
+        "summary": "Learn to calm your mind and improve your focus with simple practices you can do anywhere.",
+        "imageUrl": "/img/news/mindfulness.jpg",
+        "slug": "mindfulness-stress-reduction"
+      }
+    ]
+  },
+  "orderSection": {
+    "originalPrice": 78,
+    "discountedPrice": 39,
+    "originalPriceLabel": "Retail Price",
+    "discountedPriceLabel": "Special Offer Price",
+    "nameInputLabel": "Full Name",
+    "nameInputPlaceholder": "e.g., John Doe",
+    "phoneInputLabel": "Phone",
+    "phoneInputPlaceholder": "Your number for confirmation",
+    "submitButtonText": "Order Now with 50% Discount",
+    "submitButtonLoadingText": "Submitting..."
+  },
+  "pricingSection": {
+    "eyebrow": "Pricing",
+    "title": "Get Unlimited Access",
+    "subtitle": "Choose the plan that best suits your needs and start building today.",
+    "currency": "USD",
+    "plans": [
+      {
+        "title": "Free",
+        "isPopular": false,
+        "price": 0,
+        "priceSuffix": "/month",
+        "description": "Perfect for personal projects and exploring the platform.",
+        "buttonText": "Start Free Trial",
+        "benefitList": [
+          "1 team member",
+          "1 GB storage",
+          "Up to 2 pages",
+          "Community support"
+        ]
+      },
+      {
+        "title": "Premium",
+        "isPopular": true,
+        "price": 50,
+        "priceSuffix": "/month",
+        "description": "The best choice for growing teams and businesses.",
+        "buttonText": "Get Started",
+        "benefitList": [
+          "4 team members",
+          "8 GB storage",
+          "Up to 6 pages",
+          "Priority support"
+        ]
+      },
+      {
+        "title": "Enterprise",
+        "isPopular": false,
+        "price": 135,
+        "priceSuffix": "/month",
+        "description": "Tailored solutions for large organizations.",
+        "buttonText": "Contact Us",
+        "benefitList": [
+          "10 team members",
+          "20 GB storage",
+          "Up to 10 pages",
+          "Phone & email support"
+        ]
+      }
+    ]
+  },
+  "productShowcase": {
+    "title": "Tools for Your Wellness Journey",
+    "products": [
+      {
+        "name": "KineticBand Pro",
+        "description": "Activity monitoring with bio-sensors.",
+        "imageUrl": "/img/products/kineticband.png"
+      },
+      {
+        "name": "VitaPure Filter",
+        "description": "Smart water purification system.",
+        "imageUrl": "/img/products/vitapure.png"
+      },
+      {
+        "name": "NeuroBoost Pods",
+        "description": "Nootropic supplement for mental focus.",
+        "imageUrl": "/img/products/neuroboost.png"
+      }
+    ]
+  },
+  "scrollingBanner": {
+    "message": "Limited time offer: Stock is almost sold out!"
+  },
+  "socialProofLogos": {
+    "title": "Trusted by leading wellness authorities",
+    "logos": [
+      {
+        "src": "/img/sections/social-proof-logos/logo-wellness-insider.svg",
+        "alt": "Wellness Insider Logo"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-health-journal.svg",
+        "alt": "The Health Journal Logo"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-bio-innovate.svg",
+        "alt": "Bio-Innovate Forum Logo"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-nutrition-council.svg",
+        "alt": "Nutrition Council Logo"
+      }
+    ]
+  },
+  "sponsorsSection": {
+    "title": "Our Platinum Sponsors",
+    "sponsors": [
+      {
+        "icon": "Crown",
+        "name": "Acmebrand"
+      },
+      {
+        "icon": "Vegan",
+        "name": "Acmelogo"
+      },
+      {
+        "icon": "Ghost",
+        "name": "Acmesponsor"
+      },
+      {
+        "icon": "Puzzle",
+        "name": "Acmeipsum"
+      },
+      {
+        "icon": "Squirrel",
+        "name": "Acme"
+      },
+      {
+        "icon": "Cookie",
+        "name": "Accmee"
+      },
+      {
+        "icon": "Drama",
+        "name": "Acmetech"
+      }
+    ]
+  },
+  "teamSection": {
+    "eyebrow": "Team",
+    "title": "The Company Dream Team",
+    "members": [
+      {
+        "imageUrl": "/pravatar/58",
+        "firstName": "Leo",
+        "lastName": "Miranda",
+        "positions": [
+          "Frontend Developer",
+          "Creator Of This Website"
+        ],
+        "socialNetworks": [
+          {
+            "name": "LinkedIn",
+            "url": "https://linkedin.com",
+            "icon": "Linkedin"
+          },
+          {
+            "name": "Github",
+            "url": "https://github.com",
+            "icon": "Github"
+          },
+          {
+            "name": "X",
+            "url": "https://x.com",
+            "icon": "Twitter"
+          }
+        ]
+      }
+    ]
+  },
+  "devHeader": {
+    "title": "Global Fitwell - Dev Canvas"
+  },
+  "devHomepageHeader": {
+    "homeLink": "Home",
+    "aboutLink": "About Us",
+    "storeLink": "Store",
+    "blogLink": "Blog",
+    "devMenuLabel": "Dev Menu"
+  },
+  "devRouteMenu": {
+    "devToolsGroup": "DEV TOOLS",
+    "campaignPagesGroup": "CAMPAIGN PAGES",
+    "portalPagesGroup": "PORTAL PAGES",
+    "legalPagesGroup": "LEGAL PAGES",
+    "componentCanvas": "Component Canvas",
+    "campaignSimulator": "Campaign Simulator",
+    "branding": "Style Guide",
+    "campaignPage": "Campaign (ID 12157)",
+    "home": "Homepage",
+    "store": "Store",
+    "news": "News",
+    "about": "About Us",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "changeLanguage": "Change language",
+    "currentLanguageIs": "Current language"
+  },
+  "routeTester": {
+    "devToolsGroup": "DEV TOOLS",
+    "campaignPagesGroup": "CAMPAIGN PAGES",
+    "legalPagesGroup": "LEGAL PAGES",
+    "campaignDesignSuite": "Campaign Design Suite",
+    "bridgePage": "Bridge Page",
+    "reviewPage": "Review Page",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "changeLanguage": "Change language",
+    "currentLanguageIs": "Current language is"
+  },
+  "dock": {}
+}

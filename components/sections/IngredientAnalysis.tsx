@@ -1,41 +1,46 @@
-// src/components/sections/IngredientAnalysis.tsx
-import React from "react";
-import { Container } from "@/components/ui/Container";
-
+// components/sections/IngredientAnalysis.tsx
 /**
  * @file IngredientAnalysis.tsx
  * @description Sección de Análisis de Ingredientes. Muestra una cuadrícula
- *              que detalla los componentes clave del producto para educar
- *              al usuario y construir credibilidad.
- * @version 1.0.0
- * @date 2025-09-09
- * @dependencies react, @/components/ui/Container
- *
- * @prop {string} title - El título principal de la sección.
- * @prop {Array<{name: string, description: string}>} ingredients - Array de objetos, cada uno representando un ingrediente.
+ *              que detalla los componentes clave del producto.
+ *              - v3.0.0: Refactorizado para adherirse al contrato de props unificado del `SectionRenderer`
+ *                y para utilizar tipos explícitos, resolviendo errores TS2339 y TS7006.
+ * @version 3.0.0
+ * @author RaZ podesta - MetaShark Tech
  */
+import React from "react";
+import { Container } from "@/components/ui/Container";
+import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Ingredient } from "@/lib/schemas/components/ingredient-analysis.schema";
 
-interface Ingredient {
-  name: string;
-  description: string;
-}
-
+/**
+ * @interface IngredientAnalysisProps
+ * @description Contrato de props unificado para el SectionRenderer.
+ */
 interface IngredientAnalysisProps {
-  title: string;
-  ingredients: Ingredient[];
+  content: Dictionary["ingredientAnalysis"];
 }
 
 /**
  * @component IngredientAnalysis
  * @description Renderiza una sección informativa sobre los ingredientes.
  * @param {IngredientAnalysisProps} props Las propiedades con el contenido.
- * @returns {React.ReactElement} El elemento JSX que representa la sección.
+ * @returns {React.ReactElement | null} El elemento JSX que representa la sección.
  */
 export function IngredientAnalysis({
-  title,
-  ingredients,
-}: IngredientAnalysisProps): React.ReactElement {
-  console.log("[Observabilidad] Renderizando IngredientAnalysis");
+  content,
+}: IngredientAnalysisProps): React.ReactElement | null {
+  logger.info("[Observabilidad] Renderizando IngredientAnalysis");
+
+  if (!content) {
+    logger.warn(
+      "[IngredientAnalysis] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
+
+  const { title, ingredients } = content;
 
   return (
     <section className="py-16 sm:py-24 bg-background">
@@ -44,9 +49,9 @@ export function IngredientAnalysis({
           {title}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {ingredients.map((ingredient, index) => (
+          {ingredients.map((ingredient: Ingredient) => (
             <div
-              key={index}
+              key={ingredient.name}
               className="p-6 border border-white/10 rounded-lg text-center transition-all duration-300 hover:shadow-xl hover:border-primary/50 hover:-translate-y-1"
             >
               <h3 className="text-xl font-bold text-primary mb-2">
@@ -60,4 +65,4 @@ export function IngredientAnalysis({
     </section>
   );
 }
-// src/components/sections/IngredientAnalysis.tsx
+// components/sections/IngredientAnalysis.tsx

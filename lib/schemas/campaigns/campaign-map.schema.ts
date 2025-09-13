@@ -12,7 +12,7 @@ import { z } from "zod";
  * @const CampaignVariantMapSchema
  * @description Valida el objeto para una única variante dentro del mapa.
  */
-const CampaignVariantMapSchema = z.object({
+export const CampaignVariantMapSchema = z.object({
   name: z.string().min(1, "El nombre de la variante es requerido."),
   description: z.string().min(1, "La descripción de la variante es requerida."),
   theme: z

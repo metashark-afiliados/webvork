@@ -2,11 +2,11 @@
 /**
  * @file middleware.ts
  * @description Middleware de enrutamiento y SSoT para la internacionalización.
- *              Se ejecuta en el Edge para cada petición entrante y garantiza
- *              que cada ruta esté correctamente prefijada con un locale soportado.
- *              Refactorizado para añadir observabilidad completa y tipado robusto.
- * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ *              - v5.0.0: Fortalece el matcher para excluir de forma robusta
+ *                todos los archivos estáticos y assets (rutas con '.'),
+ *                resolviendo la redirección incorrecta de imágenes.
+ * @version 5.0.0
+ * @author Gemini AI - Asistente de IA de Google
  */
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
@@ -17,63 +17,53 @@ import {
 } from "@/lib/i18n.config";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
-import { logger } from "./lib/logging"; // Usamos clientLogger por su seguridad en Edge
 
-/**
- * @function getLocale
- * @description Determina el mejor locale soportado basado en las cabeceras
- *              Accept-Language del usuario. Es una función pura.
- * @param {NextRequest} request - El objeto de la petición entrante.
- * @returns {Locale} El locale más apropiado para el usuario.
- */
 function getLocale(request: NextRequest): Locale {
+  // ... (la función getLocale permanece sin cambios)
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
-
-  // @ts-ignore - Los tipos de negotiator pueden ser incompatibles con los de NextRequest.headers
+  // @ts-ignore
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages([
     ...supportedLocales,
   ]);
-
   const locale = matchLocale(languages, [...supportedLocales], defaultLocale);
   return locale as Locale;
 }
 
+const localePathnameRegex = new RegExp(
+  `^/(${supportedLocales.join("|")})(/.*)?$`,
+  "i"
+);
+
 export function middleware(request: NextRequest) {
-  const pathname = request.nextUrl.pathname;
-  logger.startGroup(`[Middleware] Petición entrante: ${pathname}`);
+  const { pathname } = request.nextUrl;
+  console.log(`[Middleware] Petición entrante: ${pathname}`);
 
-  const pathnameIsMissingLocale = supportedLocales.every((locale: Locale) => {
-    return !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`;
-  });
-
-  // Si la ruta ya tiene un locale, no hacemos nada.
-  if (!pathnameIsMissingLocale) {
-    logger.trace("La ruta ya tiene un locale. Omitiendo middleware.");
-    logger.endGroup();
-    return;
+  if (localePathnameRegex.test(pathname)) {
+    console.log("[Middleware] La ruta ya tiene un locale. Omitiendo.");
+    return NextResponse.next();
   }
 
-  // Si falta el locale, lo detectamos y redirigimos.
   const locale = getLocale(request);
-  logger.info(`Locale faltante. Detectado mejor locale: "${locale}"`);
-
-  const newUrl = new URL(
-    `/${locale}${pathname.startsWith("/") ? "" : "/"}${pathname}`,
-    request.url
+  console.log(
+    `[Middleware] Locale faltante. Detectado mejor locale: "${locale}"`
   );
 
-  logger.trace(`Redirigiendo a: ${newUrl.toString()}`);
-  logger.endGroup();
-
-  return NextResponse.redirect(newUrl);
+  const newUrl = new URL(`/${locale}${pathname}`, request.url);
+  console.log(`[Middleware] Redirigiendo a: ${newUrl.toString()}`);
+  const response = NextResponse.redirect(newUrl, 308);
+  response.headers.set("x-middleware-reason", "locale-redirect");
+  return response;
 }
 
 export const config = {
-  // El matcher se ha optimizado para excluir rutas de API, assets estáticos y
-  // archivos de metadatos comunes, aplicando el middleware solo a las páginas.
-  matcher: [
-    "/((?!api|_next/static|_next/image|assets|favicon.ico|sw.js|icon.png).*)",
-  ],
+  // --- INICIO DE MODIFICACIÓN: Matcher Fortalecido ---
+  // Esta nueva expresión regular negativa excluye:
+  // - /api/
+  // - /_next/static/
+  // - /_next/image/
+  // - cualquier ruta que contenga un punto (.), lo que excluye eficazmente
+  //   todos los archivos estáticos como .svg, .png, favicon.ico, etc.
+  matcher: ["/((?!api|_next/static|_next/image|.*\\..*).*)"],
+  // --- FIN DE MODIFICACIÓN ---
 };
-// middleware.ts

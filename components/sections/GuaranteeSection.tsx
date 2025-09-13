@@ -2,8 +2,9 @@
 /**
  * @file GuaranteeSection.tsx
  * @description Muestra una marquesina con los sellos de calidad y confianza.
- *              Resuelve el error de tipo TS7006 al utilizar un tipo explícito `Seal`.
- * @version 4.0.0
+ *              - v5.0.0: Refactorizado para adherirse al contrato de props unificado,
+ *                utilizar tipos explícitos y mejorar la seguridad de tipos.
+ * @version 5.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -12,22 +13,28 @@ import React from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { Container } from "@/components/ui/Container";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- INICIO DE MODIFICACIÓN ---
-import type { Seal } from "@/lib/schemas/components/guarantee-section.schema";
 import { logger } from "@/lib/logging";
-// --- FIN DE MODIFICACIÓN ---
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Seal } from "@/lib/schemas/components/guarantee-section.schema";
 
+/**
+ * @interface GuaranteeSectionProps
+ * @description Contrato de props unificado para el SectionRenderer.
+ */
 interface GuaranteeSectionProps {
   content: Dictionary["guaranteeSection"];
 }
 
+/**
+ * @component GuaranteeSection
+ * @description Renderiza la sección de sellos de garantía.
+ * @param {GuaranteeSectionProps} props - Las propiedades que contienen el contenido de la sección.
+ * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
+ */
 export function GuaranteeSection({
   content,
 }: GuaranteeSectionProps): React.ReactElement | null {
-  logger.info(
-    "[Observabilidad] Renderizando GuaranteeSection (v4.0.0 - Tipo explícito)"
-  );
+  logger.info("[Observabilidad] Renderizando GuaranteeSection");
 
   if (!content) {
     logger.warn(
@@ -51,7 +58,6 @@ export function GuaranteeSection({
           autoFill={true}
           pauseOnHover={true}
         >
-          {/* --- INICIO DE CORRECCIÓN --- */}
           {seals.map((seal: Seal) => (
             <div
               key={seal.imageAlt}
@@ -66,7 +72,6 @@ export function GuaranteeSection({
               />
             </div>
           ))}
-          {/* --- FIN DE CORRECCIÓN --- */}
         </Marquee>
       </Container>
     </section>

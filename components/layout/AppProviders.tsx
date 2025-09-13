@@ -1,42 +1,41 @@
-// frontend/src/components/layout/AppProviders.tsx
+// components/layout/AppProviders.tsx
 /**
  * @file AppProviders.tsx
- * @description Componente proveedor del lado del cliente. Encapsula toda la
- *              lógica global que depende de hooks y del entorno del navegador.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/components/layout/AppProviders.tsx.md
+ * @description Componente proveedor del lado del cliente.
+ *              - v2.0.0 (Resiliencia de Locale): Añade un fallback al `defaultLocale`
+ *                para la construcción del enlace de la política de cookies,
+ *                previniendo enlaces rotos en páginas de error (ej. 404).
+ * @version 2.0.0
+ * @author Gemini AI - Asistente de IA de Google
  */
 "use client";
 
 import React from "react";
 import { useProducerLogic } from "@/hooks/useProducerLogic";
 import { CookieConsentBanner } from "./CookieConsentBanner";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
+import type { Dictionary } from "@/schemas/i18n.schema";
+import { defaultLocale, type Locale } from "@/lib/i18n.config"; // Importar defaultLocale
 import { logger } from "@/lib/logging";
 
 interface AppProvidersProps {
   children: React.ReactNode;
-  locale: Locale;
+  locale?: Locale; // El locale ahora puede ser opcional
   cookieConsentContent: Dictionary["cookieConsentBanner"];
 }
 
-/**
- * @component AppProviders
- * @description Orquesta los proveedores y la lógica global del lado del cliente.
- * @param {AppProvidersProps} props Las propiedades del componente.
- * @returns {React.ReactElement} El elemento JSX que envuelve la aplicación.
- */
 export default function AppProviders({
   children,
   locale,
   cookieConsentContent,
 }: AppProvidersProps): React.ReactElement {
   logger.info("[AppProviders] Inicializando proveedores de cliente...");
-
-  // Hook soberano que orquesta toda la lógica de tracking del productor.
   useProducerLogic();
+
+  // --- INICIO DE MODIFICACIÓN: Fallback de Locale ---
+  // Si el locale no se proporciona (ej. en una página 404),
+  // utilizamos el defaultLocale para construir un enlace funcional.
+  const safeLocale = locale || defaultLocale;
+  // --- FIN DE MODIFICACIÓN ---
 
   return (
     <>
@@ -47,10 +46,9 @@ export default function AppProviders({
           acceptButtonText={cookieConsentContent.acceptButtonText}
           rejectButtonText={cookieConsentContent.rejectButtonText}
           policyLinkText={cookieConsentContent.policyLinkText}
-          policyLinkHref={`/${locale}/cookies`}
+          policyLinkHref={`/${safeLocale}/cookies`}
         />
       )}
     </>
   );
 }
-// frontend/src/components/layout/AppProviders.tsx

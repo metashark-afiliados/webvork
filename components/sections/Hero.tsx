@@ -1,31 +1,39 @@
-// src/components/sections/Hero.tsx
+// components/sections/Hero.tsx
 /**
  * @file Hero.tsx
  * @description Componente de presentación para la sección Hero.
- * @description_es Muestra el titular principal de la página, diseñado para crear
- *               una conexión emocional inmediata a través de una animación de cascada.
- * @version 2.0.0
- * @dependencies react, @/components/ui/Container
+ *              - v4.0.0: Se hace auto-contenido con su propia lógica de fallback,
+ *                desacoplando el contenido por defecto del diccionario global i18n.
+ * @version 4.0.0
+ * @author Gemini AI - Asistente de IA de Google
  */
 import React from "react";
-import { Container } from "@/components/ui/Container";
+import { Container } from "@/ui/Container";
+import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/schemas/i18n.schema";
 
 interface HeroProps {
-  title: string;
-  subtitle: string;
+  content?: Dictionary["hero"]; // La prop 'content' ahora es opcional
 }
 
-/**
- * @component Hero
- * @description Renderiza la sección principal de la cabecera de la página.
- * @param {HeroProps} props Las propiedades con el contenido textual.
- * @returns {React.ReactElement} El elemento JSX que representa la sección Hero.
- */
-export function Hero({ title, subtitle }: HeroProps): React.ReactElement {
-  console.log("[Observabilidad] Renderizando Hero");
+// SSoT para el contenido de fallback
+const FALLBACK_CONTENT = {
+  title: "Fallback Title",
+  subtitle: "This is the default fallback subtitle for the Hero component.",
+};
+
+export function Hero({ content }: HeroProps): React.ReactElement {
+  logger.info("[Observabilidad] Renderizando Hero");
+
+  // --- INICIO DE MODIFICACIÓN: Lógica de Fallback ---
+  // Si `content` no se proporciona, se utiliza el objeto de fallback.
+  const { title, subtitle } = content || FALLBACK_CONTENT;
+  // --- FIN DE MODIFICACIÓN ---
+
   const titleWords = title.split(" ");
 
   return (
+    // ... el resto del JSX permanece sin cambios ...
     <section className="bg-background pt-8 pb-16 text-center overflow-hidden">
       <Container className="max-w-4xl">
         <h1
@@ -39,7 +47,6 @@ export function Hero({ title, subtitle }: HeroProps): React.ReactElement {
                 style={{ animationDelay: `${index * 120}ms` }}
               >
                 {word}
-                {/* Añade un espacio no separable para mantener el espaciado */}
                 {index < titleWords.length - 1 && "\u00A0"}
               </span>
             </span>
@@ -55,4 +62,3 @@ export function Hero({ title, subtitle }: HeroProps): React.ReactElement {
     </section>
   );
 }
-// src/components/sections/Hero.tsx

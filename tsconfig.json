@@ -18,7 +18,33 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      // El alias raíz se mantiene para archivos en la carpeta raíz
+      "@/*": ["./*"],
+
+      // Dominio de Componentes: Acceso directo a las capas de la UI
+      "@/components/*": ["./components/*"],
+      "@/ui/*": ["./components/ui/*"],
+      "@/sections/*": ["./components/sections/*"],
+      "@/forms/*": ["./components/forms/*"],
+      "@/layout/*": ["./components/layout/*"],
+      "@/razBits/*": ["./components/razBits/*"],
+      "@/dev-components/*": ["./components/dev/*"],
+
+      // Dominio de Lógica de Negocio y Utilidades
+      "@/lib/*": ["./lib/*"],
+      "@/utils/*": ["./lib/utils/*"],
+      "@/schemas/*": ["./lib/schemas/*"],
+      "@/i18n/*": ["./lib/i18n/*"],
+
+      // Dominio de Hooks de React
+      "@/hooks/*": ["./hooks/*"],
+
+      // Dominio de Configuración
+      "@/config/*": ["./config/*"],
+
+      // Dominios de Contenido Estático (Principalmente para lógica del lado del servidor)
+      "@/content/*": ["./content/*"],
+      "@/messages/*": ["./messages/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

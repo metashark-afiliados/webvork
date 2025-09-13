@@ -1,0 +1,745 @@
+{
+  "metadata": {
+    "title": "Global Fitwell",
+    "description": "Il futuro del benessere. Tecnologia e scienza per il tuo potenziale."
+  },
+  "storePage": {
+    "title": "Il Nostro Negozio del Benessere",
+    "subtitle": "Una selezione curata di prodotti per potenziare la tua salute e le tue prestazioni.",
+    "filters": {
+      "categoryTitle": "Categorie",
+      "categories": [
+        {
+          "label": "Nutrizione",
+          "count": 8
+        },
+        {
+          "label": "Prestazione",
+          "count": 5
+        },
+        {
+          "label": "Recupero",
+          "count": 3
+        }
+      ],
+      "priceTitle": "Fascia di Prezzo",
+      "prices": [
+        {
+          "label": "Fino a €50",
+          "count": 12
+        },
+        {
+          "label": "€50 - €100",
+          "count": 4
+        }
+      ]
+    },
+    "products": [
+      {
+        "name": "KineticBand Pro",
+        "category": "Prestazione",
+        "price": 89.99,
+        "imageUrl": "/img/products/kineticband.png",
+        "slug": "kineticband-pro"
+      },
+      {
+        "name": "VitaPure Filter",
+        "category": "Nutrizione",
+        "price": 49.99,
+        "imageUrl": "/img/products/vitapure.png",
+        "slug": "vitapure-filter"
+      },
+      {
+        "name": "NeuroBoost Pods",
+        "category": "Benessere Mentale",
+        "price": 69.99,
+        "imageUrl": "/img/products/neuroboost.png",
+        "slug": "neuroboost-pods"
+      }
+    ]
+  },
+  "aboutPage": {
+    "title": "Chi Siamo",
+    "subtitle": "La nostra missione è migliorare il benessere globale attraverso la scienza e l'innovazione.",
+    "content": [
+      {
+        "type": "p",
+        "text": "Global Fitwell nasce dalla convinzione che tutti meritino l'accesso a soluzioni di benessere sicure, efficaci e basate su prove scientifiche. Il nostro team è composto da esperti di nutrizione, scienziati e appassionati di fitness dedicati alla ricerca e allo sviluppo di prodotti che fanno una vera differenza nella vita delle persone."
+      },
+      {
+        "type": "h2",
+        "text": "Il Nostro Impegno"
+      },
+      {
+        "type": "p",
+        "text": "Ci impegniamo per la trasparenza, la qualità e la sostenibilità in tutto ciò che facciamo. Dall'approvvigionamento degli ingredienti più puri alla conduzione di rigorosi test di laboratorio di terze parti, la nostra priorità è la vostra fiducia e i vostri risultati."
+      }
+    ]
+  },
+  "privacyPage": {
+    "title": "Informativa sulla Privacy",
+    "subtitle": "La vostra fiducia e la protezione dei vostri dati sono la nostra massima priorità.",
+    "content": [
+      {
+        "type": "h2",
+        "text": "1. Raccolta delle Informazioni"
+      },
+      {
+        "type": "p",
+        "text": "Raccogliamo le informazioni che ci fornite direttamente, come il vostro nome e indirizzo email quando vi iscrivete alla nostra newsletter. Raccogliamo anche dati tecnici automaticamente, come il vostro indirizzo IP e il tipo di browser."
+      },
+      {
+        "type": "h2",
+        "text": "2. Utilizzo delle Informazioni"
+      },
+      {
+        "type": "p",
+        "text": "Utilizziamo le vostre informazioni per elaborare gli ordini, personalizzare la vostra esperienza e comunicare con voi riguardo ai nostri prodotti e offerte. Non condivideremo mai i vostri dati personali con terze parti non affiliate senza il vostro esplicito consenso."
+      }
+    ]
+  },
+  "termsPage": {
+    "title": "Termini di Servizio",
+    "subtitle": "Utilizzando il nostro sito web, accettate i seguenti termini e condizioni.",
+    "content": [
+      {
+        "type": "h2",
+        "text": "1. Uso del Sito"
+      },
+      {
+        "type": "p",
+        "text": "Questo sito web e i suoi contenuti sono per vostro uso personale e non commerciale. Non potete modificare, copiare, distribuire o vendere alcuna informazione ottenuta da questo sito."
+      },
+      {
+        "type": "h2",
+        "text": "2. Proprietà Intellettuale"
+      },
+      {
+        "type": "p",
+        "text": "Tutti i contenuti, inclusi testi, grafiche, loghi e immagini, sono di proprietà di Global Fitwell e sono protetti dalle leggi sul copyright."
+      }
+    ]
+  },
+  "devDashboardPage": {
+    "title": "Developer Command Center",
+    "subtitle": "Strumenti per lo sviluppo e la simulazione delle campagne.",
+    "tools": {
+      "componentCanvas": {
+        "name": "Component Canvas",
+        "description": "Visualizza e testa i componenti UI in modo isolato."
+      },
+      "campaignSimulator": {
+        "name": "Simulatore Campagne",
+        "description": "Renderizza e visualizza in anteprima le varianti della campagna in tempo reale."
+      },
+      "branding": {
+        "name": "Branding & Theming",
+        "description": "Rivedi i token di design, le palette di colori e le tipografie di base."
+      }
+    }
+  },
+  "devCampaignSimulatorPage": {
+    "title": "Simulatore di Campagne",
+    "subtitle": "Seleziona una variante di campagna per visualizzare l'anteprima della landing page.",
+    "campaignLabel": "Campagna",
+    "variantLabel": "Variante",
+    "descriptionLabel": "Descrizione"
+  },
+  "devLayoutConfiguratorPage": {
+    "title": "Configuratore di Layout di Campagna",
+    "subtitle": "Seleziona una campagna e una variante per modificare visivamente le sezioni renderizzate.",
+    "selectCampaignLabel": "Campagna",
+    "selectCampaignPlaceholder": "Seleziona una campagna...",
+    "selectVariantLabel": "Variante",
+    "selectVariantPlaceholder": "Seleziona una variante...",
+    "activeSectionsTitle": "Sezioni Attive (Renderizzate)",
+    "availableSectionsTitle": "Sezioni Disponibili",
+    "saveButtonText": "Salva Layout",
+    "savingButtonText": "Salvataggio...",
+    "successMessage": "Layout salvato con successo!",
+    "errorMessage": "Errore nel salvataggio del layout."
+  },
+  "benefitsSection": {
+    "eyebrow": "Benefici",
+    "title": "La Tua Scorciatoia per il Successo",
+    "subtitle": "Un'architettura di landing page progettata per la massima conversione e una Developer Experience di élite. Costruisci più velocemente, converti di più.",
+    "benefits": [
+      {
+        "icon": "Blocks",
+        "title": "Costruisci la Fiducia del Marchio",
+        "description": "Una presentazione professionale e basata sull'evidenza scientifica che genera credibilità istantanea con il tuo pubblico."
+      },
+      {
+        "icon": "LineChart",
+        "title": "Più Lead Qualificati",
+        "description": "Un percorso di conversione ottimizzato che guida l'utente in modo intuitivo, aumentando la qualità e la quantità dei lead."
+      },
+      {
+        "icon": "Wallet",
+        "title": "Conversioni Più Alte",
+        "description": "Ogni elemento è progettato con un unico scopo: trasformare i visitatori in clienti, massimizzando il tuo ROI."
+      },
+      {
+        "icon": "Sparkle",
+        "title": "Testa Idee di Marketing",
+        "description": "L'architettura modulare ti permette di testare rapidamente diversi angoli e messaggi per trovare la formula vincente."
+      }
+    ]
+  },
+  "communitySection": {
+    "iconName": "MessageSquare",
+    "title": "Pronto a unirti alla nostra <span class='text-primary'>Community?</span>",
+    "description": "Unisciti alla nostra vibrante community! Connettiti, condividi e cresci con appassionati che la pensano come te. Clicca per tuffarti! 🚀",
+    "buttonLabel": "Unisciti Ora",
+    "buttonHref": "https://example.com/discord/it"
+  },
+  "contactSection": {
+    "eyebrow": "Contatto",
+    "title": "Connettiti con Noi",
+    "description": "Hai una domanda o un progetto in mente? Compila il modulo o utilizza le informazioni di contatto qui sotto. Saremo lieti di sentirti.",
+    "contactInfo": [
+      {
+        "iconName": "Mail",
+        "label": "Email",
+        "value": "support@globalfitwell.com"
+      },
+      {
+        "iconName": "Phone",
+        "label": "Telefono",
+        "value": "+39 012 345 6789"
+      },
+      {
+        "iconName": "Building2",
+        "label": "Ufficio",
+        "value": "Via Roma 1, Milano, IT"
+      }
+    ],
+    "form": {
+      "firstNameLabel": "Nome",
+      "firstNamePlaceholder": "Mario",
+      "lastNameLabel": "Cognome",
+      "lastNamePlaceholder": "Rossi",
+      "emailLabel": "Email",
+      "emailPlaceholder": "mario.rossi@example.com",
+      "subjectLabel": "Oggetto",
+      "subjectPlaceholder": "Seleziona un oggetto",
+      "subjectOptions": [
+        "Sviluppo Web",
+        "Marketing Digitale",
+        "Altro"
+      ],
+      "messageLabel": "Messaggio",
+      "messagePlaceholder": "Il tuo messaggio...",
+      "submitButtonText": "Invia Messaggio"
+    }
+  },
+  "cookieConsentBanner": {
+    "message": "Utilizziamo i cookie per migliorare la tua esperienza.",
+    "acceptButtonText": "Accetta",
+    "rejectButtonText": "Rifiuta",
+    "policyLinkText": "Leggi la nostra politica sui cookie"
+  },
+  "faqAccordion": {
+    "title": "Domande Frequenti",
+    "faqs": [
+      {
+        "question": "Questo template è gratuito?",
+        "answer": "Sì. È un template NextJS Shadcn gratuito."
+      },
+      {
+        "question": "Come posso personalizzare lo stile?",
+        "answer": "Puoi personalizzare i colori e i caratteri direttamente nel file `app/globals.css` utilizzando le variabili di tema di Tailwind CSS v4."
+      }
+    ]
+  },
+  "featuresSection": {
+    "eyebrow": "Caratteristiche",
+    "title": "Cosa Ci Rende Diversi",
+    "subtitle": "Progettato per la velocità, la scalabilità e un'esperienza di sviluppo che ti consente di concentrarti su ciò che conta: creare.",
+    "features": [
+      {
+        "icon": "TabletSmartphone",
+        "title": "Mobile-First",
+        "description": "Ogni componente è progettato prima per il mobile, garantendo un'esperienza perfetta su tutti i dispositivi."
+      },
+      {
+        "icon": "BadgeCheck",
+        "title": "Prova Sociale Integrata",
+        "description": "Componenti pronti all'uso per testimonianze e loghi per costruire fiducia e credibilità istantaneamente."
+      },
+      {
+        "icon": "Goal",
+        "title": "Contenuto Orientato",
+        "description": "L'architettura i18n ti permette di adattare il tuo messaggio per diversi mercati e segmenti di pubblico."
+      },
+      {
+        "icon": "PictureInPicture",
+        "title": "Immagini Forti",
+        "description": "Supporto per immagini ottimizzate con Next.js per garantire tempi di caricamento rapidi e un impatto visivo elevato."
+      },
+      {
+        "icon": "MousePointerClick",
+        "title": "CTA Chiari",
+        "description": "Componenti di pulsanti e moduli progettati per guidare l'utente verso l'azione, massimizzando le conversioni."
+      },
+      {
+        "icon": "Newspaper",
+        "title": "Titoli Chiari",
+        "description": "Struttura semantica e gerarchia tipografica per garantire che i tuoi messaggi principali siano sempre in primo piano."
+      }
+    ]
+  },
+  "footer": {
+    "logoName": "Shadcn",
+    "linkColumns": [
+      {
+        "title": "Contatti",
+        "links": [
+          {
+            "label": "Github",
+            "href": "#"
+          },
+          {
+            "label": "Twitter",
+            "href": "#"
+          },
+          {
+            "label": "Instagram",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Piattaforme",
+        "links": [
+          {
+            "label": "iOS",
+            "href": "#"
+          },
+          {
+            "label": "Android",
+            "href": "#"
+          },
+          {
+            "label": "Web",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Aiuto",
+        "links": [
+          {
+            "label": "Contattaci",
+            "href": "#"
+          },
+          {
+            "label": "FAQ",
+            "href": "#"
+          },
+          {
+            "label": "Feedback",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Social",
+        "links": [
+          {
+            "label": "Twitch",
+            "href": "#"
+          },
+          {
+            "label": "Discord",
+            "href": "#"
+          },
+          {
+            "label": "Dribbble",
+            "href": "#"
+          }
+        ]
+      }
+    ],
+    "copyright": "© 2024 Progettato e sviluppato da",
+    "developerLink": {
+      "text": "Leo Miranda",
+      "href": "https://github.com/leoMirandaa"
+    }
+  },
+  "header": {
+    "logoUrl": "/img/layout/header/globalfitwell-logo-v2.svg",
+    "logoAlt": "Logo di Global Fitwell",
+    "navLinks": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "Negozio",
+        "href": "/store"
+      },
+      {
+        "label": "Chi Siamo",
+        "href": "/about"
+      }
+    ],
+    "ctaButton": {
+      "label": "Vedi Campagna",
+      "href": "/campaigns/12157"
+    }
+  },
+  "heroNews": {
+    "mainTitle": "Il Futuro del Benessere è Oggi",
+    "featuredArticle": {
+      "tag": "Storia in Evidenza",
+      "title": "La Connessione Mente-Muscolo: Neuroscienze Applicate all'Allenamento",
+      "author": "Dott.ssa Elena Ríos",
+      "readTime": 6
+    }
+  },
+  "newsGrid": {
+    "title": "Ultime Notizie e Articoli",
+    "articles": [
+      {
+        "category": "Nutrizione",
+        "title": "5 Superfood da Aggiungere alla Tua Dieta",
+        "summary": "Scopri come questi alimenti possono aumentare naturalmente la tua energia e le tue difese.",
+        "imageUrl": "/img/news/superfoods.jpg",
+        "slug": "5-supercibi"
+      },
+      {
+        "category": "Fitness",
+        "title": "Allenamento Funzionale: La Guida Definitiva per Principianti",
+        "summary": "Massimizza i tuoi risultati in palestra con una routine che imita i movimenti della vita reale.",
+        "imageUrl": "/img/news/functional-training.jpg",
+        "slug": "guida-allenamento-funzionale"
+      },
+      {
+        "category": "Benessere Mentale",
+        "title": "Mindfulness e Riduzione dello Stress: Tecniche Comprovate",
+        "summary": "Impara a calmare la mente e migliorare la concentrazione con pratiche semplici che puoi fare ovunque.",
+        "imageUrl": "/img/news/mindfulness.jpg",
+        "slug": "mindfulness-riduzione-stress"
+      }
+    ]
+  },
+  "orderSection": {
+    "originalPrice": 78,
+    "discountedPrice": 39,
+    "originalPriceLabel": "Prezzo di Listino",
+    "discountedPriceLabel": "Prezzo Offerta Speciale",
+    "nameInputLabel": "Nome e Cognome",
+    "nameInputPlaceholder": "Es. Mario Rossi",
+    "phoneInputLabel": "Telefono",
+    "phoneInputPlaceholder": "Il tuo numero per la conferma",
+    "submitButtonText": "Ordina Ora con Sconto del 50%",
+    "submitButtonLoadingText": "Invio in corso..."
+  },
+  "pricingSection": {
+    "eyebrow": "Prezzi",
+    "title": "Ottieni Accesso Illimitato",
+    "subtitle": "Scegli il piano che meglio si adatta alle tue esigenze e inizia a costruire oggi.",
+    "currency": "EUR",
+    "plans": [
+      {
+        "title": "Gratuito",
+        "isPopular": false,
+        "price": 0,
+        "priceSuffix": "/mese",
+        "description": "Perfetto per progetti personali e per esplorare la piattaforma.",
+        "buttonText": "Inizia la Prova Gratuita",
+        "benefitList": [
+          "1 membro del team",
+          "1 GB di storage",
+          "Fino a 2 pagine",
+          "Supporto della community"
+        ]
+      },
+      {
+        "title": "Premium",
+        "isPopular": true,
+        "price": 45,
+        "priceSuffix": "/mese",
+        "description": "La scelta migliore per team e aziende in crescita.",
+        "buttonText": "Inizia Ora",
+        "benefitList": [
+          "4 membri del team",
+          "8 GB di storage",
+          "Fino a 6 pagine",
+          "Supporto prioritario"
+        ]
+      },
+      {
+        "title": "Enterprise",
+        "isPopular": false,
+        "price": 120,
+        "priceSuffix": "/mese",
+        "description": "Soluzioni su misura per le grandi organizzazioni.",
+        "buttonText": "Contattaci",
+        "benefitList": [
+          "10 membri del team",
+          "20 GB di storage",
+          "Fino a 10 pagine",
+          "Supporto telefonico & email"
+        ]
+      }
+    ]
+  },
+  "productShowcase": {
+    "title": "Strumenti per il Tuo Viaggio di Benessere",
+    "products": [
+      {
+        "name": "KineticBand Pro",
+        "description": "Monitoraggio dell'attività con bio-sensori.",
+        "imageUrl": "/img/products/kineticband.png"
+      },
+      {
+        "name": "VitaPure Filter",
+        "description": "Sistema di purificazione dell'acqua intelligente.",
+        "imageUrl": "/img/products/vitapure.png"
+      },
+      {
+        "name": "NeuroBoost Pods",
+        "description": "Supplemento nootropico per la concentrazione mentale.",
+        "imageUrl": "/img/products/neuroboost.png"
+      }
+    ]
+  },
+  "scrollingBanner": {
+    "message": "Offerta a tempo limitato: Scorte quasi esaurite!"
+  },
+  "servicesSection": {
+    "eyebrow": "Servizi",
+    "title": "Fai Crescere il Tuo Business",
+    "subtitle": "Dal marketing e vendite alle operazioni e strategia, abbiamo l'esperienza per aiutarti a raggiungere i tuoi obiettivi.",
+    "proLabel": "PRO",
+    "services": [
+      {
+        "title": "Integrazione Dominio Personalizzato",
+        "description": "Usa il tuo dominio per rafforzare il tuo marchio e la tua credibilità online.",
+        "isPro": false
+      },
+      {
+        "title": "Integrazioni Social Media",
+        "description": "Connetti i tuoi profili social per amplificare la tua portata e il tuo coinvolgimento.",
+        "isPro": false
+      },
+      {
+        "title": "Integrazioni Email Marketing",
+        "description": "Sincronizza con i tuoi strumenti di email marketing preferiti per nutrire i tuoi lead.",
+        "isPro": false
+      },
+      {
+        "title": "Ottimizzazione SEO",
+        "description": "Migliora il tuo ranking sui motori di ricerca e attira traffico organico qualificato.",
+        "isPro": true
+      }
+    ]
+  },
+  "socialProofLogos": {
+    "title": "Scelto dalle principali autorità del benessere",
+    "logos": [
+      {
+        "src": "/img/sections/social-proof-logos/logo-wellness-insider.svg",
+        "alt": "Logo di Wellness Insider"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-health-journal.svg",
+        "alt": "Logo di The Health Journal"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-bio-innovate.svg",
+        "alt": "Logo del Bio-Innovate Forum"
+      },
+      {
+        "src": "/img/sections/social-proof-logos/logo-nutrition-council.svg",
+        "alt": "Logo del Nutrition Council"
+      }
+    ]
+  },
+  "sponsorsSection": {
+    "title": "I Nostri Sponsor Platinum",
+    "sponsors": [
+      {
+        "icon": "Crown",
+        "name": "Acmebrand"
+      },
+      {
+        "icon": "Vegan",
+        "name": "Acmelogo"
+      },
+      {
+        "icon": "Ghost",
+        "name": "Acmesponsor"
+      },
+      {
+        "icon": "Puzzle",
+        "name": "Acmeipsum"
+      },
+      {
+        "icon": "Squirrel",
+        "name": "Acme"
+      },
+      {
+        "icon": "Cookie",
+        "name": "Accmee"
+      },
+      {
+        "icon": "Drama",
+        "name": "Acmetech"
+      }
+    ]
+  },
+  "teamSection": {
+    "eyebrow": "Team",
+    "title": "Il Dream Team dell'Azienda",
+    "members": [
+      {
+        "imageUrl": "/pravatar/58",
+        "firstName": "Leo",
+        "lastName": "Miranda",
+        "positions": [
+          "Sviluppatore Frontend",
+          "Creatore di Questo Sito"
+        ],
+        "socialNetworks": [
+          {
+            "name": "LinkedIn",
+            "url": "https://linkedin.com",
+            "icon": "Linkedin"
+          },
+          {
+            "name": "Github",
+            "url": "https://github.com",
+            "icon": "Github"
+          },
+          {
+            "name": "X",
+            "url": "https://x.com",
+            "icon": "Twitter"
+          }
+        ]
+      },
+      {
+        "imageUrl": "/unsplash/woman-portrait",
+        "firstName": "Elizabeth",
+        "lastName": "Moore",
+        "positions": [
+          "Designer UI/UX"
+        ],
+        "socialNetworks": [
+          {
+            "name": "LinkedIn",
+            "url": "https://linkedin.com",
+            "icon": "Linkedin"
+          }
+        ]
+      }
+    ]
+  },
+  "devHeader": {
+    "title": "Global Fitwell - Dev Canvas"
+  },
+  "devHomepageHeader": {
+    "homeLink": "Home",
+    "aboutLink": "Chi Siamo",
+    "storeLink": "Negozio",
+    "blogLink": "Blog",
+    "devMenuLabel": "Menù Dev"
+  },
+  "devRouteMenu": {
+    "devToolsGroup": "DEV TOOLS",
+    "campaignPagesGroup": "PAGINE CAMPAGNA",
+    "portalPagesGroup": "PAGINE PORTALE",
+    "legalPagesGroup": "PAGINE LEGALI",
+    "componentCanvas": "Component Canvas",
+    "campaignSimulator": "Simulatore di Campagne",
+    "branding": "Guida di Stile",
+    "campaignPage": "Campagna (ID 12157)",
+    "home": "Homepage",
+    "store": "Negozio",
+    "news": "Notizie",
+    "about": "Chi Siamo",
+    "terms": "Termini",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "changeLanguage": "Cambia lingua",
+    "currentLanguageIs": "Lingua attuale"
+  },
+  "routeTester": {
+    "devToolsGroup": "DEV TOOLS",
+    "campaignPagesGroup": "PAGINE CAMPAGNA",
+    "legalPagesGroup": "PAGINE LEGALI",
+    "campaignDesignSuite": "Suite di Design Campagna",
+    "bridgePage": "Pagina Bridge",
+    "reviewPage": "Pagina di Revisione",
+    "terms": "Termini",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "changeLanguage": "Cambia lingua",
+    "currentLanguageIs": "La lingua attuale è"
+  },
+  "dock": {},
+  "lightRays": {
+    "raysOrigin": "top-center",
+    "raysColor": "accent",
+    "raysSpeed": 1.2,
+    "lightSpread": 0.7,
+    "rayLength": 1.5,
+    "pulsating": false,
+    "fadeDistance": 1,
+    "saturation": 1,
+    "followMouse": true,
+    "mouseInfluence": 0.08,
+    "noiseAmount": 0.05,
+    "distortion": 0.02
+  },
+  "magicBento": {
+    "config": {
+      "textAutoHide": true,
+      "enableStars": true,
+      "enableSpotlight": true,
+      "enableBorderGlow": true,
+      "disableAnimations": false,
+      "spotlightRadius": 300,
+      "particleCount": 12,
+      "enableTilt": true,
+      "glowColor": "accent",
+      "clickEffect": true,
+      "enableMagnetism": true
+    },
+    "cards": [
+      {
+        "title": "Analisi Avanzata",
+        "description": "Traccia il comportamento degli utenti con precisione.",
+        "label": "Intuizioni"
+      },
+      {
+        "title": "Dashboard Unificata",
+        "description": "Una vista centralizzata di tutti i tuoi dati.",
+        "label": "Panoramica"
+      },
+      {
+        "title": "Collaborazione",
+        "description": "Lavora in team senza interruzioni.",
+        "label": "Squadra"
+      },
+      {
+        "title": "Automazione",
+        "description": "Semplifica i flussi di lavoro complessi.",
+        "label": "Efficienza"
+      },
+      {
+        "title": "Integrazione",
+        "description": "Connetti i tuoi strumenti preferiti.",
+        "label": "Connettività"
+      },
+      {
+        "title": "Sicurezza",
+        "description": "Protezione di livello enterprise per i tuoi dati.",
+        "label": "Protezione"
+      }
+    ]
+  }
+}
