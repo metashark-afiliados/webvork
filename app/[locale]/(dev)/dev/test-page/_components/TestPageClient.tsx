@@ -2,11 +2,10 @@
 /**
  * @file TestPageClient.tsx
  * @description Vitrina de Componentes de Resiliencia (Cliente).
- *              - v10.0.0 (Holistic & Final): Versión definitiva que utiliza un barrel file
- *                para la importación de secciones, resolviendo el error de módulo TS2307.
- *                Renderiza explícitamente cada componente para garantizar la seguridad
- *                de tipos y el logging visual.
- * @version 10.0.0
+ *              - v10.1.0 (Build Stability Fix): Se estandarizan las rutas de importación
+ *                a `@/ui/*` para resolver los errores de `Module not found`,
+ *                alineando con el `tsconfig.json`.
+ * @version 10.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -20,17 +19,19 @@ import type { AvailableTheme } from "../page";
 
 // --- Component Imports ---
 import { PageHeader } from "@/components/layout/PageHeader";
-import { Container } from "@/components/ui/Container";
+import { Container } from "@/ui/Container";
+// --- INICIO DE CORRECCIÓN: Rutas de importación corregidas ---
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@/ui/Select";
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Separator } from "@/components/ui/Separator";
+import { Card, CardContent, CardHeader, CardTitle } from "@/ui/Card";
+import { Separator } from "@/ui/Separator";
+// --- FIN DE CORRECCIÓN ---
 
 // --- Section Component Imports via Barrel File ---
 import * as Sections from "@/components/sections";
@@ -311,3 +312,4 @@ export default function TestPageClient({
     </>
   );
 }
+// app/[locale]/(dev)/dev/test-page/_components/TestPageClient.tsx
