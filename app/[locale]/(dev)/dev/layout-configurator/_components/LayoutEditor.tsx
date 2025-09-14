@@ -2,24 +2,24 @@
 /**
  * @file LayoutEditor.tsx
  * @description Componente cliente interactivo para la edición de layouts de campaña.
- *              - v3.3.0 (Build Stability Fix): Se estandarizan las rutas de importación
- *                a `@/ui/*` para resolver los errores de `Module not found` en el
- *                build de Vercel, alineando con el `tsconfig.json`.
- * @version 3.3.0
+ *              - v3.4.0 (Build Stability Fix): Estandariza las rutas de importación
+ *                al alias robusto `@/components/ui/*` para resolver definitivamente
+ *                los errores de `Module not found` en Vercel.
+ * @version 3.4.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React, { useState, useEffect, useMemo, useTransition } from "react";
-// --- INICIO DE CORRECCIÓN: Rutas de importación corregidas ---
-import { Button } from "@/ui/Button";
+// --- INICIO DE CORRECCIÓN: Rutas de importación estandarizadas ---
+import { Button } from "@/components/ui/Button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/Select";
+} from "@/components/ui/Select";
 // --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 import { getLayoutForVariant, saveLayoutForVariant } from "../_actions";
@@ -191,4 +191,3 @@ export function LayoutEditor({
     </div>
   );
 }
-// app/[locale]/(dev)/dev/layout-configurator/_components/LayoutEditor.tsx

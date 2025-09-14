@@ -2,11 +2,9 @@
 /**
  * @file ThumbnailCarousel.tsx
  * @description Un carrusel visual que cicla a través de una serie de imágenes.
- *              - v4.2.1 (Nivelación de Calidad de Élite): Se resuelven todas las advertencias de
- *                linting (rules-of-hooks, exhaustive-deps) y se alinea el aparato con
- *                todos los protocolos de entrega de código y calidad definidos en las directivas
- *                del proyecto. Se ha añadido documentación TSDoc completa.
- * @version 4.2.1
+ *              - v4.3.0 (Build Stability Fix): Estandariza las rutas de importación
+ *                a `@/components/ui/*` para resolver errores de build.
+ * @version 4.3.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -14,50 +12,28 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/ui/Button";
-import { Container } from "@/ui/Container";
+import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/schemas/i18n.schema";
 import type { Thumbnail } from "@/schemas/components/thumbnail-carousel.schema";
 
-/**
- * @interface ThumbnailCarouselProps
- * @description Define el contrato de props para el componente.
- */
 interface ThumbnailCarouselProps {
-  /**
-   * @param {Dictionary['thumbnailCarousel']} content - El objeto de contenido para la sección,
-   * validado por el schema de Zod correspondiente.
-   */
   content: Dictionary["thumbnailCarousel"];
-  /**
-   * @param {number} [interval=5000] - El intervalo en milisegundos para el cambio automático de imágenes.
-   */
   interval?: number;
 }
 
-/**
- * @component ThumbnailCarousel
- * @description Renderiza un carrusel de imágenes automático y interactivo. Es un componente
- *              de cliente debido a su gestión de estado interno y efectos de temporizador.
- * @param {ThumbnailCarouselProps} props Las propiedades del componente.
- * @returns {React.ReactElement | null} El elemento JSX o null si no hay contenido válido.
- */
 export function ThumbnailCarousel({
   content,
   interval = 5000,
 }: ThumbnailCarouselProps): React.ReactElement | null {
-  // 1. Llamadas a Hooks en el Nivel Superior (Cumple react-hooks/rules-of-hooks)
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 2. Memoización de Dependencias (Cumple react-hooks/exhaustive-deps)
-  // Garantiza que la referencia a `thumbnails` sea estable entre renders.
   const thumbnails = useMemo(
     () => content?.thumbnails || [],
     [content?.thumbnails]
   );
 
-  // La lógica del carrusel se encapsula en un `useEffect`.
   useEffect(() => {
     if (thumbnails.length <= 1) return;
 
@@ -65,11 +41,9 @@ export function ThumbnailCarousel({
       setCurrentIndex((prevIndex) => (prevIndex + 1) % thumbnails.length);
     }, interval);
 
-    // Función de limpieza para evitar fugas de memoria.
     return () => clearTimeout(timer);
   }, [currentIndex, thumbnails, interval]);
 
-  // 3. Guarda de Seguridad (Después de los Hooks)
   if (!content || thumbnails.length === 0) {
     logger.warn(
       "[ThumbnailCarousel] No se proporcionó contenido válido. La sección no se renderizará."
@@ -77,7 +51,6 @@ export function ThumbnailCarousel({
     return null;
   }
 
-  // 4. Observabilidad
   logger.info("[Observabilidad] Renderizando ThumbnailCarousel");
 
   const { affiliateUrl, playButtonAriaLabel, playButtonTitle } = content;
@@ -129,4 +102,3 @@ export function ThumbnailCarousel({
     </section>
   );
 }
-// components/sections/ThumbnailCarousel.tsx

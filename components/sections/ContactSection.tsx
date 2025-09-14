@@ -3,25 +3,21 @@
  * @file ContactSection.tsx
  * @description Sección de Contacto. Orquestador que compone la información
  *              de contacto y el formulario atómico.
- *              - v3.0.0 (Alineación Arquitectónica): Se corrige la ruta de importación
- *                de `ContactForm` para que apunte a su ubicación canónica en `@/forms/`,
- *                resolviendo el error de resolución de módulo TS2307 y cumpliendo
- *                con la Directiva 014.
- * @version 3.0.0
+ *              - v3.1.0 (Build Stability Fix): Estandariza la ruta de importación
+ *                a `@/components/ui/*` para resolver errores de build.
+ * @version 3.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
-import { Container } from "@/ui/Container";
-import DynamicIcon from "@/ui/DynamicIcon";
-// --- INICIO DE CORRECCIÓN: Se utiliza la ruta canónica del alias de formularios ---
+import { Container } from "@/components/ui/Container";
+import DynamicIcon from "@/components/ui/DynamicIcon";
 import { ContactForm } from "@/forms/ContactForm";
-// --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/schemas/i18n.schema";
 import type { ContactInfoItem } from "@/schemas/components/contact-section.schema";
 
 interface ContactSectionProps {
-  content: Dictionary["contactSection"];
+  content?: Dictionary["contactSection"];
 }
 
 export const ContactSection = ({
@@ -74,4 +70,3 @@ export const ContactSection = ({
     </section>
   );
 };
-// components/sections/ContactSection.tsx
