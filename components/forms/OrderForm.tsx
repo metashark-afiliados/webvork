@@ -1,11 +1,17 @@
-// src/components/ui/OrderForm.tsx
+// components/forms/OrderForm.tsx
 /**
  * @file OrderForm.tsx
  * @description Formulário de pedido final. Refactorizado para una responsabilidad
  *              única: gestionar la entrada y envío de datos del usuario, eliminando
  *              toda la lógica de visualización de precios.
- * @version 5.0.0
+ *              - v5.1.0: Adapta el uso de la prop `icon` en `FormInput` para
+ *                aceptar directamente un `LucideIconName` (string), tras la
+ *                refactorización de `FormInput.tsx`. Esto resuelve los errores
+ *                de tipo TS2322.
+ * @version 5.1.0
  * @author RaZ podesta - MetaShark Tech
+ * @see .docs/development/TODO.md - Tarefa 2.3
+ * @principle Principio de Responsabilidad Única (PRU)
  */
 "use client";
 
@@ -13,7 +19,7 @@ import React, { useRef } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { User, Phone } from "lucide-react";
+// import { User, Phone } from "lucide-react"; // <-- ELIMINADO: Ya no se importan los componentes directamente
 import { producerConfig } from "@/config/producer.config";
 import { logger } from "@/lib/logging";
 import { useProducerLogic } from "@/hooks/useProducerLogic";
@@ -26,7 +32,7 @@ const OrderFormSchema = z.object({
   name: z.string().min(2, "Il nome è obbligatorio"),
   phone: z
     .string()
-    .min(9, "Il numero di telefono non è valido")
+    .min(9, "Il numero de telefono no es válido")
     .regex(/^\+?[0-9\s-()]+$/, "Formato de telefone inválido"),
 });
 type OrderFormData = z.infer<typeof OrderFormSchema>;
@@ -84,7 +90,7 @@ export function OrderForm({
       <FormInput
         id="name"
         label={nameInputLabel}
-        icon={User}
+        icon="User" // <-- ¡CORRECCIÓN APLICADA AQUÍ! Se pasa el string literal
         placeholder={nameInputPlaceholder}
         {...register("name")}
         error={errors.name?.message}
@@ -94,7 +100,7 @@ export function OrderForm({
       <FormInput
         id="phone"
         label={phoneInputLabel}
-        icon={Phone}
+        icon="Phone" // <-- ¡CORRECCIÓN APLICADA AQUÍ! Se pasa el string literal
         type="tel"
         placeholder={phoneInputPlaceholder}
         {...register("phone")}
@@ -117,4 +123,3 @@ export function OrderForm({
     </form>
   );
 }
-// src/components/ui/OrderForm.tsx

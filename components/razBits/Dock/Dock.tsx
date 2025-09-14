@@ -1,11 +1,10 @@
-// frontend/src/components/razBits/Dock/Dock.tsx
+// components/razBits/Dock/Dock.tsx // <-- ¡COMENTARIO CORREGIDO!
 /**
  * @file Dock.tsx
  * @description Componente de UI interactivo tipo "dock" con efectos de magnificación.
- *              - v2.1.0: Resuelve error de tipo TS2769 al pasar props a hijos. Se crea un
- *                contrato explícito `CommonDockChildProps` para garantizar la seguridad
- *                de tipos en la composición de componentes.
- * @version 2.1.0
+ *              - v2.2.0: Corrige el comentario de ruta interno para reflejar la
+ *                ubicación real del archivo en el proyecto.
+ * @version 2.2.0
  * @author RaZ podesta - MetaShark Tech
  * @see .docs-espejo/components/razBits/Dock/Dock.tsx.md
  */
@@ -189,7 +188,7 @@ export function Dock({
   config,
   spring = { mass: 0.1, stiffness: 150, damping: 12 },
 }: DockProps): React.ReactElement {
-  logger.info("[Dock] Renderizando componente Dock (Naturalizado)");
+  logger.info("[Observabilidad] Renderizando componente Dock (Naturalizado)"); // Observabilidad actualizada
 
   const validatedConfig = DockConfigSchema.parse(config || {});
   const { magnification, distance, panelHeight, dockHeight, baseItemSize } =
@@ -248,4 +247,3 @@ export function Dock({
 }
 
 export default Dock;
-// frontend/src/components/razBits/Dock/Dock.tsx

@@ -2,11 +2,12 @@
 /**
  * @file middleware.ts
  * @description Middleware de enrutamiento y SSoT para la internacionalización.
- *              - v5.0.0: Fortalece el matcher para excluir de forma robusta
- *                todos los archivos estáticos y assets (rutas con '.'),
- *                resolviendo la redirección incorrecta de imágenes.
- * @version 5.0.0
- * @author Gemini AI - Asistente de IA de Google
+ *              - v6.0.0 (Jerarquía de Decisión DX-First): Refactorizado para priorizar
+ *                el `defaultLocale` (del .env) sobre la negociación de idioma del
+ *                navegador. Esto otorga control explícito al desarrollador en local,
+ *                mientras mantiene la detección automática para producción.
+ * @version 6.0.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
@@ -17,17 +18,16 @@ import {
 } from "@/lib/i18n.config";
 import { match as matchLocale } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
+import { logger } from "@/lib/logging";
 
-function getLocale(request: NextRequest): Locale {
-  // ... (la función getLocale permanece sin cambios)
+function getLocaleFromBrowser(request: NextRequest): Locale {
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
   // @ts-ignore
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages([
     ...supportedLocales,
   ]);
-  const locale = matchLocale(languages, [...supportedLocales], defaultLocale);
-  return locale as Locale;
+  return matchLocale(languages, [...supportedLocales], defaultLocale) as Locale;
 }
 
 const localePathnameRegex = new RegExp(
@@ -37,33 +37,39 @@ const localePathnameRegex = new RegExp(
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  console.log(`[Middleware] Petición entrante: ${pathname}`);
+  logger.trace(`[Middleware] Petición entrante: ${pathname}`);
 
   if (localePathnameRegex.test(pathname)) {
-    console.log("[Middleware] La ruta ya tiene un locale. Omitiendo.");
+    logger.trace("[Middleware] La ruta ya tiene un locale. Omitiendo.");
     return NextResponse.next();
   }
 
-  const locale = getLocale(request);
-  console.log(
-    `[Middleware] Locale faltante. Detectado mejor locale: "${locale}"`
-  );
+  // --- INICIO DE REFACTORIZACIÓN: Lógica DX-First ---
+  let detectedLocale: Locale;
 
-  const newUrl = new URL(`/${locale}${pathname}`, request.url);
-  console.log(`[Middleware] Redirigiendo a: ${newUrl.toString()}`);
-  const response = NextResponse.redirect(newUrl, 308);
+  // Si NEXT_PUBLIC_SITE_LOCALE está definido en .env, tiene la MÁXIMA prioridad.
+  if (process.env.NEXT_PUBLIC_SITE_LOCALE) {
+    detectedLocale = defaultLocale; // `defaultLocale` ya lee y valida la variable del .env
+    logger.trace(
+      `[Middleware] Usando locale forzado desde .env: "${detectedLocale}"`
+    );
+  } else {
+    // Si no, recurrimos a la detección del navegador (comportamiento para producción).
+    detectedLocale = getLocaleFromBrowser(request);
+    logger.trace(
+      `[Middleware] .env no definido. Usando locale detectado del navegador: "${detectedLocale}"`
+    );
+  }
+  // --- FIN DE REFACTORIZACIÓN ---
+
+  const newUrl = new URL(`/${detectedLocale}${pathname}`, request.url);
+  logger.info(`[Middleware] Redirigiendo a: ${newUrl.toString()}`);
+
+  const response = NextResponse.redirect(newUrl, 308); // 308 es una redirección permanente
   response.headers.set("x-middleware-reason", "locale-redirect");
   return response;
 }
 
 export const config = {
-  // --- INICIO DE MODIFICACIÓN: Matcher Fortalecido ---
-  // Esta nueva expresión regular negativa excluye:
-  // - /api/
-  // - /_next/static/
-  // - /_next/image/
-  // - cualquier ruta que contenga un punto (.), lo que excluye eficazmente
-  //   todos los archivos estáticos como .svg, .png, favicon.ico, etc.
   matcher: ["/((?!api|_next/static|_next/image|.*\\..*).*)"],
-  // --- FIN DE MODIFICACIÓN ---
 };

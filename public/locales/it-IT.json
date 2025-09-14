@@ -120,6 +120,11 @@
       }
     ]
   },
+  "notFoundPage": {
+    "title": "Pagina Non Trovata",
+    "description": "Spiacenti, non siamo riusciti a trovare la pagina che stai cercando.",
+    "buttonText": "Torna alla Home"
+  },
   "devDashboardPage": {
     "title": "Developer Command Center",
     "subtitle": "Strumenti per lo sviluppo e la simulazione delle campagne.",
@@ -158,6 +163,37 @@
     "savingButtonText": "Salvataggio...",
     "successMessage": "Layout salvato con successo!",
     "errorMessage": "Errore nel salvataggio del layout."
+  },
+  "devLoginPage": {
+    "title": "Benvenuto, Dev Creator",
+    "subtitle": "Accedi al centro di comando per progettare e simulare le campagne.",
+    "usernameLabel": "Utente",
+    "usernamePlaceholder": "nome.utente",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "buttonText": "Continua",
+    "footerHtml": "Continuando, accedi alla suite di sviluppo interna. <br> Contatta l'<a href='#' class='underline hover:text-primary'>architetto</a> per le credenziali di produzione."
+  },
+  "devTestPage": {
+    "title": "Vetrina di Resilienza dei Componenti",
+    "subtitle": "Tutti i componenti del sistema renderizzati con dati SSoT reali per garantire la stabilità.",
+    "selectThemeLabel": "Seleziona Tema di Campagna",
+    "noContentWarning": "Contenuto non trovato per questo componente nel dizionario.",
+    "fallbackHeroTitle": "Titolo di Fallback",
+    "fallbackHeroSubtitle": "Sottotitolo di fallback per il componente Hero.",
+    "fallbackBenefitsTitle": "Benefici di Fallback",
+    "fallbackBenefitsSubtitle": "Sottotitolo di fallback per i benefici.",
+    "fallbackBenefit1": "Beneficio 1",
+    "fallbackBenefit2": "Beneficio 2",
+    "fallbackBenefit3": "Beneficio 3",
+    "fallbackAccordionQuestion": "Domanda di Fallback?",
+    "fallbackAccordionAnswer": "Risposta di fallback.",
+    "fallbackOrderNameLabel": "Nome",
+    "fallbackOrderNamePlaceholder": "Nome Completo",
+    "fallbackOrderPhoneLabel": "Telefono",
+    "fallbackOrderPhonePlaceholder": "Numero di Telefono",
+    "fallbackOrderSubmitText": "Invia",
+    "fallbackOrderLoadingText": "Invio in corso..."
   },
   "benefitsSection": {
     "eyebrow": "Benefici",
@@ -290,81 +326,76 @@
     ]
   },
   "footer": {
-    "logoName": "Shadcn",
+    "logoName": "Global Fitwell",
+    "newsletter": {
+      "title": "Rimani Aggiornato con Global Fitwell",
+      "description": "Ottieni consigli esclusivi sul benessere, approfondimenti scientifici e offerte speciali direttamente nella tua casella di posta.",
+      "placeholder": "La tua migliore email",
+      "buttonText": "Iscriviti Ora"
+    },
     "linkColumns": [
       {
-        "title": "Contatti",
+        "title": "Azienda",
         "links": [
           {
-            "label": "Github",
-            "href": "#"
+            "label": "Chi Siamo",
+            "href": "/it-IT/about"
           },
           {
-            "label": "Twitter",
-            "href": "#"
-          },
-          {
-            "label": "Instagram",
-            "href": "#"
+            "label": "Blog / Notizie",
+            "href": "/it-IT/news"
           }
         ]
       },
       {
-        "title": "Piattaforme",
+        "title": "Risorse",
         "links": [
-          {
-            "label": "iOS",
-            "href": "#"
-          },
-          {
-            "label": "Android",
-            "href": "#"
-          },
-          {
-            "label": "Web",
-            "href": "#"
-          }
-        ]
-      },
-      {
-        "title": "Aiuto",
-        "links": [
-          {
-            "label": "Contattaci",
-            "href": "#"
-          },
           {
             "label": "FAQ",
             "href": "#"
-          },
-          {
-            "label": "Feedback",
-            "href": "#"
           }
         ]
       },
       {
-        "title": "Social",
+        "title": "Legale",
         "links": [
           {
-            "label": "Twitch",
-            "href": "#"
+            "label": "Termini di Servizio",
+            "href": "/it-IT/terms"
           },
           {
-            "label": "Discord",
-            "href": "#"
+            "label": "Politica sulla Privacy",
+            "href": "/it-IT/privacy"
           },
           {
-            "label": "Dribbble",
-            "href": "#"
+            "label": "Politica sui Cookie",
+            "href": "/it-IT/cookies"
           }
         ]
       }
     ],
-    "copyright": "© 2024 Progettato e sviluppato da",
+    "socialLinks": [
+      {
+        "name": "X (Twitter)",
+        "url": "https://x.com",
+        "icon": "Twitter"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://instagram.com",
+        "icon": "Instagram"
+      },
+      {
+        "name": "Youtube",
+        "url": "https://youtube.com",
+        "icon": "Youtube"
+      }
+    ],
+    "copyright": "© 2025 Global Fitwell. Tutti i diritti riservati.",
+    "disclaimer": "Le informazioni fornite su questo sito sono solo a scopo informativo. I prodotti qui presentati non sono destinati a diagnosticare, trattare, curare o prevenire alcuna malattia.",
     "developerLink": {
-      "text": "Leo Miranda",
-      "href": "https://github.com/leoMirandaa"
+      "text": "Sviluppato da RaZ Podestá - MetaShark Tech",
+      "href": "https://metashark.tech"
     }
   },
   "header": {

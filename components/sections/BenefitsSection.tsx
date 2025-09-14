@@ -2,10 +2,11 @@
 /**
  * @file BenefitsSection.tsx
  * @description Componente de presentación para la sección de Beneficios.
- *              - v3.1.0: Se introduce el tipado explícito para los parámetros del
- *                mapa de beneficios, resolviendo el error TS7006 de forma definitiva
- *                y mejorando la robustez del código.
- * @version 3.1.0
+ *              - v3.2.0: Resuelve el error TS2741 haciendo que la prop `content` sea
+ *                opcional, alineando el contrato de la interfaz con el esquema de Zod
+ *                (`benefits-section.schema.ts`) y mejorando la compatibilidad con el
+ *                `SectionRenderer` dinámico.
+ * @version 3.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -13,17 +14,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- INICIO DE MODIFICACIÓN ---
-// Se importa el tipo atómico para un ítem de beneficio desde su SSoT.
 import type { BenefitItem } from "@/lib/schemas/components/benefits-section.schema";
-// --- FIN DE MODIFICACIÓN ---
 
 /**
  * @interface BenefitsSectionProps
  * @description Define el contrato de props para el componente.
  */
 interface BenefitsSectionProps {
-  content: Dictionary["benefitsSection"];
+  content?: Dictionary["benefitsSection"]; // <-- ¡CORRECCIÓN APLICADA AQUÍ! Ahora es opcional.
 }
 
 /**
@@ -58,10 +56,7 @@ export const BenefitsSection = ({
         </div>
 
         <div className="grid lg:grid-cols-2 gap-4 w-full">
-          {/* --- INICIO DE CORRECCIÓN --- */}
-          {/* Se aplica el tipado explícito a los parámetros del map. */}
           {benefits.map((benefit: BenefitItem, index: number) => (
-            // --- FIN DE CORRECCIÓN ---
             <Card
               key={benefit.title}
               className="bg-muted/50 dark:bg-card hover:bg-background transition-all delay-75 group/number"
@@ -89,4 +84,3 @@ export const BenefitsSection = ({
     </section>
   );
 };
-// components/sections/BenefitsSection.tsx

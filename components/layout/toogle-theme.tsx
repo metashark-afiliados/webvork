@@ -1,8 +1,12 @@
+// components/layout/toogle-theme.tsx
+"use client"; // <-- ¡CORRECCIÓN APLICADA AQUÍ!
+
 import { useTheme } from "next-themes";
 import { Button } from "../ui/Button";
 import { Moon, Sun } from "lucide-react";
 
 export const ToggleTheme = () => {
+  console.log("[Observabilidad] Renderizando ToggleTheme (Client Component)"); // Agregado para observabilidad
   const { theme, setTheme } = useTheme();
   return (
     <Button

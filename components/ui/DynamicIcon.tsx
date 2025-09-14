@@ -2,15 +2,15 @@
 /**
  * @file DynamicIcon.tsx
  * @description SSoT para el renderizado dinámico de iconos de lucide-react.
- *              Este componente es la única vía autorizada para mostrar iconos,
- *              garantizando consistencia, rendimiento (code-splitting) y seguridad de tipos.
- *              - v16.0.0: Resuelve el error TS7053 mejorando la resiliencia de la
- *                lógica de fallback contra fallos de inferencia de tipos de TS.
- *                Se unifica el flujo de carga para ser más DRY y robusto.
- * @version 16.0.0
+ *              - v17.1.0: Corrige un error crítico en la función `pascalToKebab`
+ *                cuya expresión regular defectuosa generaba nombres de icono inválidos
+ *                (ej. '-arrow-right'), causando que todos los iconos fallaran en cargarse.
+ * @version 17.1.0
  * @author RaZ podesta - MetaShark Tech
  * @see .docs-espejo/components/ui/DynamicIcon.tsx.md
  */
+"use client";
+
 import { FunctionComponent, memo } from "react";
 import dynamic from "next/dynamic";
 import { LucideProps } from "lucide-react";
@@ -26,18 +26,23 @@ const DYNAMIC_ICON_CONFIG = {
     "aria-hidden": true,
     focusable: false,
   },
-  FALLBACK_ICON_NAME: "HelpCircle", // SSoT para el icono de fallback (PascalCase)
+  FALLBACK_ICON_NAME: "HelpCircle",
 };
 
 /**
  * @function pascalToKebab
- * @description Convierte una cadena en PascalCase a kebab-case. Es una función pura.
- * @param {string} str - La cadena de entrada (ej. "FlaskConical").
- * @returns {string} La cadena convertida (ej. "flask-conical").
+ * @description Convierte una cadena en PascalCase a kebab-case de forma robusta.
+ * @param {string} str - La cadena de entrada (ej. "ArrowRight", "ALargeSmall").
+ * @returns {string} La cadena convertida (ej. "arrow-right", "a-large-small").
  */
+// --- [1] INICIO DE CORRECCIÓN: Expresión regular robusta ---
 const pascalToKebab = (str: string): string => {
-  return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2").toLowerCase();
+  return str
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2") // Inserta guion entre minúscula/número y mayúscula
+    .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2") // Inserta guion entre mayúsculas seguidas (ej. `MyAPI` -> `my-api`)
+    .toLowerCase(); // Convierte todo a minúsculas
 };
+// --- FIN DE CORRECCIÓN ---
 
 interface DynamicIconProps extends LucideProps {
   name: LucideIconName;
@@ -55,8 +60,6 @@ const DynamicIcon: FunctionComponent<DynamicIconProps> = ({
     DYNAMIC_ICON_CONFIG.FALLBACK_ICON_NAME
   );
 
-  // Determina qué nombre de icono cargar, priorizando el solicitado.
-  // Si el icono solicitado no existe en el manifiesto, usa el fallback.
   const iconToLoad = (
     Object.keys(dynamicIconImports).includes(kebabCaseName)
       ? kebabCaseName
@@ -72,9 +75,9 @@ const DynamicIcon: FunctionComponent<DynamicIconProps> = ({
     );
   }
 
-  // Carga el componente de icono de forma dinámica.
   const LucideIcon = dynamic(dynamicIconImports[iconToLoad], {
     loading: () => (
+      // [2] MEJORA: Fallback de carga más simple para evitar dependencias circulares.
       <div
         style={{
           width: props.size ?? DYNAMIC_ICON_CONFIG.DEFAULT_SIZE,
@@ -97,6 +100,4 @@ const DynamicIcon: FunctionComponent<DynamicIconProps> = ({
   );
 };
 
-// Se utiliza React.memo para optimizar, ya que los iconos raramente cambian sus props.
 export default memo(DynamicIcon);
-// components/ui/DynamicIcon.tsx

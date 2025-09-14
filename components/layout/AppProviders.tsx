@@ -2,24 +2,24 @@
 /**
  * @file AppProviders.tsx
  * @description Componente proveedor del lado del cliente.
- *              - v2.0.0 (Resiliencia de Locale): Añade un fallback al `defaultLocale`
- *                para la construcción del enlace de la política de cookies,
- *                previniendo enlaces rotos en páginas de error (ej. 404).
- * @version 2.0.0
- * @author Gemini AI - Asistente de IA de Google
+ *              - v3.0.0: Integra el hook `useUserPreferences` para sincronizar
+ *                el locale de la URL con las preferencias persistentes del usuario.
+ * @version 3.0.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useProducerLogic } from "@/hooks/useProducerLogic";
+import { useUserPreferences } from "@/hooks/useUserPreferences"; // <-- [1] IMPORTAR NUEVO HOOK
 import { CookieConsentBanner } from "./CookieConsentBanner";
 import type { Dictionary } from "@/schemas/i18n.schema";
-import { defaultLocale, type Locale } from "@/lib/i18n.config"; // Importar defaultLocale
+import { defaultLocale, type Locale } from "@/lib/i18n.config";
 import { logger } from "@/lib/logging";
 
 interface AppProvidersProps {
   children: React.ReactNode;
-  locale?: Locale; // El locale ahora puede ser opcional
+  locale?: Locale;
   cookieConsentContent: Dictionary["cookieConsentBanner"];
 }
 
@@ -30,12 +30,21 @@ export default function AppProviders({
 }: AppProvidersProps): React.ReactElement {
   logger.info("[AppProviders] Inicializando proveedores de cliente...");
   useProducerLogic();
+  const { preferences, setPreference } = useUserPreferences(); // <-- [2] INVOCAR HOOK
 
-  // --- INICIO DE MODIFICACIÓN: Fallback de Locale ---
-  // Si el locale no se proporciona (ej. en una página 404),
-  // utilizamos el defaultLocale para construir un enlace funcional.
   const safeLocale = locale || defaultLocale;
-  // --- FIN DE MODIFICACIÓN ---
+
+  // --- [3] EFECTO DE SINCRONIZACIÓN ---
+  // Este efecto se asegura de que el locale actual (de la URL) se guarde
+  // en las preferencias del usuario si es diferente al que ya está guardado.
+  useEffect(() => {
+    if (safeLocale && preferences.locale !== safeLocale) {
+      logger.info(
+        `Sincronizando locale de URL ('${safeLocale}') con preferencias de usuario.`
+      );
+      setPreference("locale", safeLocale);
+    }
+  }, [safeLocale, preferences.locale, setPreference]);
 
   return (
     <>

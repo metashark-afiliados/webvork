@@ -2,7 +2,9 @@
 /**
  * @file PricingSection.tsx
  * @description Componente de sección para mostrar planes de precios.
- * @version 1.0.0
+ *              - v1.1.0: Mejora la consistencia del sistema de iconos al reemplazar la
+ *                importación directa de `Check` por el componente `DynamicIcon`.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -15,7 +17,8 @@ import {
   CardDescription,
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { Check } from "lucide-react";
+// import { Check } from "lucide-react"; // <-- ELIMINADO
+import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
 import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
@@ -40,7 +43,9 @@ export function PricingSection({
   content,
   locale,
 }: PricingSectionProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando PricingSection");
+  logger.info(
+    "[Observabilidad] Renderizando PricingSection (Server Component)"
+  ); // Observabilidad actualizada
 
   if (!content) {
     logger.warn(
@@ -109,7 +114,8 @@ export function PricingSection({
                 >
                   {plan.benefitList.map((benefit) => (
                     <li key={benefit} className="flex gap-x-3">
-                      <Check
+                      <DynamicIcon // <-- USO DE DYNAMICICON
+                        name="Check"
                         className="h-6 w-5 flex-none text-primary"
                         aria-hidden="true"
                       />
@@ -131,4 +137,3 @@ export function PricingSection({
     </section>
   );
 }
-// components/sections/PricingSection.tsx

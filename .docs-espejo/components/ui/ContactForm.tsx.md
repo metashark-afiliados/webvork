@@ -1,10 +1,11 @@
 // .docs-espejo/components/ui/ContactForm.tsx.md
-/**
- * @file ContactForm.tsx.md
- * @description Documento Espejo y SSoT conceptual para el componente atómico ContactForm.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file ContactForm.tsx.md
+- @description Documento Espejo y SSoT conceptual para el componente atómico ContactForm.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: ContactForm
 
@@ -24,15 +25,15 @@ Su propósito es ser un componente reutilizable, seguro y que proporciona una ex
 
 ## 3. Contrato de API
 
--   **Función:** `ContactForm({ content }: ContactFormProps): React.ReactElement`
--   **Props (`ContactFormProps`):**
-    -   `content`: Un objeto que contiene todos los textos para los labels, placeholders y el botón de envío.
+- **Función:** `ContactForm({ content }: ContactFormProps): React.ReactElement`
+- **Props (`ContactFormProps`):**
+  - `content`: Un objeto que contiene todos los textos para los labels, placeholders y el botón de envío.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Integración con Server Actions:** Reemplazar la simulación de `onSubmit` con una llamada a una Server Action real que maneje el envío de correos o la inserción en una base de datos.
-*   **Manejo de Estado de Envío Mejorado:** Mostrar mensajes de éxito o error al usuario después del envío del formulario utilizando `react-hot-toast` o un sistema similar.
-*   **Protección Anti-Spam:** Integrar un sistema de protección como Google reCAPTCHA v3.
-*   **Componente Genérico:** Evolucionar el `ContactForm` hacia un componente `FormBuilder` más genérico que pueda construir diferentes formularios a partir de una configuración JSON.
+- **Integración con Server Actions:** Reemplazar la simulación de `onSubmit` con una llamada a una Server Action real que maneje el envío de correos o la inserción en una base de datos.
+- **Manejo de Estado de Envío Mejorado:** Mostrar mensajes de éxito o error al usuario después del envío del formulario utilizando `react-hot-toast` o un sistema similar.
+- **Protección Anti-Spam:** Integrar un sistema de protección como Google reCAPTCHA v3.
+- **Componente Genérico:** Evolucionar el `ContactForm` hacia un componente `FormBuilder` más genérico que pueda construir diferentes formularios a partir de una configuración JSON.
 
 // .docs-espejo/components/ui/ContactForm.tsx.md

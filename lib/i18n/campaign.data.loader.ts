@@ -1,11 +1,12 @@
 // lib/i18n/campaign.data.loader.ts
 /**
  * @file campaign.data.loader.ts
- * @description Aparato Atómico: Cargador de Datos de Campaña. Refactorizado para
- *              utilizar `fs.promises.readFile` en lugar de `import()` dinámico,
- *              garantizando robustez en el build de producción y mejorando el
- *              manejo de errores y la observabilidad.
- * @version 2.0.0
+ * @description Aparato Atómico: Cargador de Datos de Campaña.
+ *              - v2.1.0 (Corrección de Ruta Crítica): Se elimina el segmento 'src'
+ *                hardcodeado de la construcción de la ruta, alineando la lógica
+ *                con la estructura de directorios SSoT del proyecto y resolviendo
+ *                los errores fatales 'ENOENT'.
+ * @version 2.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import "server-only";
@@ -26,14 +27,17 @@ const constructAssetPath = (campaignId: string, assetPath: string): string => {
     ? assetPath.substring(2)
     : assetPath;
 
+  // --- INICIO DE CORRECCIÓN ---
+  // Se elimina el segmento "src" de la ruta, ya que el directorio "content"
+  // está en la raíz del proyecto, no dentro de "src".
   return path.join(
     process.cwd(),
-    "src",
     "content",
     "campaigns",
     campaignId,
     normalizedAssetPath
   );
+  // --- FIN DE CORRECCIÓN ---
 };
 
 /**
@@ -75,7 +79,6 @@ export async function loadCampaignAsset<T>(
       } else {
         errorMessage = `Error al leer el archivo de activo: ${absolutePath}`;
       }
-      // Adjuntamos el mensaje original para más contexto
       errorMessage += ` | Causa Original: ${error.message}`;
     }
 

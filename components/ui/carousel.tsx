@@ -1,14 +1,25 @@
 // components/ui/Carousel.tsx
+/**
+ * @file Carousel.tsx
+ * @description Componente de UI para un carrusel interactivo, basado en Embla Carousel.
+ *              - v2.2.0 (Type Safety Definitiva): Resuelve el error de tipo TS2322 de forma
+ *                robusta. Se crea un tipo de props específico (`CarouselNavButtonProps`) para
+ *                los botones de navegación que hereda solo los atributos de un botón real,
+ *                eliminando por completo la ambigüedad polimórfica heredada del componente Button.
+ * @version 2.2.0
+ * @author RaZ podesta - MetaShark Tech
+ */
 "use client";
 
 import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-
+import DynamicIcon from "@/components/ui/DynamicIcon";
+import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/Button";
+import type { VariantProps } from "class-variance-authority";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -36,6 +47,7 @@ const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 function useCarousel() {
   const context = React.useContext(CarouselContext);
   if (!context) {
+    logger.error("useCarousel must be used within a <Carousel />");
     throw new Error("useCarousel must be used within a <Carousel />");
   }
   return context;
@@ -57,6 +69,7 @@ const Carousel = React.forwardRef<
     },
     ref
   ) => {
+    logger.info("[Observabilidad] Renderizando Carousel (Client Component)");
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
@@ -68,9 +81,7 @@ const Carousel = React.forwardRef<
     const [canScrollNext, setCanScrollNext] = React.useState(false);
 
     const onSelect = React.useCallback((api: CarouselApi) => {
-      if (!api) {
-        return;
-      }
+      if (!api) return;
       setCanScrollPrev(api.canScrollPrev());
       setCanScrollNext(api.canScrollNext());
     }, []);
@@ -97,16 +108,12 @@ const Carousel = React.forwardRef<
     );
 
     React.useEffect(() => {
-      if (!api || !setApi) {
-        return;
-      }
+      if (!api || !setApi) return;
       setApi(api);
     }, [api, setApi]);
 
     React.useEffect(() => {
-      if (!api) {
-        return;
-      }
+      if (!api) return;
       onSelect(api);
       api.on("reInit", onSelect);
       api.on("select", onSelect);
@@ -149,6 +156,7 @@ const CarouselContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
+  logger.trace("[Observabilidad] Renderizando CarouselContent");
   const { carouselRef, orientation } = useCarousel();
   return (
     <div ref={carouselRef} className="overflow-hidden">
@@ -170,6 +178,7 @@ const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
+  logger.trace("[Observabilidad] Renderizando CarouselItem");
   const { orientation } = useCarousel();
   return (
     <div
@@ -187,10 +196,15 @@ const CarouselItem = React.forwardRef<
 });
 CarouselItem.displayName = "CarouselItem";
 
+// --- INICIO DE CORRECCIÓN: Tipo de props explícito y no polimórfico ---
+type CarouselNavButtonProps = VariantProps<typeof buttonVariants> &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
+
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<typeof Button>
+  CarouselNavButtonProps
 >(({ className, variant = "secondary", size = "icon", ...props }, ref) => {
+  logger.trace("[Observabilidad] Renderizando CarouselPrevious");
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
   return (
     <Button
@@ -198,7 +212,7 @@ const CarouselPrevious = React.forwardRef<
       variant={variant}
       size={size}
       className={cn(
-        "absolute  h-8 w-8 rounded-full",
+        "absolute h-8 w-8 rounded-full",
         orientation === "horizontal"
           ? "-left-12 top-1/2 -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
@@ -208,7 +222,7 @@ const CarouselPrevious = React.forwardRef<
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft className="h-4 w-4" />
+      <DynamicIcon name="ArrowLeft" className="h-4 w-4" />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -217,8 +231,9 @@ CarouselPrevious.displayName = "CarouselPrevious";
 
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<typeof Button>
+  CarouselNavButtonProps
 >(({ className, variant = "secondary", size = "icon", ...props }, ref) => {
+  logger.trace("[Observabilidad] Renderizando CarouselNext");
   const { orientation, scrollNext, canScrollNext } = useCarousel();
   return (
     <Button
@@ -236,12 +251,13 @@ const CarouselNext = React.forwardRef<
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight className="h-4 w-4" />
+      <DynamicIcon name="ArrowRight" className="h-4 w-4" />
       <span className="sr-only">Next slide</span>
     </Button>
   );
 });
 CarouselNext.displayName = "CarouselNext";
+// --- FIN DE CORRECCIÓN ---
 
 export {
   type CarouselApi,
@@ -251,4 +267,3 @@ export {
   CarouselPrevious,
   CarouselNext,
 };
-// components/ui/Carousel.tsx

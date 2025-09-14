@@ -1,65 +1,74 @@
-// src/components/sections/IngredientAnalysis.tsx
+// components/sections/ContactSection.tsx
 /**
- * @file IngredientAnalysis.tsx
- * @description Sección de Análisis de Ingredientes.
- *              - v2.0.0: Refactorizado para adherirse al contrato de props unificado
- *                del `SectionRenderer`, aceptando un único prop `content`.
- * @version 2.0.0
+ * @file ContactSection.tsx
+ * @description Sección de Contacto. Orquestador que compone la información
+ *              de contacto y el formulario atómico.
+ *              - v3.1.0: Resuelve el error TS2741 haciendo que la prop `content` sea
+ *                opcional, alineando el contrato de la interfaz con el esquema de Zod
+ *                (`contact-section.schema.ts`) y mejorando la compatibilidad con el
+ *                `SectionRenderer` dinámico.
+ * @version 3.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
-import { Container } from "@/components/ui/Container";
+import { Container } from "@/ui/Container";
+import DynamicIcon from "@/ui/DynamicIcon";
+import { ContactForm } from "@/forms/ContactForm";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Dictionary } from "@/schemas/i18n.schema";
+import type { ContactInfoItem } from "@/schemas/components/contact-section.schema";
 
-// --- INICIO DE CORRECCIÓN: Contrato de Props Unificado ---
-interface IngredientAnalysisProps {
-  content: Dictionary["ingredientAnalysis"];
+interface ContactSectionProps {
+  content?: Dictionary["contactSection"]; // <-- ¡CORRECCIÓN APLICADA AQUÍ! Ahora es opcional.
 }
-// --- FIN DE CORRECCIÓN ---
 
-/**
- * @component IngredientAnalysis
- * @description Renderiza una sección informativa sobre los ingredientes.
- * @param {IngredientAnalysisProps} props Las propiedades con el contenido.
- * @returns {React.ReactElement | null} El elemento JSX que representa la sección.
- */
-export function IngredientAnalysis({
+export const ContactSection = ({
   content,
-}: IngredientAnalysisProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando IngredientAnalysis");
+}: ContactSectionProps): React.ReactElement | null => {
+  logger.info("[Observabilidad] Renderizando ContactSection (Orquestador)");
 
   if (!content) {
     logger.warn(
-      "[IngredientAnalysis] No se proporcionó contenido. La sección no se renderizará."
+      "[ContactSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
 
-  // Desestructuración de datos desde el objeto `content`.
-  const { title, ingredients } = content;
+  const { eyebrow, title, description, contactInfo, form } = content;
 
   return (
-    <section className="py-16 sm:py-24 bg-background">
+    <section id="contact" className="py-24 sm:py-32">
       <Container>
-        <h2 className="text-3xl font-bold text-center text-foreground mb-12 sm:text-4xl">
-          {title}
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {ingredients.map((ingredient) => (
-            <div
-              key={ingredient.name}
-              className="p-6 border border-white/10 rounded-lg text-center transition-all duration-300 hover:shadow-xl hover:border-primary/50 hover:-translate-y-1"
-            >
-              <h3 className="text-xl font-bold text-primary mb-2">
-                {ingredient.name}
-              </h3>
-              <p className="text-foreground/80">{ingredient.description}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <div className="mb-4">
+              <h2 className="text-lg text-primary mb-2 tracking-wider">
+                {eyebrow}
+              </h2>
+              <h3 className="text-3xl md:text-4xl font-bold">{title}</h3>
             </div>
-          ))}
+            <p className="mb-8 text-muted-foreground lg:w-5/6">{description}</p>
+
+            <div className="flex flex-col gap-4">
+              {contactInfo.map((info: ContactInfoItem) => (
+                <div key={info.label} className="flex items-center gap-4">
+                  <DynamicIcon
+                    name={info.iconName}
+                    className="h-6 w-6 text-primary"
+                  />
+                  <div>
+                    <p className="font-semibold text-foreground">
+                      {info.label}
+                    </p>
+                    <p className="text-muted-foreground">{info.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <ContactForm content={form} />
         </div>
       </Container>
     </section>
   );
-}
-// src/components/sections/IngredientAnalysis.tsx
+};

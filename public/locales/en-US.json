@@ -120,6 +120,11 @@
       }
     ]
   },
+  "notFoundPage": {
+    "title": "Page Not Found",
+    "description": "Sorry, we couldn’t find the page you’re looking for.",
+    "buttonText": "Go Back Home"
+  },
   "devDashboardPage": {
     "title": "Developer Command Center",
     "subtitle": "Tools for campaign development and simulation.",
@@ -158,6 +163,37 @@
     "savingButtonText": "Saving...",
     "successMessage": "Layout saved successfully!",
     "errorMessage": "Error saving layout."
+  },
+  "devLoginPage": {
+    "title": "Welcome, Dev Creator",
+    "subtitle": "Access the command center to design and simulate campaigns.",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "user.name",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "••••••••",
+    "buttonText": "Continue",
+    "footerHtml": "By continuing, you access the internal development suite. <br> Contact the <a href='#' class='underline hover:text-primary'>architect</a> for production credentials."
+  },
+  "devTestPage": {
+    "title": "Component Resilience Showcase",
+    "subtitle": "All system components rendered with real SSoT data to ensure stability.",
+    "selectThemeLabel": "Select Campaign Theme",
+    "noContentWarning": "Content not found for this component in the dictionary.",
+    "fallbackHeroTitle": "Fallback Title",
+    "fallbackHeroSubtitle": "Fallback subtitle for the Hero component.",
+    "fallbackBenefitsTitle": "Fallback Benefits",
+    "fallbackBenefitsSubtitle": "Fallback subtitle for benefits.",
+    "fallbackBenefit1": "Benefit 1",
+    "fallbackBenefit2": "Benefit 2",
+    "fallbackBenefit3": "Benefit 3",
+    "fallbackAccordionQuestion": "Fallback Question?",
+    "fallbackAccordionAnswer": "Fallback answer.",
+    "fallbackOrderNameLabel": "Name",
+    "fallbackOrderNamePlaceholder": "Full Name",
+    "fallbackOrderPhoneLabel": "Phone",
+    "fallbackOrderPhonePlaceholder": "Phone Number",
+    "fallbackOrderSubmitText": "Submit",
+    "fallbackOrderLoadingText": "Submitting..."
   },
   "benefitsSection": {
     "eyebrow": "Benefits",
@@ -198,6 +234,79 @@
     "acceptButtonText": "Accept",
     "rejectButtonText": "Decline",
     "policyLinkText": "Read our cookie policy"
+  },
+  "footer": {
+    "logoName": "Global Fitwell",
+    "newsletter": {
+      "title": "Stay Updated with Global Fitwell",
+      "description": "Get exclusive wellness tips, scientific research insights, and special offers delivered directly to your inbox.",
+      "placeholder": "Your best email",
+      "buttonText": "Subscribe Now"
+    },
+    "linkColumns": [
+      {
+        "title": "Company",
+        "links": [
+          {
+            "label": "About Us",
+            "href": "/en-US/about"
+          },
+          {
+            "label": "Blog / News",
+            "href": "/en-US/news"
+          }
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          {
+            "label": "FAQ",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Legal",
+        "links": [
+          {
+            "label": "Terms of Service",
+            "href": "/en-US/terms"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/en-US/privacy"
+          },
+          {
+            "label": "Cookie Policy",
+            "href": "/en-US/cookies"
+          }
+        ]
+      }
+    ],
+    "socialLinks": [
+      {
+        "name": "X (Twitter)",
+        "url": "https://x.com",
+        "icon": "Twitter"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://instagram.com",
+        "icon": "Instagram"
+      },
+      {
+        "name": "Youtube",
+        "url": "https://youtube.com",
+        "icon": "Youtube"
+      }
+    ],
+    "copyright": "© 2025 Global Fitwell. All rights reserved.",
+    "disclaimer": "The information provided on this site is for informational purposes only. The products featured here are not intended to diagnose, treat, cure, or prevent any disease.",
+    "developerLink": {
+      "text": "Developed by RaZ Podestá - MetaShark Tech",
+      "href": "https://metashark.tech"
+    }
   },
   "header": {
     "logoUrl": "/img/layout/header/globalfitwell-logo-v2.svg",
@@ -469,5 +578,66 @@
     "changeLanguage": "Change language",
     "currentLanguageIs": "Current language is"
   },
-  "dock": {}
+  "dock": {},
+  "lightRays": {
+    "raysOrigin": "top-center",
+    "raysColor": "primary",
+    "raysSpeed": 1.5,
+    "lightSpread": 0.8,
+    "rayLength": 1.2,
+    "pulsating": false,
+    "fadeDistance": 1,
+    "saturation": 1,
+    "followMouse": true,
+    "mouseInfluence": 0.1,
+    "noiseAmount": 0.1,
+    "distortion": 0.05
+  },
+  "magicBento": {
+    "config": {
+      "textAutoHide": true,
+      "enableStars": true,
+      "enableSpotlight": true,
+      "enableBorderGlow": true,
+      "disableAnimations": false,
+      "spotlightRadius": 300,
+      "particleCount": 12,
+      "enableTilt": true,
+      "glowColor": "primary",
+      "clickEffect": true,
+      "enableMagnetism": true
+    },
+    "cards": [
+      {
+        "title": "Advanced Analytics",
+        "description": "Track user behavior with precision.",
+        "label": "Insights"
+      },
+      {
+        "title": "Unified Dashboard",
+        "description": "A centralized view of all your data.",
+        "label": "Overview"
+      },
+      {
+        "title": "Collaboration",
+        "description": "Work seamlessly with your team.",
+        "label": "Team"
+      },
+      {
+        "title": "Automation",
+        "description": "Simplify complex workflows.",
+        "label": "Efficiency"
+      },
+      {
+        "title": "Integration",
+        "description": "Connect your favorite tools.",
+        "label": "Connectivity"
+      },
+      {
+        "title": "Security",
+        "description": "Enterprise-grade protection for your data.",
+        "label": "Protection"
+      }
+    ]
+  }
 }

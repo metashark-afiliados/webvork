@@ -1,10 +1,11 @@
 // .docs-espejo/components/dev/DevRouteMenu.tsx.md
-/**
- * @file .docs-espejo/components/dev/DevRouteMenu.tsx.md
- * @description Documento Espejo y SSoT conceptual para el componente de menú DevRouteMenu.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file .docs-espejo/components/dev/DevRouteMenu.tsx.md
+- @description Documento Espejo y SSoT conceptual para el componente de menú DevRouteMenu.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Aparato DevRouteMenu
 
@@ -24,7 +25,7 @@ Su propósito estratégico es desacoplar completamente la **apariencia** del men
 
 ## 3. Contrato de API
 
--   **`routeGroups: RouteGroup[]`**: **(Requerida)** La estructura de datos que define el contenido y la jerarquía del menú.
+- **`routeGroups: RouteGroup[]`**: **(Requerida)** La estructura de datos que define el contenido y la jerarquía del menú.
 
 ## 4. Zona de Melhorias Futuras
 
@@ -32,4 +33,4 @@ Su propósito estratégico es desacoplar completamente la **apariencia** del men
 2.  **Soporte para Submenús:** Extender la estructura de datos y la lógica de renderizado para permitir la creación de submenús anidados, utilizando un componente como `DropdownMenuSub` si el sistema base lo permite.
 3.  **Atajos de Teclado (Keyboard Shortcuts):** Integrar la capacidad de mostrar atajos de teclado junto a cada `DropdownMenuItem`, similar a las aplicaciones de escritorio, para mejorar la accesibilidad y la productividad del desarrollador.
 4.  **Búsqueda/Filtro Integrado:** Añadir un campo de búsqueda en la parte superior del `DropdownMenuContent` que permita al desarrollador filtrar rápidamente la lista de rutas disponibles.
-// .docs-espejo/components/dev/DevRouteMenu.tsx.md
+    // .docs-espejo/components/dev/DevRouteMenu.tsx.md

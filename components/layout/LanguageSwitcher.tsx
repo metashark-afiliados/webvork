@@ -1,16 +1,20 @@
-// src/components/layout/LanguageSwitcher.tsx
+// components/layout/LanguageSwitcher.tsx
 /**
  * @file LanguageSwitcher.tsx
  * @description Componente de UI puro y atómico para cambiar el idioma.
  *              Refactorizado para ser data-driven y completamente reutilizable.
- * @version 2.0.0
+ *              - v2.1.0: Mejora la consistencia del sistema de iconos al reemplazar
+ *                las importaciones directas de `Globe` y `ChevronDown` por el
+ *                componente `DynamicIcon`.
+ * @version 2.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { Globe, ChevronDown } from "lucide-react";
+// import { Globe, ChevronDown } from "lucide-react"; // <-- ELIMINADO
+import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
 import { type Locale } from "@/lib/i18n.config";
 import { logger } from "@/lib/logging";
 
@@ -23,7 +27,9 @@ export function LanguageSwitcher({
   currentLocale,
   supportedLocales,
 }: LanguageSwitcherProps): React.ReactElement {
-  logger.info("[LanguageSwitcher] Renderizando componente puro.");
+  logger.info(
+    "[Observabilidad] Renderizando LanguageSwitcher (Client Component)"
+  ); // Observabilidad actualizada
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -55,11 +61,12 @@ export function LanguageSwitcher({
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
-        <Globe size={18} />
+        <DynamicIcon name="Globe" size={18} /> {/* <-- USO DE DYNAMICICON */}
         <span className="text-sm font-medium">
           {currentLocale.toUpperCase()}
         </span>
-        <ChevronDown
+        <DynamicIcon // <-- USO DE DYNAMICICON
+          name="ChevronDown"
           size={16}
           className={`transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -87,4 +94,3 @@ export function LanguageSwitcher({
     </div>
   );
 }
-// src/components/layout/LanguageSwitcher.tsx

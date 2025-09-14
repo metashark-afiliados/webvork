@@ -1,16 +1,20 @@
-// src/components/sections/HeroNews.tsx
+// components/sections/HeroNews.tsx
 "use client";
 
 import React from "react";
 import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { ArrowRight } from "lucide-react";
+// import { ArrowRight } from "lucide-react"; // <-- ELIMINADO
+import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/lib/logging"; // Añadido para observabilidad
 
 /**
  * @file HeroNews.tsx
  * @description Sección Hero. Actualizado para aceptar una única prop `content`.
- * @version 2.0.0
+ *              - v2.1.0: Mejora la consistencia del sistema de iconos al reemplazar la
+ *                importación directa de `ArrowRight` por el componente `DynamicIcon`.
+ * @version 2.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 
@@ -20,7 +24,7 @@ interface HeroNewsProps {
 }
 
 export function HeroNews({ content }: HeroNewsProps): React.ReactElement {
-  console.log("[Observabilidad] Renderizando HeroNews");
+  logger.info("[Observabilidad] Renderizando HeroNews (Client Component)"); // Observabilidad actualizada
   const { mainTitle, featuredArticle } = content;
 
   const FADE_UP_ANIMATION_VARIANTS: Variants = {
@@ -58,7 +62,10 @@ export function HeroNews({ content }: HeroNewsProps): React.ReactElement {
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   {featuredArticle.tag}
                 </span>
-                <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent" />
+                <DynamicIcon // <-- USO DE DYNAMICICON
+                  name="ArrowRight"
+                  className="h-5 w-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent"
+                />
               </div>
               <h2 className="text-xl md:text-2xl font-semibold text-primary mb-2">
                 {featuredArticle.title}
@@ -71,4 +78,3 @@ export function HeroNews({ content }: HeroNewsProps): React.ReactElement {
     </section>
   );
 }
-// src/components/sections/HeroNews.tsx

@@ -2,33 +2,39 @@
 /**
  * @file Header.tsx
  * @description Componente de cabecera principal del portal.
- *              - v17.2.0: Refactoriza los alias de importación al patrón robusto
- *                `@/components/...` para garantizar la compatibilidad con el build.
- * @version 17.2.0
+ *              - v19.0.0 (Interactive Upgrade): Convertido a Client Component para
+ *                integrar <ToggleTheme /> y <LanguageSwitcher />, proporcionando
+ *                funcionalidad interactiva al usuario.
+ * @version 19.0.0
  * @author RaZ podesta - MetaShark Tech
  */
-"use client";
+"use client"; // <-- [1] CONVERTIDO A CLIENT COMPONENT
 
 import Image from "next/image";
 import Link from "next/link";
-// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
 import { Button } from "@/components/ui/Button";
-// --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/schemas/i18n.schema";
-import type { NavLink } from "@/schemas/components/header.schema";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { NavLink } from "@/lib/schemas/components/header.schema";
+import { type Locale } from "@/lib/i18n.config";
+import { ToggleTheme } from "./toogle-theme"; // <-- [2] IMPORTAR COMPONENTES INTERACTIVOS
+import { LanguageSwitcher } from "./LanguageSwitcher"; // <-- [2] IMPORTAR COMPONENTES INTERACTIVOS
 
 interface HeaderProps {
   content: Dictionary["header"];
-  devDictionary: Dictionary["devRouteMenu"];
+  devDictionary?: Dictionary["devRouteMenu"];
+  currentLocale: Locale; // <-- [3] NUEVAS PROPS REQUERIDAS
+  supportedLocales: readonly string[]; // <-- [3] NUEVAS PROPS REQUERIDAS
 }
 
 const Header = ({
   content,
   devDictionary,
+  currentLocale,
+  supportedLocales,
 }: HeaderProps): React.ReactElement | null => {
-  logger.info("[Observabilidad] Renderizando Header");
+  logger.info("[Observabilidad] Renderizando Header (Client Component)");
 
   if (!content) {
     logger.warn(
@@ -66,10 +72,15 @@ const Header = ({
       </nav>
 
       <div className="flex items-center gap-4 ml-auto">
+        <ToggleTheme /> {/* <-- [4] INTEGRACIÓN DE COMPONENTES */}
+        <LanguageSwitcher
+          currentLocale={currentLocale}
+          supportedLocales={supportedLocales}
+        />{" "}
+        {/* <-- [4] INTEGRACIÓN DE COMPONENTES */}
         <Button href={ctaButton.href} variant="accent" size="sm">
           {ctaButton.label}
         </Button>
-
         {process.env.NODE_ENV === "development" && devDictionary && (
           <DevToolsDropdown dictionary={devDictionary} />
         )}

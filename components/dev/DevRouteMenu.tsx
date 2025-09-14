@@ -2,18 +2,18 @@
 /**
  * @file DevRouteMenu.tsx
  * @description Componente de presentación puro para el menú de desarrollo.
- *              - v20.2.0: Refactoriza los alias de importación al patrón robusto
- *                `@/components/...` para garantizar la compatibilidad con el build.
- * @version 20.2.0
+ *              - v20.3.0: Mejora la consistencia del sistema de iconos al reemplazar
+ *                la importación directa de `Wrench` por el componente `DynamicIcon`
+ *                en el `DropdownMenuTrigger`.
+ * @version 20.3.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
-import { Wrench } from "lucide-react";
+// import { Wrench } from "lucide-react"; // <-- ELIMINADO
 import Link from "next/link";
-// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
 import { Button } from "@/components/ui/Button";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- Importación existente
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +23,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
-// --- FIN DE CORRECCIÓN ---
 import { type RouteGroup } from "./utils/route-menu.generator";
 
 interface DevRouteMenuProps {
@@ -39,7 +38,8 @@ export const DevRouteMenu = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="accent" size="sm">
-          <Wrench className="mr-2 h-4 w-4" />
+          <DynamicIcon name="Wrench" className="mr-2 h-4 w-4" />{" "}
+          {/* <-- USO DE DYNAMICICON */}
           Dev Menu
         </Button>
       </DropdownMenuTrigger>

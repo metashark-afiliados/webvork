@@ -120,6 +120,11 @@
       }
     ]
   },
+  "notFoundPage": {
+    "title": "Página Não Encontrada",
+    "description": "Desculpe, não conseguimos encontrar a página que você está procurando.",
+    "buttonText": "Voltar para o Início"
+  },
   "devDashboardPage": {
     "title": "Centro de Comando do Desenvolvedor",
     "subtitle": "Ferramentas para o desenvolvimento e simulação de campanhas.",
@@ -158,6 +163,37 @@
     "savingButtonText": "Salvando...",
     "successMessage": "Layout salvo com sucesso!",
     "errorMessage": "Erro ao salvar o layout."
+  },
+  "devLoginPage": {
+    "title": "Bem-vindo, Dev Creator",
+    "subtitle": "Acesse o centro de comando para projetar e simular campanhas.",
+    "usernameLabel": "Usuário",
+    "usernamePlaceholder": "nome.usuario",
+    "passwordLabel": "Senha",
+    "passwordPlaceholder": "••••••••",
+    "buttonText": "Continuar",
+    "footerHtml": "Ao continuar, você acessa a suíte de desenvolvimento interno. <br> Contate o <a href='#' class='underline hover:text-primary'>arquiteto</a> para credenciais de produção."
+  },
+  "devTestPage": {
+    "title": "Vitrine de Resiliência de Componentes",
+    "subtitle": "Todos os componentes do sistema renderizados com dados SSoT reais para garantir a estabilidade.",
+    "selectThemeLabel": "Selecionar Tema da Campanha",
+    "noContentWarning": "Conteúdo não encontrado para este componente no dicionário.",
+    "fallbackHeroTitle": "Título de Fallback",
+    "fallbackHeroSubtitle": "Subtítulo de fallback para o componente Hero.",
+    "fallbackBenefitsTitle": "Benefícios de Fallback",
+    "fallbackBenefitsSubtitle": "Subtítulo de fallback para benefícios.",
+    "fallbackBenefit1": "Benefício 1",
+    "fallbackBenefit2": "Benefício 2",
+    "fallbackBenefit3": "Benefício 3",
+    "fallbackAccordionQuestion": "Pergunta de Fallback?",
+    "fallbackAccordionAnswer": "Resposta de fallback.",
+    "fallbackOrderNameLabel": "Nome",
+    "fallbackOrderNamePlaceholder": "Nome Completo",
+    "fallbackOrderPhoneLabel": "Telefone",
+    "fallbackOrderPhonePlaceholder": "Número de Telefone",
+    "fallbackOrderSubmitText": "Enviar",
+    "fallbackOrderLoadingText": "Enviando..."
   },
   "benefitsSection": {
     "eyebrow": "Benefícios",
@@ -198,6 +234,79 @@
     "acceptButtonText": "Aceitar",
     "rejectButtonText": "Recusar",
     "policyLinkText": "Leia nossa política de cookies"
+  },
+  "footer": {
+    "logoName": "Global Fitwell",
+    "newsletter": {
+      "title": "Mantenha-se Atualizado com a Global Fitwell",
+      "description": "Receba dicas exclusivas de bem-estar, insights de pesquisas científicas e ofertas especiais diretamente na sua caixa de entrada.",
+      "placeholder": "Seu melhor e-mail",
+      "buttonText": "Inscreva-se Agora"
+    },
+    "linkColumns": [
+      {
+        "title": "Empresa",
+        "links": [
+          {
+            "label": "Sobre Nós",
+            "href": "/pt-BR/about"
+          },
+          {
+            "label": "Blog / Notícias",
+            "href": "/pt-BR/news"
+          }
+        ]
+      },
+      {
+        "title": "Recursos",
+        "links": [
+          {
+            "label": "FAQ",
+            "href": "#"
+          }
+        ]
+      },
+      {
+        "title": "Legal",
+        "links": [
+          {
+            "label": "Termos de Serviço",
+            "href": "/pt-BR/terms"
+          },
+          {
+            "label": "Política de Privacidade",
+            "href": "/pt-BR/privacy"
+          },
+          {
+            "label": "Política de Cookies",
+            "href": "/pt-BR/cookies"
+          }
+        ]
+      }
+    ],
+    "socialLinks": [
+      {
+        "name": "X (Twitter)",
+        "url": "https://x.com",
+        "icon": "Twitter"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://instagram.com",
+        "icon": "Instagram"
+      },
+      {
+        "name": "Youtube",
+        "url": "https://youtube.com",
+        "icon": "Youtube"
+      }
+    ],
+    "copyright": "© 2025 Global Fitwell. Todos os direitos reservados.",
+    "disclaimer": "As informações fornecidas neste site são apenas para fins informativos. Os produtos aqui apresentados não se destinam a diagnosticar, tratar, curar ou prevenir qualquer doença.",
+    "developerLink": {
+      "text": "Desenvolvido por RaZ Podestá - MetaShark Tech",
+      "href": "https://metashark.tech"
+    }
   },
   "header": {
     "logoUrl": "/img/layout/header/globalfitwell-logo-v2.svg",
@@ -469,5 +578,66 @@
     "changeLanguage": "Mudar idioma",
     "currentLanguageIs": "O idioma atual é"
   },
-  "dock": {}
+  "dock": {},
+  "lightRays": {
+    "raysOrigin": "top-center",
+    "raysColor": "primary",
+    "raysSpeed": 1.5,
+    "lightSpread": 0.8,
+    "rayLength": 1.2,
+    "pulsating": false,
+    "fadeDistance": 1,
+    "saturation": 1,
+    "followMouse": true,
+    "mouseInfluence": 0.1,
+    "noiseAmount": 0.1,
+    "distortion": 0.05
+  },
+  "magicBento": {
+    "config": {
+      "textAutoHide": true,
+      "enableStars": true,
+      "enableSpotlight": true,
+      "enableBorderGlow": true,
+      "disableAnimations": false,
+      "spotlightRadius": 300,
+      "particleCount": 12,
+      "enableTilt": true,
+      "glowColor": "primary",
+      "clickEffect": true,
+      "enableMagnetism": true
+    },
+    "cards": [
+      {
+        "title": "Análise Avançada",
+        "description": "Rastreie o comportamento do usuário com precisão.",
+        "label": "Insights"
+      },
+      {
+        "title": "Dashboard Unificado",
+        "description": "Uma visão centralizada de todos os seus dados.",
+        "label": "Visão Geral"
+      },
+      {
+        "title": "Colaboração",
+        "description": "Trabalhe perfeitamente com sua equipe.",
+        "label": "Equipe"
+      },
+      {
+        "title": "Automação",
+        "description": "Simplifique fluxos de trabalho complexos.",
+        "label": "Eficiência"
+      },
+      {
+        "title": "Integração",
+        "description": "Conecte suas ferramentas favoritas.",
+        "label": "Conectividade"
+      },
+      {
+        "title": "Segurança",
+        "description": "Proteção de nível empresarial para seus dados.",
+        "label": "Proteção"
+      }
+    ]
+  }
 }

@@ -1,10 +1,11 @@
 // .docs-espejo/components/sections/BenefitsSection.tsx.md
-/**
- * @file .docs-espejo/components/sections/BenefitsSection.tsx.md
- * @description Manifiesto conceptual y SSoT para el aparato de sección de beneficios.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file .docs-espejo/components/sections/BenefitsSection.tsx.md
+- @description Manifiesto conceptual y SSoT para el aparato de sección de beneficios.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: BenefitsSection
 
@@ -33,4 +34,4 @@ El rol del aparato `BenefitsSection` es comunicar de forma rápida, clara y visu
 - **Configuración de Layout:** Añadir una prop opcional `layout: 'grid' | 'list'` al contrato de datos para permitir al equipo de marketing cambiar la visualización sin tocar el código.
 - **Tooltips para Iconos:** Añadir un `tooltip` en el `hover` de cada icono para proporcionar contexto adicional, si fuera necesario.
 - **Soporte para Imágenes:** Modificar el contrato para permitir una `imageUrl` opcional en cada `BenefitItem`, permitiendo mostrar una imagen en lugar de un icono para mayor impacto visual.
-// .docs-espejo/components/sections/BenefitsSection.tsx.md
+  // .docs-espejo/components/sections/BenefitsSection.tsx.md

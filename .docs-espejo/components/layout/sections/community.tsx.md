@@ -1,10 +1,11 @@
 // .docs-espejo/components/layout/sections/community.tsx.md
-/**
- * @file community.tsx.md
- * @description Documento Espejo y SSoT conceptual para la sección de Comunidad.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file community.tsx.md
+- @description Documento Espejo y SSoT conceptual para la sección de Comunidad.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Community Section
 
@@ -25,14 +26,14 @@ El componente está diseñado bajo el **Principio de Responsabilidad Única** co
 
 ## 3. Contrato de API
 
--   **Función:** `CommunitySection({ content }: CommunitySectionProps): React.ReactElement | null`
--   **Props (`CommunitySectionProps`):**
-    -   `content: Dictionary["communitySection"]`: Un objeto que contiene todo el contenido textual y de datos, validado por Zod.
+- **Función:** `CommunitySection({ content }: CommunitySectionProps): React.ReactElement | null`
+- **Props (`CommunitySectionProps`):**
+  - `content: Dictionary["communitySection"]`: Un objeto que contiene todo el contenido textual y de datos, validado por Zod.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Tracking de Eventos:** Integrar un sistema de tracking de eventos (ej. Google Analytics, Sentry) en el `onClick` del botón para medir la tasa de clics (CTR) y la efectividad de la sección como herramienta de conversión a la comunidad.
-*   **Contenido Dinámico de Comunidad:** En lugar de un enlace estático, el componente podría hacer una llamada a la API de Discord/Telegram para mostrar el número actual de miembros en línea, añadiendo un elemento de prueba social dinámica ("Únete a 1,234 miembros activos").
-*   **Variantes Visuales:** Extender el componente para aceptar una prop `variant` (ej. `'default' | 'compact'`) que modifique su apariencia (tamaño, colores) para adaptarse a diferentes contextos de la página (ej. un CTA más sutil en el pie de página).
+- **Tracking de Eventos:** Integrar un sistema de tracking de eventos (ej. Google Analytics, Sentry) en el `onClick` del botón para medir la tasa de clics (CTR) y la efectividad de la sección como herramienta de conversión a la comunidad.
+- **Contenido Dinámico de Comunidad:** En lugar de un enlace estático, el componente podría hacer una llamada a la API de Discord/Telegram para mostrar el número actual de miembros en línea, añadiendo un elemento de prueba social dinámica ("Únete a 1,234 miembros activos").
+- **Variantes Visuales:** Extender el componente para aceptar una prop `variant` (ej. `'default' | 'compact'`) que modifique su apariencia (tamaño, colores) para adaptarse a diferentes contextos de la página (ej. un CTA más sutil en el pie de página).
 
 // .docs-espejo/components/layout/sections/community.tsx.md

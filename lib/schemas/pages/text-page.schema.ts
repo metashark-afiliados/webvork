@@ -1,25 +1,18 @@
-// src/lib/schemas/pages/text-page.schema.ts
-import { z } from "zod";
-
+// lib/schemas/pages/text-page.schema.ts
 /**
  * @file text-page.schema.ts
- * @description Schema genérico y reutilizable para páginas de contenido estático.
- * @version 1.0.0
+ * @description Schema genérico para páginas de contenido estático.
+ *              - v2.0.0: Refactorizado para consumir el SSoT ContentBlocksSchema,
+ *                asegurando la consistencia en todo el sistema.
+ * @version 2.0.0
+ * @author RaZ podesta - MetaShark Tech
  */
-
-// Define un bloque de contenido, que puede ser un párrafo o un subtítulo.
-const ContentBlockSchema = z.object({
-  type: z.enum(["h2", "p"]),
-  text: z.string(),
-});
+import { z } from "zod";
+import { ContentBlocksSchema } from "@/lib/schemas/components/content-block.schema"; // <-- IMPORTAR CONTRATO
 
 // Define la estructura para el contenido de una página de texto en un solo locale.
 export const TextPageLocaleSchema = z.object({
   title: z.string(),
   subtitle: z.string(),
-  content: z.array(ContentBlockSchema),
+  content: ContentBlocksSchema, // <-- UTILIZAR EL CONTRATO REUTILIZABLE
 });
-
-// Este schema se usará para definir las claves 'aboutPage', 'privacyPage', etc.
-// en el ensamblador principal.
-// src/lib/schemas/pages/text-page.schema.ts

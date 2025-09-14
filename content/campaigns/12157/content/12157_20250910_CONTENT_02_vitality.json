@@ -1,3 +1,4 @@
+
 {
   "it-IT": {
     "scrollingBanner": {
@@ -7,33 +8,44 @@
       "title": "Quell'energia di una volta? È ancora dentro di te. Aiutala a risplendere.",
       "subtitle": "La formula naturale con la precisione svizzera, creata per chi vuole vivere ogni giorno al massimo."
     },
-    "socialProof": {
+    "socialProofLogos": {
       "title": "Ingredienti Selezionati e Approvati",
       "logos": [
         {
-          "src": "/img/sections/social-proof-logos/seal_natural-certified.jpg",
-          "alt": "Sigillo di Certificazione Naturale"
+          "src": "/img/sections/social-proof-logos/logo-wellness-insider.svg",
+          "alt": "Logo di Wellness Insider"
         },
         {
-          "src": "/img/sections/social-proof-logos/seal_premium-quality.jpg",
-          "alt": "Sigillo di Qualità Premium"
-        },
-        {
-          "src": "/img/sections/social-proof-logos/seal_lab-tested.jpg",
-          "alt": "Sigillo di Testato in Laboratorio"
+          "src": "/img/sections/social-proof-logos/logo-health-journal.svg",
+          "alt": "Logo di The Health Journal"
         }
       ]
     },
     "benefitsSection": {
-      "title": "I Benefici della Curcuma Potenziata Che Puoi Sentire",
-      "subtitle": "Più di un semplice integratore, è un sistema completo per supportare la tua vitalità quotidiana.",
+      "eyebrow": "Benefici Chiave",
+      "title": "I Benefici Che Puoi Sentire",
+      "subtitle": "Più di un semplice integratore, è un sistema completo per la tua vitalità quotidiana.",
       "benefits": [
-        "Supporto naturale per il comfort articolare",
-        "Potente azione antiossidante per combattere lo stress ossidativo",
-        "Migliora la funzione digestiva e il benessere intestinale",
-        "Formula ad alto assorbimento grazie alla piperina",
-        "Ingredienti puri e 100% naturali",
-        "Fabbricato in strutture con standard di Qualità Svizzera"
+        {
+          "icon": "ShieldCheck",
+          "title": "Comfort Articolare",
+          "description": "Supporto naturale per mantenere le articolazioni flessibili e confortevoli."
+        },
+        {
+          "icon": "Sparkles",
+          "title": "Azione Antiossidante",
+          "description": "Combatte lo stress ossidativo per proteggere le tue cellule e promuovere il benessere."
+        },
+        {
+          "icon": "Grape",
+          "title": "Benessere Digestivo",
+          "description": "Migliora la funzione digestiva e l'equilibrio intestinale per una sensazione di leggerezza."
+        },
+        {
+          "icon": "Rocket",
+          "title": "Assorbimento Potenziato",
+          "description": "La piperina assicura che il tuo corpo assorba e utilizzi ogni grammo di beneficio."
+        }
       ]
     },
     "thumbnailCarousel": {
@@ -48,7 +60,7 @@
         },
         {
           "src": "/img/sections/thumbnail-carousel/carousel_product-context.jpg",
-          "alt": "Primo piano del prodotto Curcumin Simplex in un ambiente luminoso"
+          "alt": "Primo piano del prodotto in un ambiente luminoso"
         }
       ],
       "affiliateUrl": "https://example.com/order?lang=it",
@@ -63,18 +75,6 @@
           "author": "Elena R.",
           "location": "Milano, IT",
           "imageSrc": "/img/sections/testimonial-grid/avatar_elena-r.jpg"
-        },
-        {
-          "quote": "Mi sento meno gonfia e con più energia durante il pomeriggio. Un prodotto eccellente e naturale.",
-          "author": "Marco B.",
-          "location": "Roma, IT",
-          "imageSrc": "/img/sections/testimonial-grid/avatar_marco-b.jpg"
-        },
-        {
-          "quote": "Ero scettica, ma la qualità si sente. Lo consiglio a tutte le mie amiche che cercano un supporto valido.",
-          "author": "Giulia M.",
-          "location": "Firenze, IT",
-          "imageSrc": "/img/sections/testimonial-grid/avatar_giulia-m.jpg"
         }
       ]
     },
@@ -83,15 +83,15 @@
       "ingredients": [
         {
           "name": "Curcumina Pura",
-          "description": "Il nostro estratto standardizzato assicura la massima concentrazione del principio attivo per un potente effetto antiossidante."
+          "description": "Il nostro estratto standardizzato assicura la massima concentrazione del principio attivo."
         },
         {
           "name": "Piperina (Bio-Potenziatore)",
-          "description": "L'alleato cruciale che sblocca l'assorbimento della curcumina, rendendo la formula veramente efficace."
+          "description": "L'alleato cruciale che sblocca l'assorbimento della curcumina."
         },
         {
           "name": "Spirulina & Zafferano",
-          "description": "Un duo che arricchisce la formula con nutrienti essenziali per supportare l'energia e l'equilibrio del corpo."
+          "description": "Un duo che arricchisce la formula con nutrienti essenziali per l'energia."
         }
       ]
     },
@@ -101,22 +101,10 @@
         {
           "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
           "imageAlt": "Sigillo Soddisfatti o Rimborsati"
-        },
-        {
-          "imageUrl": "/img/guarantee-section/seal_garantia-2.jpg",
-          "imageAlt": "Sigillo Produzione Certificata"
-        },
-        {
-          "imageUrl": "/img/guarantee-section/seal_garantia-3.jpg",
-          "imageAlt": "Sigillo Ingredienti Naturali"
-        },
-        {
-          "imageUrl": "/img/guarantee-section/seal_garantia-4.jpg",
-          "imageAlt": "Sigillo Senza Additivi Chimici"
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 78,
       "discountedPrice": 39,
       "originalPriceLabel": "Prezzo Originale",
@@ -132,41 +120,12 @@
       "title": "Le Tue Domande, le Nostre Risposte Chiare",
       "faqs": [
         {
-          "question": "Dopo quanto tempo si vedono i benefici della curcuma?",
-          "answer": "Molti nostri clienti notano un miglioramento nel benessere generale e nell'energia entro le prime 2-4 settimane di uso costante, come suggerito."
-        },
-        {
-          "question": "Questo integratore ha controindicazioni?",
-          "answer": "La nostra formula è 100% naturale. Tuttavia, consigliamo sempre di consultare il proprio medico prima di iniziare qualsiasi nuovo integratore, specialmente in presenza di condizioni mediche o se si assumono altri farmaci."
+          "question": "Dopo quanto tempo si vedono i benefici?",
+          "answer": "Molti clienti notano un miglioramento nel benessere generale entro le prime 2-4 settimane di uso costante."
         }
       ]
     },
-    "doubleScrollingBanner": {
-      "testimonials": [
-        {
-          "imageSrc": "/img/sections/testimonial-grid/avatar1.jpg",
-          "altText": "Foto di un cliente soddisfatto",
-          "name": "Luisa V.",
-          "rating": 5
-        },
-        {
-          "imageSrc": "/img/sections/testimonial-grid/avatar2.jpg",
-          "altText": "Foto di un altro cliente soddisfatto",
-          "name": "Roberto T.",
-          "rating": 5
-        }
-      ],
-      "logos": [
-        {
-          "imageSrc": "/img/sections/social-proof/logo_marca-a.svg",
-          "altText": "Logo Partner di Qualità A"
-        },
-        {
-          "imageSrc": "/img/sections/social-proof/logo_marca-b.svg",
-          "altText": "Logo Partner di Qualità B"
-        }
-      ]
-    }
+    "doubleScrollingBanner": { "testimonials": [], "logos": [] }
   },
   "es-ES": {
     "scrollingBanner": {
@@ -176,21 +135,40 @@
       "title": "¿Esa energía de antes? Todavía está dentro de ti. Ayúdala a brillar.",
       "subtitle": "La fórmula natural con precisión suiza, creada para quienes quieren vivir cada día al máximo."
     },
-    "socialProof": {
+    "socialProofLogos": {
       "title": "Ingredientes Seleccionados y Aprobados",
       "logos": [
         {
-          "src": "/img/sections/social-proof-logos/seal_natural-certified.jpg",
-          "alt": "Sello de Certificación Natural"
+          "src": "/img/sections/social-proof-logos/logo-wellness-insider.svg",
+          "alt": "Logo de Wellness Insider"
         }
       ]
     },
     "benefitsSection": {
-      "title": "Los Beneficios de la Cúrcuma Potenciada Que Puedes Sentir",
-      "subtitle": "Más que un simple suplemento, es un sistema completo para apoyar tu vitalidad diaria.",
+      "eyebrow": "Beneficios Clave",
+      "title": "Los Beneficios Que Puedes Sentir",
+      "subtitle": "Más que un simple suplemento, es un sistema completo para tu vitalidad diaria.",
       "benefits": [
-        "Apoyo natural para el confort articular",
-        "Potente acción antioxidante"
+        {
+          "icon": "ShieldCheck",
+          "title": "Confort Articular",
+          "description": "Apoyo natural para mantener las articulaciones flexibles y cómodas."
+        },
+        {
+          "icon": "Sparkles",
+          "title": "Acción Antioxidante",
+          "description": "Combate el estrés oxidativo para proteger tus células y promover el bienestar."
+        },
+        {
+          "icon": "Grape",
+          "title": "Bienestar Digestivo",
+          "description": "Mejora la función digestiva y el equilibrio intestinal para una sensación de ligereza."
+        },
+        {
+          "icon": "Rocket",
+          "title": "Absorción Potenciada",
+          "description": "La piperina asegura que tu cuerpo absorba y utilice cada gramo de beneficio."
+        }
       ]
     },
     "thumbnailCarousel": {
@@ -220,7 +198,7 @@
       "ingredients": [
         {
           "name": "Cúrcuma Pura",
-          "description": "Nuestro extracto estandarizado asegura la máxima concentración del compuesto activo para un potente efecto antioxidante."
+          "description": "Nuestro extracto estandarizado asegura la máxima concentración del compuesto activo."
         }
       ]
     },
@@ -233,7 +211,7 @@
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 78,
       "discountedPrice": 39,
       "originalPriceLabel": "Precio Original",
@@ -249,27 +227,12 @@
       "title": "Tus Preguntas, Nuestras Respuestas Claras",
       "faqs": [
         {
-          "question": "¿Después de cuánto tiempo se notan los beneficios de la cúrcuma?",
-          "answer": "Muchos de nuestros clientes notan una mejora en el bienestar general y en la energía dentro de las primeras 2-4 semanas de uso constante, como se sugiere."
+          "question": "¿Después de cuánto tiempo se notan los beneficios?",
+          "answer": "Muchos de nuestros clientes notan una mejora en el bienestar general dentro de las primeras 2-4 semanas de uso constante."
         }
       ]
     },
-    "doubleScrollingBanner": {
-      "testimonials": [
-        {
-          "imageSrc": "/img/sections/testimonial-grid/avatar1.jpg",
-          "altText": "Foto de un cliente satisfecho",
-          "name": "Luisa V.",
-          "rating": 5
-        }
-      ],
-      "logos": [
-        {
-          "imageSrc": "/img/sections/social-proof/logo_marca-a.svg",
-          "altText": "Logo Socio de Calidad A"
-        }
-      ]
-    }
+    "doubleScrollingBanner": { "testimonials": [], "logos": [] }
   },
   "en-US": {
     "scrollingBanner": {
@@ -277,23 +240,42 @@
     },
     "hero": {
       "title": "That energy you used to have? It's still inside you. Help it shine.",
-      "subtitle": "The natural formula with Swiss precision, created for those who want to live every day to the fullest."
+      "subtitle": "The natural formula with Swiss precision, for those who want to live every day to the fullest."
     },
-    "socialProof": {
+    "socialProofLogos": {
       "title": "Selected and Approved Ingredients",
       "logos": [
         {
-          "src": "/img/sections/social-proof-logos/seal_natural-certified.jpg",
-          "alt": "Natural Certification Seal"
+          "src": "/img/sections/social-proof-logos/logo-wellness-insider.svg",
+          "alt": "Wellness Insider Logo"
         }
       ]
     },
     "benefitsSection": {
-      "title": "The Benefits of Potentiated Turmeric You Can Feel",
-      "subtitle": "More than just a supplement, it's a complete system to support your daily vitality.",
+      "eyebrow": "Key Benefits",
+      "title": "The Benefits You Can Feel",
+      "subtitle": "More than just a supplement, it's a complete system for your daily vitality.",
       "benefits": [
-        "Natural support for joint comfort",
-        "Powerful antioxidant action"
+        {
+          "icon": "ShieldCheck",
+          "title": "Joint Comfort",
+          "description": "Natural support to keep your joints flexible and comfortable."
+        },
+        {
+          "icon": "Sparkles",
+          "title": "Antioxidant Action",
+          "description": "Fights oxidative stress to protect your cells and promote well-being."
+        },
+        {
+          "icon": "Grape",
+          "title": "Digestive Wellness",
+          "description": "Improves digestive function and gut balance for a feeling of lightness."
+        },
+        {
+          "icon": "Rocket",
+          "title": "Enhanced Absorption",
+          "description": "Piperine ensures your body absorbs and utilizes every bit of benefit."
+        }
       ]
     },
     "thumbnailCarousel": {
@@ -323,7 +305,7 @@
       "ingredients": [
         {
           "name": "Pure Curcumin",
-          "description": "Our standardized extract ensures the highest concentration of the active compound for a potent antioxidant effect."
+          "description": "Our standardized extract ensures the highest concentration of the active compound."
         }
       ]
     },
@@ -336,7 +318,7 @@
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 78,
       "discountedPrice": 39,
       "originalPriceLabel": "Original Price",
@@ -352,27 +334,12 @@
       "title": "Your Questions, Our Clear Answers",
       "faqs": [
         {
-          "question": "How long until I see the benefits of curcumin?",
-          "answer": "Many of our customers notice an improvement in general well-being and energy within the first 2-4 weeks of consistent use, as suggested."
+          "question": "How long until I see the benefits?",
+          "answer": "Many of our customers notice an improvement in general well-being within the first 2-4 weeks of consistent use."
         }
       ]
     },
-    "doubleScrollingBanner": {
-      "testimonials": [
-        {
-          "imageSrc": "/img/sections/testimonial-grid/avatar1.jpg",
-          "altText": "Photo of a satisfied customer",
-          "name": "Luisa V.",
-          "rating": 5
-        }
-      ],
-      "logos": [
-        {
-          "imageSrc": "/img/sections/social-proof/logo_marca-a.svg",
-          "altText": "Quality Partner Logo A"
-        }
-      ]
-    }
+    "doubleScrollingBanner": { "testimonials": [], "logos": [] }
   },
   "pt-BR": {
     "scrollingBanner": {
@@ -380,23 +347,42 @@
     },
     "hero": {
       "title": "Aquela energia de antes? Ainda está dentro de você. Ajude-a a brilhar.",
-      "subtitle": "A fórmula natural com precisão suíça, criada para quem quer viver cada dia ao máximo."
+      "subtitle": "A fórmula natural com precisão suíça, para quem quer viver cada dia ao máximo."
     },
-    "socialProof": {
+    "socialProofLogos": {
       "title": "Ingredientes Selecionados e Aprovados",
       "logos": [
         {
-          "src": "/img/sections/social-proof-logos/seal_natural-certified.jpg",
-          "alt": "Selo de Certificação Natural"
+          "src": "/img/sections/social-proof-logos/logo-wellness-insider.svg",
+          "alt": "Logo da Wellness Insider"
         }
       ]
     },
     "benefitsSection": {
-      "title": "Os Benefícios da Cúrcuma Potencializada Que Você Pode Sentir",
-      "subtitle": "Mais que um simples suplemento, é um sistema completo para apoiar sua vitalidade diária.",
+      "eyebrow": "Benefícios Chave",
+      "title": "Os Benefícios Que Você Pode Sentir",
+      "subtitle": "Mais que um simples suplemento, é um sistema completo para sua vitalidade diária.",
       "benefits": [
-        "Apoio natural para o conforto das articulações",
-        "Poderosa ação antioxidante"
+        {
+          "icon": "ShieldCheck",
+          "title": "Conforto Articular",
+          "description": "Apoio natural para manter as articulações flexíveis e confortáveis."
+        },
+        {
+          "icon": "Sparkles",
+          "title": "Ação Antioxidante",
+          "description": "Combate o estresse oxidativo para proteger suas células e promover o bem-estar."
+        },
+        {
+          "icon": "Grape",
+          "title": "Bem-estar Digestivo",
+          "description": "Melhora a função digestiva e o equilíbrio intestinal para uma sensação de leveza."
+        },
+        {
+          "icon": "Rocket",
+          "title": "Absorção Aprimorada",
+          "description": "A piperina garante que seu corpo absorva e utilize cada grama de benefício."
+        }
       ]
     },
     "thumbnailCarousel": {
@@ -426,7 +412,7 @@
       "ingredients": [
         {
           "name": "Cúrcuma Pura",
-          "description": "Nosso extrato padronizado garante a máxima concentração do composto ativo para um potente efeito antioxidante."
+          "description": "Nosso extrato padronizado garante a máxima concentração do composto ativo."
         }
       ]
     },
@@ -439,7 +425,7 @@
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 78,
       "discountedPrice": 39,
       "originalPriceLabel": "Preço Original",
@@ -455,26 +441,11 @@
       "title": "Suas Perguntas, Nossas Respostas Claras",
       "faqs": [
         {
-          "question": "Em quanto tempo se notam os benefícios da cúrcuma?",
-          "answer": "Muitos de nossos clientes notam uma melhora no bem-estar geral e na energia nas primeiras 2-4 semanas de uso consistente, conforme sugerido."
+          "question": "Em quanto tempo se notam os benefícios?",
+          "answer": "Muitos de nossos clientes notam uma melhora no bem-estar geral nas primeiras 2-4 semanas de uso consistente."
         }
       ]
     },
-    "doubleScrollingBanner": {
-      "testimonials": [
-        {
-          "imageSrc": "/img/sections/testimonial-grid/avatar1.jpg",
-          "altText": "Foto de um cliente satisfeito",
-          "name": "Luisa V.",
-          "rating": 5
-        }
-      ],
-      "logos": [
-        {
-          "imageSrc": "/img/sections/social-proof/logo_marca-a.svg",
-          "altText": "Logo Parceiro de Qualidade A"
-        }
-      ]
-    }
+    "doubleScrollingBanner": { "testimonials": [], "logos": [] }
   }
 }

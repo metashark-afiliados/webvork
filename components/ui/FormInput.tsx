@@ -5,7 +5,10 @@
  * @description_es Encapsula un input, un icono, una etiqueta flotante y la
  *               visualización de mensajes de error, integrándose directamente
  *               con react-hook-form.
- * @version 1.0.0
+ *              - v1.1.0: Refactoriza la prop `icon` para que acepte `LucideIconName` (string),
+ *                permitiendo el uso consistente de `DynamicIcon` y resolviendo errores
+ *                de tipo al consumir los iconos.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -13,12 +16,15 @@
 import React, { forwardRef } from "react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { LucideIcon } from "lucide-react";
+// import type { LucideIcon } from "lucide-react"; // <-- ELIMINADO: Ya no se importa el tipo LucideIcon directamente
+import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Se importará DynamicIcon aquí
+import { type LucideIconName } from "@/config/lucide-icon-names"; // <-- AÑADIDO: Se importa el tipo LucideIconName
 
 // Define las propiedades que el componente aceptará.
 export interface FormInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon: LucideIcon;
+  // icon: LucideIcon; // <-- MODIFICADO: Ahora espera el nombre del icono como string
+  icon: LucideIconName; // <-- CORRECCIÓN: Ahora acepta un string (LucideIconName)
   label: string;
   error?: string;
   containerClassName?: string;
@@ -35,7 +41,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     {
       id,
       name,
-      icon: Icon,
+      icon, // <-- Ahora `icon` es un string
       label,
       error,
       className,
@@ -56,7 +62,8 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         </label>
         <div className="relative">
           <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <Icon
+            <DynamicIcon // <-- USO DE DYNAMICICON AQUÍ
+              name={icon} // <-- Se pasa directamente el nombre del icono
               className={clsx(
                 "h-5 w-5",
                 error ? "text-destructive" : "text-muted-foreground"
@@ -88,5 +95,4 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
   }
 );
 
-FormInput.displayName = "FormInput"; // Recomendado por React para debugging.
-// src/components/ui/FormInput.tsx
+FormInput.displayName = "FormInput";

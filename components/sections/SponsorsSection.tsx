@@ -2,7 +2,9 @@
 /**
  * @file SponsorsSection.tsx
  * @description Componente de sección para mostrar una cuadrícula de logos de patrocinadores.
- * @version 1.0.0
+ *              - v1.2.0: Confirma la consistencia en la observabilidad y el uso de DynamicIcon
+ *                para la iconografía de los patrocinadores.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -29,7 +31,9 @@ interface SponsorsSectionProps {
 export function SponsorsSection({
   content,
 }: SponsorsSectionProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando SponsorsSection");
+  logger.info(
+    "[Observabilidad] Renderizando SponsorsSection (Server Component)"
+  );
 
   if (!content) {
     logger.warn(
@@ -65,4 +69,3 @@ export function SponsorsSection({
     </section>
   );
 }
-// components/sections/SponsorsSection.tsx

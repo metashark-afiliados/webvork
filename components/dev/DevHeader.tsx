@@ -1,58 +1,54 @@
 // components/dev/DevHeader.tsx
 /**
  * @file DevHeader.tsx
- * @description Encabezado para el entorno de desarrollo.
- *              - v4.0.0 (Ingeniería de Resiliencia): Refactorizado para ser antifrágil.
- *                Ahora maneja correctamente el tipo `Partial<Dictionary>` devuelto
- *                por el motor de i18n, utilizando acceso seguro a propiedades y
- *                valores de fallback para prevenir errores de tipo (TS2322) y mejorar
- *                la robustez del componente.
- * @devonly
- * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @description Header de lujo para el Developer Command Center.
+ *              - v6.2.0 (Sincronización de Contrato): Actualizado para consumir el nuevo
+ *                contrato de `getDictionary`, desestructurando la respuesta y
+ *                resolviendo los errores de tipo.
+ * @version 6.2.0
+ * @author RaZ Podestá - MetaShark Tech
+ * @date 2025-09-14T18:20:40.121Z
  */
 import React from "react";
 import Link from "next/link";
-import { FlaskConical } from "lucide-react";
-import { Container } from "@/components/ui/Container";
 import { getDictionary } from "@/lib/i18n";
 import { logger } from "@/lib/logging";
 import { routes } from "@/lib/navigation";
 import { type Locale } from "@/lib/i18n.config";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { Container } from "@/components/ui/Container";
+import DynamicIcon from "@/components/ui/DynamicIcon";
+import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
+import { ToggleTheme } from "@/components/layout/toogle-theme";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { supportedLocales } from "@/lib/i18n.config";
 
 interface DevHeaderProps {
   locale: Locale;
 }
 
-/**
- * @component DevHeader
- * @description Renderiza la barra de navegación superior para todas las páginas del
- *              dominio de desarrollo (`/dev/*`).
- * @param {DevHeaderProps} props - Las propiedades que contienen el locale.
- * @returns {Promise<React.ReactElement>} El elemento JSX del header.
- */
 export default async function DevHeader({
   locale,
 }: DevHeaderProps): Promise<React.ReactElement> {
   logger.info(`[DevHeader] Renderizando para locale: ${locale}`);
 
-  // --- INICIO DE CORRECCIÓN: Se maneja el tipo Partial<Dictionary> ---
-  const t: Partial<Dictionary> = await getDictionary(locale);
-  const content = t?.devHeader; // Acceso seguro
+  // --- [INICIO] CORRECCIÓN DE CONTRATO ---
+  const { dictionary: t } = await getDictionary(locale);
+  // --- [FIN] CORRECCIÓN DE CONTRATO ---
 
-  // Se utiliza un fallback si el contenido no está definido.
-  const headerTitle = content?.title ?? "Dev Canvas [Fallback]";
+  const content = t?.devHeader;
+  const devMenuContent = t?.devRouteMenu;
 
-  if (!content) {
-    logger.warn(
-      "[DevHeader] Contenido para 'devHeader' no encontrado en el diccionario. Usando fallback."
+  const headerTitle = content?.title ?? "DEV COMMAND CENTER";
+
+  if (!content || !devMenuContent) {
+    logger.error(
+      "[DevHeader] Contenido para devHeader o devRouteMenu no encontrado. El menú puede estar incompleto."
     );
   }
-  // --- FIN DE CORRECCIÓN ---
 
   return (
-    <header className="py-3 sticky top-0 z-50 backdrop-blur-lg bg-background/70 border-b border-muted/50 shadow-sm">
+    <header className="py-3 sticky top-0 z-50 backdrop-blur-lg bg-background/80 border-b border-primary/20 shadow-lg">
       <Container>
         <div className="flex h-16 items-center justify-between">
           <Link
@@ -60,14 +56,25 @@ export default async function DevHeader({
             className="flex items-center gap-2 group"
             aria-label="Volver al Developer Command Center"
           >
-            <FlaskConical className="h-6 w-6 text-accent group-hover:animate-shake" />
+            <DynamicIcon
+              name="FlaskConical"
+              className="h-6 w-6 text-primary group-hover:animate-shake"
+            />
             <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
               {headerTitle}
             </span>
           </Link>
+
+          <div className="flex items-center gap-4">
+            <ToggleTheme />
+            <LanguageSwitcher
+              currentLocale={locale}
+              supportedLocales={supportedLocales}
+            />
+            {devMenuContent && <DevToolsDropdown dictionary={devMenuContent} />}
+          </div>
         </div>
       </Container>
     </header>
   );
 }
-// components/dev/DevHeader.tsx

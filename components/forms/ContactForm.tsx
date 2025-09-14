@@ -1,4 +1,4 @@
-// components/ui/ContactForm.tsx
+// components/forms/ContactForm.tsx // <-- ¡COMENTARIO CORREGIDO!
 /**
  * @file ContactForm.tsx
  * @description Componente de UI atómico y "smart" para el formulario de contacto.
@@ -184,4 +184,4 @@ export function ContactForm({ content }: ContactFormProps): React.ReactElement {
     </Card>
   );
 }
-// components/ui/ContactForm.tsx
+// components/forms/ContactForm.tsx

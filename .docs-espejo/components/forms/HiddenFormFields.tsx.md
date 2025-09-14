@@ -1,11 +1,12 @@
 // .docs-espejo/components/forms/HiddenFormFields.tsx.md
-/**
- * @file .docs-espejo/components/forms/HiddenFormFields.tsx.md
- * @description Documento Espejo para el aparato HiddenFormFields.tsx. Define su
- *              rol estratégico, arquitectura y contrato de API.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file .docs-espejo/components/forms/HiddenFormFields.tsx.md
+- @description Documento Espejo para el aparato HiddenFormFields.tsx. Define su
+-              rol estratégico, arquitectura y contrato de API.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Aparato `HiddenFormFields`
 
@@ -20,9 +21,9 @@ Al aislar estos campos, se adhiere rigurosamente al **Principio de Responsabilid
 - **Tipo de Componente**: Componente de Presentación Puro (Dumb Component).
 - **Lógica Interna**: El componente no contiene lógica. Su única función es renderizar un conjunto estático de elementos `<input type="hidden">`.
 - **Flujo de Datos**:
-    1. Es renderizado dentro del `<form>` del componente `OrderForm`.
-    2. Los scripts de tracking del productor (ej. `webvork.js`), que se ejecutan en el cliente, localizan estos campos por su atributo `name` y los pueblan con los valores de tracking correspondientes (UTMs, GUID, etc.).
-    3. Cuando el formulario se envía, los valores de estos campos se incluyen en la petición POST hacia el endpoint del productor.
+  1. Es renderizado dentro del `<form>` del componente `OrderForm`.
+  2. Los scripts de tracking del productor (ej. `webvork.js`), que se ejecutan en el cliente, localizan estos campos por su atributo `name` y los pueblan con los valores de tracking correspondientes (UTMs, GUID, etc.).
+  3. Cuando el formulario se envía, los valores de estos campos se incluyen en la petición POST hacia el endpoint del productor.
 
 ## 3. Contrato de API (Props)
 
@@ -32,3 +33,4 @@ Actualmente, el componente no requiere props, ya que los campos son estáticos. 
 interface HiddenFormFieldsProps {
   // No se requieren props en la v1.0.0.
 }
+```

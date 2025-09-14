@@ -21,7 +21,7 @@ import { logger } from "@/lib/logging";
 // Se derivan los nombres directamente de la SSoT.
 const sectionNamesList = Object.keys(sectionsConfig) as [
   SectionName,
-  ...SectionName[]
+  ...SectionName[],
 ];
 
 // El schema y tipo del tema viven aquí, ya que es su dominio de procesamiento.

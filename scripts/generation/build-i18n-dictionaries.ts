@@ -1,12 +1,12 @@
 // scripts/generation/build-i18n-dictionaries.ts
 /**
  * @file build-i18n-dictionaries.ts
- * @description Script de build de élite para la internacionalización.
- *              - v3.0.0 (Strict Build Guardian): Ahora detiene el proceso de build
- *                si se encuentra CUALQUIER error de validación de datos, garantizando
- *                que solo se despliegue contenido válido.
- * @version 3.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @description Script de build para la internacionalización.
+ *              - v3.1.0 (Antifragile Dev Mode): En modo desarrollo, los errores
+ *                de validación se reportan pero no detienen el build. En producción,
+ *                el build se detiene para garantizar la integridad de los datos.
+ * @version 3.1.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 import * as fs from "fs/promises";
 import * as path from "path";
@@ -21,7 +21,6 @@ const OUTPUT_DIR = path.resolve(process.cwd(), "public/locales");
 type I18nFileContent = { [key in Locale]?: Record<string, any> };
 
 async function discoverAndReadI18nFiles(): Promise<I18nFileContent[]> {
-  // ... (esta función permanece sin cambios)
   const allContents: I18nFileContent[] = [];
   const directoriesToScan = [MESSAGES_BASE_DIR, RAZBITS_BASE_DIR];
   const isProduction = process.env.NODE_ENV === "production";
@@ -86,23 +85,14 @@ async function buildDictionaries() {
   console.log(
     chalk.blue.bold("🚀 Iniciando compilación de diccionarios i18n...")
   );
-
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
-  console.log(chalk.gray(`  - Directorio de salida asegurado: ${OUTPUT_DIR}`));
-
   const allI18nContents = await discoverAndReadI18nFiles();
-  console.log(
-    chalk.gray(
-      `  - Se procesarán ${allI18nContents.length} archivos de contenido i18n.`
-    )
-  );
 
-  // --- INICIO DE MODIFICACIÓN: Lógica de Build Estricto ---
-  let validationFailed = false; // Flag para rastrear fallos
+  let validationFailed = false;
+  const isProduction = process.env.NODE_ENV === "production";
 
   for (const locale of supportedLocales) {
     console.log(chalk.cyan(`\n   Ensamblando diccionario para [${locale}]...`));
-
     const fullDictionary = allI18nContents.reduce((acc, moduleContent) => {
       const contentForLocale = moduleContent[locale];
       return { ...acc, ...(contentForLocale || {}) };
@@ -114,30 +104,42 @@ async function buildDictionaries() {
       console.error(
         chalk.red.bold(`  🔥 ¡FALLO DE VALIDACIÓN para [${locale}]!`)
       );
-      // Imprime el error de una forma más legible
       console.error(
-        JSON.stringify(validation.error.flatten().fieldErrors, null, 2)
+        chalk.red(
+          JSON.stringify(validation.error.flatten().fieldErrors, null, 2)
+        )
       );
-      validationFailed = true; // Marca que el build debe fallar
-    } else {
-      const outputPath = path.join(OUTPUT_DIR, `${locale}.json`);
-      await fs.writeFile(
-        outputPath,
-        JSON.stringify(validation.data, null, 2),
-        "utf-8"
-      );
+      validationFailed = true;
+    }
+
+    // Siempre escribe el archivo, incluso si es inválido, para que el dev server no se rompa.
+    const outputPath = path.join(OUTPUT_DIR, `${locale}.json`);
+    await fs.writeFile(
+      outputPath,
+      JSON.stringify(validation.data || fullDictionary, null, 2),
+      "utf-8"
+    );
+
+    if (validation.success) {
       console.log(
         chalk.green(
           `  ✅ Diccionario para [${locale}] compilado con éxito en: ${outputPath}`
         )
       );
+    } else {
+      console.log(
+        chalk.yellow(
+          `  ⚠️  Diccionario para [${locale}] compilado CON ERRORES en: ${outputPath}`
+        )
+      );
     }
   }
 
-  if (validationFailed) {
+  // --- [NUEVA LÓGICA] Detener el build solo en producción ---
+  if (validationFailed && isProduction) {
     console.error(
       chalk.red.bold(
-        "\n❌ Error Crítico: Uno o más diccionarios fallaron la validación."
+        "\n❌ Error Crítico: Uno o más diccionarios fallaron la validación en modo PRODUCCIÓN."
       )
     );
     console.error(
@@ -145,12 +147,17 @@ async function buildDictionaries() {
         "   El build ha sido detenido para prevenir un despliegue con datos corruptos."
       )
     );
-    process.exit(1); // Termina el proceso con un código de error.
+    process.exit(1);
+  } else if (validationFailed) {
+    console.warn(
+      chalk.yellow.bold(
+        "\n🔔 Aviso: Se detectaron errores de validación en modo DESARROLLO. El servidor continuará ejecutándose, pero algunas partes de la UI pueden no renderizarse correctamente."
+      )
+    );
   }
-  // --- FIN DE MODIFICACIÓN ---
 
   console.log(
-    chalk.blue.bold("\n✨ Proceso de compilación de i18n completado con éxito.")
+    chalk.blue.bold("\n✨ Proceso de compilación de i18n completado.")
   );
 }
 

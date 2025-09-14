@@ -1,10 +1,11 @@
 // .docs-espejo/components/sections/Hero.tsx.md
-/**
- * @file Hero.tsx.md
- * @description Documento Espejo para el componente de sección Hero.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file Hero.tsx.md
+- @description Documento Espejo para el componente de sección Hero.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Componente Hero
 
@@ -24,11 +25,11 @@ Es el componente más importante "above the fold" y su diseño y contenido deben
 
 ## 3. Contrato de API
 
-*   **`content: Dictionary['hero']`**: Un objeto que contiene las cadenas de texto `title` y `subtitle`.
+- **`content: Dictionary['hero']`**: Un objeto que contiene las cadenas de texto `title` y `subtitle`.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Fondo Dinámico:** La prop `content` podría extenderse para incluir una URL de imagen o video de fondo, permitiendo una personalización visual completa por campaña.
-*   **Animaciones Configurables:** Añadir propiedades al `content` para controlar el tipo de animación de entrada (ej. "cascade", "fade-in", "slide-up"), ofreciendo mayor flexibilidad creativa.
-*   **Inclusión de CTA:** El `content` podría incluir opcionalmente los datos para un Botón de Llamada a la Acción (CTA) principal, convirtiendo el Hero en un punto de conversión directo.
-// .docs-espejo/components/sections/Hero.tsx.md
+- **Fondo Dinámico:** La prop `content` podría extenderse para incluir una URL de imagen o video de fondo, permitiendo una personalización visual completa por campaña.
+- **Animaciones Configurables:** Añadir propiedades al `content` para controlar el tipo de animación de entrada (ej. "cascade", "fade-in", "slide-up"), ofreciendo mayor flexibilidad creativa.
+- **Inclusión de CTA:** El `content` podría incluir opcionalmente los datos para un Botón de Llamada a la Acción (CTA) principal, convirtiendo el Hero en un punto de conversión directo.
+  // .docs-espejo/components/sections/Hero.tsx.md

@@ -5,7 +5,7 @@
  *              - v3.0.0: Desacopla las rutas del contenido reemplazando `href` por `slug`,
  *                alineando el contrato de datos con la estrategia de rutas centralizada.
  * @version 3.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

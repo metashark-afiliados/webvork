@@ -1,19 +1,20 @@
 // app/[locale]/(dev)/login/page.tsx
 /**
  * @file page.tsx
- * @description Página de login para el Developer Command Center.
- *              - v1.4.0: Refactoriza los alias de importación al patrón robusto
- *                `@/components/...` para garantizar la compatibilidad con el build.
- * @version 1.4.0
- * @author RaZ podesta - MetaShark Tech
+ * @description Página de login para el Developer Command Center (DCC).
+ *              - v2.1.0 (Sincronización de Contrato): Actualizado para consumir el nuevo
+ *                contrato de `getDictionary`, desestructurando la respuesta y
+ *                mejorando la resiliencia ante contenido faltante.
+ * @version 2.1.0
+ * @author RaZ Podestá - MetaShark Tech
+ * @date 2025-09-14T18:20:40.121Z
  */
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
-import type { Dictionary } from "@/schemas/i18n.schema";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
-// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
 import {
   Card,
   CardContent,
@@ -21,8 +22,8 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/Card";
-// --- FIN DE CORRECCIÓN ---
 import { LoginForm } from "./_components/LoginForm";
+import { logger } from "@/lib/logging";
 
 interface DevLoginPageProps {
   params: { locale: Locale };
@@ -39,16 +40,37 @@ const backgroundImages = [
 export default async function DevLoginPage({
   params: { locale },
 }: DevLoginPageProps) {
-  const dictionary: Partial<Dictionary> = await getDictionary(locale);
+  logger.info(
+    `[DevLoginPage] Renderizando la página de login para locale: ${locale}`
+  );
+
+  // --- [INICIO] CORRECCIÓN DE CONTRATO ---
+  const { dictionary } = await getDictionary(locale);
   const content = dictionary.devLoginPage;
+  // --- [FIN] CORRECCIÓN DE CONTRATO ---
 
   if (!content) {
-    return <div>Error: Contenido para la página de login no encontrado.</div>;
+    logger.error(
+      `[DevLoginPage] Contenido 'devLoginPage' no encontrado para locale: '${locale}'.`
+    );
+    return (
+      <div className="flex items-center justify-center min-h-screen text-center text-destructive p-8">
+        <div>
+          <h2 className="text-2xl font-bold">Error de Contenido</h2>
+          <p>
+            El contenido para la página de login de desarrollo no se encontró en
+            el diccionario.
+          </p>
+        </div>
+      </div>
+    );
   }
+
+  const randomBackground =
+    backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background flex flex-col items-center justify-center p-4">
-      {/* Header Minimalista */}
       <header className="absolute top-0 left-0 w-full p-6 z-20">
         <Link href={`/${locale}`}>
           <Image
@@ -62,27 +84,18 @@ export default async function DevLoginPage({
         </Link>
       </header>
 
-      {/* Fondo Dinámico */}
       <div className="absolute inset-0 z-0 opacity-20">
-        {backgroundImages.map((src, index) => (
-          <Image
-            key={src}
-            src={src}
-            alt={`Fondo de diseño ${index + 1}`}
-            fill
-            className="object-cover"
-            style={{
-              transform: `translate(${Math.random() * 60 - 30}vw, ${Math.random() * 60 - 30}vh) scale(${0.5 + Math.random() * 0.5}) rotate(${Math.random() * 40 - 20}deg)`,
-              transformOrigin: "center center",
-            }}
-            sizes="50vw"
-            priority
-          />
-        ))}
+        <Image
+          src={randomBackground}
+          alt="Fondo decorativo de login"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
       </div>
 
-      {/* Formulario de Login */}
       <main className="relative z-10 flex w-full max-w-md flex-col items-center">
         <Card className="w-full bg-background/50 backdrop-blur-lg border-white/10 shadow-2xl">
           <CardHeader className="text-center">

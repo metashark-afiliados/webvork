@@ -1,11 +1,10 @@
 // components/sections/IngredientAnalysis.tsx
 /**
  * @file IngredientAnalysis.tsx
- * @description Sección de Análisis de Ingredientes. Muestra una cuadrícula
- *              que detalla los componentes clave del producto.
- *              - v3.0.0: Refactorizado para adherirse al contrato de props unificado del `SectionRenderer`
- *                y para utilizar tipos explícitos, resolviendo errores TS2339 y TS7006.
- * @version 3.0.0
+ * @description Sección de Análisis de Ingredientes.
+ *              - v2.0.0: Refactorizado para adherirse al contrato de props unificado
+ *                del `SectionRenderer`, aceptando un único prop `content`.
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -14,10 +13,6 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Ingredient } from "@/lib/schemas/components/ingredient-analysis.schema";
 
-/**
- * @interface IngredientAnalysisProps
- * @description Contrato de props unificado para el SectionRenderer.
- */
 interface IngredientAnalysisProps {
   content: Dictionary["ingredientAnalysis"];
 }
@@ -40,6 +35,7 @@ export function IngredientAnalysis({
     return null;
   }
 
+  // Desestructuración de datos desde el objeto `content`.
   const { title, ingredients } = content;
 
   return (

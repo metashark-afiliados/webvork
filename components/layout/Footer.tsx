@@ -1,72 +1,119 @@
-// src/components/layout/Footer.tsx
-
-import Link from "next/link";
-import { Container } from "@/components/ui/Container";
-
+// components/layout/Footer.tsx
 /**
  * @file Footer.tsx
- * @description Componente de presentación para el pie de página principal del sitio.
- * @version 2.0.0
- * @date 2025-09-09
- * @dependencies next/link, @/components/ui/Container
- *
- * @prop {string} copyright - Texto del copyright.
- * @prop {Array<{label: string, href: string}>} links - Array de objetos para los enlaces legales.
- * @prop {string} disclaimer - Texto del descargo de responsabilidad.
+ * @description Componente de pie de página principal del portal.
+ *              - v4.0.0 (Portal-Grade Upgrade): Reingeniería completa a un diseño
+ *                profesional multi-columna con suscripción a newsletter y redes sociales.
+ * @version 4.0.0
+ * @author RaZ Podestá - MetaShark Tech
  */
+import Link from "next/link";
+import { Container } from "@/components/ui/Container";
+import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { NewsletterForm } from "@/components/forms/NewsletterForm";
+import DynamicIcon from "@/components/ui/DynamicIcon";
+import { Separator } from "@/components/ui/Separator";
 
-interface FooterLink {
-  label: string;
-  href: string;
-}
+type FooterContent = NonNullable<Dictionary["footer"]>;
 
 interface FooterProps {
-  copyright: string;
-  links: FooterLink[];
-  disclaimer: string;
+  content: FooterContent;
 }
 
-/**
- * @component Footer
- * @description Renderiza el pie de página. Es un componente de presentación puro que
- * recibe todo su contenido a través de props para facilitar la internacionalización
- * estática y las pruebas.
- * @param {FooterProps} props Las propiedades con el contenido textual.
- * @returns {React.ReactElement} El elemento JSX que representa el pie de página.
- */
-export function Footer({
-  copyright,
-  links,
-  disclaimer,
-}: FooterProps): React.ReactElement {
-  console.log("[Observabilidad] Renderizando Footer");
+export function Footer({ content }: FooterProps): React.ReactElement | null {
+  logger.info("[Observabilidad] Renderizando Footer v4.0 (Portal-Grade)");
+
+  if (!content) {
+    logger.warn(
+      "[Footer] No se proporcionó contenido. El footer no se renderizará."
+    );
+    return null;
+  }
+
+  const {
+    newsletter,
+    linkColumns,
+    socialLinks,
+    copyright,
+    disclaimer,
+    developerLink,
+  } = content;
 
   return (
-    <footer className="text-gray-400 pt-16 pb-10 mt-20 border-t border-gray-800">
+    <footer className="bg-muted/40 text-muted-foreground pt-16 pb-8 mt-24">
       <Container>
-        <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-          <p className="text-sm">{copyright}</p>
-          <nav
-            className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-4 md:mt-0"
-            aria-label="Footer navigation"
-          >
-            {links.map((link) => (
+        {/* Sección Superior: Newsletter y Enlaces */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
+          {/* Columna de Newsletter */}
+          <div className="lg:col-span-1">
+            <h3 className="text-lg font-semibold text-foreground mb-4">
+              {newsletter.title}
+            </h3>
+            <p className="text-sm mb-4">{newsletter.description}</p>
+            <NewsletterForm content={newsletter} />
+          </div>
+
+          {/* Columnas de Enlaces */}
+          <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
+            {linkColumns.map((column) => (
+              <div key={column.title}>
+                <h4 className="font-semibold text-foreground mb-4">
+                  {column.title}
+                </h4>
+                <ul className="space-y-2">
+                  {column.links.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="text-sm hover:text-primary transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Separator className="bg-foreground/10" />
+
+        {/* Sección Inferior: Copyright, Redes Sociales y Disclaimer */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pt-8">
+          <div className="text-sm text-center md:text-left">
+            <p>
+              {copyright}{" "}
+              {developerLink && (
+                <Link
+                  href={developerLink.href}
+                  className="underline hover:text-primary"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {developerLink.text}
+                </Link>
+              )}
+            </p>
+            <p className="text-xs mt-1 opacity-70">{disclaimer}</p>
+          </div>
+          <div className="flex items-center gap-4">
+            {socialLinks.map((social) => (
               <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm hover:text-white transition-colors"
+                key={social.name}
+                href={social.url}
+                className="hover:text-primary transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
               >
-                {link.label}
+                <DynamicIcon name={social.icon} className="h-5 w-5" />
               </Link>
             ))}
-          </nav>
-        </div>
-        <div className="mt-8 text-xs text-gray-500 border-t border-gray-700 pt-6">
-          <p>{disclaimer}</p>
+          </div>
         </div>
       </Container>
     </footer>
   );
 }
-
-// src/components/layout/Footer.tsx

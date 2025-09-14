@@ -1,10 +1,11 @@
 // .docs-espejo/components/layout/sections/footer.tsx.md
-/**
- * @file footer.tsx.md
- * @description Documento Espejo y SSoT conceptual para la sección de Footer.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file footer.tsx.md
+- @description Documento Espejo y SSoT conceptual para la sección de Footer.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Footer Section
 
@@ -23,14 +24,14 @@ El componente es un **componente de presentación puro**, diseñado para ser com
 
 ## 3. Contrato de API
 
--   **Función:** `FooterSection({ content }: FooterSectionProps): React.ReactElement | null`
--   **Props (`FooterSectionProps`):**
-    -   `content`: Un objeto que contiene todo el contenido textual y de datos, validado por Zod.
+- **Función:** `FooterSection({ content }: FooterSectionProps): React.ReactElement | null`
+- **Props (`FooterSectionProps`):**
+  - `content`: Un objeto que contiene todo el contenido textual y de datos, validado por Zod.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Suscripción a Newsletter:** Integrar un campo de entrada de email simple y un botón de suscripción como un componente opcional dentro del footer, controlado por una propiedad en el `content`.
-*   **Iconos Sociales:** En lugar de solo enlaces de texto en las columnas, añadir una sección dedicada a iconos de redes sociales, controlada por un array `socialLinks` en el `content` que incluya el nombre del icono de Lucide.
-*   **Contenido Dinámico de Copyright:** Hacer que el año en el texto de copyright se genere dinámicamente (`new Date().getFullYear()`) en lugar de estar hardcodeado en el archivo i18n, para que se actualice automáticamente cada año.
+- **Suscripción a Newsletter:** Integrar un campo de entrada de email simple y un botón de suscripción como un componente opcional dentro del footer, controlado por una propiedad en el `content`.
+- **Iconos Sociales:** En lugar de solo enlaces de texto en las columnas, añadir una sección dedicada a iconos de redes sociales, controlada por un array `socialLinks` en el `content` que incluya el nombre del icono de Lucide.
+- **Contenido Dinámico de Copyright:** Hacer que el año en el texto de copyright se genere dinámicamente (`new Date().getFullYear()`) en lugar de estar hardcodeado en el archivo i18n, para que se actualice automáticamente cada año.
 
 // .docs-espejo/components/layout/sections/footer.tsx.md

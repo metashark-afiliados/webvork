@@ -2,12 +2,12 @@
 /**
  * @file ComponentLoader.ts
  * @description Módulo de servicio para la carga dinámica de componentes en el Dev Canvas.
- *              - v4.0.0 (Ingeniería de Resiliencia): Refactorizado para ser antifrágil.
- *                Ahora maneja correctamente el tipo `Partial<Dictionary>` devuelto por el
- *                motor de i18n, utilizando acceso seguro a propiedades y activando el
- *                fallback de forma robusta. Resuelve el error de tipo TS2322.
- * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
+ *              - v4.2.0 (Sincronización de Contrato): Actualizado para consumir el nuevo
+ *                contrato de `getDictionary`, desestructurando la respuesta y resolviendo
+ *                los errores de tipo.
+ * @version 4.2.0
+ * @author RaZ Podestá - MetaShark Tech
+ * @date 2025-09-14T18:20:40.121Z
  */
 import React from "react";
 import {
@@ -38,20 +38,15 @@ export async function loadComponentAndProps(
 
   const entry = getComponentByName(componentName);
   if (!entry) {
-    logger.error(
-      `Componente "${componentName}" no encontrado en ComponentRegistry.`
-    );
+    const errorMsg = `Componente "${componentName}" no encontrado en ComponentRegistry.`;
+    logger.error(errorMsg);
     logger.endGroup();
-    throw new Error(
-      `Componente "${componentName}" no encontrado en el registro.`
-    );
+    throw new Error(errorMsg);
   }
 
   let componentProps: Record<string, any> = {};
   let appliedTheme: CampaignData["theme"] | null = null;
-
-  // --- INICIO DE CORRECCIÓN: Manejo de Partial<Dictionary> ---
-  let dictionary: Partial<Dictionary>;
+  let dictionary: Partial<Dictionary> = {};
 
   try {
     if (entry.isCampaignComponent) {
@@ -60,25 +55,24 @@ export async function loadComponentAndProps(
         locale,
         DEV_MOCK_VARIANT_ID
       );
-      // El diccionario de campaña ya es completo y validado por su propio orquestador.
       dictionary = campaignData.dictionary;
       appliedTheme = campaignData.theme;
     } else {
-      // getDictionary devuelve un diccionario potencialmente parcial.
-      dictionary = await getDictionary(locale);
+      // --- [INICIO] CORRECCIÓN DE CONTRATO ---
+      const { dictionary: globalDictionary } = await getDictionary(locale);
+      dictionary = globalDictionary;
+      // --- [FIN] CORRECCIÓN DE CONTRATO ---
     }
 
     const key = entry.dictionaryKey as keyof Dictionary;
     const propsFromDict = dictionary[key];
 
-    // Lógica de fallback robusta: si la clave no existe en el diccionario parcial, usa el fallback.
     componentProps = propsFromDict
       ? { content: propsFromDict }
       : getFallbackProps(componentName);
 
-    // Caso especial para Header, ahora con acceso seguro.
     if (componentName === "Header") {
-      componentProps.devDictionary = dictionary?.devRouteMenu;
+      componentProps.devDictionary = dictionary.devRouteMenu;
     }
 
     logger.trace("Props de i18n cargadas exitosamente.");
@@ -89,11 +83,10 @@ export async function loadComponentAndProps(
     );
     componentProps = getFallbackProps(componentName);
   }
-  // --- FIN DE CORRECCIÓN ---
 
   try {
     const componentModule = await import(
-      /* @vite-ignore */ `${entry.componentPath}`
+      /* @vite-ignore */ `../../${entry.componentPath.replace("@/", "")}`
     );
     const ComponentToRender =
       componentModule.default ||
@@ -107,21 +100,18 @@ export async function loadComponentAndProps(
       );
     }
 
-    logger.info(
+    logger.success(
       `Componente "${componentName}" y sus props cargados con éxito.`
     );
     logger.endGroup();
 
     return { ComponentToRender, componentProps, appliedTheme, entry };
   } catch (error) {
-    logger.error(
-      `Error crítico al importar dinámicamente el módulo para "${componentName}".`,
-      { path: entry.componentPath, error }
-    );
+    const errorMsg = `Error crítico al importar dinámicamente el módulo para "${componentName}".`;
+    logger.error(errorMsg, { path: entry.componentPath, error });
     logger.endGroup();
     throw new Error(
       `No se pudo cargar el módulo del componente: ${entry.componentPath}`
     );
   }
 }
-// components/dev/ComponentLoader.ts

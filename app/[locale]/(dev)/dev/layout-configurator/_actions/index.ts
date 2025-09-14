@@ -9,4 +9,3 @@
 
 export * from "./getLayoutForVariant.action";
 export * from "./saveLayoutForVariant.action";
-// app/[locale]/(dev)/dev/layout-configurator/_actions/index.ts

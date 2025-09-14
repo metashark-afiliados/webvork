@@ -7,7 +7,7 @@
  *                de forma segura para renderizar el título estilizado, dando control total
  *                al equipo de contenido.
  * @version 3.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/ui/Container";

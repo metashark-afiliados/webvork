@@ -7,7 +7,7 @@
  *                dinámicamente usando el manifiesto `routes`, eliminando el
  *                acoplamiento entre el contenido y la estructura de rutas.
  * @version 3.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

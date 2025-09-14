@@ -2,7 +2,9 @@
 /**
  * @file TeamSection.tsx
  * @description Componente de sección para presentar a los miembros del equipo.
- * @version 1.0.0
+ *              - v1.1.0: Confirma la consistencia en la observabilidad y el uso de DynamicIcon
+ *                para la iconografía de las redes sociales de los miembros del equipo.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -31,7 +33,7 @@ interface TeamSectionProps {
 export function TeamSection({
   content,
 }: TeamSectionProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando TeamSection");
+  logger.info("[Observabilidad] Renderizando TeamSection (Server Component)");
 
   if (!content) {
     logger.warn(
@@ -96,4 +98,3 @@ export function TeamSection({
     </section>
   );
 }
-// components/sections/TeamSection.tsx

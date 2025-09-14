@@ -3,11 +3,9 @@
  * @file navigation.ts
  * @description Manifiesto y SSoT (Single Source of Truth) para la definición de TODAS
  *              las rutas de la aplicación.
- *              - v7.0.0: Añade rutas dinámicas para productos (`storeProduct`) y
- *                artículos de noticias (`newsArticle`), permitiendo la construcción
- *                de URLs desacopladas del contenido.
- * @version 7.0.0
- * @author Gemini AI - Asistente de IA de Google
+ *              - v7.1.0: Añade la ruta para la nueva página de prueba del DCC (`devTestPage`).
+ * @version 7.1.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { type LucideIconName } from "@/config/lucide-icon-names";
 import { defaultLocale, type Locale } from "@/lib/i18n.config";
@@ -106,5 +104,10 @@ export const routes = {
       `/${params.locale || defaultLocale}/dev/branding`,
     type: RouteType.DevOnly,
   },
+  devTestPage: {
+    // <-- ¡NUEVA RUTA!
+    path: (params: RouteParams = {}) =>
+      `/${params.locale || defaultLocale}/dev/test-page`,
+    type: RouteType.DevOnly,
+  },
 } as const;
-// lib/navigation.ts

@@ -6,7 +6,7 @@
  *                alineando el contrato de datos con la estrategia de rutas centralizada.
  *                Exporta el tipo atómico `Article` para reutilización segura.
  * @version 2.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

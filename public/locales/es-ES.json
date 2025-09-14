@@ -120,6 +120,11 @@
       }
     ]
   },
+  "notFoundPage": {
+    "title": "Página No Encontrada",
+    "description": "Lo sentimos, no pudimos encontrar la página que estás buscando.",
+    "buttonText": "Volver al Inicio"
+  },
   "devDashboardPage": {
     "title": "Centro de Comando del Desarrollador",
     "subtitle": "Herramientas para el desarrollo y simulación de campañas.",
@@ -158,6 +163,37 @@
     "savingButtonText": "Guardando...",
     "successMessage": "¡Layout guardado con éxito!",
     "errorMessage": "Error al guardar el layout."
+  },
+  "devLoginPage": {
+    "title": "Bienvenido, Dev Creator",
+    "subtitle": "Accede al centro de comando para diseñar y simular campañas.",
+    "usernameLabel": "Usuario",
+    "usernamePlaceholder": "nombre.usuario",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "••••••••",
+    "buttonText": "Continuar",
+    "footerHtml": "Al continuar, accedes a la suite de desarrollo interno. <br> Contacta al <a href='#' class='underline hover:text-primary'>arquitecto</a> para obtener credenciales de producción."
+  },
+  "devTestPage": {
+    "title": "Vitrina de Resiliencia de Componentes",
+    "subtitle": "Todos los componentes del sistema renderizados con datos SSoT reales para garantizar la estabilidad.",
+    "selectThemeLabel": "Seleccionar Tema de Campaña",
+    "noContentWarning": "Contenido no encontrado para este componente en el diccionario.",
+    "fallbackHeroTitle": "Título de Fallback",
+    "fallbackHeroSubtitle": "Subtítulo de fallback para el componente Hero.",
+    "fallbackBenefitsTitle": "Beneficios de Fallback",
+    "fallbackBenefitsSubtitle": "Subtítulo de fallback para beneficios.",
+    "fallbackBenefit1": "Beneficio 1",
+    "fallbackBenefit2": "Beneficio 2",
+    "fallbackBenefit3": "Beneficio 3",
+    "fallbackAccordionQuestion": "¿Pregunta de Fallback?",
+    "fallbackAccordionAnswer": "Respuesta de fallback.",
+    "fallbackOrderNameLabel": "Nombre",
+    "fallbackOrderNamePlaceholder": "Nombre Completo",
+    "fallbackOrderPhoneLabel": "Teléfono",
+    "fallbackOrderPhonePlaceholder": "Número de Teléfono",
+    "fallbackOrderSubmitText": "Enviar",
+    "fallbackOrderLoadingText": "Enviando..."
   },
   "benefitsSection": {
     "eyebrow": "Beneficios",
@@ -290,81 +326,76 @@
     ]
   },
   "footer": {
-    "logoName": "Shadcn",
+    "logoName": "Global Fitwell",
+    "newsletter": {
+      "title": "Mantente Actualizado con Global Fitwell",
+      "description": "Recibe consejos exclusivos de bienestar, investigaciones científicas y ofertas especiales directamente en tu bandeja de entrada.",
+      "placeholder": "Tu mejor email",
+      "buttonText": "Suscribirse Ahora"
+    },
     "linkColumns": [
       {
-        "title": "Contacto",
+        "title": "Empresa",
         "links": [
           {
-            "label": "Github",
-            "href": "#"
+            "label": "Sobre Nosotros",
+            "href": "/es-ES/about"
           },
           {
-            "label": "Twitter",
-            "href": "#"
-          },
-          {
-            "label": "Instagram",
-            "href": "#"
+            "label": "Blog / Noticias",
+            "href": "/es-ES/news"
           }
         ]
       },
       {
-        "title": "Plataformas",
+        "title": "Recursos",
         "links": [
-          {
-            "label": "iOS",
-            "href": "#"
-          },
-          {
-            "label": "Android",
-            "href": "#"
-          },
-          {
-            "label": "Web",
-            "href": "#"
-          }
-        ]
-      },
-      {
-        "title": "Ayuda",
-        "links": [
-          {
-            "label": "Contáctanos",
-            "href": "#"
-          },
           {
             "label": "FAQ",
             "href": "#"
-          },
-          {
-            "label": "Feedback",
-            "href": "#"
           }
         ]
       },
       {
-        "title": "Sociales",
+        "title": "Legal",
         "links": [
           {
-            "label": "Twitch",
-            "href": "#"
+            "label": "Términos de Servicio",
+            "href": "/es-ES/terms"
           },
           {
-            "label": "Discord",
-            "href": "#"
+            "label": "Política de Privacidad",
+            "href": "/es-ES/privacy"
           },
           {
-            "label": "Dribbble",
-            "href": "#"
+            "label": "Política de Cookies",
+            "href": "/es-ES/cookies"
           }
         ]
       }
     ],
-    "copyright": "© 2024 Diseñado y desarrollado por",
+    "socialLinks": [
+      {
+        "name": "X (Twitter)",
+        "url": "https://x.com",
+        "icon": "Twitter"
+      },
+      {
+        "name": "Instagram",
+        "url": "https://instagram.com",
+        "icon": "Instagram"
+      },
+      {
+        "name": "Youtube",
+        "url": "https://youtube.com",
+        "icon": "Youtube"
+      }
+    ],
+    "copyright": "© 2025 Global Fitwell. Todos los derechos reservados.",
+    "disclaimer": "La información proporcionada en este sitio es solo para fines informativos. Los productos aquí presentados no están destinados a diagnosticar, tratar, curar o prevenir ninguna enfermedad.",
     "developerLink": {
-      "text": "Leo Miranda",
-      "href": "https://github.com/leoMirandaa"
+      "text": "Desarrollado por RaZ Podestá - MetaShark Tech",
+      "href": "https://metashark.tech"
     }
   },
   "header": {
@@ -704,7 +735,7 @@
       "disableAnimations": false,
       "spotlightRadius": 300,
       "particleCount": 12,
-      "enableTilt": false,
+      "enableTilt": true,
       "glowColor": "primary",
       "clickEffect": true,
       "enableMagnetism": true
@@ -724,6 +755,21 @@
         "title": "Colaboración",
         "description": "Trabaja en equipo sin interrupciones.",
         "label": "Equipo"
+      },
+      {
+        "title": "Automatización",
+        "description": "Simplifica los flujos de trabajo complejos.",
+        "label": "Eficiencia"
+      },
+      {
+        "title": "Integración",
+        "description": "Conecta tus herramientas favoritas.",
+        "label": "Conectividad"
+      },
+      {
+        "title": "Seguridad",
+        "description": "Protección a nivel empresarial para tus datos.",
+        "label": "Protección"
       }
     ]
   }

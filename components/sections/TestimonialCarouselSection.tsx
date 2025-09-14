@@ -2,7 +2,9 @@
 /**
  * @file TestimonialCarouselSection.tsx
  * @description Componente de sección para mostrar testimonios en un formato de carrusel interactivo.
- * @version 1.0.0
+ *              - v1.1.0: Mejora la consistencia del sistema de iconos al reemplazar la
+ *                importación directa de `Star` por el componente `DynamicIcon`.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -18,7 +20,8 @@ import {
 } from "@/components/ui/Carousel";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
-import { Star } from "lucide-react";
+// import { Star } from "lucide-react"; // <-- ELIMINADO
+import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { ReviewItem } from "@/lib/schemas/components/testimonial-carousel-section.schema";
@@ -36,17 +39,21 @@ interface TestimonialCarouselSectionProps {
  * @description Subcomponente puro para renderizar la calificación de estrellas.
  * @private
  */
-const StarRating = ({ rating }: { rating: number }) => (
-  <div className="flex gap-1 text-yellow-500">
-    {[...Array(5)].map((_, i) => (
-      <Star
-        key={i}
-        className="w-4 h-4"
-        fill={i < rating ? "currentColor" : "none"}
-      />
-    ))}
-  </div>
-);
+const StarRating = ({ rating }: { rating: number }) => {
+  logger.trace("[Observabilidad] Renderizando StarRating"); // Añadido para observabilidad
+  return (
+    <div className="flex gap-1 text-yellow-500">
+      {[...Array(5)].map((_, i) => (
+        <DynamicIcon // <-- USO DE DYNAMICICON
+          key={i}
+          name="Star"
+          className="w-4 h-4"
+          fill={i < rating ? "currentColor" : "none"}
+        />
+      ))}
+    </div>
+  );
+};
 
 /**
  * @component TestimonialCarouselSection
@@ -57,7 +64,9 @@ const StarRating = ({ rating }: { rating: number }) => (
 export function TestimonialCarouselSection({
   content,
 }: TestimonialCarouselSectionProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando TestimonialCarouselSection");
+  logger.info(
+    "[Observabilidad] Renderizando TestimonialCarouselSection (Client Component)"
+  ); // Observabilidad actualizada
 
   if (!content) {
     logger.warn(
@@ -118,4 +127,3 @@ export function TestimonialCarouselSection({
     </section>
   );
 }
-// components/sections/TestimonialCarouselSection.tsx

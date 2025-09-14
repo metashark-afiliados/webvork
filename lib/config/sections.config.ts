@@ -1,55 +1,63 @@
 // lib/config/sections.config.ts
 /**
  * @file sections.config.ts
- * @description SSoT (Single Source of Truth) para la configuración de secciones.
- *              Implementa el "Patrón de Registro" donde se mapea un nombre de sección
- *              a su componente React y a la clave correspondiente en el diccionario de i18n.
- *              Esta configuración es consumida por el SectionRenderer para renderizar dinámicamente las páginas.
- * @version 14.0.0
+ * @description SSoT para la configuración de secciones.
+ *              - v15.2.0 (Resolución de Dependencia Circular): Se elimina la
+ *                dependencia del tipo `Dictionary` para romper un ciclo de
+ *                importación crítico. La validación de `dictionaryKey` se
+ *                delega al ensamblador de schemas.
+ * @version 15.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+// --- [1] INICIO DE CORRECCIÓN: Se elimina la importación del tipo Dictionary ---
+// import type { Dictionary } from "@/lib/schemas/i18n.schema";
+// --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 
-// --- Importaciones de Componentes de Sección (Rutas Canónicas SSoT) ---
+// --- Importaciones de Componentes de Sección (Inventario Completo SSoT) ---
 import { BenefitsSection } from "@/components/sections/BenefitsSection";
+import { CommunitySection } from "@/components/sections/CommunitySection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { DoubleScrollingBanner } from "@/components/sections/DoubleScrollingBanner";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
+import { FeaturedArticlesCarousel } from "@/components/sections/FeaturedArticlesCarousel";
+import { FeaturesSection } from "@/components/sections/FeaturesSection";
 import { GuaranteeSection } from "@/components/sections/GuaranteeSection";
 import { Hero } from "@/components/sections/Hero";
 import { HeroNews } from "@/components/sections/HeroNews";
 import { IngredientAnalysis } from "@/components/sections/IngredientAnalysis";
 import { NewsGrid } from "@/components/sections/NewsGrid";
 import { OrderSection } from "@/components/sections/OrderSection";
+import { PricingSection } from "@/components/sections/PricingSection";
 import { ProductShowcase } from "@/components/sections/ProductShowcase";
+import { ServicesSection } from "@/components/sections/ServicesSection";
 import { SocialProofLogos } from "@/components/sections/SocialProofLogos";
+import { SponsorsSection } from "@/components/sections/SponsorsSection";
+import { TeamSection } from "@/components/sections/TeamSection";
+import { TestimonialCarouselSection } from "@/components/sections/TestimonialCarouselSection";
 import { TestimonialGrid } from "@/components/sections/TestimonialGrid";
 import { ThumbnailCarousel } from "@/components/sections/ThumbnailCarousel";
 
 logger.trace("[sections.config] Módulo de configuración de secciones cargado.");
 
-/**
- * @interface SectionConfigEntry
- * @description Define el contrato para cada entrada en el registro de secciones.
- * @property {React.ComponentType<any>} component - La referencia al componente React a renderizar.
- * @property {keyof Dictionary} dictionaryKey - La clave del diccionario que contiene los datos de esta sección.
- */
 interface SectionConfigEntry {
   component: React.ComponentType<any>;
-  dictionaryKey: keyof Dictionary;
+  // --- [2] INICIO DE CORRECCIÓN: Se relaja el tipo a 'string' para romper el ciclo ---
+  // La validación de que esta clave existe en el diccionario se realiza
+  // de forma implícita en el ensamblador `i18n.schema.ts`.
+  dictionaryKey: string;
+  // --- FIN DE CORRECCIÓN ---
 }
 
-/**
- * @const sectionsConfig
- * @description El registro central de todas las secciones disponibles en la aplicación.
- *              Este objeto es la SSoT que el SectionRenderer utiliza para construir las páginas dinámicamente.
- */
 export const sectionsConfig = {
   BenefitsSection: {
     component: BenefitsSection,
     dictionaryKey: "benefitsSection",
+  },
+  CommunitySection: {
+    component: CommunitySection,
+    dictionaryKey: "communitySection",
   },
   ContactSection: {
     component: ContactSection,
@@ -60,6 +68,14 @@ export const sectionsConfig = {
     dictionaryKey: "doubleScrollingBanner",
   },
   FaqAccordion: { component: FaqAccordion, dictionaryKey: "faqAccordion" },
+  FeaturedArticlesCarousel: {
+    component: FeaturedArticlesCarousel,
+    dictionaryKey: "featuredArticlesCarousel",
+  },
+  FeaturesSection: {
+    component: FeaturesSection,
+    dictionaryKey: "featuresSection",
+  },
   GuaranteeSection: {
     component: GuaranteeSection,
     dictionaryKey: "guaranteeSection",
@@ -72,13 +88,30 @@ export const sectionsConfig = {
   },
   NewsGrid: { component: NewsGrid, dictionaryKey: "newsGrid" },
   OrderSection: { component: OrderSection, dictionaryKey: "orderSection" },
+  PricingSection: {
+    component: PricingSection,
+    dictionaryKey: "pricingSection",
+  },
   ProductShowcase: {
     component: ProductShowcase,
     dictionaryKey: "productShowcase",
   },
+  ServicesSection: {
+    component: ServicesSection,
+    dictionaryKey: "servicesSection",
+  },
   SocialProofLogos: {
     component: SocialProofLogos,
     dictionaryKey: "socialProofLogos",
+  },
+  SponsorsSection: {
+    component: SponsorsSection,
+    dictionaryKey: "sponsorsSection",
+  },
+  TeamSection: { component: TeamSection, dictionaryKey: "teamSection" },
+  TestimonialCarouselSection: {
+    component: TestimonialCarouselSection,
+    dictionaryKey: "testimonialCarouselSection",
   },
   TestimonialGrid: {
     component: TestimonialGrid,
@@ -90,10 +123,4 @@ export const sectionsConfig = {
   },
 } as const satisfies Record<string, SectionConfigEntry>;
 
-/**
- * @type SectionName
- * @description Deriva un tipo de unión de todos los nombres de sección registrados,
- *              proporcionando seguridad de tipos para el layout de las campañas.
- */
 export type SectionName = keyof typeof sectionsConfig;
-// lib/config/sections.config.ts

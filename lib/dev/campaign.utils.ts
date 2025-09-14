@@ -1,9 +1,10 @@
 // lib/dev/campaign.utils.ts
 /**
  * @file campaign.utils.ts
- * @description Utilidades del lado del servidor para el Developer Command Center,
- *              enfocadas en descubrir y leer configuraciones de campaña.
- * @version 1.0.0
+ * @description Utilidades del lado del servidor para el Developer Command Center.
+ *              - v1.1.0: Corrige la ruta base del directorio de campañas, eliminando
+ *                el prefijo 'src/' incorrecto para resolver el error 'ENOENT' en tiempo de ejecución.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import "server-only";
@@ -12,10 +13,6 @@ import path from "path";
 import { logger } from "@/lib/logging";
 import type { CampaignMap } from "@/lib/schemas/campaigns/campaign-map.schema";
 
-/**
- * @interface CampaignVariantInfo
- * @description Define la estructura de datos simplificada para representar una variante de campaña en la UI del DCC.
- */
 export interface CampaignVariantInfo {
   campaignId: string;
   variantId: string;
@@ -23,14 +20,10 @@ export interface CampaignVariantInfo {
   description: string;
 }
 
-const CAMPAIGNS_DIR = path.join(process.cwd(), "src", "content", "campaigns");
+// --- INICIO DE CORRECCIÓN: Se elimina 'src' de la ruta base ---
+const CAMPAIGNS_DIR = path.join(process.cwd(), "content", "campaigns");
+// --- FIN DE CORRECCIÓN ---
 
-/**
- * @function getAllCampaignsAndVariants
- * @description Escanea el directorio de campañas y lee cada `campaign.map.json`
- *              para construir una lista completa de todas las variantes disponibles.
- * @returns {Promise<CampaignVariantInfo[]>} Una lista de objetos con información de cada variante.
- */
 export async function getAllCampaignsAndVariants(): Promise<
   CampaignVariantInfo[]
 > {
@@ -81,7 +74,6 @@ export async function getAllCampaignsAndVariants(): Promise<
       "[DevUtils] Error crítico al escanear el directorio de campañas.",
       { error }
     );
-    return []; // Devuelve un array vacío en caso de error para no romper la UI.
+    return [];
   }
 }
-// lib/dev/campaign.utils.ts

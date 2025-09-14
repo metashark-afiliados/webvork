@@ -4,7 +4,7 @@
  * @description Esquema de Zod para el contenido i18n de la página de login
  *              del Developer Command Center.
  * @version 1.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

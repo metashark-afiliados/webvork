@@ -1,10 +1,11 @@
 // .docs-espejo/components/layout/sections/testimonial.tsx.md
-/**
- * @file testimonial.tsx.md
- * @description Documento Espejo y SSoT conceptual para la sección TestimonialCarouselSection.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file testimonial.tsx.md
+- @description Documento Espejo y SSoT conceptual para la sección TestimonialCarouselSection.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Testimonial Carousel Section
 
@@ -24,14 +25,14 @@ El componente es una pieza de **presentación pura (`use client`)**.
 
 ## 3. Contrato de API
 
--   **Función:** `TestimonialCarouselSection({ content }: TestimonialCarouselSectionProps): React.ReactElement | null`
--   **Props (`TestimonialCarouselSectionProps`):**
-    -   `content`: Objeto con los datos de la sección.
+- **Función:** `TestimonialCarouselSection({ content }: TestimonialCarouselSectionProps): React.ReactElement | null`
+- **Props (`TestimonialCarouselSectionProps`):**
+  - `content`: Objeto con los datos de la sección.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Autoplay:** Añadir una opción de `autoplay` al carrusel, controlada por una propiedad en el `content.config`, para que los testimonios roten automáticamente.
-*   **Video Testimonials:** Evolucionar el schema para que cada `review` pueda contener opcionalmente una `videoUrl`. Si está presente, la tarjeta podría mostrar un thumbnail con un botón de play para abrir el video en un modal.
-*   **Integración con APIs de Reseñas:** Conectar el componente a una API de reseñas (ej. Trustpilot, Google Reviews) para obtener y mostrar testimonios reales y actualizados dinámicamente.
+- **Autoplay:** Añadir una opción de `autoplay` al carrusel, controlada por una propiedad en el `content.config`, para que los testimonios roten automáticamente.
+- **Video Testimonials:** Evolucionar el schema para que cada `review` pueda contener opcionalmente una `videoUrl`. Si está presente, la tarjeta podría mostrar un thumbnail con un botón de play para abrir el video en un modal.
+- **Integración con APIs de Reseñas:** Conectar el componente a una API de reseñas (ej. Trustpilot, Google Reviews) para obtener y mostrar testimonios reales y actualizados dinámicamente.
 
 // .docs-espejo/components/layout/sections/testimonial.tsx.md

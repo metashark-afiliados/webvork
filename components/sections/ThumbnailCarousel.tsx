@@ -7,7 +7,7 @@
  *                todos los protocolos de entrega de código y calidad definidos en las directivas
  *                del proyecto. Se ha añadido documentación TSDoc completa.
  * @version 4.2.1
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

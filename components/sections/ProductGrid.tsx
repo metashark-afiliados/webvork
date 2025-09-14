@@ -6,7 +6,7 @@
  *                tipos de datos correctos desde sus SSoT en los archivos de schema y config.
  *                Resuelve la cascada de errores de tipo TS2322, TS2339 y TS7053.
  * @version 2.1.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import Image from "next/image";

@@ -167,7 +167,7 @@ export const useLightRays = (
         raysSpeed: { value: config.raysSpeed ?? 1.5 },
         lightSpread: { value: config.lightSpread ?? 0.8 },
         rayLength: { value: config.rayLength ?? 1.2 },
-        pulsating: { value: config.pulsating ?? false ? 1.0 : 0.0 },
+        pulsating: { value: (config.pulsating ?? false) ? 1.0 : 0.0 },
         fadeDistance: { value: config.fadeDistance ?? 1.0 },
         saturation: { value: config.saturation ?? 1.0 },
         mousePos: { value: [0.5, 0.5] },

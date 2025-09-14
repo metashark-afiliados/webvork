@@ -1,10 +1,11 @@
 // .docs-espejo/components/layout/sections/services.tsx.md
-/**
- * @file services.tsx.md
- * @description Documento Espejo y SSoT conceptual para la sección de Servicios.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file services.tsx.md
+- @description Documento Espejo y SSoT conceptual para la sección de Servicios.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Services Section
 
@@ -23,14 +24,14 @@ El componente es un **componente de presentación puro**.
 
 ## 3. Contrato de API
 
--   **Función:** `ServicesSection({ content }: ServicesSectionProps): React.ReactElement | null`
--   **Props (`ServicesSectionProps`):**
-    -   `content`: Objeto con los datos de la sección, validado por Zod.
+- **Función:** `ServicesSection({ content }: ServicesSectionProps): React.ReactElement | null`
+- **Props (`ServicesSectionProps`):**
+  - `content`: Objeto con los datos de la sección, validado por Zod.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Enlaces Individuales:** Añadir una propiedad `href` opcional a cada `ServiceItem` en el schema para que cada tarjeta pueda enlazar a una página de detalle del servicio.
-*   **Iconografía:** Añadir una propiedad `iconName` a cada `ServiceItem` para mostrar un `DynamicIcon` relevante en la cabecera de la tarjeta, mejorando el impacto visual.
-*   **Filtrado de Servicios:** Para listas largas, añadir controles (ej. botones de filtro "Todos", "Gratis", "Pro") para que el usuario pueda filtrar dinámicamente los servicios mostrados.
+- **Enlaces Individuales:** Añadir una propiedad `href` opcional a cada `ServiceItem` en el schema para que cada tarjeta pueda enlazar a una página de detalle del servicio.
+- **Iconografía:** Añadir una propiedad `iconName` a cada `ServiceItem` para mostrar un `DynamicIcon` relevante en la cabecera de la tarjeta, mejorando el impacto visual.
+- **Filtrado de Servicios:** Para listas largas, añadir controles (ej. botones de filtro "Todos", "Gratis", "Pro") para que el usuario pueda filtrar dinámicamente los servicios mostrados.
 
 // .docs-espejo/components/layout/sections/services.tsx.md

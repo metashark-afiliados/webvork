@@ -1,10 +1,11 @@
 // .docs-espejo/components/layout/sections/ContactSection.tsx.md
-/**
- * @file ContactSection.tsx.md
- * @description Documento Espejo y SSoT conceptual para el orquestador ContactSection.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file ContactSection.tsx.md
+- @description Documento Espejo y SSoT conceptual para el orquestador ContactSection.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: ContactSection Orchestrator
 
@@ -23,13 +24,13 @@ Ha sido refactorizada para delegar toda la lógica y el estado del formulario al
 
 ## 3. Contrato de API
 
--   **Función:** `ContactSection({ content }: ContactSectionProps): React.ReactElement | null`
--   **Props (`ContactSectionProps`):**
-    -   `content`: Un objeto que contiene todo el contenido textual y de datos, validado por `contact-section.schema.ts`.
+- **Función:** `ContactSection({ content }: ContactSectionProps): React.ReactElement | null`
+- **Props (`ContactSectionProps`):**
+  - `content`: Un objeto que contiene todo el contenido textual y de datos, validado por `contact-section.schema.ts`.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Variantes de Layout:** Introducir una prop `layoutVariant` (ej. `'image-left' | 'form-left'`) para permitir diferentes disposiciones de la información de contacto y el formulario, aumentando su reutilización en diferentes páginas.
-*   **Mapa Interactivo (Integración):** Añadir una opción para mostrar un mapa interactivo (ej. Google Maps, OpenStreetMap) basado en la dirección proporcionada en `content.contactInfo`, como un componente hijo adicional.
+- **Variantes de Layout:** Introducir una prop `layoutVariant` (ej. `'image-left' | 'form-left'`) para permitir diferentes disposiciones de la información de contacto y el formulario, aumentando su reutilización en diferentes páginas.
+- **Mapa Interactivo (Integración):** Añadir una opción para mostrar un mapa interactivo (ej. Google Maps, OpenStreetMap) basado en la dirección proporcionada en `content.contactInfo`, como un componente hijo adicional.
 
 // .docs-espejo/components/layout/sections/ContactSection.tsx.md

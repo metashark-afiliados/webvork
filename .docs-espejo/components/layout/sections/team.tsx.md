@@ -1,10 +1,11 @@
 // .docs-espejo/components/layout/sections/team.tsx.md
-/**
- * @file team.tsx.md
- * @description Documento Espejo y SSoT conceptual para la sección de Equipo.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file team.tsx.md
+- @description Documento Espejo y SSoT conceptual para la sección de Equipo.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Team Section
 
@@ -24,14 +25,14 @@ El componente es un **componente de presentación puro**.
 
 ## 3. Contrato de API
 
--   **Función:** `TeamSection({ content }: TeamSectionProps): React.ReactElement | null`
--   **Props (`TeamSectionProps`):**
-    -   `content`: Objeto con los datos de la sección.
+- **Función:** `TeamSection({ content }: TeamSectionProps): React.ReactElement | null`
+- **Props (`TeamSectionProps`):**
+  - `content`: Objeto con los datos de la sección.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Modal de Biografía:** Al hacer clic en una tarjeta de miembro, se podría abrir un modal (`Dialog`) que muestre una biografía más extensa y detallada, obtenida de una propiedad `bio` adicional en el schema.
-*   **Filtro por Departamento:** Para equipos grandes, añadir botones de filtro ("Todos", "Desarrollo", "Marketing") que permitan al usuario filtrar los miembros mostrados.
-*   **Efecto Hover Avanzado:** Implementar un efecto hover más avanzado en las tarjetas, como un "tilt" 3D o una superposición de color con los iconos sociales, para aumentar el impacto visual.
+- **Modal de Biografía:** Al hacer clic en una tarjeta de miembro, se podría abrir un modal (`Dialog`) que muestre una biografía más extensa y detallada, obtenida de una propiedad `bio` adicional en el schema.
+- **Filtro por Departamento:** Para equipos grandes, añadir botones de filtro ("Todos", "Desarrollo", "Marketing") que permitan al usuario filtrar los miembros mostrados.
+- **Efecto Hover Avanzado:** Implementar un efecto hover más avanzado en las tarjetas, como un "tilt" 3D o una superposición de color con los iconos sociales, para aumentar el impacto visual.
 
 // .docs-espejo/components/layout/sections/team.tsx.md

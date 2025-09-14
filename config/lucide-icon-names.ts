@@ -7,7 +7,7 @@
  * @author Script de Generación Automática
  * @version 2025-09-11T21:29:05.455Z
  */
-import { z } from 'zod';
+import { z } from "zod";
 
 export const lucideIconNames = [
   "AArrowDown",
@@ -1863,7 +1863,7 @@ export const lucideIconNames = [
   "ZapOff",
   "Zap",
   "ZoomIn",
-  "ZoomOut"
+  "ZoomOut",
 ] as const;
 
 export const LucideIconNameSchema = z.enum(lucideIconNames);

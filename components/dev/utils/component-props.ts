@@ -1,13 +1,17 @@
-// src/components/dev/utils/component-props.ts
+// components/dev/utils/component-props.ts
 /**
- * @file src/components/dev/utils/component-props.ts
+ * @file component-props.ts
  * @description Utilidad para generar props de fallback robustas y estructuradas para componentes de desarrollo.
  *              Atomizado desde ComponentCanvas.tsx para respetar el Principio de Responsabilidad Única.
- * @version 1.0.0
+ *              - v1.2.0: Resuelve errores de compilación (`TS2749`, `TS1005`, etc.) al reemplazar
+ *                la sintaxis JSX (`<DynamicIcon />`) por `React.createElement(DynamicIcon, ...)`,
+ *                lo que es compatible con archivos `.ts`. Mantiene el uso de `DynamicIcon`.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
-import { Gauge } from "lucide-react";
+// import { Gauge } from "lucide-react"; // Ya eliminado
+import DynamicIcon from "@/components/ui/DynamicIcon"; // Importación de DynamicIcon
 import { logger } from "@/lib/logging";
 
 /**
@@ -41,12 +45,12 @@ export function getFallbackProps(name: string): Record<string, any> {
       return {
         items: [
           {
-            icon: React.createElement(Gauge, { size: 18 }),
+            icon: React.createElement(DynamicIcon, { name: "Gauge", size: 18 }), // <-- ¡CORRECCIÓN APLICADA AQUÍ!
             label: "Default Mock Item C",
             onClick: () => logger.info("Default Mock Item C clicked!"),
           },
           {
-            icon: React.createElement(Gauge, { size: 18 }),
+            icon: React.createElement(DynamicIcon, { name: "Gauge", size: 18 }), // <-- ¡CORRECCIÓN APLICADA AQUÍ!
             label: "Default Mock Item D",
             onClick: () => logger.info("Default Mock Item D clicked!"),
           },
@@ -80,4 +84,3 @@ export function getFallbackProps(name: string): Record<string, any> {
       return {};
   }
 }
-// src/components/dev/utils/component-props.ts

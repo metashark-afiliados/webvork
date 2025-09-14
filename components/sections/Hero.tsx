@@ -5,7 +5,7 @@
  *              - v4.0.0: Se hace auto-contenido con su propia lógica de fallback,
  *                desacoplando el contenido por defecto del diccionario global i18n.
  * @version 4.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/ui/Container";

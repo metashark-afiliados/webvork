@@ -5,7 +5,7 @@
  *              - v2.0.0: Refactorizado para usar una única propiedad 'title' que
  *                acepta HTML, dando más flexibilidad al contenido.
  * @version 2.0.0
- * @author Gemini AI - Asistente de IA de Google
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { LucideIconNameSchema } from "@/config/lucide-icon-names";

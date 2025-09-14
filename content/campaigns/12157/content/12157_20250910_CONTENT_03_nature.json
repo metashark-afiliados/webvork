@@ -12,55 +12,63 @@
       "ingredients": [
         {
           "name": "Oro Giallo: Curcumina",
-          "description": "Selezioniamo solo l'estratto più puro, il cuore pulsante della nostra formula, per le sue proprietà leggendarie."
+          "description": "Selezioniamo solo l'estratto più puro, il cuore pulsante della nostra formula."
         },
         {
           "name": "Diamante Nero: Piperina",
-          "description": "La chiave che apre le porte del corpo, assicurando che ogni preziosa molecola di curcumina venga assorbita."
+          "description": "La chiave che assicura che ogni preziosa molecola venga assorbita."
         },
         {
           "name": "Filo Rosso: Zafferano",
-          "description": "L'ingrediente di lusso che eleva la formula, supportando l'equilibrio e l'armonia interiore."
+          "description": "L'ingrediente di lusso che eleva la formula, supportando l'equilibrio interiore."
         }
       ]
     },
     "benefitsSection": {
+      "eyebrow": "Effetto Sinergico",
       "title": "I Risultati di una Formula Superiore",
       "subtitle": "Quando gli elementi della natura lavorano in perfetta armonia, l'effetto è esponenziale.",
       "benefits": [
-        "Un'esperienza di benessere profondo e totale",
-        "Protezione antiossidante di livello superiore",
-        "Sinergia che amplifica i benefici di ogni singolo ingrediente",
-        "Equilibrio naturale per corpo e mente"
+        {
+          "icon": "Gem",
+          "title": "Benessere Profondo",
+          "description": "Sperimenta una sensazione di equilibrio e benessere olistico che va oltre il fisico."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Protezione d'Élite",
+          "description": "Un livello superiore di protezione antiossidante per preservare la tua vitalità a lungo."
+        },
+        {
+          "icon": "Combine",
+          "title": "Sinergia Amplificata",
+          "description": "Ogni ingrediente potenzia gli altri, creando un effetto che la somma delle parti non può eguagliare."
+        },
+        {
+          "icon": "BrainCircuit",
+          "title": "Equilibrio Corpo-Mente",
+          "description": "Lo zafferano contribuisce a un equilibrio emotivo, completando l'azione fisica della curcumina."
+        }
       ]
     },
     "thumbnailCarousel": {
-      "thumbnails": [
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
-          "alt": "Primo piano macro di una radice di curcuma"
-        },
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
-          "alt": "Stigmi di zafferano su una superficie scura"
-        }
-      ],
-      "affiliateUrl": "https://example.com/order?lang=it",
-      "playButtonAriaLabel": "Esplora la formula e accedi all'offerta",
-      "playButtonTitle": "Icona di esplorazione"
+      "thumbnails": [],
+      "affiliateUrl": "#",
+      "playButtonAriaLabel": "Esplora",
+      "playButtonTitle": "Play"
     },
     "testimonialGrid": {
-      "title": "La Scoperta dei Nostri Clienti d'Élite",
+      "title": "La Scoperta dei Nostri Clienti",
       "testimonials": [
         {
-          "quote": "Ho provato molti integratori, ma questo è diverso. Si percepisce una qualità e un'efficacia che non avevo mai sperimentato prima. È diventato il mio segreto.",
+          "quote": "Ho provato molti integratori, ma questo è diverso. Si percepisce una qualità e un'efficacia che non avevo mai sperimentato.",
           "author": "F. Rossi",
           "location": "Como, IT",
           "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 90,
       "discountedPrice": 45,
       "originalPriceLabel": "Valore Esclusivo",
@@ -72,21 +80,13 @@
       "submitButtonText": "Accedi all'Offerta Esclusiva",
       "submitButtonLoadingText": "Confermando..."
     },
-    "guaranteeSection": {
-      "title": "La Tua Decisione, Protetta",
-      "seals": [
-        {
-          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
-          "imageAlt": "Garanzia di Pura Soddisfazione"
-        }
-      ]
-    },
+    "guaranteeSection": { "title": "La Tua Decisione, Protetta", "seals": [] },
     "faqAccordion": {
       "title": "Approfondimenti sulla Formula",
       "faqs": [
         {
-          "question": "In che modo questa formula è diversa dalle altre?",
-          "answer": "La nostra differenza risiede nella sinergia e nella qualità. Non ci limitiamo a combinare ingredienti, ma li selezioniamo e dosiamo per creare un effetto potenziato che va oltre la somma delle singole parti, il tutto con standard di produzione svizzeri."
+          "question": "In che modo questa formula è diversa?",
+          "answer": "La nostra differenza risiede nella sinergia e nella qualità. Selezioniamo e dosiamo gli ingredienti per creare un effetto potenziato."
         }
       ]
     }
@@ -104,55 +104,63 @@
       "ingredients": [
         {
           "name": "Oro Amarillo: Curcumina",
-          "description": "Seleccionamos solo el extracto más puro, el corazón latente de nuestra fórmula, por sus legendarias propiedades."
+          "description": "Seleccionamos solo el extracto más puro, el corazón latente de nuestra fórmula."
         },
         {
           "name": "Diamante Negro: Piperina",
-          "description": "La llave que abre las puertas del cuerpo, asegurando que cada preciosa molécula de curcumina sea absorbida."
+          "description": "La llave que asegura que cada preciosa molécula sea absorbida."
         },
         {
           "name": "Hilo Rojo: Azafrán",
-          "description": "El ingrediente de lujo que eleva la fórmula, apoyando el equilibrio y la armonía interior."
+          "description": "El ingrediente de lujo que eleva la fórmula, apoyando el equilibrio interior."
         }
       ]
     },
     "benefitsSection": {
+      "eyebrow": "Efecto Sinérgico",
       "title": "Los Resultados de una Fórmula Superior",
       "subtitle": "Cuando los elementos de la naturaleza trabajan en perfecta armonía, el efecto es exponencial.",
       "benefits": [
-        "Una experiencia de bienestar profundo y total",
-        "Protección antioxidante de nivel superior",
-        "Sinergia que amplifica los beneficios de cada ingrediente",
-        "Equilibrio natural para cuerpo y mente"
+        {
+          "icon": "Gem",
+          "title": "Bienestar Profundo",
+          "description": "Experimenta una sensación de equilibrio y bienestar holístico que va más allá de lo físico."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Protección de Élite",
+          "description": "Un nivel superior de protección antioxidante para preservar tu vitalidad a largo plazo."
+        },
+        {
+          "icon": "Combine",
+          "title": "Sinergia Amplificada",
+          "description": "Cada ingrediente potencia a los demás, creando un efecto que la suma de las partes no puede igualar."
+        },
+        {
+          "icon": "BrainCircuit",
+          "title": "Equilibrio Cuerpo-Mente",
+          "description": "El azafrán contribuye a un equilibrio emocional, completando la acción física de la curcumina."
+        }
       ]
     },
     "thumbnailCarousel": {
-      "thumbnails": [
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
-          "alt": "Primer plano macro de una raíz de cúrcuma"
-        },
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
-          "alt": "Estigmas de azafrán sobre una superficie oscura"
-        }
-      ],
-      "affiliateUrl": "https://example.com/order?lang=es",
-      "playButtonAriaLabel": "Explora la fórmula y accede a la oferta",
-      "playButtonTitle": "Icono de exploración"
+      "thumbnails": [],
+      "affiliateUrl": "#",
+      "playButtonAriaLabel": "Explora",
+      "playButtonTitle": "Play"
     },
     "testimonialGrid": {
-      "title": "El Descubrimiento de Nuestros Clientes de Élite",
+      "title": "El Descubrimiento de Nuestros Clientes",
       "testimonials": [
         {
-          "quote": "He probado muchos suplementos, pero este es diferente. Se percibe una calidad y eficacia que nunca antes había experimentado. Se ha convertido en mi secreto.",
+          "quote": "He probado muchos suplementos, pero este es diferente. Se percibe una calidad y eficacia que nunca antes había experimentado.",
           "author": "F. Rossi",
           "location": "Como, IT",
           "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 90,
       "discountedPrice": 45,
       "originalPriceLabel": "Valor Exclusivo",
@@ -161,24 +169,16 @@
       "nameInputPlaceholder": "Tu nombre",
       "phoneInputLabel": "Teléfono",
       "phoneInputPlaceholder": "Tu contacto",
-      "submitButtonText": "Accede a la Oferta Exclusiva",
+      "submitButtonText": "Acceder a la Oferta Exclusiva",
       "submitButtonLoadingText": "Confirmando..."
     },
-    "guaranteeSection": {
-      "title": "Tu Decisión, Protegida",
-      "seals": [
-        {
-          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
-          "imageAlt": "Garantía de Pura Satisfacción"
-        }
-      ]
-    },
+    "guaranteeSection": { "title": "Tu Decisión, Protegida", "seals": [] },
     "faqAccordion": {
       "title": "Profundización en la Fórmula",
       "faqs": [
         {
-          "question": "¿En qué se diferencia esta fórmula de otras?",
-          "answer": "Nuestra diferencia radica en la sinergia y la calidad. No nos limitamos a combinar ingredientes, sino que los seleccionamos y dosificamos para crear un efecto potenciado que va más allá de la suma de las partes, todo con estándares de producción suizos."
+          "question": "¿En qué se diferencia esta fórmula?",
+          "answer": "Nuestra diferencia radica en la sinergia y la calidad. Seleccionamos y dosificamos los ingredientes para crear un efecto potenciado."
         }
       ]
     }
@@ -196,55 +196,63 @@
       "ingredients": [
         {
           "name": "Yellow Gold: Curcumin",
-          "description": "We select only the purest extract, the beating heart of our formula, for its legendary properties."
+          "description": "We select only the purest extract, the beating heart of our formula."
         },
         {
           "name": "Black Diamond: Piperine",
-          "description": "The key that unlocks the body's doors, ensuring every precious molecule of curcumin is absorbed."
+          "description": "The key that ensures every precious molecule is absorbed."
         },
         {
           "name": "Red Thread: Saffron",
-          "description": "The luxury ingredient that elevates the formula, supporting balance and inner harmony."
+          "description": "The luxury ingredient that elevates the formula, supporting inner balance."
         }
       ]
     },
     "benefitsSection": {
+      "eyebrow": "Synergistic Effect",
       "title": "The Results of a Superior Formula",
       "subtitle": "When nature's elements work in perfect harmony, the effect is exponential.",
       "benefits": [
-        "A deep and total wellness experience",
-        "Superior-level antioxidant protection",
-        "Synergy that amplifies the benefits of each ingredient",
-        "Natural balance for body and mind"
+        {
+          "icon": "Gem",
+          "title": "Profound Wellness",
+          "description": "Experience a sense of holistic balance and well-being that goes beyond the physical."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Elite Protection",
+          "description": "A superior level of antioxidant protection to preserve your long-term vitality."
+        },
+        {
+          "icon": "Combine",
+          "title": "Amplified Synergy",
+          "description": "Each ingredient enhances the others, creating an effect that the sum of the parts cannot match."
+        },
+        {
+          "icon": "BrainCircuit",
+          "title": "Mind-Body Balance",
+          "description": "Saffron contributes to emotional balance, complementing the physical action of curcumin."
+        }
       ]
     },
     "thumbnailCarousel": {
-      "thumbnails": [
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
-          "alt": "Macro shot of a turmeric root"
-        },
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
-          "alt": "Saffron stigmas on a dark surface"
-        }
-      ],
-      "affiliateUrl": "https://example.com/order?lang=en",
-      "playButtonAriaLabel": "Explore the formula and access the offer",
-      "playButtonTitle": "Exploration icon"
+      "thumbnails": [],
+      "affiliateUrl": "#",
+      "playButtonAriaLabel": "Explore",
+      "playButtonTitle": "Play"
     },
     "testimonialGrid": {
-      "title": "The Discovery of Our Elite Clients",
+      "title": "The Discovery of Our Clients",
       "testimonials": [
         {
-          "quote": "I've tried many supplements, but this one is different. You can feel a quality and effectiveness I've never experienced before. It has become my secret.",
+          "quote": "I've tried many supplements, but this one is different. You can feel a quality and effectiveness I had never experienced.",
           "author": "F. Rossi",
           "location": "Como, IT",
           "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 90,
       "discountedPrice": 45,
       "originalPriceLabel": "Exclusive Value",
@@ -256,21 +264,13 @@
       "submitButtonText": "Access the Exclusive Offer",
       "submitButtonLoadingText": "Confirming..."
     },
-    "guaranteeSection": {
-      "title": "Your Decision, Protected",
-      "seals": [
-        {
-          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
-          "imageAlt": "Pure Satisfaction Guarantee"
-        }
-      ]
-    },
+    "guaranteeSection": { "title": "Your Decision, Protected", "seals": [] },
     "faqAccordion": {
-      "title": "In-depth Insights on the Formula",
+      "title": "In-depth on the Formula",
       "faqs": [
         {
-          "question": "How is this formula different from others?",
-          "answer": "Our difference lies in synergy and quality. We don't just combine ingredients; we select and dose them to create an enhanced effect that goes beyond the sum of its parts, all with Swiss production standards."
+          "question": "How is this formula different?",
+          "answer": "Our difference lies in synergy and quality. We select and dose ingredients to create an enhanced effect."
         }
       ]
     }
@@ -288,55 +288,63 @@
       "ingredients": [
         {
           "name": "Ouro Amarelo: Curcumina",
-          "description": "Selecionamos apenas o extrato mais puro, o coração pulsante da nossa fórmula, por suas propriedades lendárias."
+          "description": "Selecionamos apenas o extrato mais puro, o coração pulsante da nossa fórmula."
         },
         {
           "name": "Diamante Negro: Piperina",
-          "description": "A chave que abre as portas do corpo, garantindo que cada preciosa molécula de curcumina seja absorvida."
+          "description": "A chave que garante que cada molécula preciosa seja absorvida."
         },
         {
           "name": "Fio Vermelho: Açafrão",
-          "description": "O ingrediente de luxo que eleva a fórmula, apoiando o equilíbrio e a harmonia interior."
+          "description": "O ingrediente de luxo que eleva a fórmula, apoiando o equilíbrio interior."
         }
       ]
     },
     "benefitsSection": {
+      "eyebrow": "Efeito Sinérgico",
       "title": "Os Resultados de uma Fórmula Superior",
       "subtitle": "Quando os elementos da natureza trabalham em perfeita harmonia, o efeito é exponencial.",
       "benefits": [
-        "Uma experiência de bem-estar profundo e total",
-        "Proteção antioxidante de nível superior",
-        "Sinergia que amplifica os benefícios de cada ingrediente",
-        "Equilíbrio natural para corpo e mente"
+        {
+          "icon": "Gem",
+          "title": "Bem-estar Profundo",
+          "description": "Experimente uma sensação de equilíbrio e bem-estar holístico que vai além do físico."
+        },
+        {
+          "icon": "ShieldCheck",
+          "title": "Proteção de Elite",
+          "description": "Um nível superior de proteção antioxidante para preservar sua vitalidade a longo prazo."
+        },
+        {
+          "icon": "Combine",
+          "title": "Sinergia Amplificada",
+          "description": "Cada ingrediente potencializa os outros, criando um efeito que a soma das partes não pode igualar."
+        },
+        {
+          "icon": "BrainCircuit",
+          "title": "Equilíbrio Corpo-Mente",
+          "description": "O açafrão contribui para o equilíbrio emocional, complementando a ação física da curcumina."
+        }
       ]
     },
     "thumbnailCarousel": {
-      "thumbnails": [
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_macro.jpg",
-          "alt": "Close-up macro de uma raiz de cúrcuma"
-        },
-        {
-          "src": "/img/sections/thumbnail-carousel/carousel_nature_saffron.jpg",
-          "alt": "Estigmas de açafrão sobre uma superfície escura"
-        }
-      ],
-      "affiliateUrl": "https://example.com/order?lang=pt",
-      "playButtonAriaLabel": "Explore a fórmula e acesse a oferta",
-      "playButtonTitle": "Ícone de exploração"
+      "thumbnails": [],
+      "affiliateUrl": "#",
+      "playButtonAriaLabel": "Explore",
+      "playButtonTitle": "Play"
     },
     "testimonialGrid": {
-      "title": "A Descoberta dos Nossos Clientes de Elite",
+      "title": "A Descoberta dos Nossos Clientes",
       "testimonials": [
         {
-          "quote": "Já experimentei muitos suplementos, mas este é diferente. Sente-se uma qualidade e eficácia que nunca tinha experienciado. Tornou-se o meu segredo.",
+          "quote": "Já experimentei muitos suplementos, mas este é diferente. Percebe-se uma qualidade e eficácia que nunca havia experimentado.",
           "author": "F. Rossi",
           "location": "Como, IT",
           "imageSrc": "/img/sections/testimonial-grid/avatar_f-rossi.jpg"
         }
       ]
     },
-    "orderForm": {
+    "orderSection": {
       "originalPrice": 90,
       "discountedPrice": 45,
       "originalPriceLabel": "Valor Exclusivo",
@@ -348,21 +356,13 @@
       "submitButtonText": "Acessar a Oferta Exclusiva",
       "submitButtonLoadingText": "Confirmando..."
     },
-    "guaranteeSection": {
-      "title": "Sua Decisão, Protegida",
-      "seals": [
-        {
-          "imageUrl": "/img/guarantee-section/seal_garantia-1.jpg",
-          "imageAlt": "Garantia de Pura Satisfação"
-        }
-      ]
-    },
+    "guaranteeSection": { "title": "Sua Decisão, Protegida", "seals": [] },
     "faqAccordion": {
-      "title": "Aprofundamentos sobre a Fórmula",
+      "title": "Aprofundando na Fórmula",
       "faqs": [
         {
-          "question": "Como esta fórmula difere das outras?",
-          "answer": "Nossa diferença está na sinergia e na qualidade. Não nos limitamos a combinar ingredientes; nós os selecionamos e dosamos para criar um efeito potencializado que vai além da soma das partes, tudo com padrões de produção suíços."
+          "question": "Como esta fórmula é diferente?",
+          "answer": "Nossa diferença está na sinergia e na qualidade. Selecionamos e dosamos os ingredientes para criar um efeito potencializado."
         }
       ]
     }

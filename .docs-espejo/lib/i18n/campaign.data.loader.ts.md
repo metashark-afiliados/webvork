@@ -1,10 +1,11 @@
 // .docs-espejo/lib/i18n/campaign.data.loader.ts.md
-/**
- * @file campaign.data.loader.ts.md
- * @description Documento Espejo y SSoT conceptual para el aparato Campaign Data Loader.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file campaign.data.loader.ts.md
+- @description Documento Espejo y SSoT conceptual para el aparato Campaign Data Loader.
+- @version 1.0.0
+- @author RaZ podesta - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Campaign Data Loader
 
@@ -25,18 +26,18 @@ Es el primer paso en el pipeline de ensamblaje de datos de campaña, y su fiabil
 
 ## 3. Contrato de API
 
--   **Función:** `loadCampaignAsset<T>(campaignId: string, assetPath: string): Promise<T>`
--   **Parámetros:**
-    -   `campaignId: string`: El identificador del directorio de la campaña.
-    -   `assetPath: string`: La ruta relativa del activo desde la carpeta de la campaña.
--   **Retorna:** `Promise<T>` - Una promesa que resuelve con el contenido del archivo JSON parseado.
--   **Lanza (`@throws`):** Un `Error` si el archivo no se encuentra o no se puede parsear, incluyendo detalles del error original.
+- **Función:** `loadCampaignAsset<T>(campaignId: string, assetPath: string): Promise<T>`
+- **Parámetros:**
+  - `campaignId: string`: El identificador del directorio de la campaña.
+  - `assetPath: string`: La ruta relativa del activo desde la carpeta de la campaña.
+- **Retorna:** `Promise<T>` - Una promesa que resuelve con el contenido del archivo JSON parseado.
+- **Lanza (`@throws`):** Un `Error` si el archivo no se encuentra o no se puede parsear, incluyendo detalles del error original.
 
 ## 4. Zona de Melhorias Futuras
 
-*   **Implementar Cache de Nivel de Petición:** Para evitar leer el mismo archivo JSON del disco múltiples veces durante una única renderización de página compleja, se podría implementar un sistema de caché (ej. `React.cache` o un `Map` simple) que almacene los activos cargados durante el ciclo de vida de una petición.
-*   **Soporte para Múltiples Formatos:** Extender el loader para que pueda manejar otros formatos de archivo como YAML o Markdown (MDX), seleccionando el parser adecuado según la extensión del archivo.
-*   **Versión de Carga Segura:** Crear una variante `loadCampaignAssetSafe` que, en lugar de lanzar un error, devuelva `null` o un objeto de resultado `{ data: T | null, error: Error | null }`. Esto permitiría una degradación más elegante en la UI si un activo opcional no se encuentra.
-*   **Validación de Esquema Integrada:** El loader podría aceptar un schema de Zod opcional y realizar una validación básica del contenido justo después del parseo, lanzando un error más específico si la estructura del archivo no coincide con el contrato esperado.
+- **Implementar Cache de Nivel de Petición:** Para evitar leer el mismo archivo JSON del disco múltiples veces durante una única renderización de página compleja, se podría implementar un sistema de caché (ej. `React.cache` o un `Map` simple) que almacene los activos cargados durante el ciclo de vida de una petición.
+- **Soporte para Múltiples Formatos:** Extender el loader para que pueda manejar otros formatos de archivo como YAML o Markdown (MDX), seleccionando el parser adecuado según la extensión del archivo.
+- **Versión de Carga Segura:** Crear una variante `loadCampaignAssetSafe` que, en lugar de lanzar un error, devuelva `null` o un objeto de resultado `{ data: T | null, error: Error | null }`. Esto permitiría una degradación más elegante en la UI si un activo opcional no se encuentra.
+- **Validación de Esquema Integrada:** El loader podría aceptar un schema de Zod opcional y realizar una validación básica del contenido justo después del parseo, lanzando un error más específico si la estructura del archivo no coincide con el contrato esperado.
 
 // .docs-espejo/lib/i18n/campaign.data.loader.ts.md
