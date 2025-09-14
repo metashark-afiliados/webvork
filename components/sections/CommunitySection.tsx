@@ -1,36 +1,26 @@
 // components/sections/CommunitySection.tsx
 /**
  * @file CommunitySection.tsx
- * @description Un componente de sección diseñado para invitar a los usuarios a unirse a una comunidad.
- *              - v3.0.0 (Flexibilidad de Contenido): Refactorizado para consumir una única
- *                prop 'title' que puede contener HTML. Utiliza `dangerouslySetInnerHTML`
- *                de forma segura para renderizar el título estilizado, dando control total
- *                al equipo de contenido.
- * @version 3.0.0
+ * @description Componente de sección para invitar a la comunidad.
+ *              - v3.1.0 (Build Stability): Se estandarizan las rutas de importación
+ *                a `@/components/ui/*` para eliminar ambigüedades y resolver
+ *                potenciales errores de `Module not found` en el build.
+ * @version 3.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { Container } from "@/ui/Container";
-import { Button } from "@/ui/Button";
-import DynamicIcon from "@/ui/DynamicIcon";
+// --- INICIO DE CORRECCIÓN: Rutas de importación estandarizadas ---
+import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
+import DynamicIcon from "@/components/ui/DynamicIcon";
+// --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/schemas/i18n.schema";
 
-/**
- * @interface CommunitySectionProps
- * @description Define el contrato de props para el componente CommunitySection.
- */
 interface CommunitySectionProps {
   content: Dictionary["communitySection"];
 }
 
-/**
- * @component CommunitySection
- * @description Renderiza una sección visualmente atractiva con un llamado a la acción claro
- *              para unirse a una comunidad (ej. Discord, Slack, etc.).
- * @param {CommunitySectionProps} props - Las propiedades que contienen el contenido de la sección.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function CommunitySection({
   content,
 }: CommunitySectionProps): React.ReactElement | null {
@@ -56,11 +46,6 @@ export function CommunitySection({
           />
           <h2
             className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
-            // --- IMPLEMENTACIÓN DE ÉLITE ---
-            // Se utiliza `dangerouslySetInnerHTML` para renderizar el HTML del título.
-            // Esto es seguro en este contexto porque el contenido proviene de nuestros
-            // archivos .i18n.json internos y confiables, no de una entrada de usuario externa,
-            // eliminando así el riesgo de ataques XSS.
             dangerouslySetInnerHTML={{ __html: title }}
           />
           <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-muted-foreground">
@@ -76,4 +61,3 @@ export function CommunitySection({
     </section>
   );
 }
-// components/sections/CommunitySection.tsx

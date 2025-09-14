@@ -71,4 +71,3 @@ export function LightRays({
     />
   );
 }
-// components/razBits/LightRays/LightRays.tsx

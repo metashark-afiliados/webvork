@@ -2,24 +2,25 @@
 /**
  * @file LayoutEditor.tsx
  * @description Componente cliente interactivo para la edición de layouts de campaña.
- *              - v3.1.0 (Compatibilidad de Compilador): Resuelve el error TS2802
- *                reemplazando la sintaxis de propagación de Set `[...new Set()]` con el
- *                método universalmente compatible `Array.from(new Set())` para garantizar
- *                la correcta transpilación a JavaScript más antiguo.
- * @version 3.1.0
+ *              - v3.2.0 (Build Stability): Se estandarizan las rutas de importación
+ *                a `@/components/ui/*` para eliminar ambigüedades y resolver los
+ *                errores de `Module not found` en el build de Vercel.
+ * @version 3.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React, { useState, useEffect, useMemo, useTransition } from "react";
-import { Button } from "@/ui/Button";
+// --- INICIO DE CORRECCIÓN: Rutas de importación estandarizadas ---
+import { Button } from "@/components/ui/Button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/ui/Select";
+} from "@/components/ui/Select";
+// --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 import { getLayoutForVariant, saveLayoutForVariant } from "../_actions";
 import type { Dictionary } from "@/schemas/i18n.schema";
@@ -105,10 +106,8 @@ export function LayoutEditor({
               <SelectValue placeholder={content.selectCampaignPlaceholder} />
             </SelectTrigger>
             <SelectContent>
-              {/* --- INICIO DE CORRECCIÓN: Sintaxis compatible --- */}
               {Array.from(new Set(campaigns.map((c) => c.campaignId))).map(
                 (id) => (
-                  // --- FIN DE CORRECCIÓN ---
                   <SelectItem key={id} value={id}>
                     {id}
                   </SelectItem>
@@ -192,4 +191,3 @@ export function LayoutEditor({
     </div>
   );
 }
-// app/[locale]/(dev)/dev/layout-configurator/_components/LayoutEditor.tsx

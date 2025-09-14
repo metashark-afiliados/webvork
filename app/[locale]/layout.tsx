@@ -2,7 +2,9 @@
 /**
  * @file layout.tsx
  * @description Layout Localizado.
- *              - v4.1.0: Sincronizado con el nuevo contrato de getDictionary.
+ *              - v4.1.0 (Sincronización de Contrato): Se actualiza para consumir la nueva
+ *                firma de `getDictionary`, desestructurando la respuesta para obtener
+ *                el diccionario de forma segura.
  * @version 4.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
@@ -33,7 +35,10 @@ export default async function LocaleLayout({
     `[Observabilidad][ARQUITECTURA-LOCALE] Renderizando LocaleLayout para locale: [${safeLocale}]`
   );
 
+  // --- INICIO DE CORRECCIÓN ---
+  // Se desestructura la respuesta de getDictionary para acceder al objeto 'dictionary'.
   const { dictionary } = await getDictionary(safeLocale);
+  // --- FIN DE CORRECCIÓN ---
 
   const headerContent = dictionary.header;
   const devRouteMenuContent = dictionary.devRouteMenu;
