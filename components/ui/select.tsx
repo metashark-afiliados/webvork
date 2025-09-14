@@ -3,23 +3,20 @@
 
 import * as React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-// import { Check, ChevronDown, ChevronUp } from "lucide-react"; // <-- ELIMINADO
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
-import { logger } from "@/lib/logging"; // <-- AÑADIDO: para observabilidad
+import DynamicIcon from "@/components/ui/DynamicIcon";
+import { logger } from "@/lib/logging";
 
 import { cn } from "@/lib/utils";
 
 const Select = SelectPrimitive.Root;
-
 const SelectGroup = SelectPrimitive.Group;
-
 const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => {
-  logger.info("[Observabilidad] Renderizando SelectTrigger"); // Observabilidad
+  logger.info("[Observabilidad] Renderizando SelectTrigger");
   return (
     <SelectPrimitive.Trigger
       ref={ref}
@@ -31,62 +28,18 @@ const SelectTrigger = React.forwardRef<
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <DynamicIcon name="ChevronDown" className="h-4 w-4 opacity-50" />{" "}
-        {/* <-- USO DE DYNAMICICON */}
+        <DynamicIcon name="ChevronDown" className="h-4 w-4 opacity-50" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
 });
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
-const SelectScrollUpButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
->(({ className, ...props }, ref) => {
-  logger.info("[Observabilidad] Renderizando SelectScrollUpButton"); // Observabilidad
-  return (
-    <SelectPrimitive.ScrollUpButton
-      ref={ref}
-      className={cn(
-        "flex cursor-default items-center justify-center py-1",
-        className
-      )}
-      {...props}
-    >
-      <DynamicIcon name="ChevronUp" className="h-4 w-4" />{" "}
-      {/* <-- USO DE DYNAMICICON */}
-    </SelectPrimitive.ScrollUpButton>
-  );
-});
-SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
-
-const SelectScrollDownButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
->(({ className, ...props }, ref) => {
-  logger.info("[Observabilidad] Renderizando SelectScrollDownButton"); // Observabilidad
-  return (
-    <SelectPrimitive.ScrollDownButton
-      ref={ref}
-      className={cn(
-        "flex cursor-default items-center justify-center py-1",
-        className
-      )}
-      {...props}
-    >
-      <DynamicIcon name="ChevronDown" className="h-4 w-4" />{" "}
-      {/* <-- USO DE DYNAMICICON */}
-    </SelectPrimitive.ScrollDownButton>
-  );
-});
-SelectScrollDownButton.displayName =
-  SelectPrimitive.ScrollDownButton.displayName;
-
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ className, children, position = "popper", ...props }, ref) => {
-  logger.info("[Observabilidad] Renderizando SelectContent"); // Observabilidad
+  logger.info("[Observabilidad] Renderizando SelectContent");
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
@@ -100,7 +53,6 @@ const SelectContent = React.forwardRef<
         position={position}
         {...props}
       >
-        <SelectScrollUpButton />
         <SelectPrimitive.Viewport
           className={cn(
             "p-1",
@@ -110,33 +62,17 @@ const SelectContent = React.forwardRef<
         >
           {children}
         </SelectPrimitive.Viewport>
-        <SelectScrollDownButton />
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
   );
 });
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
-const SelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
->(({ className, ...props }, ref) => {
-  logger.info("[Observabilidad] Renderizando SelectLabel"); // Observabilidad
-  return (
-    <SelectPrimitive.Label
-      ref={ref}
-      className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
-      {...props}
-    />
-  );
-});
-SelectLabel.displayName = SelectPrimitive.Label.displayName;
-
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ className, children, ...props }, ref) => {
-  logger.info("[Observabilidad] Renderizando SelectItem"); // Observabilidad
+  logger.info("[Observabilidad] Renderizando SelectItem");
   return (
     <SelectPrimitive.Item
       ref={ref}
@@ -148,31 +84,14 @@ const SelectItem = React.forwardRef<
     >
       <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
         <SelectPrimitive.ItemIndicator>
-          <DynamicIcon name="Check" className="h-4 w-4" />{" "}
-          {/* <-- USO DE DYNAMICICON */}
+          <DynamicIcon name="Check" className="h-4 w-4" />
         </SelectPrimitive.ItemIndicator>
       </span>
-
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     </SelectPrimitive.Item>
   );
 });
 SelectItem.displayName = SelectPrimitive.Item.displayName;
-
-const SelectSeparator = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
->(({ className, ...props }, ref) => {
-  logger.info("[Observabilidad] Renderizando SelectSeparator"); // Observabilidad
-  return (
-    <SelectPrimitive.Separator
-      ref={ref}
-      className={cn("-mx-1 my-1 h-px bg-muted", className)}
-      {...props}
-    />
-  );
-});
-SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 export {
   Select,
@@ -180,9 +99,5 @@ export {
   SelectValue,
   SelectTrigger,
   SelectContent,
-  SelectLabel,
   SelectItem,
-  SelectSeparator,
-  SelectScrollUpButton,
-  SelectScrollDownButton,
 };
