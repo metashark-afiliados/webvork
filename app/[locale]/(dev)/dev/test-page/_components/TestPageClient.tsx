@@ -1,11 +1,10 @@
-// app/[locale]/(dev)/dev/test-page/_components/TestPageClient.tsx
+// app/[locale]/(dev)/dev/test--page/_components/TestPageClient.tsx
 /**
  * @file TestPageClient.tsx
  * @description Vitrina de Componentes de Resiliencia (Cliente).
- *              - v11.0.0 (Architectural Fix): Refactorizado para importar componentes
- *                desde el barrel file de UI (`@/components/ui`), resolviendo
- *                errores de compilación en Vercel.
- * @version 11.0.0
+ *              - v12.0.0 (Final Fix): Se limpian las importaciones duplicadas,
+ *                resolviendo el error TS2300 (Identificador duplicado).
+ * @version 12.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -17,9 +16,9 @@ import { type Locale } from "@/lib/i18n.config";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { AvailableTheme } from "../page";
 
-// --- Component Imports ---
+// --- INICIO DE CORRECCIÓN: Importaciones consolidadas ---
 import { PageHeader } from "@/components/layout/PageHeader";
-// --- INICIO DE CORRECCIÓN: Importación desde el barrel file ---
+import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import {
   Container,
   Select,
@@ -34,13 +33,6 @@ import {
   Separator,
 } from "@/components/ui";
 // --- FIN DE CORRECCIÓN ---
-import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
-import * as Sections from "@/components/sections";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Separator } from "@/components/ui/Separator";
-// --- FIN DE CORRECCIÓN ---
-
-// --- Section Component Imports via Barrel File ---
 import * as Sections from "@/components/sections";
 
 interface TestPageClientProps {
