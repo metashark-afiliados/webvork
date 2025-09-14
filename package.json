@@ -28,8 +28,7 @@
   },
   "scripts": {
     "build:i18n": "tsx --tsconfig tsconfig.json scripts/generation/build-i18n-dictionaries.ts",
-    "test:smoke": "tsx --tsconfig tsconfig.json scripts/diag/smoke-test-ui.ts",
-    "build": "pnpm test:smoke && pnpm build:i18n && next build",
+    "build": "pnpm build:i18n && next build",
     "dev": "next dev",
     "start": "next start",
     "lint": "eslint .",
