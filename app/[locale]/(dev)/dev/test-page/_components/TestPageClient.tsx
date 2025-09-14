@@ -2,9 +2,10 @@
 /**
  * @file TestPageClient.tsx
  * @description Vitrina de Componentes de Resiliencia (Cliente).
- *              - v10.4.0 (Build Stability Fix): Estandariza las rutas de importación
- *                a `@/components/ui/*` para resolver definitivamente los errores de `Module not found`.
- * @version 10.4.0
+ *              - v11.0.0 (Architectural Fix): Refactorizado para importar componentes
+ *                desde el barrel file de UI (`@/components/ui`), resolviendo
+ *                errores de compilación en Vercel.
+ * @version 11.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -18,16 +19,23 @@ import type { AvailableTheme } from "../page";
 
 // --- Component Imports ---
 import { PageHeader } from "@/components/layout/PageHeader";
-// --- INICIO DE CORRECCIÓN: Rutas de importación estandarizadas ---
-import { Container } from "@/components/ui/Container";
+// --- INICIO DE CORRECCIÓN: Importación desde el barrel file ---
 import {
+  Container,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Separator,
+} from "@/components/ui";
+// --- FIN DE CORRECCIÓN ---
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
+import * as Sections from "@/components/sections";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Separator } from "@/components/ui/Separator";
 // --- FIN DE CORRECCIÓN ---

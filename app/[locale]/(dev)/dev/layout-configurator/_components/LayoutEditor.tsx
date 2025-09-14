@@ -2,30 +2,29 @@
 /**
  * @file LayoutEditor.tsx
  * @description Componente cliente interactivo para la edición de layouts de campaña.
- *              - v3.6.0 (Build Stability Fix): Estandariza las rutas de importación
- *                al alias robusto `@/components/ui/*` para resolver definitivamente
- *                los errores de `Module not found` en Vercel.
- * @version 3.6.0
+ *              - v4.0.0 (Architectural Fix): Refactorizado para importar componentes
+ *                desde el barrel file de UI (`@/components/ui`), resolviendo
+ *                errores de compilación en Vercel.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React, { useState, useEffect, useMemo, useTransition } from "react";
-// --- INICIO DE CORRECCIÓN: Rutas de importación estandarizadas ---
-import { Button } from "@/components/ui/Button";
+// --- INICIO DE CORRECCIÓN: Importación desde el barrel file ---
 import {
+  Button,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/Select";
+} from "@/components/ui";
 // --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 import { getLayoutForVariant, saveLayoutForVariant } from "../_actions";
 import type { Dictionary } from "@/schemas/i18n.schema";
 import type { CampaignVariantInfo as CampaignVariant } from "@/lib/dev/campaign.utils";
-
 type LayoutConfiguratorContent = NonNullable<
   Dictionary["devLayoutConfiguratorPage"]
 >;
