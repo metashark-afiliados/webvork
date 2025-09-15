@@ -7,6 +7,6 @@
  * @version 1.0.0
  * @author RaZ podesta - MetaShark Tech
  */
-export * from "./cn"; 
+export * from "./cn";
 export * from "./theme.utils";
 // src/lib/utils/index.ts

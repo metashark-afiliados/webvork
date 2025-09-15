@@ -140,6 +140,10 @@
       "branding": {
         "name": "Branding & Theming",
         "description": "Rivedi i token di design, le palette di colori e le tipografie di base."
+      },
+      "resilienceShowcase": {
+        "name": "Vetrina di Resilienza",
+        "description": "Renderizza tutti i componenti per verificare la stabilità e la compatibilità dei dati."
       }
     }
   },
@@ -195,6 +199,34 @@
     "fallbackOrderSubmitText": "Invia",
     "fallbackOrderLoadingText": "Invio in corso..."
   },
+  "campaignSuitePage": {
+    "title": "Suite di Progettazione Campagne",
+    "subtitle": "Una procedura guidata per creare, configurare e generare asset di campagna convalidati.",
+    "step0": {
+      "title": "Passo 0: Identificazione della Campagna",
+      "baseCampaignLabel": "Campagna Base",
+      "baseCampaignPlaceholder": "Seleziona un prodotto (es. 12157)",
+      "variantNameLabel": "Nome Variante",
+      "variantNamePlaceholder": "Es. 'Vitalità', 'Approccio Scientifico'",
+      "seoKeywordsLabel": "Parole Chiave SEO",
+      "seoKeywordsPlaceholder": "Es. 'benessere evidenza scientifica'",
+      "affiliateNetworkLabel": "Rete di Affiliazione",
+      "affiliateNetworkPlaceholder": "Seleziona una rete...",
+      "affiliateUrlLabel": "URL Affiliato Base",
+      "affiliateUrlPlaceholder": "Incolla qui il link della tua offerta"
+    },
+    "step1": {
+      "title": "Passo 1: Progettazione di Intestazione, Layout e Tema",
+      "headerConfigTitle": "Configurazione dell'Intestazione",
+      "headerConfigDescription": "L'intestazione è il tuo biglietto da visita. Per le landing page a conversione diretta, rimuoverla è spesso una strategia d'élite per focalizzare al 100% l'attenzione dell'utente sulla conversione.",
+      "includeHeaderLabel": "Includere un'Intestazione in questa pagina?",
+      "headerGalleryTitle": "Galleria di Intestazioni",
+      "headerGalleryDescription": "Non preoccuparti dei colori ora. Tutti questi design sono 100% 'tematizzabili' e adotteranno l'identità visuale che definiremo in seguito.",
+      "logoConfigTitle": "Configurazione del Logo",
+      "logoUploadText": "Trascina e rilascia il tuo logo qui, o clicca per selezionare",
+      "logoUploadSubtext": "PNG trasparente raccomandato. Max 2MB."
+    }
+  },
   "benefitsSection": {
     "eyebrow": "Benefici",
     "title": "La Tua Scorciatoia per il Successo",
@@ -245,7 +277,7 @@
         "value": "+39 012 345 6789"
       },
       {
-        "iconName": "Building2",
+        "iconName": "Building",
         "label": "Ufficio",
         "value": "Via Roma 1, Milano, IT"
       }

@@ -15,6 +15,10 @@
         "branding": {
           "name": "Branding & Theming",
           "description": "Rivedi i token di design, le palette di colori e le tipografie di base."
+        },
+        "resilienceShowcase": {
+          "name": "Vetrina di Resilienza",
+          "description": "Renderizza tutti i componenti per verificare la stabilità e la compatibilità dei dati."
         }
       }
     }
@@ -35,6 +39,10 @@
         "branding": {
           "name": "Branding y Temas",
           "description": "Revisa los tokens de diseño, paletas de colores y tipografías base."
+        },
+        "resilienceShowcase": {
+          "name": "Vitrina de Resiliencia",
+          "description": "Renderiza todos los componentes para verificar la estabilidad y compatibilidad de los datos."
         }
       }
     }
@@ -55,6 +63,10 @@
         "branding": {
           "name": "Branding & Theming",
           "description": "Review the design tokens, color palettes, and base typography."
+        },
+        "resilienceShowcase": {
+          "name": "Resilience Showcase",
+          "description": "Renders all components to verify stability and data compatibility."
         }
       }
     }
@@ -75,6 +87,10 @@
         "branding": {
           "name": "Branding e Temas",
           "description": "Revise os tokens de design, paletas de cores e tipografias base."
+        },
+        "resilienceShowcase": {
+          "name": "Vitrine de Resiliência",
+          "description": "Renderiza todos os componentes para verificar a estabilidade e a compatibilidade dos dados."
         }
       }
     }

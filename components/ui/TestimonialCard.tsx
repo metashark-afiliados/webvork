@@ -2,9 +2,9 @@
 /**
  * @file TestimonialCard.tsx
  * @description Componente atómico de UI para mostrar un testimonio individual.
- *              - v3.0.0: Movido a la ubicación canónica `components/ui/` y nivelado
- *                para cumplir con la Directiva 003.
- * @version 3.0.0
+ *              - v4.0.0 (Theming Sovereignty): Refactorizado para usar tokens
+ *                de color semánticos (border-border).
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -18,13 +18,6 @@ interface TestimonialCardProps {
   imageSrc: string;
 }
 
-/**
- * @component TestimonialCard
- * @description Renderiza una tarjeta de testimonio individual con una cita,
- *              autor, ubicación y avatar. Es un componente de presentación puro.
- * @param {TestimonialCardProps} props - Las propiedades que contienen los datos del testimonio.
- * @returns {React.ReactElement} El elemento JSX de la tarjeta.
- */
 export function TestimonialCard({
   quote,
   author,
@@ -34,7 +27,7 @@ export function TestimonialCard({
   logger.info("[Observabilidad] Renderizando TestimonialCard");
 
   return (
-    <article className="h-full rounded-lg border border-white/10 bg-background/50 p-6 shadow-lg transition-shadow hover:shadow-primary/20">
+    <article className="h-full rounded-lg border border-border bg-background/50 p-6 shadow-lg transition-shadow hover:shadow-primary/20">
       <div className="flex items-start gap-4">
         <Image
           src={imageSrc}
@@ -45,7 +38,6 @@ export function TestimonialCard({
         />
         <div>
           <blockquote className="text-foreground">
-            {/* Se añade `&quot;` para escapar las comillas correctamente en JSX */}
             <p>&quot;{quote}&quot;</p>
           </blockquote>
           <footer className="mt-4">

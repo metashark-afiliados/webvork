@@ -140,6 +140,10 @@
       "branding": {
         "name": "Branding y Temas",
         "description": "Revisa los tokens de diseño, paletas de colores y tipografías base."
+      },
+      "resilienceShowcase": {
+        "name": "Vitrina de Resiliencia",
+        "description": "Renderiza todos los componentes para verificar la estabilidad y compatibilidad de los datos."
       }
     }
   },
@@ -195,6 +199,34 @@
     "fallbackOrderSubmitText": "Enviar",
     "fallbackOrderLoadingText": "Enviando..."
   },
+  "campaignSuitePage": {
+    "title": "Suite de Diseño de Campañas",
+    "subtitle": "Un asistente guiado para crear, configurar y generar activos de campaña validados.",
+    "step0": {
+      "title": "Paso 0: Identificación de la Campaña",
+      "baseCampaignLabel": "Campaña Base",
+      "baseCampaignPlaceholder": "Selecciona un producto (ej. 12157)",
+      "variantNameLabel": "Nombre de la Variante",
+      "variantNamePlaceholder": "Ej. 'Vitalidad', 'Enfoque Científico'",
+      "seoKeywordsLabel": "Palabras Clave SEO",
+      "seoKeywordsPlaceholder": "Ej. 'bienestar evidencia cientifica'",
+      "affiliateNetworkLabel": "Red de Afiliados",
+      "affiliateNetworkPlaceholder": "Selecciona una red...",
+      "affiliateUrlLabel": "URL de Afiliado Base",
+      "affiliateUrlPlaceholder": "Pega aquí el enlace de tu oferta"
+    },
+    "step1": {
+      "title": "Paso 1: Diseño de Encabezado, Layout y Tema",
+      "headerConfigTitle": "Configuración del Encabezado",
+      "headerConfigDescription": "El encabezado es tu carta de presentación. Para landing pages de conversión directa, eliminarlo suele ser una estrategia de élite para enfocar al 100% la atención del usuario en la conversión.",
+      "includeHeaderLabel": "¿Incluir un Encabezado en esta página?",
+      "headerGalleryTitle": "Galería de Encabezados",
+      "headerGalleryDescription": "No te preocupes por los colores ahora. Todos estos diseños son 100% 'temables' y adoptarán la identidad visual que definiremos después.",
+      "logoConfigTitle": "Configuración del Logo",
+      "logoUploadText": "Arrastra y suelta tu logo aquí, o haz clic para seleccionar",
+      "logoUploadSubtext": "PNG transparente recomendado. Máx 2MB."
+    }
+  },
   "benefitsSection": {
     "eyebrow": "Beneficios",
     "title": "Tu Atajo hacia el Éxito",
@@ -245,7 +277,7 @@
         "value": "+34 912 345 678"
       },
       {
-        "iconName": "Building2",
+        "iconName": "Building",
         "label": "Oficina",
         "value": "Calle Principal 1, Madrid, ES"
       }

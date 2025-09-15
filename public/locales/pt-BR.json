@@ -140,6 +140,10 @@
       "branding": {
         "name": "Branding e Temas",
         "description": "Revise os tokens de design, paletas de cores e tipografias base."
+      },
+      "resilienceShowcase": {
+        "name": "Vitrine de Resiliência",
+        "description": "Renderiza todos os componentes para verificar a estabilidade e a compatibilidade dos dados."
       }
     }
   },
@@ -195,6 +199,34 @@
     "fallbackOrderSubmitText": "Enviar",
     "fallbackOrderLoadingText": "Enviando..."
   },
+  "campaignSuitePage": {
+    "title": "Suíte de Design de Campanhas",
+    "subtitle": "Um assistente guiado para criar, configurar e gerar ativos de campanha validados.",
+    "step0": {
+      "title": "Passo 0: Identificação da Campanha",
+      "baseCampaignLabel": "Campanha Base",
+      "baseCampaignPlaceholder": "Selecione um produto (ex: 12157)",
+      "variantNameLabel": "Nome da Variante",
+      "variantNamePlaceholder": "Ex: 'Vitalidade', 'Abordagem Científica'",
+      "seoKeywordsLabel": "Palavras-chave de SEO",
+      "seoKeywordsPlaceholder": "Ex: 'bem-estar evidencia cientifica'",
+      "affiliateNetworkLabel": "Rede de Afiliados",
+      "affiliateNetworkPlaceholder": "Selecione uma rede...",
+      "affiliateUrlLabel": "URL de Afiliado Base",
+      "affiliateUrlPlaceholder": "Cole o link da sua oferta aqui"
+    },
+    "step1": {
+      "title": "Passo 1: Design de Cabeçalho, Layout e Tema",
+      "headerConfigTitle": "Configuração do Cabeçalho",
+      "headerConfigDescription": "O cabeçalho é o seu cartão de visita. Para landing pages de conversão direta, removê-lo é muitas vezes uma estratégia de elite para focar 100% da atenção do usuário na conversão.",
+      "includeHeaderLabel": "Incluir um Cabeçalho nesta página?",
+      "headerGalleryTitle": "Galeria de Cabeçalhos",
+      "headerGalleryDescription": "Não se preocupe com as cores agora. Todos esses designs são 100% 'tematizáveis' e adotarão a identidade visual que definiremos a seguir.",
+      "logoConfigTitle": "Configuração do Logotipo",
+      "logoUploadText": "Arraste e solte seu logotipo aqui, ou clique para selecionar",
+      "logoUploadSubtext": "PNG transparente recomendado. Máx 2MB."
+    }
+  },
   "benefitsSection": {
     "eyebrow": "Benefícios",
     "title": "Seu Atalho para o Sucesso",
@@ -228,6 +260,46 @@
     "description": "Junte-se à nossa vibrante comunidade! Conecte-se, compartilhe e cresça com entusiastas que pensam como você. Clique para mergulhar! 🚀",
     "buttonLabel": "Junte-se Agora",
     "buttonHref": "https://example.com/discord/pt"
+  },
+  "contactSection": {
+    "eyebrow": "Contato",
+    "title": "Conecte-se Conosco",
+    "description": "Tem uma pergunta ou um projeto em mente? Preencha o formulário ou use as informações de contato abaixo. Adoraríamos ouvir de você.",
+    "contactInfo": [
+      {
+        "iconName": "Mail",
+        "label": "Email",
+        "value": "suporte@globalfitwell.com"
+      },
+      {
+        "iconName": "Phone",
+        "label": "Telefone",
+        "value": "+55 (11) 98765-4321"
+      },
+      {
+        "iconName": "Building",
+        "label": "Escritório",
+        "value": "Avenida Principal 123, São Paulo, BR"
+      }
+    ],
+    "form": {
+      "firstNameLabel": "Nome",
+      "firstNamePlaceholder": "João",
+      "lastNameLabel": "Sobrenome",
+      "lastNamePlaceholder": "Silva",
+      "emailLabel": "Email",
+      "emailPlaceholder": "joao.silva@example.com",
+      "subjectLabel": "Assunto",
+      "subjectPlaceholder": "Selecione um assunto",
+      "subjectOptions": [
+        "Desenvolvimento Web",
+        "Marketing Digital",
+        "Outro"
+      ],
+      "messageLabel": "Mensagem",
+      "messagePlaceholder": "Sua mensagem...",
+      "submitButtonText": "Enviar Mensagem"
+    }
   },
   "cookieConsentBanner": {
     "message": "Usamos cookies para melhorar sua experiência.",

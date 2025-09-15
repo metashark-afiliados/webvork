@@ -2,11 +2,10 @@
 /**
  * @file middleware.ts
  * @description Middleware de enrutamiento y SSoT para la internacionalización.
- *              - v6.0.0 (Jerarquía de Decisión DX-First): Refactorizado para priorizar
- *                el `defaultLocale` (del .env) sobre la negociación de idioma del
- *                navegador. Esto otorga control explícito al desarrollador en local,
- *                mientras mantiene la detección automática para producción.
- * @version 6.0.0
+ *              - v7.0.0 (Asset Routing Fix): Se refactoriza el matcher para excluir
+ *                de forma robusta todas las rutas de archivos estáticos (aquellas
+ *                que contienen un "."), resolviendo el bucle de redirección de imágenes.
+ * @version 7.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { NextResponse } from "next/server";
@@ -44,32 +43,34 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // --- INICIO DE REFACTORIZACIÓN: Lógica DX-First ---
   let detectedLocale: Locale;
-
-  // Si NEXT_PUBLIC_SITE_LOCALE está definido en .env, tiene la MÁXIMA prioridad.
   if (process.env.NEXT_PUBLIC_SITE_LOCALE) {
-    detectedLocale = defaultLocale; // `defaultLocale` ya lee y valida la variable del .env
+    detectedLocale = defaultLocale;
     logger.trace(
       `[Middleware] Usando locale forzado desde .env: "${detectedLocale}"`
     );
   } else {
-    // Si no, recurrimos a la detección del navegador (comportamiento para producción).
     detectedLocale = getLocaleFromBrowser(request);
     logger.trace(
       `[Middleware] .env no definido. Usando locale detectado del navegador: "${detectedLocale}"`
     );
   }
-  // --- FIN DE REFACTORIZACIÓN ---
 
   const newUrl = new URL(`/${detectedLocale}${pathname}`, request.url);
   logger.info(`[Middleware] Redirigiendo a: ${newUrl.toString()}`);
 
-  const response = NextResponse.redirect(newUrl, 308); // 308 es una redirección permanente
+  const response = NextResponse.redirect(newUrl, 308);
   response.headers.set("x-middleware-reason", "locale-redirect");
   return response;
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|.*\\..*).*)"],
+  /*
+   * --- INICIO DE CORRECCIÓN ---
+   * El nuevo matcher ignora todas las rutas que contienen un punto (.),
+   * que es una forma robusta de excluir peticiones a archivos (e.g., /img/logo.svg, /favicon.ico).
+   * También ignora explícitamente las rutas internas de Next.js y de la API.
+   */
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)"],
+  /* --- FIN DE CORRECCIÓN --- */
 };

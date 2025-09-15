@@ -2,8 +2,8 @@
 /**
  * @file i18n.schema.ts
  * @description Aparato ensamblador y SSoT para el contrato de datos del diccionario i18n.
- *              - v7.4.0: Integra el schema para la nueva página 404.
- * @version 7.4.0
+ *              - v8.0.0: Integra el schema para la nueva Suite de Diseño de Campañas.
+ * @version 8.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
@@ -12,12 +12,13 @@ import { z } from "zod";
 import { GlobalsLocaleSchema } from "@/schemas/globals.schema";
 import { StorePageLocaleSchema } from "@/schemas/pages/store-page.schema";
 import { TextPageLocaleSchema } from "@/schemas/pages/text-page.schema";
-import { NotFoundPageLocaleSchema } from "@/schemas/pages/not-found-page.schema"; // <-- ¡NUEVA IMPORTACIÓN!
+import { NotFoundPageLocaleSchema } from "@/schemas/pages/not-found-page.schema";
 import { DevDashboardLocaleSchema } from "@/schemas/pages/dev-dashboard.schema";
 import { DevCampaignSimulatorLocaleSchema } from "@/schemas/pages/dev-campaign-simulator.schema";
 import { DevLayoutConfiguratorLocaleSchema } from "@/schemas/pages/dev-layout-configurator.schema";
 import { DevLoginPageLocaleSchema } from "@/schemas/pages/dev-login-page.schema";
 import { DevTestPageLocaleSchema } from "@/lib/schemas/pages/dev-test-page.schema";
+import { CampaignSuiteLocaleSchema } from "@/lib/schemas/pages/dev-campaign-suite.schema"; // <-- IMPORTACIÓN CLAVE
 
 // --- Dominio de Schemas: Componentes del Portal ---
 import { BenefitsSectionLocaleSchema } from "@/schemas/components/benefits-section.schema";
@@ -69,7 +70,7 @@ export const i18nSchema = z.object({
   aboutPage: TextPageLocaleSchema.optional(),
   privacyPage: TextPageLocaleSchema.optional(),
   termsPage: TextPageLocaleSchema.optional(),
-  ...NotFoundPageLocaleSchema.shape, // <-- ¡NUEVA FUSIÓN!
+  ...NotFoundPageLocaleSchema.shape,
 
   // Fusión de Páginas de Desarrollo
   ...DevDashboardLocaleSchema.shape,
@@ -77,6 +78,7 @@ export const i18nSchema = z.object({
   ...DevLayoutConfiguratorLocaleSchema.shape,
   ...DevLoginPageLocaleSchema.shape,
   ...DevTestPageLocaleSchema.shape,
+  ...CampaignSuiteLocaleSchema.shape, // <-- FUSIÓN DE LA NUEVA SUITE
 
   // Fusión de Componentes del Portal
   ...BenefitsSectionLocaleSchema.shape,
@@ -124,3 +126,4 @@ export const i18nSchema = z.object({
  *              Esta es la SSoT para el tipado del contenido en toda la aplicación.
  */
 export type Dictionary = z.infer<typeof i18nSchema>;
+// lib/schemas/i18n.schema.ts

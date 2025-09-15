@@ -140,6 +140,10 @@
       "branding": {
         "name": "Branding & Theming",
         "description": "Review the design tokens, color palettes, and base typography."
+      },
+      "resilienceShowcase": {
+        "name": "Resilience Showcase",
+        "description": "Renders all components to verify stability and data compatibility."
       }
     }
   },
@@ -195,6 +199,34 @@
     "fallbackOrderSubmitText": "Submit",
     "fallbackOrderLoadingText": "Submitting..."
   },
+  "campaignSuitePage": {
+    "title": "Campaign Design Suite",
+    "subtitle": "A guided wizard to create, configure, and generate validated campaign assets.",
+    "step0": {
+      "title": "Step 0: Campaign Identification",
+      "baseCampaignLabel": "Base Campaign",
+      "baseCampaignPlaceholder": "Select a product (e.g., 12157)",
+      "variantNameLabel": "Variant Name",
+      "variantNamePlaceholder": "E.g., 'Vitality', 'Scientific Approach'",
+      "seoKeywordsLabel": "SEO Keywords",
+      "seoKeywordsPlaceholder": "E.g., 'wellness scientific evidence'",
+      "affiliateNetworkLabel": "Affiliate Network",
+      "affiliateNetworkPlaceholder": "Select a network...",
+      "affiliateUrlLabel": "Base Affiliate URL",
+      "affiliateUrlPlaceholder": "Paste your offer link here"
+    },
+    "step1": {
+      "title": "Step 1: Header, Layout & Theme Design",
+      "headerConfigTitle": "Header Configuration",
+      "headerConfigDescription": "The header is your business card. For direct-conversion landing pages, removing it is often an elite strategy to focus the user's attention 100% on the conversion.",
+      "includeHeaderLabel": "Include a Header on this page?",
+      "headerGalleryTitle": "Header Gallery",
+      "headerGalleryDescription": "Don't worry about colors now. All these designs are 100% 'themeable' and will adopt the visual identity we'll define next.",
+      "logoConfigTitle": "Logo Configuration",
+      "logoUploadText": "Drag and drop your logo here, or click to select",
+      "logoUploadSubtext": "Transparent PNG recommended. Max 2MB."
+    }
+  },
   "benefitsSection": {
     "eyebrow": "Benefits",
     "title": "Your Shortcut to Success",
@@ -228,6 +260,46 @@
     "description": "Join our vibrant community! Connect, share, and grow with like-minded enthusiasts. Click to dive in! 🚀",
     "buttonLabel": "Join Now",
     "buttonHref": "https://example.com/discord/en"
+  },
+  "contactSection": {
+    "eyebrow": "Contact",
+    "title": "Connect with Us",
+    "description": "Have a question or a project in mind? Fill out the form or use the contact information below. We'd love to hear from you.",
+    "contactInfo": [
+      {
+        "iconName": "Mail",
+        "label": "Email",
+        "value": "support@globalfitwell.com"
+      },
+      {
+        "iconName": "Phone",
+        "label": "Phone",
+        "value": "+1 (555) 123-4567"
+      },
+      {
+        "iconName": "Building",
+        "label": "Office",
+        "value": "123 Main Street, New York, USA"
+      }
+    ],
+    "form": {
+      "firstNameLabel": "First Name",
+      "firstNamePlaceholder": "John",
+      "lastNameLabel": "Last Name",
+      "lastNamePlaceholder": "Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "john.doe@example.com",
+      "subjectLabel": "Subject",
+      "subjectPlaceholder": "Select a subject",
+      "subjectOptions": [
+        "Web Development",
+        "Digital Marketing",
+        "Other"
+      ],
+      "messageLabel": "Message",
+      "messagePlaceholder": "Your message...",
+      "submitButtonText": "Send Message"
+    }
   },
   "cookieConsentBanner": {
     "message": "We use cookies to enhance your experience.",

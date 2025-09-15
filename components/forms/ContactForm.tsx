@@ -1,9 +1,10 @@
-// components/forms/ContactForm.tsx // <-- ¡COMENTARIO CORREGIDO!
+// components/forms/ContactForm.tsx
 /**
  * @file ContactForm.tsx
  * @description Componente de UI atómico y "smart" para el formulario de contacto.
- *              Encapsula toda la lógica de validación y estado del formulario.
- * @version 1.0.0
+ *              - v1.1.0 (Build Stability Fix): Se estandarizan las rutas de importación
+ *                a su forma canónica (`@/components/ui/*`) para resolver errores de build.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";

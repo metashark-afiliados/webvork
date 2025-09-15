@@ -2,10 +2,8 @@
 /**
  * @file index.ts (Barrel File)
  * @description SSoT y fachada pública para el módulo de componentes de UI.
- *              - v2.0.0 (Build Stability Fix): Se añaden las extensiones .tsx a
- *                todas las exportaciones para eliminar la ambigüedad del resolutor
- *                de módulos y corregir el error `ERR_MODULE_NOT_FOUND` en builds.
- * @version 2.0.0
+ *              - v2.1.0: Añade el nuevo componente global ImageUploader.
+ * @version 2.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 
@@ -21,6 +19,7 @@ export * from "./DynamicIcon.tsx";
 export * from "./FadeIn.tsx";
 export * from "./Form.tsx";
 export * from "./FormInput.tsx";
+export * from "./ImageUploader.tsx"; // <-- NUEVA EXPORTACIÓN GLOBAL
 export * from "./Input.tsx";
 export * from "./Label.tsx";
 export * from "./NavigationMenu.tsx";

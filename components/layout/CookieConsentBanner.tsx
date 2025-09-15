@@ -2,9 +2,9 @@
 /**
  * @file CookieConsentBanner.tsx
  * @description Banner para solicitar el consentimiento de cookies.
- *              - v1.3.0: Refactoriza los alias de importación al patrón robusto
- *                `@/components/...` para garantizar la compatibilidad con el build.
- * @version 1.3.0
+ *              - v2.0.0 (Theming Sovereignty): Refactorizado para usar el token
+ *                semántico `border-border`.
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -12,10 +12,9 @@
 import React from "react";
 import Link from "next/link";
 import { useCookieConsent } from "@/hooks/useCookieConsent";
-// --- INICIO DE CORRECCIÓN: Rutas de importación robustas ---
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-// --- FIN DE CORRECCIÓN ---
+import { logger } from "@/lib/logging";
 
 interface CookieConsentBannerProps {
   message: string;
@@ -38,10 +37,10 @@ export function CookieConsentBanner({
     return null;
   }
 
-  console.log("[Observabilidad] Renderizando CookieConsentBanner");
+  logger.info("[Observabilidad] Renderizando CookieConsentBanner");
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-t border-white/10 shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-t border-border shadow-lg">
       <Container className="py-4">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-foreground/80 text-center sm:text-left">
@@ -67,3 +66,4 @@ export function CookieConsentBanner({
     </div>
   );
 }
+// components/layout/CookieConsentBanner.tsx

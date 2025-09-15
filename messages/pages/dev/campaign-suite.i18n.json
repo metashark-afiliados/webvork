@@ -1,0 +1,122 @@
+{
+  "es-ES": {
+    "campaignSuitePage": {
+      "title": "Suite de Diseño de Campañas",
+      "subtitle": "Un asistente guiado para crear, configurar y generar activos de campaña validados.",
+      "step0": {
+        "title": "Paso 0: Identificación de la Campaña",
+        "baseCampaignLabel": "Campaña Base",
+        "baseCampaignPlaceholder": "Selecciona un producto (ej. 12157)",
+        "variantNameLabel": "Nombre de la Variante",
+        "variantNamePlaceholder": "Ej. 'Vitalidad', 'Enfoque Científico'",
+        "seoKeywordsLabel": "Palabras Clave SEO",
+        "seoKeywordsPlaceholder": "Ej. 'bienestar evidencia cientifica'",
+        "affiliateNetworkLabel": "Red de Afiliados",
+        "affiliateNetworkPlaceholder": "Selecciona una red...",
+        "affiliateUrlLabel": "URL de Afiliado Base",
+        "affiliateUrlPlaceholder": "Pega aquí el enlace de tu oferta"
+      },
+      "step1": {
+        "title": "Paso 1: Diseño de Encabezado, Layout y Tema",
+        "headerConfigTitle": "Configuración del Encabezado",
+        "headerConfigDescription": "El encabezado es tu carta de presentación. Para landing pages de conversión directa, eliminarlo suele ser una estrategia de élite para enfocar al 100% la atención del usuario en la conversión.",
+        "includeHeaderLabel": "¿Incluir un Encabezado en esta página?",
+        "headerGalleryTitle": "Galería de Encabezados",
+        "headerGalleryDescription": "No te preocupes por los colores ahora. Todos estos diseños son 100% 'temables' y adoptarán la identidad visual que definiremos después.",
+        "logoConfigTitle": "Configuración del Logo",
+        "logoUploadText": "Arrastra y suelta tu logo aquí, o haz clic para seleccionar",
+        "logoUploadSubtext": "PNG transparente recomendado. Máx 2MB."
+      }
+    }
+  },
+  "it-IT": {
+    "campaignSuitePage": {
+      "title": "Suite di Progettazione Campagne",
+      "subtitle": "Una procedura guidata per creare, configurare e generare asset di campagna convalidati.",
+      "step0": {
+        "title": "Passo 0: Identificazione della Campagna",
+        "baseCampaignLabel": "Campagna Base",
+        "baseCampaignPlaceholder": "Seleziona un prodotto (es. 12157)",
+        "variantNameLabel": "Nome Variante",
+        "variantNamePlaceholder": "Es. 'Vitalità', 'Approccio Scientifico'",
+        "seoKeywordsLabel": "Parole Chiave SEO",
+        "seoKeywordsPlaceholder": "Es. 'benessere evidenza scientifica'",
+        "affiliateNetworkLabel": "Rete di Affiliazione",
+        "affiliateNetworkPlaceholder": "Seleziona una rete...",
+        "affiliateUrlLabel": "URL Affiliato Base",
+        "affiliateUrlPlaceholder": "Incolla qui il link della tua offerta"
+      },
+      "step1": {
+        "title": "Passo 1: Progettazione di Intestazione, Layout e Tema",
+        "headerConfigTitle": "Configurazione dell'Intestazione",
+        "headerConfigDescription": "L'intestazione è il tuo biglietto da visita. Per le landing page a conversione diretta, rimuoverla è spesso una strategia d'élite per focalizzare al 100% l'attenzione dell'utente sulla conversione.",
+        "includeHeaderLabel": "Includere un'Intestazione in questa pagina?",
+        "headerGalleryTitle": "Galleria di Intestazioni",
+        "headerGalleryDescription": "Non preoccuparti dei colori ora. Tutti questi design sono 100% 'tematizzabili' e adotteranno l'identità visuale che definiremo in seguito.",
+        "logoConfigTitle": "Configurazione del Logo",
+        "logoUploadText": "Trascina e rilascia il tuo logo qui, o clicca per selezionare",
+        "logoUploadSubtext": "PNG trasparente raccomandato. Max 2MB."
+      }
+    }
+  },
+  "en-US": {
+    "campaignSuitePage": {
+      "title": "Campaign Design Suite",
+      "subtitle": "A guided wizard to create, configure, and generate validated campaign assets.",
+      "step0": {
+        "title": "Step 0: Campaign Identification",
+        "baseCampaignLabel": "Base Campaign",
+        "baseCampaignPlaceholder": "Select a product (e.g., 12157)",
+        "variantNameLabel": "Variant Name",
+        "variantNamePlaceholder": "E.g., 'Vitality', 'Scientific Approach'",
+        "seoKeywordsLabel": "SEO Keywords",
+        "seoKeywordsPlaceholder": "E.g., 'wellness scientific evidence'",
+        "affiliateNetworkLabel": "Affiliate Network",
+        "affiliateNetworkPlaceholder": "Select a network...",
+        "affiliateUrlLabel": "Base Affiliate URL",
+        "affiliateUrlPlaceholder": "Paste your offer link here"
+      },
+      "step1": {
+        "title": "Step 1: Header, Layout & Theme Design",
+        "headerConfigTitle": "Header Configuration",
+        "headerConfigDescription": "The header is your business card. For direct-conversion landing pages, removing it is often an elite strategy to focus the user's attention 100% on the conversion.",
+        "includeHeaderLabel": "Include a Header on this page?",
+        "headerGalleryTitle": "Header Gallery",
+        "headerGalleryDescription": "Don't worry about colors now. All these designs are 100% 'themeable' and will adopt the visual identity we'll define next.",
+        "logoConfigTitle": "Logo Configuration",
+        "logoUploadText": "Drag and drop your logo here, or click to select",
+        "logoUploadSubtext": "Transparent PNG recommended. Max 2MB."
+      }
+    }
+  },
+  "pt-BR": {
+    "campaignSuitePage": {
+      "title": "Suíte de Design de Campanhas",
+      "subtitle": "Um assistente guiado para criar, configurar e gerar ativos de campanha validados.",
+      "step0": {
+        "title": "Passo 0: Identificação da Campanha",
+        "baseCampaignLabel": "Campanha Base",
+        "baseCampaignPlaceholder": "Selecione um produto (ex: 12157)",
+        "variantNameLabel": "Nome da Variante",
+        "variantNamePlaceholder": "Ex: 'Vitalidade', 'Abordagem Científica'",
+        "seoKeywordsLabel": "Palavras-chave de SEO",
+        "seoKeywordsPlaceholder": "Ex: 'bem-estar evidencia cientifica'",
+        "affiliateNetworkLabel": "Rede de Afiliados",
+        "affiliateNetworkPlaceholder": "Selecione uma rede...",
+        "affiliateUrlLabel": "URL de Afiliado Base",
+        "affiliateUrlPlaceholder": "Cole o link da sua oferta aqui"
+      },
+      "step1": {
+        "title": "Passo 1: Design de Cabeçalho, Layout e Tema",
+        "headerConfigTitle": "Configuração do Cabeçalho",
+        "headerConfigDescription": "O cabeçalho é o seu cartão de visita. Para landing pages de conversão direta, removê-lo é muitas vezes uma estratégia de elite para focar 100% da atenção do usuário na conversão.",
+        "includeHeaderLabel": "Incluir um Cabeçalho nesta página?",
+        "headerGalleryTitle": "Galeria de Cabeçalhos",
+        "headerGalleryDescription": "Não se preocupe com as cores agora. Todos esses designs são 100% 'tematizáveis' e adotarão a identidade visual que definiremos a seguir.",
+        "logoConfigTitle": "Configuração do Logotipo",
+        "logoUploadText": "Arraste e solte seu logotipo aqui, ou clique para selecionar",
+        "logoUploadSubtext": "PNG transparente recomendado. Máx 2MB."
+      }
+    }
+  }
+}

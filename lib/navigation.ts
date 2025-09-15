@@ -3,17 +3,13 @@
  * @file navigation.ts
  * @description Manifiesto y SSoT (Single Source of Truth) para la definición de TODAS
  *              las rutas de la aplicación.
- *              - v7.1.0: Añade la ruta para la nueva página de prueba del DCC (`devTestPage`).
- * @version 7.1.0
+ * @version 9.0.0 - Refactorización completa con todas las rutas del portal y DCC.
  * @author RaZ Podestá - MetaShark Tech
  */
-import { type LucideIconName } from "@/config/lucide-icon-names";
 import { defaultLocale, type Locale } from "@/lib/i18n.config";
 
 export const RouteType = {
   Public: "public",
-  Guest: "guest",
-  Protected: "protected",
   DevOnly: "dev-only",
 } as const;
 
@@ -24,12 +20,8 @@ export type RouteParams = {
   [key: string]: string | number | undefined;
 };
 
-export interface RouteConfig {
-  path: (params?: RouteParams) => string;
-  type: RouteType;
-}
-
 export const routes = {
+  // --- Rutas Públicas del Portal ---
   home: {
     path: (params: RouteParams = {}) => `/${params.locale || defaultLocale}`,
     type: RouteType.Public,
@@ -59,11 +51,13 @@ export const routes = {
       `/${params.locale || defaultLocale}/news/${params.slug}`,
     type: RouteType.Public,
   },
+  // --- Rutas de Campaña ---
   campaign: {
-    path: (params: RouteParams) =>
-      `/${params.locale}/campaigns/${params.campaignId}`,
+    path: (params: RouteParams & { campaignId: string | number }) =>
+      `/${params.locale || defaultLocale}/campaigns/${params.campaignId}`,
     type: RouteType.Public,
   },
+  // --- Rutas Legales ---
   terms: {
     path: (params: RouteParams = {}) =>
       `/${params.locale || defaultLocale}/terms`,
@@ -79,24 +73,20 @@ export const routes = {
       `/${params.locale || defaultLocale}/cookies`,
     type: RouteType.Public,
   },
+  // --- Rutas del Developer Command Center (DCC) ---
   devDashboard: {
     path: (params: RouteParams = {}) =>
       `/${params.locale || defaultLocale}/dev`,
     type: RouteType.DevOnly,
   },
   devComponentCanvas: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/dev/components`,
-    type: RouteType.DevOnly,
-  },
-  devComponentDetail: {
-    path: (params: RouteParams) =>
-      `/${params.locale}/dev/components/${params.componentName}`,
+    path: (params: RouteParams & { componentName?: string }) =>
+      `/${params.locale || defaultLocale}/dev/components${params.componentName ? `/${params.componentName}` : ""}`,
     type: RouteType.DevOnly,
   },
   devCampaignSimulator: {
     path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/dev/simulator`,
+      `/${params.locale || defaultLocale}/dev/layout-configurator`,
     type: RouteType.DevOnly,
   },
   devBranding: {
@@ -105,9 +95,14 @@ export const routes = {
     type: RouteType.DevOnly,
   },
   devTestPage: {
-    // <-- ¡NUEVA RUTA!
     path: (params: RouteParams = {}) =>
       `/${params.locale || defaultLocale}/dev/test-page`,
     type: RouteType.DevOnly,
   },
+  campaignSuiteStep: {
+    path: (params: RouteParams & { step: number | string }) =>
+      `/${params.locale || defaultLocale}/dev/campaign-suite/create/${params.step}`,
+    type: RouteType.DevOnly,
+  },
 } as const;
+// lib/navigation.ts

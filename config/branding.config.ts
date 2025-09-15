@@ -1,57 +1,44 @@
 // src/config/branding.config.ts
 /**
  * @file src/config/branding.config.ts
- * @description SSoT programática del Manifiesto de Branding.
- *              Define y exporta todos los tokens de diseño (colores, fuentes, breakpoints)
- *              para ser consumidos por el resto de la aplicación, estableciendo una
- *              única fuente de verdad para el sistema de diseño.
- * @version 1.0.0
+ * @description SSoT programática para los NOMBRES de los tokens de diseño.
+ *              - v2.0.0 (Theming Sovereignty): Refactorizado para eliminar la
+ *                definición de valores, que ahora reside exclusivamente en
+ *                `app/globals.css`. Este archivo solo exporta las claves de
+ *                los tokens para uso programático (ej. en el Dev Canvas).
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 
 /**
  * @constant GLOBAL_DESIGN_TOKENS
- * @description Objeto que encapsula todos los tokens de diseño del proyecto.
+ * @description Objeto que encapsula los nombres de los tokens de diseño del proyecto.
+ *              Sus valores son placeholders que coinciden con los nombres de las
+ *              variables CSS semánticas. LA SSoT DE LOS VALORES REALES ES globals.css.
  */
 export const GLOBAL_DESIGN_TOKENS = {
-  /**
-   * @property {object} colors - Paleta de colores semántica en formato HSL string.
-   */
   colors: {
-    primary: "220 60% 26%",
-    "primary-foreground": "220 15% 95%",
-    secondary: "220 15% 25%",
-    "secondary-foreground": "220 15% 95%",
-    background: "222 25% 8%",
-    foreground: "220 15% 95%",
-    accent: "84 100% 59%",
-    "accent-foreground": "84 100% 10%",
-    muted: "220 15% 15%",
-    "muted-foreground": "220 10% 60%",
+    primary: "hsl(var(--primary))",
+    "primary-foreground": "hsl(var(--primary-foreground))",
+    secondary: "hsl(var(--secondary))",
+    "secondary-foreground": "hsl(var(--secondary-foreground))",
+    background: "hsl(var(--background))",
+    foreground: "hsl(var(--foreground))",
+    accent: "hsl(var(--accent))",
+    "accent-foreground": "hsl(var(--accent-foreground))",
+    muted: "hsl(var(--muted))",
+    "muted-foreground": "hsl(var(--muted-foreground))",
   },
-  /**
-   * @property {object} rgbColors - Versiones RGB para uso en JS (ej. efectos de partículas).
-   */
-  rgbColors: {
-    primary: "26, 78, 178",
-    accent: "128, 255, 0",
-  },
-  /**
-   * @property {object} fonts - Definiciones de las familias de fuentes.
-   */
   fonts: {
     sans: "var(--font-sans)",
     serif: "var(--font-serif)",
   },
-  /**
-   * @property {object} breakpoints - Puntos de interrupción para diseño responsivo.
-   */
   breakpoints: {
-    sm: "40rem", // 640px
-    md: "48rem", // 768px
-    lg: "64rem", // 1024px
-    xl: "80rem", // 1280px
-    "2xl": "96rem", // 1536px
+    sm: "40rem",
+    md: "48rem",
+    lg: "64rem",
+    xl: "80rem",
+    "2xl": "96rem",
   },
-} as const; // `as const` para asegurar la inmutabilidad de los valores.
+} as const;
 // src/config/branding.config.ts

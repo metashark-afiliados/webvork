@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/Button";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 // --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/schemas/i18n.schema";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
 interface CommunitySectionProps {
   content: Dictionary["communitySection"];
@@ -61,3 +61,4 @@ export function CommunitySection({
     </section>
   );
 }
+// components/sections/CommunitySection.tsx

@@ -16,7 +16,7 @@
           "value": "+39 012 345 6789"
         },
         {
-          "iconName": "Building2",
+          "iconName": "Building",
           "label": "Ufficio",
           "value": "Via Roma 1, Milano, IT"
         }
@@ -54,7 +54,7 @@
           "value": "+34 912 345 678"
         },
         {
-          "iconName": "Building2",
+          "iconName": "Building",
           "label": "Oficina",
           "value": "Calle Principal 1, Madrid, ES"
         }
@@ -72,6 +72,82 @@
         "messageLabel": "Mensaje",
         "messagePlaceholder": "Tu mensaje...",
         "submitButtonText": "Enviar Mensaje"
+      }
+    }
+  },
+  "en-US": {
+    "contactSection": {
+      "eyebrow": "Contact",
+      "title": "Connect with Us",
+      "description": "Have a question or a project in mind? Fill out the form or use the contact information below. We'd love to hear from you.",
+      "contactInfo": [
+        {
+          "iconName": "Mail",
+          "label": "Email",
+          "value": "support@globalfitwell.com"
+        },
+        {
+          "iconName": "Phone",
+          "label": "Phone",
+          "value": "+1 (555) 123-4567"
+        },
+        {
+          "iconName": "Building",
+          "label": "Office",
+          "value": "123 Main Street, New York, USA"
+        }
+      ],
+      "form": {
+        "firstNameLabel": "First Name",
+        "firstNamePlaceholder": "John",
+        "lastNameLabel": "Last Name",
+        "lastNamePlaceholder": "Doe",
+        "emailLabel": "Email",
+        "emailPlaceholder": "john.doe@example.com",
+        "subjectLabel": "Subject",
+        "subjectPlaceholder": "Select a subject",
+        "subjectOptions": ["Web Development", "Digital Marketing", "Other"],
+        "messageLabel": "Message",
+        "messagePlaceholder": "Your message...",
+        "submitButtonText": "Send Message"
+      }
+    }
+  },
+  "pt-BR": {
+    "contactSection": {
+      "eyebrow": "Contato",
+      "title": "Conecte-se Conosco",
+      "description": "Tem uma pergunta ou um projeto em mente? Preencha o formulário ou use as informações de contato abaixo. Adoraríamos ouvir de você.",
+      "contactInfo": [
+        {
+          "iconName": "Mail",
+          "label": "Email",
+          "value": "suporte@globalfitwell.com"
+        },
+        {
+          "iconName": "Phone",
+          "label": "Telefone",
+          "value": "+55 (11) 98765-4321"
+        },
+        {
+          "iconName": "Building",
+          "label": "Escritório",
+          "value": "Avenida Principal 123, São Paulo, BR"
+        }
+      ],
+      "form": {
+        "firstNameLabel": "Nome",
+        "firstNamePlaceholder": "João",
+        "lastNameLabel": "Sobrenome",
+        "lastNamePlaceholder": "Silva",
+        "emailLabel": "Email",
+        "emailPlaceholder": "joao.silva@example.com",
+        "subjectLabel": "Assunto",
+        "subjectPlaceholder": "Selecione um assunto",
+        "subjectOptions": ["Desenvolvimento Web", "Marketing Digital", "Outro"],
+        "messageLabel": "Mensagem",
+        "messagePlaceholder": "Sua mensagem...",
+        "submitButtonText": "Enviar Mensagem"
       }
     }
   }

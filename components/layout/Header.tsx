@@ -2,13 +2,12 @@
 /**
  * @file Header.tsx
  * @description Componente de cabecera principal del portal.
- *              - v19.0.0 (Interactive Upgrade): Convertido a Client Component para
- *                integrar <ToggleTheme /> y <LanguageSwitcher />, proporcionando
- *                funcionalidad interactiva al usuario.
- * @version 19.0.0
+ *              - v20.0.0 (Theming Sovereignty): Refactorizado para usar el token
+ *                semántico `border-border` en lugar de un color fijo.
+ * @version 20.0.0
  * @author RaZ podesta - MetaShark Tech
  */
-"use client"; // <-- [1] CONVERTIDO A CLIENT COMPONENT
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -18,14 +17,14 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { NavLink } from "@/lib/schemas/components/header.schema";
 import { type Locale } from "@/lib/i18n.config";
-import { ToggleTheme } from "./toogle-theme"; // <-- [2] IMPORTAR COMPONENTES INTERACTIVOS
-import { LanguageSwitcher } from "./LanguageSwitcher"; // <-- [2] IMPORTAR COMPONENTES INTERACTIVOS
+import { ToggleTheme } from "./toogle-theme";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface HeaderProps {
   content: Dictionary["header"];
   devDictionary?: Dictionary["devRouteMenu"];
-  currentLocale: Locale; // <-- [3] NUEVAS PROPS REQUERIDAS
-  supportedLocales: readonly string[]; // <-- [3] NUEVAS PROPS REQUERIDAS
+  currentLocale: Locale;
+  supportedLocales: readonly string[];
 }
 
 const Header = ({
@@ -46,7 +45,7 @@ const Header = ({
   const { logoUrl, logoAlt, navLinks, ctaButton } = content;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur-sm md:px-6 border-b border-white/10">
+    <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur-sm md:px-6 border-b border-border">
       <Link href="/" className="mr-6 flex items-center">
         <Image
           src={logoUrl}
@@ -72,12 +71,11 @@ const Header = ({
       </nav>
 
       <div className="flex items-center gap-4 ml-auto">
-        <ToggleTheme /> {/* <-- [4] INTEGRACIÓN DE COMPONENTES */}
+        <ToggleTheme />
         <LanguageSwitcher
           currentLocale={currentLocale}
           supportedLocales={supportedLocales}
-        />{" "}
-        {/* <-- [4] INTEGRACIÓN DE COMPONENTES */}
+        />
         <Button href={ctaButton.href} variant="accent" size="sm">
           {ctaButton.label}
         </Button>
@@ -90,3 +88,4 @@ const Header = ({
 };
 
 export default Header;
+// components/layout/Header.tsx
