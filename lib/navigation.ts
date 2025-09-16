@@ -1,9 +1,10 @@
 // lib/navigation.ts
 /**
  * @file navigation.ts
- * @description Manifiesto y SSoT (Single Source of Truth) para la definición de TODAS
- *              las rutas de la aplicación.
- * @version 9.0.0 - Refactorización completa con todas las rutas del portal y DCC.
+ * @description Manifiesto y SSoT para la definición de rutas.
+ *              - v11.0.0: Elimina la ruta obsoleta 'devCampaignSimulator' tras la
+ *                deprecación del Configurador de Layouts.
+ * @version 11.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { defaultLocale, type Locale } from "@/lib/i18n.config";
@@ -53,8 +54,14 @@ export const routes = {
   },
   // --- Rutas de Campaña ---
   campaign: {
-    path: (params: RouteParams & { campaignId: string | number }) =>
-      `/${params.locale || defaultLocale}/campaigns/${params.campaignId}`,
+    path: (
+      params: RouteParams & {
+        campaignId: string | number;
+        variantSlug: string;
+        seoKeywordSlug: string;
+      }
+    ) =>
+      `/${params.locale || defaultLocale}/c/${params.campaignId}/${params.variantSlug}/${params.seoKeywordSlug}`,
     type: RouteType.Public,
   },
   // --- Rutas Legales ---
@@ -79,29 +86,20 @@ export const routes = {
       `/${params.locale || defaultLocale}/dev`,
     type: RouteType.DevOnly,
   },
-  devComponentCanvas: {
-    path: (params: RouteParams & { componentName?: string }) =>
-      `/${params.locale || defaultLocale}/dev/components${params.componentName ? `/${params.componentName}` : ""}`,
-    type: RouteType.DevOnly,
-  },
-  devCampaignSimulator: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/dev/layout-configurator`,
-    type: RouteType.DevOnly,
-  },
-  devBranding: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/dev/branding`,
-    type: RouteType.DevOnly,
-  },
   devTestPage: {
     path: (params: RouteParams = {}) =>
       `/${params.locale || defaultLocale}/dev/test-page`,
     type: RouteType.DevOnly,
   },
-  campaignSuiteStep: {
-    path: (params: RouteParams & { step: number | string }) =>
-      `/${params.locale || defaultLocale}/dev/campaign-suite/create/${params.step}`,
+  campaignSuiteCreate: {
+    path: (params: RouteParams & { step?: number | string }) => {
+      const baseUrl = `/${
+        params.locale || defaultLocale
+      }/dev/campaign-suite/create`;
+      return params.step !== undefined
+        ? `${baseUrl}?step=${params.step}`
+        : baseUrl;
+    },
     type: RouteType.DevOnly,
   },
 } as const;

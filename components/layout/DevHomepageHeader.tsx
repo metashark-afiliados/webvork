@@ -1,11 +1,11 @@
-// src/components/layout/DevHomepageHeader.tsx
+// components/layout/DevHomepageHeader.tsx
 /**
  * @file DevHomepageHeader.tsx
  * @description Header de desarrollo para la página de inicio.
- *              - v7.0.0 (Theming Sovereignty): Refactorizado para usar tokens
- *                de color semánticos (destructive) en lugar de valores fijos,
- *                alineándolo con la arquitectura de theming.
- * @version 7.0.0
+ *              v8.0.0 (Holistic Refactor): Sincronizado con el contrato de `getDictionary`.
+ *              Ahora desestructura la respuesta, es resiliente a contenido faltante y
+ *              utiliza tokens de theming semánticos.
+ * @version 8.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -21,17 +21,29 @@ import { routes } from "@/lib/navigation";
 import DevToolsDropdown from "../dev/DevToolsDropdown";
 
 interface DevHomepageHeaderProps {
-  dictionary: NonNullable<Dictionary["devHomepageHeader"]>;
-  devRouteMenuDictionary: NonNullable<Dictionary["devRouteMenu"]>;
+  dictionary: Dictionary["devHomepageHeader"];
+  devRouteMenuDictionary: Dictionary["devRouteMenu"];
 }
 
 export function DevHomepageHeader({
   dictionary,
   devRouteMenuDictionary,
-}: DevHomepageHeaderProps): React.ReactElement {
-  logger.info("[DevHomepageHeader] Renderizando DevHomepageHeader (DEV-ONLY)");
+}: DevHomepageHeaderProps): React.ReactElement | null {
+  logger.info(
+    "[Observabilidad][DevHomepageHeader] Renderizando DevHomepageHeader (DEV-ONLY)"
+  );
   const pathname = usePathname();
   const currentLocale = getCurrentLocaleFromPathname(pathname);
+
+  // --- [INICIO] REFACTORIZACIÓN HOLÍSTICA ---
+  // 1. Manejo de contenido potencialmente nulo.
+  if (!dictionary || !devRouteMenuDictionary) {
+    logger.warn(
+      "[DevHomepageHeader] No se proporcionó contenido completo. El header no se renderizará para evitar errores."
+    );
+    return null; // Renderizado resiliente
+  }
+  // --- [FIN] REFACTORIZACIÓN HOLÍSTICA ---
 
   return (
     <header className="py-3 sticky top-0 z-50 bg-destructive/90 backdrop-blur-lg border-b border-destructive/50">
@@ -72,4 +84,4 @@ export function DevHomepageHeader({
     </header>
   );
 }
-// src/components/layout/DevHomepageHeader.tsx
+// components/layout/DevHomepageHeader.tsx

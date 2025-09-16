@@ -1,10 +1,12 @@
 {
   "it-IT": {
     "devRouteMenu": {
+      "devMenuLabel": "Strumenti Dev",
       "devToolsGroup": "DEV TOOLS",
       "campaignPagesGroup": "PAGINE CAMPAGNA",
       "portalPagesGroup": "PAGINE PORTALE",
       "legalPagesGroup": "PAGINE LEGALI",
+      "campaignDesignSuite": "Suite di Progettazione",
       "componentCanvas": "Component Canvas",
       "campaignSimulator": "Simulatore di Campagne",
       "branding": "Guida di Stile",
@@ -23,10 +25,12 @@
   },
   "es-ES": {
     "devRouteMenu": {
+      "devMenuLabel": "Herramientas Dev",
       "devToolsGroup": "HERRAMIENTAS DEV",
       "campaignPagesGroup": "PÁGINAS DE CAMPAÑA",
       "portalPagesGroup": "PÁGINAS DEL PORTAL",
       "legalPagesGroup": "PÁGINAS LEGALES",
+      "campaignDesignSuite": "Suite de Diseño",
       "componentCanvas": "Lienzo de Componentes",
       "campaignSimulator": "Simulador de Campañas",
       "branding": "Guía de Estilo",
@@ -45,10 +49,12 @@
   },
   "en-US": {
     "devRouteMenu": {
+      "devMenuLabel": "Dev Tools",
       "devToolsGroup": "DEV TOOLS",
       "campaignPagesGroup": "CAMPAIGN PAGES",
       "portalPagesGroup": "PORTAL PAGES",
       "legalPagesGroup": "LEGAL PAGES",
+      "campaignDesignSuite": "Design Suite",
       "componentCanvas": "Component Canvas",
       "campaignSimulator": "Campaign Simulator",
       "branding": "Style Guide",
@@ -67,10 +73,12 @@
   },
   "pt-BR": {
     "devRouteMenu": {
+      "devMenuLabel": "Ferramentas Dev",
       "devToolsGroup": "FERRAMENTAS DEV",
       "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
       "portalPagesGroup": "PÁGINAS DO PORTAL",
       "legalPagesGroup": "PÁGINAS LEGAIS",
+      "campaignDesignSuite": "Suite de Design",
       "componentCanvas": "Canvas de Componentes",
       "campaignSimulator": "Simulador de Campanhas",
       "branding": "Guia de Estilo",

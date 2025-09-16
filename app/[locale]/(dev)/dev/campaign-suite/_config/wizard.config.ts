@@ -1,50 +1,73 @@
 // app/[locale]/(dev)/dev/campaign-suite/_config/wizard.config.ts
 /**
  * @file wizard.config.ts
- * @description SSoT para la configuración del asistente de creación de campañas.
- *              Define los pasos, sus componentes asociados y un contrato estricto
- *              con el esquema del diccionario i18n.
- * @version 2.0.0
+ * @description SSoT para la configuración del asistente de la SDC.
+ *              v4.0.0: Añadido el Paso 5 (Gestión) al flujo del asistente.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
-import { Step0_Identification } from "../_components/Step0_Identification";
-import { Step1_HeaderDesign } from "../_components/Step1_HeaderDesign";
+import type { ComponentType } from "react";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { StepProps } from "../_types/step.types";
 
-// --- INICIO DE REFACTORIZACIÓN: Contrato Estricto y Derivación de Tipos ---
-// Extraemos el tipo de la sección del diccionario que nos interesa para crear un contrato seguro.
+import { Step0 } from "../_components/Step0_Identity";
+import { Step1 } from "../_components/Step1_Structure";
+import { Step2 } from "../_components/Step2_Layout";
+import { Step3 } from "../_components/Step3_Theme";
+import { Step4 } from "../_components/Step4_Content";
+import { Step5 } from "../_components/Step5_Management";
+
 type WizardContentKeys = keyof NonNullable<Dictionary["campaignSuitePage"]>;
 
-// Definimos la estructura de un paso con un contentKey que DEBE existir en el diccionario.
-type StepDefinition = {
+type StepDefinition<TProps extends StepProps<any>> = {
   readonly id: number;
   readonly titleKey: string;
-  readonly contentKey: WizardContentKeys; // Clave estrictamente tipada.
-  readonly Component: React.FC<any>;
+  readonly contentKey: WizardContentKeys;
+  readonly Component: ComponentType<TProps>;
 };
-// --- FIN DE REFACTORIZACIÓN ---
+
+const createStep = <TProps extends StepProps<any>>(
+  config: StepDefinition<TProps>
+): typeof config => config;
 
 export const stepsConfig = [
-  {
+  createStep({
     id: 0,
     titleKey: "Paso 0: Identificación",
-    contentKey: "step0", // TypeScript ahora valida que "step0" existe en el diccionario.
-    Component: Step0_Identification,
-  },
-  {
+    contentKey: "step0",
+    Component: Step0,
+  }),
+  createStep({
     id: 1,
-    titleKey: "Paso 1: Diseño",
-    contentKey: "step1", // TypeScript ahora valida que "step1" existe en el diccionario.
-    Component: Step1_HeaderDesign,
-  },
-] as const satisfies readonly StepDefinition[];
+    titleKey: "Paso 1: Estructura",
+    contentKey: "step1",
+    Component: Step1,
+  }),
+  createStep({
+    id: 2,
+    titleKey: "Paso 2: Layout",
+    contentKey: "step2",
+    Component: Step2,
+  }),
+  createStep({
+    id: 3,
+    titleKey: "Paso 3: Tema",
+    contentKey: "step3",
+    Component: Step3,
+  }),
+  createStep({
+    id: 4,
+    titleKey: "Paso 4: Contenido",
+    contentKey: "step4",
+    Component: Step4,
+  }),
+  createStep({
+    id: 5,
+    titleKey: "Paso 5: Gestión",
+    contentKey: "step5",
+    Component: Step5,
+  }),
+] as const;
 
-// --- INICIO DE REFACTORIZACIÓN: Se exporta el tipo derivado de la SSoT ---
-/**
- * @type StepConfig
- * @description El tipo que representa un único objeto de configuración de paso.
- *              Derivado directamente de la constante `stepsConfig` para garantizar DRY.
- */
 export type StepConfig = (typeof stepsConfig)[number];
-// --- FIN DE REFACTORIZACIÓN ---
 // app/[locale]/(dev)/dev/campaign-suite/_config/wizard.config.ts

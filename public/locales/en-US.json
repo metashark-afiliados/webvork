@@ -131,15 +131,15 @@
     "tools": {
       "componentCanvas": {
         "name": "Component Canvas",
-        "description": "Visualize and test UI components in isolation."
+        "description": "Visualize and test UI components in isolation with mock data."
       },
       "campaignSimulator": {
         "name": "Campaign Simulator",
-        "description": "Render and preview campaign variants in real-time."
+        "description": "Preview active campaign variants by reading directly from data manifests."
       },
       "branding": {
-        "name": "Branding & Theming",
-        "description": "Review the design tokens, color palettes, and base typography."
+        "name": "Style Guide",
+        "description": "Visual reference for all system design tokens (colors, typography, etc.)."
       },
       "resilienceShowcase": {
         "name": "Resilience Showcase",
@@ -153,20 +153,6 @@
     "campaignLabel": "Campaign",
     "variantLabel": "Variant",
     "descriptionLabel": "Description"
-  },
-  "devLayoutConfiguratorPage": {
-    "title": "Campaign Layout Configurator",
-    "subtitle": "Select a campaign and variant to visually edit the rendered sections.",
-    "selectCampaignLabel": "Campaign",
-    "selectCampaignPlaceholder": "Select a campaign...",
-    "selectVariantLabel": "Variant",
-    "selectVariantPlaceholder": "Select a variant...",
-    "activeSectionsTitle": "Active Sections (Rendered)",
-    "availableSectionsTitle": "Available Sections",
-    "saveButtonText": "Save Layout",
-    "savingButtonText": "Saving...",
-    "successMessage": "Layout saved successfully!",
-    "errorMessage": "Error saving layout."
   },
   "devLoginPage": {
     "title": "Welcome, Dev Creator",
@@ -216,15 +202,46 @@
       "affiliateUrlPlaceholder": "Paste your offer link here"
     },
     "step1": {
-      "title": "Step 1: Header, Layout & Theme Design",
-      "headerConfigTitle": "Header Configuration",
-      "headerConfigDescription": "The header is your business card. For direct-conversion landing pages, removing it is often an elite strategy to focus the user's attention 100% on the conversion.",
-      "includeHeaderLabel": "Include a Header on this page?",
+      "title": "Step 1: Page Structure",
+      "headerSwitchLabel": "Include Header?",
+      "footerSwitchLabel": "Include Footer?",
       "headerGalleryTitle": "Header Gallery",
-      "headerGalleryDescription": "Don't worry about colors now. All these designs are 100% 'themeable' and will adopt the visual identity we'll define next.",
+      "footerGalleryTitle": "Footer Gallery",
       "logoConfigTitle": "Logo Configuration",
-      "logoUploadText": "Drag and drop your logo here, or click to select",
+      "logoUploadText": "Drag & drop your logo here, or click to select",
       "logoUploadSubtext": "Transparent PNG recommended. Max 2MB."
+    },
+    "step2": {
+      "title": "Step 2: Layout Composition",
+      "layoutBuilderTitle": "Layout Builder",
+      "layoutBuilderDescription": "Drag and drop sections to define the narrative flow of your page.",
+      "libraryTitle": "Section Library",
+      "canvasTitle": "Current Campaign Layout"
+    },
+    "step3": {
+      "title": "Step 3: Visual Theme",
+      "themeSelectorTitle": "Visual Theme Selector",
+      "themeSelectorDescription": "Combine fragments to create a unique visual identity that reinforces your marketing angle.",
+      "colorsLabel": "Color Palette",
+      "fontsLabel": "Font Set",
+      "radiiLabel": "Border Style",
+      "colorsPlaceholder": "Select colors...",
+      "fontsPlaceholder": "Select fonts...",
+      "radiiPlaceholder": "Select radii..."
+    },
+    "step4": {
+      "title": "Step 4: Content Editing",
+      "contentEditorTitle": "Content Editor by Section",
+      "contentEditorDescription": "Click on each section to add the text in all supported languages."
+    },
+    "step5": {
+      "title": "Step 5: Management & Publishing",
+      "description": "Review your campaign draft and choose the final action. From here you can publish, export, or delete your work.",
+      "summaryTitle": "Campaign Summary",
+      "summaryPlaceholder": "Summary preview under construction...",
+      "publishButtonText": "Publish to Site",
+      "packageButtonText": "Export as .zip",
+      "deleteButtonText": "Delete Draft"
     }
   },
   "benefitsSection": {
@@ -608,24 +625,17 @@
       }
     ]
   },
-  "devHeader": {
-    "title": "Global Fitwell - Dev Canvas"
-  },
-  "devHomepageHeader": {
-    "homeLink": "Home",
-    "aboutLink": "About Us",
-    "storeLink": "Store",
-    "blogLink": "Blog",
-    "devMenuLabel": "Dev Menu"
-  },
   "devRouteMenu": {
+    "devMenuLabel": "Dev Tools",
     "devToolsGroup": "DEV TOOLS",
     "campaignPagesGroup": "CAMPAIGN PAGES",
     "portalPagesGroup": "PORTAL PAGES",
     "legalPagesGroup": "LEGAL PAGES",
-    "componentCanvas": "Component Canvas",
-    "campaignSimulator": "Campaign Simulator",
+    "campaignDesignSuite": "Design Suite",
+    "testPage": "Test Page",
     "branding": "Style Guide",
+    "campaignSimulator": "Campaign Simulator",
+    "componentCanvas": "Component Canvas",
     "campaignPage": "Campaign (ID 12157)",
     "home": "Homepage",
     "store": "Store",
@@ -637,18 +647,15 @@
     "changeLanguage": "Change language",
     "currentLanguageIs": "Current language"
   },
-  "routeTester": {
-    "devToolsGroup": "DEV TOOLS",
-    "campaignPagesGroup": "CAMPAIGN PAGES",
-    "legalPagesGroup": "LEGAL PAGES",
-    "campaignDesignSuite": "Campaign Design Suite",
-    "bridgePage": "Bridge Page",
-    "reviewPage": "Review Page",
-    "terms": "Terms",
-    "privacy": "Privacy",
-    "cookies": "Cookies",
-    "changeLanguage": "Change language",
-    "currentLanguageIs": "Current language is"
+  "devHeader": {
+    "title": "Global Fitwell - Dev Canvas"
+  },
+  "devHomepageHeader": {
+    "homeLink": "Home",
+    "aboutLink": "About Us",
+    "storeLink": "Store",
+    "blogLink": "Blog",
+    "devMenuLabel": "Dev Menu"
   },
   "dock": {},
   "lightRays": {
@@ -711,5 +718,18 @@
         "label": "Protection"
       }
     ]
+  },
+  "routeTester": {
+    "devToolsGroup": "DEV TOOLS",
+    "campaignPagesGroup": "CAMPAIGN PAGES",
+    "legalPagesGroup": "LEGAL PAGES",
+    "campaignDesignSuite": "Campaign Design Suite",
+    "bridgePage": "Bridge Page",
+    "reviewPage": "Review Page",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "changeLanguage": "Change language",
+    "currentLanguageIs": "Current language is"
   }
 }

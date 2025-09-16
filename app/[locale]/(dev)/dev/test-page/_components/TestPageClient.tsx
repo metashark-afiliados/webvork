@@ -2,7 +2,9 @@
 /**
  * @file TestPageClient.tsx
  * @description Vitrina de Resiliencia de Componentes (Cliente).
- * @version 15.0.0 - Resuelve advertencia `exhaustive-deps` memoizando `sectionsToRender`.
+ *              v16.2.0: Importa el tipo `AvailableTheme` desde la nueva SSoT,
+ *              rompiendo la dependencia circular y resolviendo el error de build.
+ * @version 16.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -12,7 +14,9 @@ import Link from "next/link";
 import { logger } from "@/lib/logging";
 import { type Locale } from "@/lib/i18n.config";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { AvailableTheme } from "../page";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+import type { AvailableTheme } from "../_types/themes.types";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import {
@@ -28,6 +32,7 @@ import {
   CardTitle,
 } from "@/components/ui";
 import * as Sections from "@/components/sections";
+import { type AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
 
 interface TestPageClientProps {
   masterDictionary: Dictionary;
@@ -35,14 +40,13 @@ interface TestPageClientProps {
   locale: Locale;
 }
 
+// ... (El resto del componente permanece exactamente igual)
 type RenderStatus = "success" | "error" | "warning";
-
 const TestComponentRenderer = ({ Comp, content, extraProps = {} }: any) => {
   let finalContent = content;
   if (content && typeof content === "object" && "content" in content) {
     finalContent = content.content;
   }
-
   if (!finalContent) {
     return {
       status: "warning" as RenderStatus,
@@ -57,7 +61,6 @@ const TestComponentRenderer = ({ Comp, content, extraProps = {} }: any) => {
       error: "Content not found in dictionary.",
     };
   }
-
   try {
     return {
       status: "success" as RenderStatus,
@@ -79,7 +82,6 @@ const TestComponentRenderer = ({ Comp, content, extraProps = {} }: any) => {
     };
   }
 };
-
 export default function TestPageClient({
   masterDictionary,
   availableThemes,
@@ -89,10 +91,6 @@ export default function TestPageClient({
   const renderStatusRef = useRef<
     Record<string, { status: RenderStatus; error?: string }>
   >({});
-
-  // --- INICIO DE CORRECCIÓN: Se memoiza el array `sectionsToRender` con `useMemo` ---
-  // Esto garantiza que la referencia del array sea estable entre renderizados,
-  // evitando que el useEffect se ejecute innecesariamente.
   const sectionsToRender = useMemo(
     () => [
       {
@@ -207,12 +205,9 @@ export default function TestPageClient({
         contentKey: "thumbnailCarousel" as const,
       },
     ],
-    [] // El array de dependencias está vacío porque la lista es estática y no cambia.
+    []
   );
-  // --- FIN DE CORRECCIÓN ---
-
   const totalComponents = sectionsToRender.length;
-
   useEffect(() => {
     logger.startGroup("Sumario de Renderizado de Componentes");
     sectionsToRender.forEach(({ name, Comp, contentKey }, index) => {
@@ -229,9 +224,7 @@ export default function TestPageClient({
         warning: "color: #f59e0b;",
       };
       console.log(
-        `%c${
-          icons[status]
-        } [${index + 1}/${totalComponents}] ${name}... ${status.toUpperCase()}`,
+        `%c${icons[status]} [${index + 1}/${totalComponents}] ${name}... ${status.toUpperCase()}`,
         `font-weight: bold; ${styles[status]}`
       );
     });
@@ -243,16 +236,39 @@ export default function TestPageClient({
       }))
     );
   }, [masterDictionary, locale, sectionsToRender, totalComponents]);
-
   const pageContent = masterDictionary.devTestPage;
   const themeOptions = [
     { id: "default", name: `Default Theme (${locale})` },
     ...availableThemes.map((t) => ({ id: t.id, name: t.name })),
   ];
   const defaultThemeObject = useMemo(
-    () => ({
+    (): AssembledTheme => ({
       layout: { sections: [] },
+      colors: {
+        background: "0 0% 100%",
+        foreground: "0 0% 3.9%",
+        card: "0 0% 100%",
+        cardForeground: "0 0% 3.9%",
+        popover: "0 0% 100%",
+        popoverForeground: "0 0% 3.9%",
+        primary: "0 0% 9%",
+        primaryForeground: "0 0% 98%",
+        secondary: "0 0% 96.1%",
+        secondaryForeground: "0 0% 9%",
+        muted: "0 0% 96.1%",
+        mutedForeground: "0 0% 45.1%",
+        accent: "0 0% 96.1%",
+        accentForeground: "0 0% 9%",
+        destructive: "0 84.2% 60.2%",
+        destructiveForeground: "0 0% 98%",
+      },
       fonts: { sans: "var(--font-sans)", serif: "var(--font-serif)" },
+      geometry: {
+        "--radius": "0.5rem",
+        "--border": "0 0% 89.8%",
+        "--input": "0 0% 89.8%",
+        "--ring": "0 0% 3.9%",
+      },
     }),
     []
   );
@@ -263,37 +279,47 @@ export default function TestPageClient({
       defaultThemeObject
     );
   }, [selectedThemeId, availableThemes, defaultThemeObject]);
-
   if (!pageContent) return <div>Error: Content for devTestPage not found.</div>;
-
   return (
     <CampaignThemeProvider theme={currentThemeData}>
+      {" "}
       <header className="py-3 sticky top-0 z-50 bg-background/90 backdrop-blur-lg border-b border-border">
+        {" "}
         <Container className="flex items-center justify-between gap-4">
+          {" "}
           <Link
             href={`/${locale}/dev`}
             className="font-bold text-lg text-foreground hover:text-primary transition-colors"
           >
             {pageContent.title}
-          </Link>
+          </Link>{" "}
           <Select onValueChange={setSelectedThemeId} value={selectedThemeId}>
+            {" "}
             <SelectTrigger className="w-[280px]">
-              <SelectValue placeholder={pageContent.selectThemeLabel} />
-            </SelectTrigger>
+              {" "}
+              <SelectValue placeholder={pageContent.selectThemeLabel} />{" "}
+            </SelectTrigger>{" "}
             <SelectContent>
+              {" "}
               {themeOptions.map((opt) => (
                 <SelectItem key={opt.id} value={opt.id}>
                   {opt.name}
                 </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </Container>
-      </header>
+              ))}{" "}
+            </SelectContent>{" "}
+          </Select>{" "}
+        </Container>{" "}
+      </header>{" "}
       <main>
-        <PageHeader title={pageContent.title} subtitle={pageContent.subtitle} />
+        {" "}
+        <PageHeader
+          title={pageContent.title}
+          subtitle={pageContent.subtitle}
+        />{" "}
         <Container className="my-8">
+          {" "}
           <div className="space-y-8">
+            {" "}
             {sectionsToRender.map(({ name, Comp, contentKey }) => {
               const { node: renderedComponent } = TestComponentRenderer({
                 Comp,
@@ -302,17 +328,20 @@ export default function TestPageClient({
               });
               return (
                 <Card key={name} className="overflow-hidden">
+                  {" "}
                   <CardHeader>
-                    <CardTitle className="text-accent">{name}</CardTitle>
-                  </CardHeader>
-                  <CardContent>{renderedComponent}</CardContent>
+                    {" "}
+                    <CardTitle className="text-accent">{name}</CardTitle>{" "}
+                  </CardHeader>{" "}
+                  <CardContent>{renderedComponent}</CardContent>{" "}
                 </Card>
               );
-            })}
-          </div>
-        </Container>
-      </main>
+            })}{" "}
+          </div>{" "}
+        </Container>{" "}
+      </main>{" "}
     </CampaignThemeProvider>
   );
 }
 // app/[locale]/(dev)/dev/test-page/_components/TestPageClient.tsx
+

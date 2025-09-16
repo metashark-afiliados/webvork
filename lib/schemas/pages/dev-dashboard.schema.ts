@@ -5,7 +5,7 @@
  *              - v2.1.1 (Verification): Auditado y confirmado como la SSoT correcta
  *                para el contrato de datos del Dev Dashboard.
  * @version 2.1.1
- * @author IA Ingeniera de Software Senior v2.0 (Gemini)
+ * @author @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

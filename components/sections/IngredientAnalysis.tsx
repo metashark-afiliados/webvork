@@ -2,9 +2,9 @@
 /**
  * @file IngredientAnalysis.tsx
  * @description Sección de Análisis de Ingredientes.
- *              - v2.0.0: Refactorizado para adherirse al contrato de props unificado
- *                del `SectionRenderer`, aceptando un único prop `content`.
- * @version 2.0.0
+ *              - v2.0.0: Adherido al contrato de props unificado.
+ *              - v2.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 2.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -14,28 +14,25 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Ingredient } from "@/lib/schemas/components/ingredient-analysis.schema";
 
 interface IngredientAnalysisProps {
-  content: Dictionary["ingredientAnalysis"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["ingredientAnalysis"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-/**
- * @component IngredientAnalysis
- * @description Renderiza una sección informativa sobre los ingredientes.
- * @param {IngredientAnalysisProps} props Las propiedades con el contenido.
- * @returns {React.ReactElement | null} El elemento JSX que representa la sección.
- */
 export function IngredientAnalysis({
   content,
 }: IngredientAnalysisProps): React.ReactElement | null {
   logger.info("[Observabilidad] Renderizando IngredientAnalysis");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[IngredientAnalysis] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
-  // Desestructuración de datos desde el objeto `content`.
   const { title, ingredients } = content;
 
   return (

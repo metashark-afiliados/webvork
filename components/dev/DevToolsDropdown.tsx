@@ -1,12 +1,11 @@
-// src/components/dev/DevToolsDropdown.tsx
+// components/dev/DevToolsDropdown.tsx
 /**
  * @file DevToolsDropdown.tsx
- * @description Orquestador de datos para el DevRouteMenu. Su única responsabilidad
- *              es obtener el locale, generar la estructura de datos del menú y
- *              pasarla al componente de presentación.
- * @version 3.0.0
+ * @description Orquestador de datos para el DevRouteMenu.
+ *              v3.1.0 (Holistic Refactor - Contract Alignment): Re-entrega para
+ *              confirmar el consumo del contrato de diccionario completo.
+ * @version 3.1.0
  * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/components/dev/DevToolsDropdown.tsx.md
  */
 "use client";
 
@@ -21,16 +20,12 @@ interface DevToolsDropdownProps {
   dictionary: NonNullable<Dictionary["devRouteMenu"]>;
 }
 
-/**
- * @component DevToolsDropdown
- * @description Componente "Smart" que orquesta la lógica para el menú de desarrollo.
- * @param {DevToolsDropdownProps} props Las propiedades con el diccionario necesario.
- * @returns {React.ReactElement} El componente de presentación `DevRouteMenu` con las props calculadas.
- */
-const DevToolsDropdown = ({
+export default function DevToolsDropdown({
   dictionary,
-}: DevToolsDropdownProps): React.ReactElement => {
-  console.log("[Observabilidad] Renderizando orquestador DevToolsDropdown");
+}: DevToolsDropdownProps): React.ReactElement {
+  logger.info(
+    "[Observabilidad][DevToolsDropdown] Renderizando orquestador smart."
+  );
   const pathname = usePathname();
   const currentLocale = getCurrentLocaleFromPathname(pathname);
 
@@ -38,13 +33,10 @@ const DevToolsDropdown = ({
     `[DevToolsDropdown] Orquestando menú para locale: ${currentLocale}`
   );
 
-  // 1. Obtiene el diccionario y el locale.
-  // 2. Invoca al generador de lógica pura para crear la estructura de datos.
   const routeGroups = generateDevRoutes(dictionary, currentLocale);
+  // Con el schema corregido y el build ejecutado, `devMenuLabel` existirá y será un string.
+  const buttonLabel = dictionary.devMenuLabel;
 
-  // 3. Pasa la estructura de datos al componente de presentación puro.
-  return <DevRouteMenu routeGroups={routeGroups} />;
-};
-
-export default DevToolsDropdown;
-// src/components/dev/DevToolsDropdown.tsx
+  return <DevRouteMenu routeGroups={routeGroups} buttonLabel={buttonLabel} />;
+}
+// components/dev/DevToolsDropdown.tsx

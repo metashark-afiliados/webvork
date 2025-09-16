@@ -1,62 +1,75 @@
 // lib/utils/theme.utils.ts
 /**
  * @file theme.utils.ts
- * @description Aparato helper para la gestión de temas.
- *              - v4.1.0: Corregida la ruta de importación de la configuración de branding.
- * @version 4.1.0
+ * @description SSoT para utilidades de lógica pura relacionadas con el theming.
+ *              - v4.0.0 (Coherence Fix): Se elimina la función 'generateGlobalThemeVariablesStyle'.
+ *                La lógica de theming global reside estáticamente en globals.css. Este
+ *                módulo se enfoca exclusivamente en la lógica de temas de campaña dinámicos.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
- * @see .docs-espejo/lib/utils/theme.utils.ts.md
  */
-// --- CORRECCIÓN DE RUTA ---
-import { GLOBAL_DESIGN_TOKENS } from "@/config/branding.config";
-import type { CampaignTheme } from "@/lib/i18n/campaign.data.processor";
+import { type AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+import { logger } from "@/lib/logging";
 
-type ThemeObject = {
-  colors?: Record<string, string>;
-  rgbColors?: Record<string, string>;
-  fonts?: Record<string, string>;
-};
+export type ParsedNet = { [key: string]: string };
 
-function generateCssVariablesFromThemeObject(
-  themeObject: ThemeObject
-): string | null {
-  const cssVariables: string[] = [];
+export function parseThemeNetString(netString: string): ParsedNet {
+  logger.trace(`[ThemeUtils] Parseando cadena NET: "${netString}"`);
+  const parsed: ParsedNet = {};
+  const traces = netString.split(".");
 
-  if (themeObject.colors) {
-    for (const [key, value] of Object.entries(themeObject.colors)) {
-      cssVariables.push(`--${key}: ${value};`);
+  for (const trace of traces) {
+    const parts = trace.split("-");
+    if (parts.length < 2) {
+      logger.warn(
+        `[ThemeUtils] Trazo inválido encontrado y omitido: "${trace}"`
+      );
+      continue;
     }
+    const prefix = parts[0];
+    const name = parts.slice(1).join("-");
+    parsed[prefix] = name;
   }
 
-  if (themeObject.rgbColors) {
-    for (const [key, value] of Object.entries(themeObject.rgbColors)) {
-      cssVariables.push(`--${key}-rgb: ${value};`);
-    }
-  }
-
-  if (themeObject.fonts) {
-    for (const [key, value] of Object.entries(themeObject.fonts)) {
-      cssVariables.push(`--font-${key}: ${value};`);
-    }
-  }
-
-  if (cssVariables.length === 0) {
-    return null;
-  }
-
-  return `:root { ${cssVariables.join(" ")} }`;
+  logger.trace("[ThemeUtils] Cadena NET parseada exitosamente.", {
+    result: parsed,
+  });
+  return parsed;
 }
 
-export function generateThemeVariablesStyle(): string | null {
-  return generateCssVariablesFromThemeObject(GLOBAL_DESIGN_TOKENS);
-}
-
+/**
+ * @function generateCampaignThemeVariablesStyle
+ * @description Genera una cadena de reglas CSS a partir de un objeto de tema de campaña ensamblado.
+ * @param {AssembledTheme} theme - El objeto de tema final y validado de la campaña.
+ * @returns {string} Una cadena de texto que contiene las reglas CSS para inyectar.
+ */
 export function generateCampaignThemeVariablesStyle(
-  theme: CampaignTheme
-): string | null {
-  if (!theme) {
-    return null;
+  theme: AssembledTheme
+): string {
+  logger.trace(
+    "[ThemeUtils] Generando cadena de estilos CSS para el tema de campaña."
+  );
+  let cssString = ":root {";
+  if (theme.colors) {
+    for (const [key, value] of Object.entries(theme.colors)) {
+      const cssVarName = `--${key.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
+      cssString += `${cssVarName}: ${value};`;
+    }
   }
-  return generateCssVariablesFromThemeObject(theme);
+  if (theme.fonts) {
+    for (const [key, value] of Object.entries(theme.fonts)) {
+      cssString += `--font-${key}: ${value};`;
+    }
+  }
+  if (theme.geometry) {
+    for (const [key, value] of Object.entries(theme.geometry)) {
+      cssString += `${key}: ${value};`;
+    }
+  }
+  cssString += "}";
+  logger.trace("[ThemeUtils] Cadena de estilos de campaña generada.", {
+    css: cssString,
+  });
+  return cssString;
 }
 // lib/utils/theme.utils.ts

@@ -1,19 +1,17 @@
 // components/dev/DevRouteMenu.tsx
 /**
  * @file DevRouteMenu.tsx
- * @description Componente de presentación puro para el menú de desarrollo.
- *              - v20.3.0: Mejora la consistencia del sistema de iconos al reemplazar
- *                la importación directa de `Wrench` por el componente `DynamicIcon`
- *                en el `DropdownMenuTrigger`.
- * @version 20.3.0
+ * @description Componente de presentación 100% puro para el menú de desarrollo.
+ *              v2.1.0 (Holistic Refactor - Contract Alignment): Re-entrega para
+ *              confirmar el contrato de props con el orquestador.
+ * @version 2.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
-// import { Wrench } from "lucide-react"; // <-- ELIMINADO
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- Importación existente
+import DynamicIcon from "@/components/ui/DynamicIcon";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,23 +22,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { type RouteGroup } from "./utils/route-menu.generator";
+import { logger } from "@/lib/logging";
 
 interface DevRouteMenuProps {
   routeGroups: RouteGroup[];
+  buttonLabel: string; // Contrato confirmado: espera un string.
 }
 
-export const DevRouteMenu = ({
+export function DevRouteMenu({
   routeGroups,
-}: DevRouteMenuProps): React.ReactElement => {
-  console.log("[Observabilidad] Renderizando DevRouteMenu (Presentacional)");
+  buttonLabel,
+}: DevRouteMenuProps): React.ReactElement {
+  logger.info(
+    "[Observabilidad][DevRouteMenu] Renderizando componente de presentación puro."
+  );
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="accent" size="sm">
-          <DynamicIcon name="Wrench" className="mr-2 h-4 w-4" />{" "}
-          {/* <-- USO DE DYNAMICICON */}
-          Dev Menu
+        <Button variant="secondary" size="sm">
+          <DynamicIcon name="Wrench" className="mr-2 h-4 w-4" />
+          {buttonLabel}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-64" align="end">
@@ -61,4 +63,5 @@ export const DevRouteMenu = ({
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
+// components/dev/DevRouteMenu.tsx

@@ -1,4 +1,4 @@
-// src/config/lucide-icon-names.ts
+// config/lucide-icon-names.ts
 /**
  * @file lucide-icon-names.ts
  * @description Manifiesto de Nombres de Iconos de Lucide y SSoT.
@@ -79,11 +79,8 @@ export const lucideIconNames = [
   "ArrowBigUpDash",
   "ArrowBigUp",
   "ArrowDown01",
-  "ArrowDown01",
-  "ArrowDown10",
   "ArrowDown10",
   "ArrowDownAZ",
-  "ArrowDownAz",
   "ArrowDownFromLine",
   "ArrowDownLeft",
   "ArrowDownNarrowWide",
@@ -94,7 +91,6 @@ export const lucideIconNames = [
   "ArrowDownWideNarrow",
   "SortDesc",
   "ArrowDownZA",
-  "ArrowDownZa",
   "ArrowDown",
   "ArrowLeftFromLine",
   "ArrowLeftRight",
@@ -105,11 +101,8 @@ export const lucideIconNames = [
   "ArrowRightToLine",
   "ArrowRight",
   "ArrowUp01",
-  "ArrowUp01",
-  "ArrowUp10",
   "ArrowUp10",
   "ArrowUpAZ",
-  "ArrowUpAz",
   "ArrowUpDown",
   "ArrowUpFromDot",
   "ArrowUpFromLine",
@@ -120,7 +113,6 @@ export const lucideIconNames = [
   "ArrowUpToLine",
   "ArrowUpWideNarrow",
   "ArrowUpZA",
-  "ArrowUpZa",
   "ArrowUp",
   "ArrowsUpFromLine",
   "Asterisk",
@@ -1869,3 +1861,4 @@ export const lucideIconNames = [
 export const LucideIconNameSchema = z.enum(lucideIconNames);
 
 export type LucideIconName = z.infer<typeof LucideIconNameSchema>;
+// config/lucide-icon-names.ts

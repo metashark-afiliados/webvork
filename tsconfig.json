@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,22 +20,7 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "paths": {
-      "@/*": ["./*"],
-      "@/components/*": ["./components/*"],
-      "@/ui/*": ["./components/ui/*"],
-      "@/sections/*": ["./components/sections/*"],
-      "@/forms/*": ["./components/forms/*"],
-      "@/layout/*": ["./components/layout/*"],
-      "@/razBits/*": ["./components/razBits/*"],
-      "@/dev-components/*": ["./components/dev/*"],
-      "@/lib/*": ["./lib/*"],
-      "@/utils/*": ["./lib/utils/*"],
-      "@/schemas/*": ["./lib/schemas/*"],
-      "@/i18n/*": ["./lib/i18n/*"],
-      "@/hooks/*": ["./hooks/*"],
-      "@/config/*": ["./config/*"],
-      "@/content/*": ["./content/*"],
-      "@/messages/*": ["./messages/*"]
+      "@/*": ["./*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

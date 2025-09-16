@@ -2,38 +2,41 @@
 /**
  * @file page.tsx
  * @description Página de servidor para la Vitrina de Componentes de Resiliencia.
- *              - v6.0.0 (Data Orchestration Fix): Reingeniería completa para cargar
- *                y fusionar tanto el diccionario global como un diccionario de campaña
- *                de ejemplo, resolviendo el crash de SSR por datos faltantes.
- * @version 6.0.0
+ *              v8.4.0: Desacopla la definición del tipo `AvailableTheme` a su
+ *              propia SSoT para romper la dependencia circular con el cliente.
+ * @version 8.4.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";
-import { getCampaignData } from "@/lib/i18n/campaign.i18n";
-import { getAllCampaignsAndVariants } from "@/lib/dev/campaign.utils";
-import { loadCampaignAsset } from "@/lib/i18n/campaign.data.loader";
 import {
-  CampaignThemeSchema,
-  type CampaignTheme,
-} from "@/lib/i18n/campaign.data.processor";
+  getCampaignData,
+  resolveCampaignVariant,
+} from "@/lib/i18n/campaign.i18n";
+import { getAllCampaignsAndVariants } from "@/lib/dev/campaign.utils";
+import { loadJsonAsset } from "@/lib/i18n/campaign.data.loader";
+import {
+  AssembledThemeSchema,
+  type AssembledTheme,
+} from "@/lib/schemas/theming/assembled-theme.schema";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
 import TestPageClient from "./_components/TestPageClient";
 import { ZodError } from "zod";
+import { deepMerge } from "@/lib/utils/merge";
+import { parseThemeNetString } from "@/lib/utils/theme.utils";
+import { netTracePrefixToPathMap } from "@/lib/config/theming.config";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+import type { AvailableTheme } from "./_types/themes.types";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 interface DevTestPageProps {
   params: { locale: Locale };
 }
 
-export interface AvailableTheme {
-  id: string;
-  name: string;
-  themeData: CampaignTheme;
-}
-
-// Componente de error para mostrar un feedback claro en caso de fallo.
+// ... (El resto del componente permanece exactamente igual)
+// El tipo `AvailableTheme` ya no se exporta desde aquí.
 const ErrorDisplay = ({
   error,
   validationError,
@@ -41,6 +44,7 @@ const ErrorDisplay = ({
   error: Error;
   validationError: ZodError | Error | null;
 }) => (
+  // ... JSX sin cambios
   <div className="text-destructive p-8">
     <h1 className="text-3xl font-bold">Error de Orquestación de Datos</h1>
     <p className="mt-2">{error.message}</p>
@@ -56,7 +60,6 @@ const ErrorDisplay = ({
     )}
   </div>
 );
-
 export default async function DevTestPage({
   params: { locale },
 }: DevTestPageProps): Promise<React.ReactElement> {
@@ -64,60 +67,75 @@ export default async function DevTestPage({
     "Vitrina de Componentes: Fase de Carga de Datos (Servidor)"
   );
   let validationError: ZodError | Error | null = null;
-
   try {
-    // 1. Cargar el diccionario global y el de una campaña de ejemplo en paralelo.
     const [{ dictionary: globalDictionary, error: dictError }, campaignData] =
       await Promise.all([
         getDictionary(locale),
-        getCampaignData("12157", locale, "02"), // Usamos la variante 'Vitality' como mock
+        getCampaignData("12157", locale, "02"),
       ]);
-
     validationError = dictError;
-    if (dictError) {
+    if (dictError)
       throw new Error("Fallo en la validación del diccionario global.");
-    }
-
-    // 2. Fusionar ambos diccionarios. El de campaña tiene prioridad.
     const masterDictionary = {
       ...globalDictionary,
       ...campaignData.dictionary,
     };
-
     logger.success("Diccionario Maestro ensamblado con éxito.");
-
-    // 3. Cargar los temas disponibles (lógica sin cambios).
     const campaignVariants = await getAllCampaignsAndVariants();
-    const themePromises = campaignVariants.map(async (variant) => {
+    const baseTheme = await loadJsonAsset<Partial<AssembledTheme>>(
+      "theme-fragments",
+      "base",
+      "global.theme.json"
+    );
+    const themePromises = campaignVariants.map(async (variantInfo) => {
       try {
-        const campaignMap = await import(
-          `@/content/campaigns/${variant.campaignId}/campaign.map.json`
+        const { variant } = await resolveCampaignVariant(
+          variantInfo.campaignId,
+          variantInfo.variantId
         );
-        const themePath = campaignMap.variants[variant.variantId].theme;
-        const themeData = await loadCampaignAsset<CampaignTheme>(
-          variant.campaignId,
-          themePath
+        const themePlan = parseThemeNetString(variant.theme);
+        const fragmentPromises = Object.entries(themePlan).map(
+          ([prefix, name]) => {
+            const dir =
+              netTracePrefixToPathMap[
+                prefix as keyof typeof netTracePrefixToPathMap
+              ];
+            if (!dir) return Promise.resolve({});
+            return loadJsonAsset<Partial<AssembledTheme>>(
+              "theme-fragments",
+              dir,
+              `${name}.${dir}.json`
+            );
+          }
         );
-        const validation = CampaignThemeSchema.safeParse(themeData);
+        const themeFragments = await Promise.all(fragmentPromises);
+        let finalTheme: AssembledTheme = baseTheme as AssembledTheme;
+        for (const fragment of themeFragments) {
+          finalTheme = deepMerge(finalTheme, fragment as AssembledTheme);
+        }
+        finalTheme = deepMerge(
+          finalTheme,
+          (variant.themeOverrides ?? {}) as AssembledTheme
+        );
+        const validation = AssembledThemeSchema.safeParse(finalTheme);
         if (validation.success) {
           return {
-            id: variant.variantId,
-            name: variant.name,
+            id: variantInfo.variantId,
+            name: variantInfo.name,
             themeData: validation.data,
           };
         }
       } catch (e) {
-        logger.warn(`No se pudo cargar el tema para ${variant.name}`, { e });
+        logger.warn(`No se pudo cargar el tema para ${variantInfo.name}`, {
+          e,
+        });
       }
       return null;
     });
-
     const availableThemes = (await Promise.all(themePromises)).filter(
       Boolean
     ) as AvailableTheme[];
     logger.success(`${availableThemes.length} temas de campaña cargados.`);
-
-    // 4. Pasar el diccionario maestro COMPLETO al componente cliente.
     return (
       <TestPageClient
         locale={locale}
@@ -137,3 +155,4 @@ export default async function DevTestPage({
     logger.endGroup();
   }
 }
+// app/[locale]/(dev)/dev/test-page/page.tsx

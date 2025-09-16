@@ -2,9 +2,9 @@
 /**
  * @file ThumbnailCarousel.tsx
  * @description Un carrusel visual que cicla a través de una serie de imágenes.
- *              - v4.3.0 (Build Stability Fix): Estandariza las rutas de importación
- *                a `@/components/ui/*` para resolver errores de build.
- * @version 4.3.0
+ *              - v5.0.0 (Alias Unification & Logic Refactor): Rutas y lógica mejoradas.
+ *              - v5.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 5.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -15,11 +15,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/schemas/i18n.schema";
-import type { Thumbnail } from "@/schemas/components/thumbnail-carousel.schema";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Thumbnail } from "@/lib/schemas/components/thumbnail-carousel.schema";
 
 interface ThumbnailCarouselProps {
-  content: Dictionary["thumbnailCarousel"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["thumbnailCarousel"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
   interval?: number;
 }
 
@@ -27,56 +29,64 @@ export function ThumbnailCarousel({
   content,
   interval = 5000,
 }: ThumbnailCarouselProps): React.ReactElement | null {
+  logger.info("[ThumbnailCarousel] Renderizando componente...");
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const thumbnails = useMemo(
-    () => content?.thumbnails || [],
-    [content?.thumbnails]
-  );
+  const thumbnails = useMemo(() => content?.thumbnails || [], [content]);
+
+  const nextSlide = useCallback(() => {
+    if (thumbnails.length > 1) {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % thumbnails.length);
+    }
+  }, [thumbnails.length]);
 
   useEffect(() => {
-    if (thumbnails.length <= 1) return;
+    if (thumbnails.length <= 1 || isHovered) {
+      return;
+    }
+    const timer = setInterval(nextSlide, interval);
+    return () => clearInterval(timer);
+  }, [currentIndex, thumbnails.length, interval, isHovered, nextSlide]);
 
-    const timer = setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % thumbnails.length);
-    }, interval);
-
-    return () => clearTimeout(timer);
-  }, [currentIndex, thumbnails, interval]);
-
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content || thumbnails.length === 0) {
-    logger.warn(
-      "[ThumbnailCarousel] No se proporcionó contenido válido. La sección no se renderizará."
-    );
+    logger.warn("[ThumbnailCarousel] Contenido inválido. No se renderizará.");
     return null;
   }
-
-  logger.info("[Observabilidad] Renderizando ThumbnailCarousel");
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { affiliateUrl, playButtonAriaLabel, playButtonTitle } = content;
+  const currentThumbnail = thumbnails[currentIndex];
 
   return (
-    <section className="py-16 sm:py-24">
+    <section
+      className="py-16 sm:py-24"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <Container className="max-w-4xl">
         <div className="relative aspect-video w-full group rounded-lg overflow-hidden border-4 border-foreground/10 shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out hover:-translate-y-1">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0.8, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0.8, scale: 1.05 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={thumbnails[currentIndex].src}
-                alt={thumbnails[currentIndex].alt}
-                fill
-                className="object-cover"
-                priority={currentIndex === 0}
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 896px"
-              />
-            </motion.div>
+            {currentThumbnail && (
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0.8, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0.8, scale: 1.05 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={currentThumbnail.src}
+                  alt={currentThumbnail.alt}
+                  fill
+                  className="object-cover"
+                  priority={currentIndex === 0}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 896px"
+                />
+              </motion.div>
+            )}
           </AnimatePresence>
           <div className="absolute inset-0 bg-foreground/10 flex items-center justify-center transition-opacity duration-300 group-hover:bg-foreground/20">
             <Button
@@ -102,3 +112,4 @@ export function ThumbnailCarousel({
     </section>
   );
 }
+// components/sections/ThumbnailCarousel.tsx

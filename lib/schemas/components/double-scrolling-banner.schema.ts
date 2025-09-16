@@ -2,11 +2,15 @@
 /**
  * @file double-scrolling-banner.schema.ts
  * @description Esquema de Zod para el contenido del DoubleScrollingBanner.
- *              - v2.0.0: Exporta los tipos atómicos `TestimonialItem` y `LogoItem`.
- * @version 2.0.0
+ *              - v3.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
+ *                de locale.
+ * @version 3.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
+import { logger } from "@/lib/logging";
+
+logger.trace("[Schema] Definiendo contrato para [DoubleScrollingBanner]");
 
 const TestimonialItemSchema = z.object({
   imageSrc: z.string().startsWith("/"),
@@ -23,13 +27,21 @@ const LogoItemSchema = z.object({
 export type TestimonialItem = z.infer<typeof TestimonialItemSchema>;
 export type LogoItem = z.infer<typeof LogoItemSchema>;
 
+/**
+ * @const DoubleScrollingBannerContentSchema
+ * @description La SSoT para la ESTRUCTURA del contenido de la sección.
+ */
+export const DoubleScrollingBannerContentSchema = z.object({
+  testimonials: z.array(TestimonialItemSchema),
+  logos: z.array(LogoItemSchema),
+});
+
+/**
+ * @const DoubleScrollingBannerLocaleSchema
+ * @description Valida la clave de nivel superior para un locale específico.
+ */
 export const DoubleScrollingBannerLocaleSchema = z.object({
-  doubleScrollingBanner: z
-    .object({
-      testimonials: z.array(TestimonialItemSchema),
-      logos: z.array(LogoItemSchema),
-    })
-    .optional(),
+  doubleScrollingBanner: DoubleScrollingBannerContentSchema.optional(),
 });
 
 export const DoubleScrollingBannerI18nSchema = z.object({

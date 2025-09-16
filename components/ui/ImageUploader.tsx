@@ -1,9 +1,10 @@
 // components/ui/ImageUploader.tsx
 /**
  * @file ImageUploader.tsx
- * @description Componente de UI global, atómico y reutilizable para la subida
- *              y previsualización de imágenes.
- * @version 2.0.0
+ * @description Componente de UI global para la subida de imágenes.
+ *              Refactorizado para consumir el contrato de retorno estandarizado
+ *              `ActionResult<T>` de las Server Actions.
+ * @version 2.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -15,11 +16,10 @@ import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import { toast } from "sonner";
+import type { ActionResult } from "@/lib/types/actions.types";
 
 interface ImageUploaderProps {
-  onUpload: (
-    file: File
-  ) => Promise<{ success: boolean; error?: string; path?: string }>;
+  onUpload: (file: File) => Promise<ActionResult<{ path: string }>>; // <-- Contrato actualizado
   onUploadSuccess: (filePath: string) => void;
   acceptedFileTypes?: Accept;
   maxFiles?: number;
@@ -38,11 +38,13 @@ export function ImageUploader({
   acceptedFileTypes = {
     "image/png": [".png"],
     "image/jpeg": [".jpg", ".jpeg"],
+    "image/svg+xml": [".svg"],
   },
   maxFiles = 1,
   content,
   className,
 }: ImageUploaderProps) {
+  logger.info("Renderizando ImageUploader");
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -52,24 +54,22 @@ export function ImageUploader({
       if (!file) return;
 
       setIsLoading(true);
-
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
 
-      logger.info("Iniciando subida de archivo...", {
-        name: file.name,
-        type: file.type,
-      });
+      logger.info("Iniciando subida de archivo...", { name: file.name });
       const result = await onUpload(file);
 
-      if (result.success && result.path) {
-        onUploadSuccess(result.path);
+      // --- [INICIO] LÓGICA DE MANEJO REFACTORIZADA ---
+      if (result.success) {
+        onUploadSuccess(result.data.path);
         toast.success("Archivo subido con éxito.");
       } else {
         toast.error(result.error || "Ocurrió un error al subir el archivo.");
         setPreview(null);
         URL.revokeObjectURL(previewUrl); // Liberar memoria si la subida falla
       }
+      // --- [FIN] LÓGICA DE MANEJO REFACTORIZADA ---
 
       setIsLoading(false);
     },
@@ -82,10 +82,11 @@ export function ImageUploader({
     maxFiles: maxFiles,
   });
 
+  // Limpieza del objeto URL de previsualización al desmontar el componente
   useEffect(() => {
     return () => {
       if (preview) {
-        URL.revokeObjectURL(preview); // Limpieza al desmontar
+        URL.revokeObjectURL(preview);
       }
     };
   }, [preview]);

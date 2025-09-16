@@ -19,9 +19,9 @@ const ProductCardSchema = z.object({
   category: z.string(),
   price: z.number(),
   imageUrl: z.string().startsWith("/"),
-  // --- INICIO DE CORRECCIÓN: Se reemplaza 'href' por 'slug' ---
+  // --- [INICIO DE CORRECCIÓN] ---
   slug: z.string().min(1, "El slug del producto es obligatorio."),
-  // --- FIN DE CORRECCIÓN ---
+  // --- [FIN DE CORRECCIÓN] ---
 });
 
 export const StorePageLocaleSchema = z.object({

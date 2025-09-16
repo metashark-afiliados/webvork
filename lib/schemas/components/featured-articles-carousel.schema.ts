@@ -1,13 +1,16 @@
 // lib/schemas/components/featured-articles-carousel.schema.ts
 /**
  * @file featured-articles-carousel.schema.ts
- * @description Esquema de Zod para el contenido i18n del nuevo componente
- *              FeaturedArticlesCarousel. Define el contrato de datos para la sección
- *              y para cada artículo destacado.
- * @version 1.0.0
+ * @description Esquema de Zod para el contenido i18n del FeaturedArticlesCarousel.
+ *              - v2.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
+ *                de locale para resolver errores de tipo en los consumidores.
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
+import { logger } from "@/lib/logging";
+
+logger.trace("[Schema] Definiendo contrato para [FeaturedArticlesCarousel]");
 
 /**
  * @const FeaturedArticleSchema
@@ -23,40 +26,34 @@ const FeaturedArticleSchema = z.object({
   imageAlt: z
     .string()
     .min(1, "El texto alternativo de la imagen es requerido."),
+  author: z.string(),
   readTime: z
     .number()
     .positive("El tiempo de lectura debe ser un número positivo."),
 });
 
-/**
- * @type FeaturedArticle
- * @description Infiere el tipo TypeScript para un objeto de artículo destacado.
- */
 export type FeaturedArticle = z.infer<typeof FeaturedArticleSchema>;
 
 /**
- * @const FeaturedArticlesCarouselLocaleSchema
- * @description Valida la estructura del contenido de la sección para un único locale.
+ * @const FeaturedArticlesCarouselContentSchema
+ * @description La SSoT para la ESTRUCTURA del contenido de la sección.
  */
-export const FeaturedArticlesCarouselLocaleSchema = z.object({
-  featuredArticlesCarousel: z
-    .object({
-      eyebrow: z.string(),
-      title: z.string(),
-      articles: z
-        .array(FeaturedArticleSchema)
-        .min(
-          3,
-          "Se requieren al menos 3 artículos para un carrusel funcional."
-        ),
-    })
-    .optional(),
+export const FeaturedArticlesCarouselContentSchema = z.object({
+  eyebrow: z.string(),
+  title: z.string(),
+  articles: z
+    .array(FeaturedArticleSchema)
+    .min(3, "Se requieren al menos 3 artículos para un carrusel funcional."),
 });
 
 /**
- * @const FeaturedArticlesCarouselI18nSchema
- * @description Valida la estructura completa del archivo .i18n.json.
+ * @const FeaturedArticlesCarouselLocaleSchema
+ * @description Valida la clave de nivel superior para un locale específico.
  */
+export const FeaturedArticlesCarouselLocaleSchema = z.object({
+  featuredArticlesCarousel: FeaturedArticlesCarouselContentSchema.optional(),
+});
+
 export const FeaturedArticlesCarouselI18nSchema = z.object({
   "it-IT": FeaturedArticlesCarouselLocaleSchema,
   "es-ES": FeaturedArticlesCarouselLocaleSchema,

@@ -2,23 +2,22 @@
 /**
  * @file CommunitySection.tsx
  * @description Componente de sección para invitar a la comunidad.
- *              - v3.1.0 (Build Stability): Se estandarizan las rutas de importación
- *                a `@/components/ui/*` para eliminar ambigüedades y resolver
- *                potenciales errores de `Module not found` en el build.
- * @version 3.1.0
+ *              - v3.1.0 (Build Stability): Se estandarizan las rutas de importación.
+ *              - v3.2.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 3.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-// --- INICIO DE CORRECCIÓN: Rutas de importación estandarizadas ---
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import DynamicIcon from "@/components/ui/DynamicIcon";
-// --- FIN DE CORRECCIÓN ---
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
 interface CommunitySectionProps {
-  content: Dictionary["communitySection"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["communitySection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
 export function CommunitySection({
@@ -26,12 +25,14 @@ export function CommunitySection({
 }: CommunitySectionProps): React.ReactElement | null {
   logger.info("[Observabilidad] Renderizando CommunitySection");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[CommunitySection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { iconName, title, description, buttonLabel, buttonHref } = content;
 

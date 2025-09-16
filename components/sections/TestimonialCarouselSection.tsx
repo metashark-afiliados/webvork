@@ -2,9 +2,9 @@
 /**
  * @file TestimonialCarouselSection.tsx
  * @description Componente de sección para mostrar testimonios en un formato de carrusel interactivo.
- *              - v1.1.0: Mejora la consistencia del sistema de iconos al reemplazar la
- *                importación directa de `Star` por el componente `DynamicIcon`.
- * @version 1.1.0
+ *              - v1.1.0: Iconografía estandarizada.
+ *              - v1.2.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -20,31 +20,23 @@ import {
 } from "@/components/ui/Carousel";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
-// import { Star } from "lucide-react"; // <-- ELIMINADO
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
+import DynamicIcon from "@/components/ui/DynamicIcon";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { ReviewItem } from "@/lib/schemas/components/testimonial-carousel-section.schema";
 
-/**
- * @interface TestimonialCarouselSectionProps
- * @description Define el contrato de props para el componente TestimonialCarouselSection.
- */
 interface TestimonialCarouselSectionProps {
-  content: Dictionary["testimonialCarouselSection"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["testimonialCarouselSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-/**
- * @component StarRating
- * @description Subcomponente puro para renderizar la calificación de estrellas.
- * @private
- */
 const StarRating = ({ rating }: { rating: number }) => {
-  logger.trace("[Observabilidad] Renderizando StarRating"); // Añadido para observabilidad
+  logger.trace("[Observabilidad] Renderizando StarRating");
   return (
     <div className="flex gap-1 text-yellow-500">
       {[...Array(5)].map((_, i) => (
-        <DynamicIcon // <-- USO DE DYNAMICICON
+        <DynamicIcon
           key={i}
           name="Star"
           className="w-4 h-4"
@@ -55,25 +47,19 @@ const StarRating = ({ rating }: { rating: number }) => {
   );
 };
 
-/**
- * @component TestimonialCarouselSection
- * @description Renderiza una sección que muestra testimonios de clientes en un carrusel.
- * @param {TestimonialCarouselSectionProps} props - Las propiedades que contienen el contenido de la sección.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function TestimonialCarouselSection({
   content,
 }: TestimonialCarouselSectionProps): React.ReactElement | null {
-  logger.info(
-    "[Observabilidad] Renderizando TestimonialCarouselSection (Client Component)"
-  ); // Observabilidad actualizada
+  logger.info("[Observabilidad] Renderizando TestimonialCarouselSection");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[TestimonialCarouselSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { eyebrow, title, reviews } = content;
 
@@ -127,3 +113,4 @@ export function TestimonialCarouselSection({
     </section>
   );
 }
+// components/sections/TestimonialCarouselSection.tsx

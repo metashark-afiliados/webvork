@@ -2,9 +2,9 @@
 /**
  * @file TeamSection.tsx
  * @description Componente de sección para presentar a los miembros del equipo.
- *              - v1.1.0: Confirma la consistencia en la observabilidad y el uso de DynamicIcon
- *                para la iconografía de las redes sociales de los miembros del equipo.
- * @version 1.1.0
+ *              - v1.1.0: Consistencia confirmada.
+ *              - v1.2.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -16,31 +16,25 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { TeamMember } from "@/lib/schemas/components/team-section.schema";
 
-/**
- * @interface TeamSectionProps
- * @description Define el contrato de props para el componente TeamSection.
- */
 interface TeamSectionProps {
-  content: Dictionary["teamSection"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["teamSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-/**
- * @component TeamSection
- * @description Renderiza una sección que muestra tarjetas para cada miembro del equipo.
- * @param {TeamSectionProps} props - Las propiedades que contienen el contenido de la sección.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function TeamSection({
   content,
 }: TeamSectionProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando TeamSection (Server Component)");
+  logger.info("[Observabilidad] Renderizando TeamSection");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[TeamSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { eyebrow, title, members } = content;
 
@@ -98,3 +92,4 @@ export function TeamSection({
     </section>
   );
 }
+// components/sections/TeamSection.tsx

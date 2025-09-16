@@ -2,12 +2,13 @@
 /**
  * @file DevHeader.tsx
  * @description Header de lujo para el Developer Command Center.
- *              - v6.2.0 (Sincronización de Contrato): Actualizado para consumir el nuevo
- *                contrato de `getDictionary`, desestructurando la respuesta y
- *                resolviendo los errores de tipo.
- * @version 6.2.0
+ *              v7.0.0 (Holistic Refactor): Sincronizado con el nuevo contrato de
+ *              `getDictionary`. Resuelve errores de tipo y mejora la resiliencia
+ *              y la observabilidad ante contenido faltante.
+ *              v7.1.0 (Syntax Fix): Se elimina el texto corrupto que rompía la sintaxis
+ *              del componente.
+ * @version 7.1.0
  * @author RaZ Podestá - MetaShark Tech
- * @date 2025-09-14T18:20:40.121Z
  */
 import React from "react";
 import Link from "next/link";
@@ -15,7 +16,6 @@ import { getDictionary } from "@/lib/i18n";
 import { logger } from "@/lib/logging";
 import { routes } from "@/lib/navigation";
 import { type Locale } from "@/lib/i18n.config";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { Container } from "@/components/ui/Container";
 import DynamicIcon from "@/components/ui/DynamicIcon";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
@@ -30,20 +30,22 @@ interface DevHeaderProps {
 export default async function DevHeader({
   locale,
 }: DevHeaderProps): Promise<React.ReactElement> {
-  logger.info(`[DevHeader] Renderizando para locale: ${locale}`);
+  logger.info(
+    `[Observabilidad][DevHeader] Renderizando para locale: ${locale}`
+  );
 
-  // --- [INICIO] CORRECCIÓN DE CONTRATO ---
-  const { dictionary: t } = await getDictionary(locale);
-  // --- [FIN] CORRECCIÓN DE CONTRATO ---
+  const { dictionary, error } = await getDictionary(locale);
 
-  const content = t?.devHeader;
-  const devMenuContent = t?.devRouteMenu;
-
+  // Con el schema corregido, `content` ahora tendrá el tipo correcto o será undefined.
+  const content = dictionary?.devHeader;
+  const devMenuContent = dictionary?.devRouteMenu;
+  // La lógica de fallback maneja el caso `undefined` de forma segura.
   const headerTitle = content?.title ?? "DEV COMMAND CENTER";
 
-  if (!content || !devMenuContent) {
-    logger.error(
-      "[DevHeader] Contenido para devHeader o devRouteMenu no encontrado. El menú puede estar incompleto."
+  if (error || !content || !devMenuContent) {
+    logger.warn(
+      `[DevHeader] Contenido para 'devHeader' o 'devRouteMenu' no encontrado para [${locale}]. El menú podría estar incompleto.`,
+      { error }
     );
   }
 
@@ -78,3 +80,4 @@ export default async function DevHeader({
     </header>
   );
 }
+// components/dev/DevHeader.tsx

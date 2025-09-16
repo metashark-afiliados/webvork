@@ -2,9 +2,10 @@
 /**
  * @file benefits-section.schema.ts
  * @description Esquema de Zod para el contenido i18n del componente BenefitsSection.
- *              Define el contrato de datos que la sección de beneficios debe recibir.
- *              - v1.2.0: Resuelve el error TS2306 al asegurar que el archivo es un módulo ES.
- * @version 1.2.0
+ *              - v2.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
+ *                de locale. Exporta `BenefitsSectionContentSchema` como la SSoT para
+ *                el contenido puro, resolviendo el error de tipo TS2740 en los consumidores.
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
@@ -12,7 +13,7 @@ import { LucideIconNameSchema } from "@/config/lucide-icon-names";
 
 /**
  * @const BenefitItemSchema
- * @description Valida un único item de beneficio, asegurando que tenga un icono, título y descripción.
+ * @description Valida un único item de beneficio.
  */
 const BenefitItemSchema = z.object({
   icon: LucideIconNameSchema,
@@ -22,32 +23,36 @@ const BenefitItemSchema = z.object({
     .min(1, "La descripción del beneficio no puede estar vacía."),
 });
 
-/**
- * @type BenefitItem
- * @description Infiere el tipo TypeScript para un único beneficio desde el schema de Zod.
- */
 export type BenefitItem = z.infer<typeof BenefitItemSchema>;
 
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 /**
- * @const BenefitsSectionLocaleSchema
- * @description Valida la estructura del contenido de la sección de beneficios para un único locale.
- *              La clave principal `benefitsSection` es opcional para permitir la fusión parcial de diccionarios.
+ * @const BenefitsSectionContentSchema
+ * @description La SSoT para la ESTRUCTURA del contenido de la sección. Es un
+ *              ZodObject puro y no opcional, destinado a ser consumido por
+ *              el SectionRenderer a través de sections.config.ts.
  */
-export const BenefitsSectionLocaleSchema = z.object({
-  benefitsSection: z
-    .object({
-      eyebrow: z.string(),
-      title: z.string(),
-      subtitle: z.string(),
-      benefits: z.array(BenefitItemSchema),
-    })
-    .optional(),
+export const BenefitsSectionContentSchema = z.object({
+  eyebrow: z.string(),
+  title: z.string(),
+  subtitle: z.string(),
+  benefits: z.array(BenefitItemSchema),
 });
 
 /**
+ * @const BenefitsSectionLocaleSchema
+ * @description Valida la clave de nivel superior para un locale específico.
+ *              Envuelve el schema de contenido y lo hace opcional para permitir
+ *              la fusión de diccionarios.
+ */
+export const BenefitsSectionLocaleSchema = z.object({
+  benefitsSection: BenefitsSectionContentSchema.optional(),
+});
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
+
+/**
  * @const BenefitsSectionI18nSchema
- * @description Valida la estructura completa del archivo de internacionalización `benefits-section.i18n.json`,
- *              asegurando que todos los locales soportados estén definidos correctamente.
+ * @description Valida la estructura completa del archivo .i18n.json.
  */
 export const BenefitsSectionI18nSchema = z.object({
   "it-IT": BenefitsSectionLocaleSchema,

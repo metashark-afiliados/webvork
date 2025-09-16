@@ -3,34 +3,38 @@
  * @file ContactSection.tsx
  * @description Sección de Contacto. Orquestador que compone la información
  *              de contacto y el formulario atómico.
- *              - v3.1.0 (Build Stability Fix): Estandariza la ruta de importación
- *                a `@/components/ui/*` para resolver errores de build.
- * @version 3.1.0
+ *              - v4.0.0 (Alias Unification): Rutas de importación refactorizadas.
+ *              - v4.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 4.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";
 import DynamicIcon from "@/components/ui/DynamicIcon";
-import { ContactForm } from "@/forms/ContactForm";
+import { ContactForm } from "@/components/forms/ContactForm";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/schemas/i18n.schema";
-import type { ContactInfoItem } from "@/schemas/components/contact-section.schema";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { ContactInfoItem } from "@/lib/schemas/components/contact-section.schema";
 
 interface ContactSectionProps {
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   content?: Dictionary["contactSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
 export const ContactSection = ({
   content,
 }: ContactSectionProps): React.ReactElement | null => {
-  logger.info("[Observabilidad] Renderizando ContactSection (Orquestador)");
+  logger.info("[ContactSection] Renderizando componente...");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[ContactSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { eyebrow, title, description, contactInfo, form } = content;
 
@@ -70,3 +74,4 @@ export const ContactSection = ({
     </section>
   );
 };
+// components/sections/ContactSection.tsx

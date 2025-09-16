@@ -2,9 +2,9 @@
 /**
  * @file GuaranteeSection.tsx
  * @description Muestra una marquesina con los sellos de calidad y confianza.
- *              - v5.0.0: Refactorizado para adherirse al contrato de props unificado,
- *                utilizar tipos explícitos y mejorar la seguridad de tipos.
- * @version 5.0.0
+ *              - v5.0.0: Adherido al contrato de props unificado.
+ *              - v5.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 5.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -17,31 +17,26 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Seal } from "@/lib/schemas/components/guarantee-section.schema";
 
-/**
- * @interface GuaranteeSectionProps
- * @description Contrato de props unificado para el SectionRenderer.
- */
 interface GuaranteeSectionProps {
-  content: Dictionary["guaranteeSection"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["guaranteeSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-/**
- * @component GuaranteeSection
- * @description Renderiza la sección de sellos de garantía.
- * @param {GuaranteeSectionProps} props - Las propiedades que contienen el contenido de la sección.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function GuaranteeSection({
   content,
 }: GuaranteeSectionProps): React.ReactElement | null {
   logger.info("[Observabilidad] Renderizando GuaranteeSection");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[GuaranteeSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
+
   const { title, seals } = content;
 
   return (

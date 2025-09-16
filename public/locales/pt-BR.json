@@ -131,15 +131,15 @@
     "tools": {
       "componentCanvas": {
         "name": "Canvas de Componentes",
-        "description": "Visualize e teste componentes de UI de forma isolada."
+        "description": "Visualize e teste componentes de UI isoladamente com dados mock."
       },
       "campaignSimulator": {
         "name": "Simulador de Campanhas",
-        "description": "Renderize e pré-visualize variantes de campanha em tempo real."
+        "description": "Pré-visualize variantes de campanha ativas lendo diretamente dos manifestos de dados."
       },
       "branding": {
-        "name": "Branding e Temas",
-        "description": "Revise os tokens de design, paletas de cores e tipografias base."
+        "name": "Guia de Estilo",
+        "description": "Referência visual para todos os tokens de design do sistema (cores, tipografia, etc.)."
       },
       "resilienceShowcase": {
         "name": "Vitrine de Resiliência",
@@ -153,20 +153,6 @@
     "campaignLabel": "Campanha",
     "variantLabel": "Variante",
     "descriptionLabel": "Descrição"
-  },
-  "devLayoutConfiguratorPage": {
-    "title": "Configurador de Layout de Campanha",
-    "subtitle": "Selecione uma campanha e variante para editar visualmente as seções renderizadas.",
-    "selectCampaignLabel": "Campanha",
-    "selectCampaignPlaceholder": "Selecione uma campanha...",
-    "selectVariantLabel": "Variante",
-    "selectVariantPlaceholder": "Selecione uma variante...",
-    "activeSectionsTitle": "Seções Ativas (Renderizadas)",
-    "availableSectionsTitle": "Seções Disponíveis",
-    "saveButtonText": "Salvar Layout",
-    "savingButtonText": "Salvando...",
-    "successMessage": "Layout salvo com sucesso!",
-    "errorMessage": "Erro ao salvar o layout."
   },
   "devLoginPage": {
     "title": "Bem-vindo, Dev Creator",
@@ -200,31 +186,62 @@
     "fallbackOrderLoadingText": "Enviando..."
   },
   "campaignSuitePage": {
-    "title": "Suíte de Design de Campanhas",
+    "title": "Suite de Design de Campanhas",
     "subtitle": "Um assistente guiado para criar, configurar e gerar ativos de campanha validados.",
     "step0": {
       "title": "Passo 0: Identificação da Campanha",
       "baseCampaignLabel": "Campanha Base",
       "baseCampaignPlaceholder": "Selecione um produto (ex: 12157)",
       "variantNameLabel": "Nome da Variante",
-      "variantNamePlaceholder": "Ex: 'Vitalidade', 'Abordagem Científica'",
+      "variantNamePlaceholder": "Ex: 'Vitalidade', 'Foco Científico'",
       "seoKeywordsLabel": "Palavras-chave de SEO",
-      "seoKeywordsPlaceholder": "Ex: 'bem-estar evidencia cientifica'",
+      "seoKeywordsPlaceholder": "Ex: 'bem-estar evidência científica'",
       "affiliateNetworkLabel": "Rede de Afiliados",
       "affiliateNetworkPlaceholder": "Selecione uma rede...",
       "affiliateUrlLabel": "URL de Afiliado Base",
       "affiliateUrlPlaceholder": "Cole o link da sua oferta aqui"
     },
     "step1": {
-      "title": "Passo 1: Design de Cabeçalho, Layout e Tema",
-      "headerConfigTitle": "Configuração do Cabeçalho",
-      "headerConfigDescription": "O cabeçalho é o seu cartão de visita. Para landing pages de conversão direta, removê-lo é muitas vezes uma estratégia de elite para focar 100% da atenção do usuário na conversão.",
-      "includeHeaderLabel": "Incluir um Cabeçalho nesta página?",
+      "title": "Passo 1: Estrutura da Página",
+      "headerSwitchLabel": "Incluir Cabeçalho (Header)?",
+      "footerSwitchLabel": "Incluir Rodapé (Footer)?",
       "headerGalleryTitle": "Galeria de Cabeçalhos",
-      "headerGalleryDescription": "Não se preocupe com as cores agora. Todos esses designs são 100% 'tematizáveis' e adotarão a identidade visual que definiremos a seguir.",
-      "logoConfigTitle": "Configuração do Logotipo",
-      "logoUploadText": "Arraste e solte seu logotipo aqui, ou clique para selecionar",
+      "footerGalleryTitle": "Galeria de Rodapés",
+      "logoConfigTitle": "Configuração do Logo",
+      "logoUploadText": "Arraste e solte seu logo aqui, ou clique para selecionar",
       "logoUploadSubtext": "PNG transparente recomendado. Máx 2MB."
+    },
+    "step2": {
+      "title": "Passo 2: Composição do Layout",
+      "layoutBuilderTitle": "Construtor de Layout",
+      "layoutBuilderDescription": "Arraste e solte as seções para definir o fluxo narrativo da sua página.",
+      "libraryTitle": "Biblioteca de Seções",
+      "canvasTitle": "Layout Atual da Campanha"
+    },
+    "step3": {
+      "title": "Passo 3: Tema Visual",
+      "themeSelectorTitle": "Seletor de Tema Visual",
+      "themeSelectorDescription": "Combine fragmentos para criar uma identidade visual única que reforce seu ângulo de marketing.",
+      "colorsLabel": "Paleta de Cores",
+      "fontsLabel": "Conjunto de Fontes",
+      "radiiLabel": "Estilo das Bordas",
+      "colorsPlaceholder": "Selecionar cores...",
+      "fontsPlaceholder": "Selecionar fontes...",
+      "radiiPlaceholder": "Selecionar raios..."
+    },
+    "step4": {
+      "title": "Passo 4: Edição de Conteúdo",
+      "contentEditorTitle": "Editor de Conteúdo por Seção",
+      "contentEditorDescription": "Clique em cada seção para adicionar o texto em todos os idiomas suportados."
+    },
+    "step5": {
+      "title": "Passo 5: Gerenciamento e Publicação",
+      "description": "Revise seu rascunho de campanha e escolha a ação final. A partir daqui, você pode publicar, exportar ou excluir seu trabalho.",
+      "summaryTitle": "Resumo da Campanha",
+      "summaryPlaceholder": "Pré-visualização do resumo em construção...",
+      "publishButtonText": "Publicar no Site",
+      "packageButtonText": "Exportar como .zip",
+      "deleteButtonText": "Excluir Rascunho"
     }
   },
   "benefitsSection": {
@@ -608,24 +625,17 @@
       }
     ]
   },
-  "devHeader": {
-    "title": "Global Fitwell - Canvas Dev"
-  },
-  "devHomepageHeader": {
-    "homeLink": "Início",
-    "aboutLink": "Sobre Nós",
-    "storeLink": "Loja",
-    "blogLink": "Blog",
-    "devMenuLabel": "Menu Dev"
-  },
   "devRouteMenu": {
+    "devMenuLabel": "Ferramentas Dev",
     "devToolsGroup": "FERRAMENTAS DEV",
     "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
     "portalPagesGroup": "PÁGINAS DO PORTAL",
     "legalPagesGroup": "PÁGINAS LEGAIS",
-    "componentCanvas": "Canvas de Componentes",
-    "campaignSimulator": "Simulador de Campanhas",
+    "campaignDesignSuite": "Suite de Design",
+    "testPage": "Página de Teste",
     "branding": "Guia de Estilo",
+    "campaignSimulator": "Simulador de Campanhas",
+    "componentCanvas": "Canvas de Componentes",
     "campaignPage": "Campanha (ID 12157)",
     "home": "Página Inicial",
     "store": "Loja",
@@ -637,18 +647,15 @@
     "changeLanguage": "Mudar idioma",
     "currentLanguageIs": "Idioma atual"
   },
-  "routeTester": {
-    "devToolsGroup": "FERRAMENTAS DEV",
-    "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
-    "legalPagesGroup": "PÁGINAS LEGAIS",
-    "campaignDesignSuite": "Suite de Design de Campanha",
-    "bridgePage": "Página Bridge",
-    "reviewPage": "Página de Revisão",
-    "terms": "Termos",
-    "privacy": "Privacidade",
-    "cookies": "Cookies",
-    "changeLanguage": "Mudar idioma",
-    "currentLanguageIs": "O idioma atual é"
+  "devHeader": {
+    "title": "Global Fitwell - Canvas Dev"
+  },
+  "devHomepageHeader": {
+    "homeLink": "Início",
+    "aboutLink": "Sobre Nós",
+    "storeLink": "Loja",
+    "blogLink": "Blog",
+    "devMenuLabel": "Menu Dev"
   },
   "dock": {},
   "lightRays": {
@@ -711,5 +718,18 @@
         "label": "Proteção"
       }
     ]
+  },
+  "routeTester": {
+    "devToolsGroup": "FERRAMENTAS DEV",
+    "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
+    "legalPagesGroup": "PÁGINAS LEGAIS",
+    "campaignDesignSuite": "Suite de Design de Campanha",
+    "bridgePage": "Página Bridge",
+    "reviewPage": "Página de Revisão",
+    "terms": "Termos",
+    "privacy": "Privacidade",
+    "cookies": "Cookies",
+    "changeLanguage": "Mudar idioma",
+    "currentLanguageIs": "O idioma atual é"
   }
 }

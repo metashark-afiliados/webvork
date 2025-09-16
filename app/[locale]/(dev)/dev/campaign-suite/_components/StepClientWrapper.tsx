@@ -1,114 +1,80 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/StepClientWrapper.tsx
 /**
  * @file StepClientWrapper.tsx
- * @description Compositor del Lado del Cliente.
- * @version 4.1.0 - Corregida importación de tipos y se beneficia del contrato estricto.
+ * @description Ensamblador y Renderizador de Pasos. Refactorizado para ser un
+ *              orquestador puro, agnóstico a los datos específicos de cada paso.
+ * @version 10.0.0 (Data Flow Decoupling)
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { toast } from "sonner";
 import { useCampaignDraft } from "../_hooks/useCampaignDraft";
-// --- INICIO DE CORRECCIÓN: Se importa el tipo correcto desde la SSoT ---
-import { type StepConfig, stepsConfig } from "../_config/wizard.config";
-// --- FIN DE CORRECCIÓN ---
 import { AnimatePresence, motion } from "framer-motion";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { stepsConfig } from "../_config/wizard.config";
 
 type WizardContent = NonNullable<Dictionary["campaignSuitePage"]>;
 
+// --- MEJORA: Se elimina la prop baseCampaigns, simplificando el contrato ---
 interface StepClientWrapperProps {
-  currentStepId: number;
-  stepConfig: StepConfig;
   wizardContent: WizardContent;
-  baseCampaigns: string[];
 }
 
 export function StepClientWrapper({
-  currentStepId,
-  stepConfig,
   wizardContent,
-  baseCampaigns,
 }: StepClientWrapperProps): React.ReactElement {
-  logger.info(
-    `[StepClientWrapper] Componiendo UI para el paso ${currentStepId}`
-  );
+  logger.info("Renderizando StepClientWrapper (Orquestador Puro)");
 
-  const { draft, updateDraft, completeStep, setIsLoading } = useCampaignDraft();
-  const router = useRouter();
-  const pathname = usePathname();
+  const { draft } = useCampaignDraft();
+  const currentStepId = draft.step;
+  const stepConfig = stepsConfig[currentStepId];
 
-  const handleNext = () => {
-    logger.trace(
-      `[StepClientWrapper] Navegando: Siguiente desde el paso ${currentStepId}`
-    );
-    completeStep(currentStepId);
-    const nextStepIndex = currentStepId + 1;
-    if (nextStepIndex < stepsConfig.length) {
-      setIsLoading(true);
-      const locale = pathname.split("/")[1];
-      router.push(`/${locale}/dev/campaign-suite/create/${nextStepIndex}`);
-    } else {
-      toast.success("¡Asistente completado!", {
-        description: "Próximamente: generación de activos.",
-      });
-    }
-  };
-
-  const handleBack = () => {
-    logger.trace(
-      `[StepClientWrapper] Navegando: Retroceder desde el paso ${currentStepId}`
-    );
-    if (currentStepId > 0) {
-      setIsLoading(true);
-      const locale = pathname.split("/")[1];
-      router.push(`/${locale}/dev/campaign-suite/create/${currentStepId - 1}`);
-    }
-  };
-
-  const StepComponent = stepConfig.Component;
-  // --- CORRECCIÓN: Esta línea ahora es 100% segura gracias al contrato estricto ---
-  const stepContent = wizardContent[stepConfig.contentKey];
-
-  if (
-    !stepContent ||
-    typeof stepContent !== "object" ||
-    !("title" in stepContent)
-  ) {
-    const errorMessage = `Contenido para '${String(
-      stepConfig.contentKey
-    )}' no encontrado o inválido en el diccionario.`;
+  if (!stepConfig) {
+    const errorMessage = `Configuración no encontrada para el paso ${currentStepId}.`;
     logger.error(`[StepClientWrapper] ${errorMessage}`);
     return (
       <div className="text-destructive text-center p-8">{errorMessage}</div>
     );
   }
 
-  const stepProps: any = {
+  const StepComponent = stepConfig.Component;
+  const stepContent =
+    wizardContent[stepConfig.contentKey as keyof typeof wizardContent];
+
+  if (!stepContent || typeof stepContent !== "object") {
+    const errorMessage = `Contenido para '${String(
+      stepConfig.contentKey
+    )}' no encontrado o inválido.`;
+    logger.error(`[StepClientWrapper] ${errorMessage}`);
+    return (
+      <div className="text-destructive text-center p-8">{errorMessage}</div>
+    );
+  }
+
+  // --- MEJORA: La inyección de props ahora es universal ---
+  // Los datos específicos del servidor ahora son cargados por los propios
+  // componentes ensambladores de paso (ej. Step0.tsx).
+  const componentProps = {
     content: stepContent,
-    draft: draft,
-    setDraft: updateDraft,
-    onBack: handleBack,
-    onNext: handleNext,
   };
 
-  if (currentStepId === 0) {
-    stepProps.baseCampaigns = baseCampaigns;
-  }
+  logger.success(
+    `[StepClientWrapper] Renderizando paso ${currentStepId}: ${stepConfig.titleKey}`
+  );
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={currentStepId}
-        initial={{ opacity: 0, x: 50 }}
+        initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -50 }}
-        transition={{ duration: 0.3 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <StepComponent {...stepProps} />
+        {/* @ts-ignore */}
+        <StepComponent {...componentProps} />
       </motion.div>
     </AnimatePresence>
   );

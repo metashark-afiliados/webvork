@@ -2,8 +2,8 @@
 /**
  * @file index.ts (Barrel File)
  * @description SSoT y fachada pública para el módulo de componentes de UI.
- *              - v2.1.0: Añade el nuevo componente global ImageUploader.
- * @version 2.1.0
+ *              - v2.2.0: Añade la exportación del nuevo sistema de Tabs.
+ * @version 2.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 
@@ -19,7 +19,7 @@ export * from "./DynamicIcon.tsx";
 export * from "./FadeIn.tsx";
 export * from "./Form.tsx";
 export * from "./FormInput.tsx";
-export * from "./ImageUploader.tsx"; // <-- NUEVA EXPORTACIÓN GLOBAL
+export * from "./ImageUploader.tsx";
 export * from "./Input.tsx";
 export * from "./Label.tsx";
 export * from "./NavigationMenu.tsx";
@@ -28,6 +28,8 @@ export * from "./ScrollArea.tsx";
 export * from "./Select.tsx";
 export * from "./Separator.tsx";
 export * from "./Sheet.tsx";
+export * from "./Switch.tsx"; // <-- Exportación añadida en la refactorización anterior
+export * from "./Tabs.tsx"; // <-- NUEVA EXPORTACIÓN GLOBAL
 export * from "./TestimonialCard.tsx";
 export * from "./Textarea.tsx";
 export * from "./DropdownMenu/index.ts";

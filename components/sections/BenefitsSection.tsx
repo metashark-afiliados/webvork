@@ -3,10 +3,11 @@
  * @file BenefitsSection.tsx
  * @description Componente de presentación para la sección de Beneficios.
  *              - v3.2.0: Resuelve el error TS2741 haciendo que la prop `content` sea
- *                opcional, alineando el contrato de la interfaz con el esquema de Zod
- *                (`benefits-section.schema.ts`) y mejorando la compatibilidad con el
- *                `SectionRenderer` dinámico.
- * @version 3.2.0
+ *                opcional (SOLUCIÓN ANTERIOR, AHORA REVERTIDA).
+ *              - v4.0.0 (Strict Contract): La prop `content` vuelve a ser
+ *                obligatoria, restaurando el contrato de datos estricto. La
+ *                resiliencia se delega al SectionRenderer.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -16,25 +17,19 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { BenefitItem } from "@/lib/schemas/components/benefits-section.schema";
 
-/**
- * @interface BenefitsSectionProps
- * @description Define el contrato de props para el componente.
- */
 interface BenefitsSectionProps {
-  content?: Dictionary["benefitsSection"]; // <-- ¡CORRECCIÓN APLICADA AQUÍ! Ahora es opcional.
+  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+  // La prop `content` vuelve a ser obligatoria.
+  content: Dictionary["benefitsSection"];
+  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 }
 
-/**
- * @component BenefitsSection
- * @description Renderiza la sección de beneficios.
- * @param {BenefitsSectionProps} props Las propiedades con el contenido textual y de datos.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export const BenefitsSection = ({
   content,
 }: BenefitsSectionProps): React.ReactElement | null => {
   logger.info("[Observabilidad] Renderizando componente: BenefitsSection");
 
+  // La guarda de seguridad se mantiene como una defensa en tiempo de ejecución.
   if (!content) {
     logger.warn(
       "[BenefitsSection] No se proporcionó contenido. La sección no se renderizará."
@@ -84,3 +79,4 @@ export const BenefitsSection = ({
     </section>
   );
 };
+// components/sections/BenefitsSection.tsx

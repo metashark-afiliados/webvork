@@ -1,9 +1,9 @@
 // components/sections/ServicesSection.tsx
 /**
  * @file ServicesSection.tsx
- * @description Componente de sección para mostrar una lista de servicios o características,
- *              con la capacidad de destacar algunos como "PRO".
- * @version 1.0.0
+ * @description Componente de sección para mostrar una lista de servicios.
+ *              - v1.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -20,31 +20,25 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { ServiceItem } from "@/lib/schemas/components/services-section.schema";
 
-/**
- * @interface ServicesSectionProps
- * @description Define el contrato de props para el componente ServicesSection.
- */
 interface ServicesSectionProps {
-  content: Dictionary["servicesSection"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["servicesSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-/**
- * @component ServicesSection
- * @description Renderiza una sección que enumera los servicios ofrecidos.
- * @param {ServicesSectionProps} props - Las propiedades que contienen el contenido de la sección.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function ServicesSection({
   content,
 }: ServicesSectionProps): React.ReactElement | null {
   logger.info("[Observabilidad] Renderizando ServicesSection");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[ServicesSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { eyebrow, title, subtitle, proLabel, services } = content;
 

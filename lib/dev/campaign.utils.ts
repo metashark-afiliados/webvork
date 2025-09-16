@@ -2,12 +2,11 @@
 /**
  * @file campaign.utils.ts
  * @description Utilidades del lado del servidor para el Developer Command Center.
- *              - v1.1.0: Corrige la ruta base del directorio de campañas, eliminando
- *                el prefijo 'src/' incorrecto para resolver el error 'ENOENT' en tiempo de ejecución.
- * @version 1.1.0
+ *              v1.2.0: Se elimina la directiva "server-only" para resolver
+ *              errores de build cuando es consumido por Server Actions.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
-import "server-only";
 import { promises as fs } from "fs";
 import path from "path";
 import { logger } from "@/lib/logging";
@@ -20,21 +19,18 @@ export interface CampaignVariantInfo {
   description: string;
 }
 
-// --- INICIO DE CORRECCIÓN: Se elimina 'src' de la ruta base ---
 const CAMPAIGNS_DIR = path.join(process.cwd(), "content", "campaigns");
-// --- FIN DE CORRECCIÓN ---
 
 export async function getAllCampaignsAndVariants(): Promise<
   CampaignVariantInfo[]
 > {
   logger.info("[DevUtils] Descubriendo todas las campañas y variantes...");
+  // ... (Lógica interna sin cambios)
   const allVariants: CampaignVariantInfo[] = [];
-
   try {
     const campaignDirs = await fs.readdir(CAMPAIGNS_DIR, {
       withFileTypes: true,
     });
-
     for (const campaignDir of campaignDirs) {
       if (campaignDir.isDirectory()) {
         const campaignId = campaignDir.name;
@@ -43,11 +39,9 @@ export async function getAllCampaignsAndVariants(): Promise<
           campaignId,
           "campaign.map.json"
         );
-
         try {
           const mapContent = await fs.readFile(mapPath, "utf-8");
           const campaignMap: CampaignMap = JSON.parse(mapContent);
-
           for (const variantId in campaignMap.variants) {
             const variant = campaignMap.variants[variantId];
             allVariants.push({
@@ -77,3 +71,4 @@ export async function getAllCampaignsAndVariants(): Promise<
     return [];
   }
 }
+// lib/dev/campaign.utils.ts

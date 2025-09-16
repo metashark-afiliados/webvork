@@ -1,30 +1,41 @@
 // components/sections/HeroNews.tsx
+/**
+ * @file HeroNews.tsx
+ * @description Sección Hero.
+ *              - v2.1.0: Iconografía estandarizada.
+ *              - v2.2.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 2.2.0
+ * @author RaZ podesta - MetaShark Tech
+ */
 "use client";
 
 import React from "react";
 import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-// import { ArrowRight } from "lucide-react"; // <-- ELIMINADO
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
+import DynamicIcon from "@/components/ui/DynamicIcon";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { logger } from "@/lib/logging"; // Añadido para observabilidad
+import { logger } from "@/lib/logging";
 
-/**
- * @file HeroNews.tsx
- * @description Sección Hero. Actualizado para aceptar una única prop `content`.
- *              - v2.1.0: Mejora la consistencia del sistema de iconos al reemplazar la
- *                importación directa de `ArrowRight` por el componente `DynamicIcon`.
- * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
- */
-
-// <<-- CORRECCIÓN: La prop ahora es un objeto `content`
 interface HeroNewsProps {
-  content: NonNullable<Dictionary["heroNews"]>;
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["heroNews"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-export function HeroNews({ content }: HeroNewsProps): React.ReactElement {
-  logger.info("[Observabilidad] Renderizando HeroNews (Client Component)"); // Observabilidad actualizada
+export function HeroNews({
+  content,
+}: HeroNewsProps): React.ReactElement | null {
+  logger.info("[Observabilidad] Renderizando HeroNews (Client Component)");
+
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  if (!content) {
+    logger.warn(
+      "[HeroNews] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
+
   const { mainTitle, featuredArticle } = content;
 
   const FADE_UP_ANIMATION_VARIANTS: Variants = {
@@ -62,7 +73,7 @@ export function HeroNews({ content }: HeroNewsProps): React.ReactElement {
                 <span className="text-xs font-bold uppercase tracking-widest text-accent">
                   {featuredArticle.tag}
                 </span>
-                <DynamicIcon // <-- USO DE DYNAMICICON
+                <DynamicIcon
                   name="ArrowRight"
                   className="h-5 w-5 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent"
                 />
@@ -78,3 +89,4 @@ export function HeroNews({ content }: HeroNewsProps): React.ReactElement {
     </section>
   );
 }
+// components/sections/HeroNews.tsx

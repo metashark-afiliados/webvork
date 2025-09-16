@@ -2,13 +2,17 @@
 /**
  * @file footer.schema.ts
  * @description Esquema de Zod para el contenido i18n del componente Footer.
- *              - v4.0.0 (Portal-Grade Upgrade): Evolucionado para soportar una
- *                sección de newsletter y una lista de redes sociales con iconos.
- * @version 4.0.0
+ *              - v5.0.0 (Type Safety Upgrade): Exporta los tipos inferidos
+ *                `LinkColumn`, `Link`, y `SocialLink` para ser consumidos
+ *                directamente por el componente, garantizando la seguridad de tipos.
+ * @version 5.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
 import { LucideIconNameSchema } from "@/config/lucide-icon-names";
+import { logger } from "@/lib/logging";
+
+logger.trace("[Schema] Definiendo contrato para [Footer] v5.0");
 
 const LinkSchema = z.object({
   label: z.string().min(1),
@@ -20,19 +24,22 @@ const LinkColumnSchema = z.object({
   links: z.array(LinkSchema),
 });
 
-// <-- [NUEVO] Schema para redes sociales -->
 const SocialLinkSchema = z.object({
   name: z.string(),
   url: z.string().url(),
   icon: LucideIconNameSchema,
 });
 
-// Define la estructura para un único locale.
+// --- [INICIO] REFACTORIZACIÓN ARQUITECTÓNICA ---
+export type Link = z.infer<typeof LinkSchema>;
+export type LinkColumn = z.infer<typeof LinkColumnSchema>;
+export type SocialLink = z.infer<typeof SocialLinkSchema>;
+// --- [FIN] REFACTORIZACIÓN ARQUITECTÓNICA ---
+
 export const FooterLocaleSchema = z.object({
   footer: z
     .object({
       logoName: z.string().optional(),
-      // <-- [NUEVO] Contenido para la sección de newsletter -->
       newsletter: z.object({
         title: z.string(),
         description: z.string(),
@@ -40,7 +47,6 @@ export const FooterLocaleSchema = z.object({
         buttonText: z.string(),
       }),
       linkColumns: z.array(LinkColumnSchema),
-      // <-- [NUEVO] Lista de redes sociales -->
       socialLinks: z.array(SocialLinkSchema),
       copyright: z.string().min(1),
       disclaimer: z.string().min(1),
@@ -53,3 +59,4 @@ export const FooterLocaleSchema = z.object({
     })
     .optional(),
 });
+// lib/schemas/components/footer.schema.ts

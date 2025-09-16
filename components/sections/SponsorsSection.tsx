@@ -2,9 +2,9 @@
 /**
  * @file SponsorsSection.tsx
  * @description Componente de sección para mostrar una cuadrícula de logos de patrocinadores.
- *              - v1.2.0: Confirma la consistencia en la observabilidad y el uso de DynamicIcon
- *                para la iconografía de los patrocinadores.
- * @version 1.2.0
+ *              - v1.2.0: Consistencia confirmada.
+ *              - v1.3.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 1.3.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -14,33 +14,25 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { SponsorItem } from "@/lib/schemas/components/sponsors-section.schema";
 
-/**
- * @interface SponsorsSectionProps
- * @description Define el contrato de props para el componente SponsorsSection.
- */
 interface SponsorsSectionProps {
-  content: Dictionary["sponsorsSection"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["sponsorsSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-/**
- * @component SponsorsSection
- * @description Renderiza una sección que muestra los logos o nombres de los patrocinadores.
- * @param {SponsorsSectionProps} props - Las propiedades que contienen el contenido de la sección.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function SponsorsSection({
   content,
 }: SponsorsSectionProps): React.ReactElement | null {
-  logger.info(
-    "[Observabilidad] Renderizando SponsorsSection (Server Component)"
-  );
+  logger.info("[Observabilidad] Renderizando SponsorsSection");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[SponsorsSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { title, sponsors } = content;
 
@@ -69,3 +61,4 @@ export function SponsorsSection({
     </section>
   );
 }
+// components/sections/SponsorsSection.tsx

@@ -1,13 +1,12 @@
 // app/[locale]/page.tsx
 /**
  * @file page.tsx
- * @description Punto de entrada y página de inicio (Homepage) del portal Global Fitwell.
- *              - v1.3.0 (Sincronización de Contrato): Actualizado para consumir el nuevo
- *                contrato de `getDictionary`, desestructurando la respuesta y
- *                resolviendo los errores de tipo.
- * @version 1.3.0
+ * @description Página de inicio del portal.
+ *              - v1.4.0 (Schema Decoupling Mitigation): Añade guardas de
+ *                existencia para cada sección, restaurando la seguridad de
+ *                runtime tras la refactorización del i18n.schema.ts.
+ * @version 1.4.0
  * @author RaZ Podestá - MetaShark Tech
- * @date 2025-09-14T18:20:40.121Z
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";
@@ -28,34 +27,29 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
     `[HomePage] Renderizando la página de inicio para locale: ${locale}`
   );
 
-  // --- [INICIO] CORRECCIÓN DE CONTRATO ---
   const { dictionary } = await getDictionary(locale);
-  // --- [FIN] CORRECCIÓN DE CONTRATO ---
 
+  // --- [INICIO] MITIGACIÓN DE TIPO 'ANY' ---
+  // Se extraen y verifican explícitamente los datos de cada sección.
   const heroNewsContent = dictionary.heroNews;
   const socialProofLogosContent = dictionary.socialProofLogos;
   const newsGridContent = dictionary.newsGrid;
   const communitySectionContent = dictionary.communitySection;
+  // --- [FIN] MITIGACIÓN DE TIPO 'ANY' ---
 
+  // El logging de advertencia se mantiene como una capa secundaria de diagnóstico.
   if (!heroNewsContent)
-    logger.warn(
-      `[HomePage] Contenido para 'heroNews' no encontrado en el diccionario para locale: ${locale}.`
-    );
+    logger.warn("[HomePage] Contenido para 'heroNews' no encontrado.");
   if (!socialProofLogosContent)
-    logger.warn(
-      `[HomePage] Contenido para 'socialProofLogos' no encontrado en el diccionario para locale: ${locale}.`
-    );
+    logger.warn("[HomePage] Contenido para 'socialProofLogos' no encontrado.");
   if (!newsGridContent)
-    logger.warn(
-      `[HomePage] Contenido para 'newsGrid' no encontrado en el diccionario para locale: ${locale}.`
-    );
+    logger.warn("[HomePage] Contenido para 'newsGrid' no encontrado.");
   if (!communitySectionContent)
-    logger.warn(
-      `[HomePage] Contenido para 'communitySection' no encontrado en el diccionario para locale: ${locale}.`
-    );
+    logger.warn("[HomePage] Contenido para 'communitySection' no encontrado.");
 
   return (
     <>
+      {/* El renderizado ahora es condicional, previniendo errores de runtime */}
       {heroNewsContent && <HeroNews content={heroNewsContent} />}
       {socialProofLogosContent && (
         <SocialProofLogos content={socialProofLogosContent} />
@@ -69,3 +63,4 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
     </>
   );
 }
+// app/[locale]/page.tsx

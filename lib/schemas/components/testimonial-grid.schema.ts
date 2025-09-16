@@ -2,10 +2,15 @@
 /**
  * @file testimonial-grid.schema.ts
  * @description Esquema de Zod para el contenido i18n del componente TestimonialGrid.
- * @version 2.0.0
+ *              - v3.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
+ *                de locale.
+ * @version 3.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
+import { logger } from "@/lib/logging";
+
+logger.trace("[Schema] Definiendo contrato para [TestimonialGrid]");
 
 /**
  * @const TestimonialSchema
@@ -18,29 +23,25 @@ const TestimonialSchema = z.object({
   imageSrc: z.string().startsWith("/"),
 });
 
-/**
- * @type Testimonial
- * @description Infiere el tipo TypeScript para un objeto de testimonio.
- */
 export type Testimonial = z.infer<typeof TestimonialSchema>;
 
 /**
- * @const TestimonialGridLocaleSchema
- * @description Valida la estructura del contenido de la sección para un único locale.
+ * @const TestimonialGridContentSchema
+ * @description La SSoT para la ESTRUCTURA del contenido de la sección.
  */
-export const TestimonialGridLocaleSchema = z.object({
-  testimonialGrid: z
-    .object({
-      title: z.string(),
-      testimonials: z.array(TestimonialSchema),
-    })
-    .optional(),
+export const TestimonialGridContentSchema = z.object({
+  title: z.string(),
+  testimonials: z.array(TestimonialSchema),
 });
 
 /**
- * @const TestimonialGridI18nSchema
- * @description Valida la estructura completa del archivo .i18n.json.
+ * @const TestimonialGridLocaleSchema
+ * @description Valida la clave de nivel superior para un locale específico.
  */
+export const TestimonialGridLocaleSchema = z.object({
+  testimonialGrid: TestimonialGridContentSchema.optional(),
+});
+
 export const TestimonialGridI18nSchema = z.object({
   "es-ES": TestimonialGridLocaleSchema,
   "pt-BR": TestimonialGridLocaleSchema,

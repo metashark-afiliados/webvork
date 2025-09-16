@@ -1,74 +1,89 @@
-// components/sections/ContactSection.tsx
+// components/layout/SectionRenderer.tsx
 /**
- * @file ContactSection.tsx
- * @description Sección de Contacto. Orquestador que compone la información
- *              de contacto y el formulario atómico.
- *              - v3.1.0: Resuelve el error TS2741 haciendo que la prop `content` sea
- *                opcional, alineando el contrato de la interfaz con el esquema de Zod
- *                (`contact-section.schema.ts`) y mejorando la compatibilidad con el
- *                `SectionRenderer` dinámico.
- * @version 3.1.0
+ * @file SectionRenderer.tsx
+ * @description Motor de renderizado inteligente y resiliente.
+ *              - v2.0.0 (Zen of Renderer): Re-arquitecturado para realizar
+ *                validación de datos Just-In-Time por componente, consumiendo
+ *                la SSoT `sections.config.ts`. Es ahora resiliente a errores
+ *                de contenido en secciones individuales.
+ *              - v3.0.0 (Type Assertion Fix): Resuelve el error de tipo TS2322
+ *                utilizando una aserción de tipo segura (`as any`) después de la
+ *                validación con Zod, informando a TypeScript que el contrato de
+ *                props es correcto.
+ * @version 3.0.0
  * @author RaZ podesta - MetaShark Tech
  */
-import React from "react";
-import { Container } from "@/ui/Container";
-import DynamicIcon from "@/ui/DynamicIcon";
-import { ContactForm } from "@/forms/ContactForm";
+import * as React from "react";
+import { sectionsConfig, type SectionName } from "@/lib/config/sections.config";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/schemas/i18n.schema";
-import type { ContactInfoItem } from "@/schemas/components/contact-section.schema";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Locale } from "@/lib/i18n.config";
+import { ValidationError } from "@/components/ui/ValidationError";
 
-interface ContactSectionProps {
-  content?: Dictionary["contactSection"]; // <-- ¡CORRECCIÓN APLICADA AQUÍ! Ahora es opcional.
+interface SectionRendererProps {
+  sections: { name: string }[];
+  dictionary: Dictionary;
+  locale: Locale;
 }
 
-export const ContactSection = ({
-  content,
-}: ContactSectionProps): React.ReactElement | null => {
-  logger.info("[Observabilidad] Renderizando ContactSection (Orquestador)");
-
-  if (!content) {
-    logger.warn(
-      "[ContactSection] No se proporcionó contenido. La sección no se renderizará."
-    );
-    return null;
-  }
-
-  const { eyebrow, title, description, contactInfo, form } = content;
+export function SectionRenderer({
+  sections,
+  dictionary,
+  locale,
+}: SectionRendererProps): React.ReactElement {
+  logger.info(
+    "[SectionRenderer v3.0] Ensamblando página con validación JIT..."
+  );
 
   return (
-    <section id="contact" className="py-24 sm:py-32">
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <div className="mb-4">
-              <h2 className="text-lg text-primary mb-2 tracking-wider">
-                {eyebrow}
-              </h2>
-              <h3 className="text-3xl md:text-4xl font-bold">{title}</h3>
-            </div>
-            <p className="mb-8 text-muted-foreground lg:w-5/6">{description}</p>
+    <>
+      {sections.map((section, index) => {
+        const sectionName = section.name as SectionName;
+        const config = sectionsConfig[sectionName];
 
-            <div className="flex flex-col gap-4">
-              {contactInfo.map((info: ContactInfoItem) => (
-                <div key={info.label} className="flex items-center gap-4">
-                  <DynamicIcon
-                    name={info.iconName}
-                    className="h-6 w-6 text-primary"
-                  />
-                  <div>
-                    <p className="font-semibold text-foreground">
-                      {info.label}
-                    </p>
-                    <p className="text-muted-foreground">{info.value}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <ContactForm content={form} />
-        </div>
-      </Container>
-    </section>
+        if (!config) {
+          logger.warn(
+            `[SectionRenderer] Configuración para sección "${sectionName}" no encontrada. Se omitirá.`
+          );
+          return null;
+        }
+
+        const { component: Component, dictionaryKey, schema } = config;
+        const contentData = dictionary[dictionaryKey as keyof Dictionary];
+
+        const validation = schema.safeParse(contentData);
+
+        if (!validation.success) {
+          return (
+            <ValidationError
+              key={`${sectionName}-${index}-error`}
+              sectionName={sectionName}
+              error={validation.error}
+            />
+          );
+        }
+
+        const componentProps = {
+          content: validation.data,
+          locale: locale,
+        };
+
+        logger.trace(
+          `[SectionRenderer] Renderizando sección #${index + 1}: ${sectionName} (Datos Válidos)`
+        );
+
+        // --- [INICIO DE CORRECCIÓN DE TIPO] ---
+        // Después de validar con Zod, sabemos que `componentProps` cumple el
+        // contrato del `Component` específico. Usamos `as any` para indicárselo a TypeScript.
+        return (
+          <Component
+            key={`${sectionName}-${index}`}
+            {...(componentProps as any)}
+          />
+        );
+        // --- [FIN DE CORRECCIÓN DE TIPO] ---
+      })}
+    </>
   );
-};
+}
+// components/layout/SectionRenderer.tsx

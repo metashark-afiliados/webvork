@@ -8,13 +8,13 @@
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
+// --- [INICIO DE REFACTORIZACIÓN DE ALIAS] ---
 import { Container } from "@/components/ui/Container";
-// --- INICIO DE CORRECCIÓN: Ruta de importación alineada con el snapshot SSoT ---
 import { TestimonialCard } from "@/components/ui/TestimonialCard";
-// --- FIN DE CORRECCIÓN ---
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
 import type { Testimonial } from "@/lib/schemas/components/testimonial-grid.schema";
+// --- [FIN DE REFACTORIZACIÓN DE ALIAS] ---
 
 /**
  * @interface TestimonialGridProps

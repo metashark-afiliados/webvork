@@ -35,14 +35,14 @@ const DYNAMIC_ICON_CONFIG = {
  * @param {string} str - La cadena de entrada (ej. "ArrowRight", "ALargeSmall").
  * @returns {string} La cadena convertida (ej. "arrow-right", "a-large-small").
  */
-// --- [1] INICIO DE CORRECCIÓN: Expresión regular robusta ---
+// --- [INICIO DE CORRECCIÓN: Expresión regular robusta] ---
 const pascalToKebab = (str: string): string => {
   return str
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2") // Inserta guion entre minúscula/número y mayúscula
     .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2") // Inserta guion entre mayúsculas seguidas (ej. `MyAPI` -> `my-api`)
     .toLowerCase(); // Convierte todo a minúsculas
 };
-// --- FIN DE CORRECCIÓN ---
+// --- [FIN DE CORRECCIÓN] ---
 
 interface DynamicIconProps extends LucideProps {
   name: LucideIconName;
@@ -77,7 +77,6 @@ const DynamicIcon: FunctionComponent<DynamicIconProps> = ({
 
   const LucideIcon = dynamic(dynamicIconImports[iconToLoad], {
     loading: () => (
-      // [2] MEJORA: Fallback de carga más simple para evitar dependencias circulares.
       <div
         style={{
           width: props.size ?? DYNAMIC_ICON_CONFIG.DEFAULT_SIZE,
@@ -101,3 +100,4 @@ const DynamicIcon: FunctionComponent<DynamicIconProps> = ({
 };
 
 export default memo(DynamicIcon);
+// components/ui/DynamicIcon.tsx

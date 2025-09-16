@@ -1,69 +1,52 @@
 // app/[locale]/(dev)/dev/campaign-suite/create/layout.tsx
 /**
  * @file layout.tsx
- * @description Layout orquestador para la Suite de Diseño de Campañas.
- * @version 2.1.0 - Corregido error de tipo TS2322 con aserción de tipo.
+ * @description Layout de Servidor para la SDC. Simplificado para delegar
+ *              la carga de datos al nuevo layout raíz de desarrollo.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
-"use client";
-
 import React from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Toaster } from "sonner";
-import { useCampaignDraft } from "../_hooks/useCampaignDraft";
-import { stepsConfig } from "../_config/wizard.config";
-import { ProgressStepper } from "../_components";
-import DynamicIcon from "@/components/ui/DynamicIcon";
-import { useRouter, usePathname } from "next/navigation";
-import type { StepStatus } from "../_components/ProgressStepper"; // Importar el tipo
+import { getDictionary } from "@/lib/i18n";
+import { logger } from "@/lib/logging";
+import type { Locale } from "@/lib/i18n.config";
+import { WizardClientLayout } from "../_components";
 
-export default function WizardLayout({
-  children,
-}: {
+interface WizardLayoutProps {
   children: React.ReactNode;
-}) {
-  const { draft, isLoading } = useCampaignDraft();
-  const router = useRouter();
-  const pathname = usePathname();
+  params: { locale: Locale };
+}
 
-  const handleStepClick = (stepId: number) => {
-    const locale = pathname.split("/")[1];
-    router.push(`/${locale}/dev/campaign-suite/create/${stepId}`);
-  };
+export default async function WizardLayout({
+  children,
+  params,
+}: WizardLayoutProps) {
+  logger.info(
+    `[WizardLayout] Renderizando layout específico de la SDC. Locale: [${params.locale}]`
+  );
 
-  const progressSteps = stepsConfig.map((s) => ({
-    id: s.id,
-    title: s.titleKey,
-    // --- INICIO DE CORRECCIÓN: Se añade aserción de tipo para status ---
-    status: (draft.completedSteps.includes(s.id)
-      ? "completed"
-      : draft.step === s.id
-        ? "active"
-        : "pending") as StepStatus,
-    // --- FIN DE CORRECCIÓN ---
-  }));
+  // Mantiene la carga de su propio contenido específico.
+  const { dictionary, error } = await getDictionary(params.locale);
+  const wizardContent = dictionary.campaignSuitePage;
 
+  if (error || !wizardContent) {
+    logger.error(
+      `[WizardLayout] No se pudo cargar el contenido (campaignSuitePage).`,
+      { error }
+    );
+    return (
+      <div className="text-destructive text-center p-8">
+        Error al cargar la estructura del asistente.
+      </div>
+    );
+  }
+
+  // Este layout ahora es un hijo del nuevo (dev)/layout.tsx, por lo que
+  // hereda automáticamente el theming.
   return (
-    <div className="relative max-w-4xl mx-auto">
-      <AnimatePresence>
-        {isLoading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 rounded-lg"
-          >
-            <DynamicIcon
-              name="LoaderCircle"
-              className="w-12 h-12 text-primary animate-spin"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <Toaster position="bottom-right" richColors />
-      <ProgressStepper steps={progressSteps} onStepClick={handleStepClick} />
+    <WizardClientLayout wizardContent={wizardContent}>
       {children}
-    </div>
+    </WizardClientLayout>
   );
 }
 // app/[locale]/(dev)/dev/campaign-suite/create/layout.tsx

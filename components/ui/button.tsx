@@ -1,4 +1,14 @@
 // components/ui/Button.tsx
+/**
+ * @file Button.tsx
+ * @description Componente de UI atómico, polimórfico y reutilizable para botones.
+ *              v2.0.0 (Holistic Refactor): Amplía radicalmente el CVA para incluir
+ *              todas las variantes y tamaños requeridos por el sistema, resolviendo
+ *              una cascada de errores de tipo TS2322 en toda la aplicación.
+ *              Mejora la lógica polimórfica para un manejo más seguro de `href`.
+ * @version 2.0.0
+ * @author RaZ podesta - MetaShark Tech
+ */
 "use client";
 
 import * as React from "react";
@@ -7,6 +17,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 
+// --- SSoT para Estilos de Botón ---
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
@@ -37,6 +48,7 @@ const buttonVariants = cva(
   }
 );
 
+// --- Contrato de Props Polimórfico y Robusto ---
 type BaseProps = VariantProps<typeof buttonVariants> & {
   asChild?: boolean;
   className?: string;
@@ -58,13 +70,15 @@ const Button = React.forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
   ButtonProps
 >(({ className, variant, size, asChild = false, ...props }, ref) => {
+  console.log("[Observabilidad] Renderizando Button");
   const finalClassName = twMerge(buttonVariants({ variant, size, className }));
-  const Comp = asChild ? Slot : "button";
 
+  // Lógica polimórfica: si se pasa `href`, se renderiza como un componente Link de Next.js.
   if ("href" in props && props.href !== undefined) {
     const { href, ...restProps } = props;
+    const Comp = asChild ? Slot : Link;
     return (
-      <Link
+      <Comp
         href={href}
         className={finalClassName}
         ref={ref as React.Ref<HTMLAnchorElement>}
@@ -73,6 +87,8 @@ const Button = React.forwardRef<
     );
   }
 
+  // Por defecto, se renderiza como un <button>.
+  const Comp = asChild ? Slot : "button";
   return (
     <Comp
       className={finalClassName}
@@ -84,3 +100,4 @@ const Button = React.forwardRef<
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
+// components/ui/Button.tsx

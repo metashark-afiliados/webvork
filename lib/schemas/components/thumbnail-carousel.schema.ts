@@ -2,10 +2,15 @@
 /**
  * @file thumbnail-carousel.schema.ts
  * @description Esquema de Zod para el contenido i18n del componente ThumbnailCarousel.
- * @version 3.0.0
+ *              - v4.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
+ *                de locale.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
+import { logger } from "@/lib/logging";
+
+logger.trace("[Schema] Definiendo contrato para [ThumbnailCarousel]");
 
 /**
  * @const ThumbnailSchema
@@ -16,31 +21,27 @@ const ThumbnailSchema = z.object({
   alt: z.string(),
 });
 
-/**
- * @type Thumbnail
- * @description Infiere el tipo TypeScript para un objeto de miniatura.
- */
 export type Thumbnail = z.infer<typeof ThumbnailSchema>;
 
 /**
- * @const ThumbnailCarouselLocaleSchema
- * @description Valida la estructura del contenido de la sección para un único locale.
+ * @const ThumbnailCarouselContentSchema
+ * @description La SSoT para la ESTRUCTURA del contenido de la sección.
  */
-export const ThumbnailCarouselLocaleSchema = z.object({
-  thumbnailCarousel: z
-    .object({
-      thumbnails: z.array(ThumbnailSchema),
-      affiliateUrl: z.string(), // Puede ser URL o ancla
-      playButtonAriaLabel: z.string(),
-      playButtonTitle: z.string(),
-    })
-    .optional(),
+export const ThumbnailCarouselContentSchema = z.object({
+  thumbnails: z.array(ThumbnailSchema),
+  affiliateUrl: z.string(),
+  playButtonAriaLabel: z.string(),
+  playButtonTitle: z.string(),
 });
 
 /**
- * @const ThumbnailCarouselI18nSchema
- * @description Valida la estructura completa del archivo .i18n.json.
+ * @const ThumbnailCarouselLocaleSchema
+ * @description Valida la clave de nivel superior para un locale específico.
  */
+export const ThumbnailCarouselLocaleSchema = z.object({
+  thumbnailCarousel: ThumbnailCarouselContentSchema.optional(),
+});
+
 export const ThumbnailCarouselI18nSchema = z.object({
   "es-ES": ThumbnailCarouselLocaleSchema,
   "pt-BR": ThumbnailCarouselLocaleSchema,

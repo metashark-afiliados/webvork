@@ -2,15 +2,16 @@
 /**
  * @file contact-section.schema.ts
  * @description Esquema de Zod para el contenido i18n de la ContactSection.
- *              - v2.0.0 (Fortalecimiento de Contrato): Se exporta el tipo
- *                `ContactInfoItem` para que pueda ser consumido de forma
- *                segura por el componente, resolviendo el error TS2305 y
- *                mejorando la seguridad de tipos.
- * @version 2.0.0
+ *              - v3.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
+ *                de locale para resolver errores de tipo en los consumidores.
+ * @version 3.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
 import { LucideIconNameSchema } from "@/config/lucide-icon-names";
+import { logger } from "@/lib/logging";
+
+logger.trace("[Schema] Definiendo contrato para [ContactSection]");
 
 /**
  * @const ContactInfoItemSchema
@@ -22,40 +23,39 @@ const ContactInfoItemSchema = z.object({
   value: z.string(),
 });
 
-// --- INICIO DE CORRECCIÓN: Se exporta el tipo para su consumo externo ---
-/**
- * @type ContactInfoItem
- * @description Infiere y exporta el tipo TypeScript para un item de contacto.
- */
 export type ContactInfoItem = z.infer<typeof ContactInfoItemSchema>;
-// --- FIN DE CORRECCIÓN ---
+
+/**
+ * @const ContactSectionContentSchema
+ * @description La SSoT para la ESTRUCTURA del contenido de la sección. Es un
+ *              ZodObject puro y no opcional.
+ */
+export const ContactSectionContentSchema = z.object({
+  eyebrow: z.string(),
+  title: z.string(),
+  description: z.string(),
+  contactInfo: z.array(ContactInfoItemSchema),
+  form: z.object({
+    firstNameLabel: z.string(),
+    firstNamePlaceholder: z.string(),
+    lastNameLabel: z.string(),
+    lastNamePlaceholder: z.string(),
+    emailLabel: z.string(),
+    emailPlaceholder: z.string(),
+    subjectLabel: z.string(),
+    subjectPlaceholder: z.string(),
+    subjectOptions: z.array(z.string()),
+    messageLabel: z.string(),
+    messagePlaceholder: z.string(),
+    submitButtonText: z.string(),
+  }),
+});
 
 /**
  * @const ContactSectionLocaleSchema
- * @description Valida la estructura completa del contenido de la sección para un locale.
+ * @description Valida la clave de nivel superior para un locale específico.
  */
 export const ContactSectionLocaleSchema = z.object({
-  contactSection: z
-    .object({
-      eyebrow: z.string(),
-      title: z.string(),
-      description: z.string(),
-      contactInfo: z.array(ContactInfoItemSchema),
-      form: z.object({
-        firstNameLabel: z.string(),
-        firstNamePlaceholder: z.string(),
-        lastNameLabel: z.string(),
-        lastNamePlaceholder: z.string(),
-        emailLabel: z.string(),
-        emailPlaceholder: z.string(),
-        subjectLabel: z.string(),
-        subjectPlaceholder: z.string(),
-        subjectOptions: z.array(z.string()),
-        messageLabel: z.string(),
-        messagePlaceholder: z.string(),
-        submitButtonText: z.string(),
-      }),
-    })
-    .optional(),
+  contactSection: ContactSectionContentSchema.optional(),
 });
 // lib/schemas/components/contact-section.schema.ts

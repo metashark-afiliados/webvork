@@ -2,10 +2,9 @@
 /**
  * @file SocialProofLogos.tsx
  * @description Componente de prueba social con logos en marquesina.
- *              - v5.0.0 (Alineación de Contrato): Refactorizado para consumir la clave
- *                correcta del diccionario ('socialProofLogos') y utilizar tipos
- *                explícitos, resolviendo los errores de TypeScript TS2339 y TS7006.
- * @version 5.0.0
+ *              - v5.0.0 (Alineación de Contrato): Contrato y tipos corregidos.
+ *              - v5.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 5.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -16,14 +15,12 @@ import Marquee from "react-fast-marquee";
 import { Container } from "@/components/ui/Container";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
-// --- INICIO DE CORRECCIÓN: Se importa el tipo atómico desde su SSoT ---
 import type { Logo } from "@/lib/schemas/components/social-proof-logos.schema";
-// --- FIN DE CORRECCIÓN ---
 
 interface SocialProofLogosProps {
-  // --- INICIO DE CORRECCIÓN: Se consume la clave correcta del diccionario ---
-  content: Dictionary["socialProofLogos"];
-  // --- FIN DE CORRECCIÓN ---
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["socialProofLogos"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
 export function SocialProofLogos({
@@ -31,12 +28,15 @@ export function SocialProofLogos({
 }: SocialProofLogosProps): React.ReactElement | null {
   logger.info("[Observabilidad] Renderizando SocialProofLogos");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content || !content.logos || content.logos.length === 0) {
     logger.warn(
       "[SocialProofLogos] No se proporcionó contenido válido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
+
   const { title, logos } = content;
 
   return (
@@ -59,7 +59,6 @@ export function SocialProofLogos({
           autoFill={true}
           pauseOnHover={true}
         >
-          {/* --- INICIO DE CORRECCIÓN: Se aplica el tipo explícito 'Logo' --- */}
           {logos.map((logo: Logo) => (
             <div
               key={logo.alt}
@@ -74,7 +73,6 @@ export function SocialProofLogos({
               />
             </div>
           ))}
-          {/* --- FIN DE CORRECCIÓN --- */}
         </Marquee>
       </Container>
     </section>

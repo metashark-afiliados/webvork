@@ -2,9 +2,9 @@
 /**
  * @file PricingSection.tsx
  * @description Componente de sección para mostrar planes de precios.
- *              - v1.1.0: Mejora la consistencia del sistema de iconos al reemplazar la
- *                importación directa de `Check` por el componente `DynamicIcon`.
- * @version 1.1.0
+ *              - v1.1.0: Iconografía estandarizada.
+ *              - v1.2.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
@@ -17,42 +17,33 @@ import {
   CardDescription,
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-// import { Check } from "lucide-react"; // <-- ELIMINADO
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
+import DynamicIcon from "@/components/ui/DynamicIcon";
 import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { PricingPlan } from "@/lib/schemas/components/pricing-section.schema";
 
-/**
- * @interface PricingSectionProps
- * @description Define el contrato de props para el componente PricingSection.
- */
 interface PricingSectionProps {
-  content: Dictionary["pricingSection"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["pricingSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
   locale: string;
 }
 
-/**
- * @component PricingSection
- * @description Renderiza una sección de precios con múltiples planes.
- * @param {PricingSectionProps} props - Las propiedades que contienen el contenido de la sección.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function PricingSection({
   content,
   locale,
 }: PricingSectionProps): React.ReactElement | null {
-  logger.info(
-    "[Observabilidad] Renderizando PricingSection (Server Component)"
-  ); // Observabilidad actualizada
+  logger.info("[Observabilidad] Renderizando PricingSection");
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[PricingSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { eyebrow, title, subtitle, currency, plans } = content;
 
@@ -114,7 +105,7 @@ export function PricingSection({
                 >
                   {plan.benefitList.map((benefit) => (
                     <li key={benefit} className="flex gap-x-3">
-                      <DynamicIcon // <-- USO DE DYNAMICICON
+                      <DynamicIcon
                         name="Check"
                         className="h-6 w-5 flex-none text-primary"
                         aria-hidden="true"
@@ -137,3 +128,4 @@ export function PricingSection({
     </section>
   );
 }
+// components/sections/PricingSection.tsx

@@ -131,15 +131,15 @@
     "tools": {
       "componentCanvas": {
         "name": "Lienzo de Componentes",
-        "description": "Visualiza y prueba componentes de UI de forma aislada."
+        "description": "Visualiza y prueba componentes de UI de forma aislada con datos de mock."
       },
       "campaignSimulator": {
         "name": "Simulador de Campañas",
-        "description": "Renderiza y previsualiza variantes de campaña en tiempo real."
+        "description": "Previsualiza variantes de campaña activas leyendo directamente desde los manifiestos de datos."
       },
       "branding": {
-        "name": "Branding y Temas",
-        "description": "Revisa los tokens de diseño, paletas de colores y tipografías base."
+        "name": "Guía de Estilo",
+        "description": "Referencia visual para todos los tokens de diseño del sistema (colores, tipografía, etc.)."
       },
       "resilienceShowcase": {
         "name": "Vitrina de Resiliencia",
@@ -153,20 +153,6 @@
     "campaignLabel": "Campaña",
     "variantLabel": "Variante",
     "descriptionLabel": "Descripción"
-  },
-  "devLayoutConfiguratorPage": {
-    "title": "Configurador de Layout de Campaña",
-    "subtitle": "Selecciona una campaña y variante para editar visualmente las secciones que se renderizan.",
-    "selectCampaignLabel": "Campaña",
-    "selectCampaignPlaceholder": "Selecciona una campaña...",
-    "selectVariantLabel": "Variante",
-    "selectVariantPlaceholder": "Selecciona una variante...",
-    "activeSectionsTitle": "Secciones Activas (Renderizadas)",
-    "availableSectionsTitle": "Secciones Disponibles",
-    "saveButtonText": "Guardar Layout",
-    "savingButtonText": "Guardando...",
-    "successMessage": "¡Layout guardado con éxito!",
-    "errorMessage": "Error al guardar el layout."
   },
   "devLoginPage": {
     "title": "Bienvenido, Dev Creator",
@@ -216,15 +202,46 @@
       "affiliateUrlPlaceholder": "Pega aquí el enlace de tu oferta"
     },
     "step1": {
-      "title": "Paso 1: Diseño de Encabezado, Layout y Tema",
-      "headerConfigTitle": "Configuración del Encabezado",
-      "headerConfigDescription": "El encabezado es tu carta de presentación. Para landing pages de conversión directa, eliminarlo suele ser una estrategia de élite para enfocar al 100% la atención del usuario en la conversión.",
-      "includeHeaderLabel": "¿Incluir un Encabezado en esta página?",
+      "title": "Paso 1: Estructura de la Página",
+      "headerSwitchLabel": "¿Incluir Encabezado (Header)?",
+      "footerSwitchLabel": "¿Incluir Pie de Página (Footer)?",
       "headerGalleryTitle": "Galería de Encabezados",
-      "headerGalleryDescription": "No te preocupes por los colores ahora. Todos estos diseños son 100% 'temables' y adoptarán la identidad visual que definiremos después.",
+      "footerGalleryTitle": "Galería de Pies de Página",
       "logoConfigTitle": "Configuración del Logo",
       "logoUploadText": "Arrastra y suelta tu logo aquí, o haz clic para seleccionar",
       "logoUploadSubtext": "PNG transparente recomendado. Máx 2MB."
+    },
+    "step2": {
+      "title": "Paso 2: Composición del Layout",
+      "layoutBuilderTitle": "Constructor de Layout",
+      "layoutBuilderDescription": "Arrastra y suelta las secciones para definir el flujo narrativo de tu página.",
+      "libraryTitle": "Biblioteca de Secciones",
+      "canvasTitle": "Layout Actual de la Campaña"
+    },
+    "step3": {
+      "title": "Paso 3: Tema Visual",
+      "themeSelectorTitle": "Selector de Tema Visual",
+      "themeSelectorDescription": "Combina fragmentos para crear una identidad visual única que refuerce tu ángulo de marketing.",
+      "colorsLabel": "Paleta de Colores",
+      "fontsLabel": "Conjunto de Fuentes",
+      "radiiLabel": "Estilo de Bordes",
+      "colorsPlaceholder": "Seleccionar colores...",
+      "fontsPlaceholder": "Seleccionar fuentes...",
+      "radiiPlaceholder": "Seleccionar radios..."
+    },
+    "step4": {
+      "title": "Paso 4: Edición de Contenido",
+      "contentEditorTitle": "Editor de Contenido por Sección",
+      "contentEditorDescription": "Haz clic en cada sección para añadir el texto en todos los idiomas soportados."
+    },
+    "step5": {
+      "title": "Paso 5: Gestión y Publicación",
+      "description": "Revisa tu borrador de campaña y elige la acción final. Desde aquí puedes publicar, exportar o eliminar tu trabajo.",
+      "summaryTitle": "Resumen de la Campaña",
+      "summaryPlaceholder": "Vista previa del resumen en construcción...",
+      "publishButtonText": "Publicar en el Sitio",
+      "packageButtonText": "Exportar como .zip",
+      "deleteButtonText": "Eliminar Borrador"
     }
   },
   "benefitsSection": {
@@ -701,24 +718,17 @@
       }
     ]
   },
-  "devHeader": {
-    "title": "Global Fitwell - Canvas Dev"
-  },
-  "devHomepageHeader": {
-    "homeLink": "Inicio",
-    "aboutLink": "Sobre Nosotros",
-    "storeLink": "Tienda",
-    "blogLink": "Blog",
-    "devMenuLabel": "Menú Dev"
-  },
   "devRouteMenu": {
+    "devMenuLabel": "Herramientas Dev",
     "devToolsGroup": "HERRAMIENTAS DEV",
     "campaignPagesGroup": "PÁGINAS DE CAMPAÑA",
     "portalPagesGroup": "PÁGINAS DEL PORTAL",
     "legalPagesGroup": "PÁGINAS LEGALES",
-    "componentCanvas": "Lienzo de Componentes",
-    "campaignSimulator": "Simulador de Campañas",
+    "campaignDesignSuite": "Suite de Diseño",
+    "testPage": "Página de Prueba",
     "branding": "Guía de Estilo",
+    "campaignSimulator": "Simulador de Campañas",
+    "componentCanvas": "Lienzo de Componentes",
     "campaignPage": "Campaña (ID 12157)",
     "home": "Página de Inicio",
     "store": "Tienda",
@@ -730,18 +740,15 @@
     "changeLanguage": "Cambiar idioma",
     "currentLanguageIs": "Idioma actual"
   },
-  "routeTester": {
-    "devToolsGroup": "HERRAMIENTAS DEV",
-    "campaignPagesGroup": "PÁGINAS DE CAMPAÑA",
-    "legalPagesGroup": "PÁGINAS LEGALES",
-    "campaignDesignSuite": "Suite de Diseño de Campaña",
-    "bridgePage": "Página Bridge",
-    "reviewPage": "Página de Revisión",
-    "terms": "Términos",
-    "privacy": "Privacidad",
-    "cookies": "Cookies",
-    "changeLanguage": "Cambiar idioma",
-    "currentLanguageIs": "El idioma actual es"
+  "devHeader": {
+    "title": "Global Fitwell - Canvas Dev"
+  },
+  "devHomepageHeader": {
+    "homeLink": "Inicio",
+    "aboutLink": "Sobre Nosotros",
+    "storeLink": "Tienda",
+    "blogLink": "Blog",
+    "devMenuLabel": "Menú Dev"
   },
   "dock": {},
   "lightRays": {
@@ -804,5 +811,18 @@
         "label": "Protección"
       }
     ]
+  },
+  "routeTester": {
+    "devToolsGroup": "HERRAMIENTAS DEV",
+    "campaignPagesGroup": "PÁGINAS DE CAMPAÑA",
+    "legalPagesGroup": "PÁGINAS LEGALES",
+    "campaignDesignSuite": "Suite de Diseño de Campaña",
+    "bridgePage": "Página Bridge",
+    "reviewPage": "Página de Revisión",
+    "terms": "Términos",
+    "privacy": "Privacidad",
+    "cookies": "Cookies",
+    "changeLanguage": "Cambiar idioma",
+    "currentLanguageIs": "El idioma actual es"
   }
 }

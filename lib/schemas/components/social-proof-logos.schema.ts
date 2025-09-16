@@ -2,18 +2,19 @@
 /**
  * @file social-proof-logos.schema.ts
  * @description Esquema de Zod para el contenido i18n del componente SocialProofLogos.
- *              Define el contrato para la lista de logos de prueba social.
- *              - v3.0.0: Nomenclatura normalizada para alinearse con la SSoT de `sections.config.ts`,
- *                cambiando la clave principal de `socialProof` a `socialProofLogos`.
- * @version 3.0.0
+ *              - v4.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
+ *                de locale.
+ * @version 4.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
+import { logger } from "@/lib/logging";
+
+logger.trace("[Schema] Definiendo contrato para [SocialProofLogos]");
 
 /**
  * @const LogoSchema
- * @description Valida la estructura de un único logo, asegurando que tenga una
- *              ruta de imagen absoluta y un texto alternativo.
+ * @description Valida la estructura de un único logo.
  */
 const LogoSchema = z.object({
   src: z
@@ -22,33 +23,25 @@ const LogoSchema = z.object({
   alt: z.string().min(1, "El texto alternativo del logo es requerido."),
 });
 
-/**
- * @type Logo
- * @description Infiere el tipo TypeScript para un objeto de logo, promoviendo la reutilización.
- */
 export type Logo = z.infer<typeof LogoSchema>;
 
 /**
- * @const SocialProofLogosLocaleSchema
- * @description Valida la estructura del contenido de la sección para un único locale.
+ * @const SocialProofLogosContentSchema
+ * @description La SSoT para la ESTRUCTURA del contenido de la sección.
  */
-export const SocialProofLogosLocaleSchema = z.object({
-  /**
-   * @property {object} socialProofLogos - Contenedor principal del contenido.
-   *                                      Clave normalizada para consistencia arquitectónica.
-   */
-  socialProofLogos: z
-    .object({
-      title: z.string(),
-      logos: z.array(LogoSchema),
-    })
-    .optional(),
+export const SocialProofLogosContentSchema = z.object({
+  title: z.string(),
+  logos: z.array(LogoSchema),
 });
 
 /**
- * @const SocialProofLogosI18nSchema
- * @description Valida la estructura completa del archivo `social-proof-logos.i18n.json`.
+ * @const SocialProofLogosLocaleSchema
+ * @description Valida la clave de nivel superior para un locale específico.
  */
+export const SocialProofLogosLocaleSchema = z.object({
+  socialProofLogos: SocialProofLogosContentSchema.optional(),
+});
+
 export const SocialProofLogosI18nSchema = z.object({
   "es-ES": SocialProofLogosLocaleSchema,
   "pt-BR": SocialProofLogosLocaleSchema,

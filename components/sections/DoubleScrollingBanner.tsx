@@ -2,9 +2,9 @@
 /**
  * @file DoubleScrollingBanner.tsx
  * @description Sección de prueba social con dos marquesinas animadas.
- *              - v3.1.0: Mejora la consistencia del sistema de iconos al reemplazar la
- *                importación directa de `Star` por el componente `DynamicIcon`.
- * @version 3.1.0
+ *              - v3.1.0: Iconografía estandarizada.
+ *              - v3.2.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 3.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -12,8 +12,7 @@
 import React from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
-// import { Star } from "lucide-react"; // <-- ELIMINADO
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
+import DynamicIcon from "@/components/ui/DynamicIcon";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type {
@@ -22,18 +21,19 @@ import type {
 } from "@/lib/schemas/components/double-scrolling-banner.schema";
 
 interface DoubleScrollingBannerProps {
-  content: Dictionary["doubleScrollingBanner"];
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["doubleScrollingBanner"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
-// --- Sub-componentes Internos Puros y Tipados ---
 const StarRating = ({ rating }: { rating: number }) => {
   logger.trace(
     "[Observabilidad] Renderizando StarRating para DoubleScrollingBanner"
-  ); // Añadido para observabilidad
+  );
   return (
     <div className="flex items-center gap-0.5">
       {[...Array(5)].map((_, i) => (
-        <DynamicIcon // <-- USO DE DYNAMICICON
+        <DynamicIcon
           key={i}
           name="Star"
           className={`h-4 w-4 ${i < rating ? "text-accent" : "text-muted-foreground/50"}`}
@@ -47,7 +47,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 const TestimonialCard = ({ imageSrc, altText, name, rating }: Testimonial) => {
   logger.trace(
     "[Observabilidad] Renderizando TestimonialCard para DoubleScrollingBanner"
-  ); // Añadido para observabilidad
+  );
   return (
     <div className="mx-4 flex w-64 flex-col items-center justify-center rounded-lg bg-background p-4 shadow-md border border-white/10">
       <Image
@@ -65,20 +65,22 @@ const TestimonialCard = ({ imageSrc, altText, name, rating }: Testimonial) => {
   );
 };
 
-// --- Componente Principal ---
 export function DoubleScrollingBanner({
   content,
 }: DoubleScrollingBannerProps): React.ReactElement | null {
   logger.info(
     "[Observabilidad] Renderizando DoubleScrollingBanner (Client Component)"
-  ); // Observabilidad actualizada
+  );
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[DoubleScrollingBanner] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
+
   const { testimonials, logos } = content;
 
   return (
@@ -114,3 +116,4 @@ export function DoubleScrollingBanner({
     </section>
   );
 }
+// components/sections/DoubleScrollingBanner.tsx

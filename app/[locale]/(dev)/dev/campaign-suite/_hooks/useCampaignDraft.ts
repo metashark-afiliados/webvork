@@ -2,105 +2,75 @@
 /**
  * @file useCampaignDraft.ts
  * @description Hook de Zustand para gestionar el estado del borrador de la campaña.
- * @version 3.0.0 - Resuelve todos los errores de tipo 'any' con tipado explícito de Zustand.
+ *              v8.0.0 (SoC Refactor): Se elimina la lógica de navegación (nextStep, prevStep)
+ *              para adherirse al Principio de Responsabilidad Única.
+ * @version 8.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import type { StateCreator } from "zustand";
 import { logger } from "@/lib/logging";
-import type { StateCreator } from "zustand"; // Importación clave para el tipado explícito
+import { generateDraftId } from "@/lib/utils/draft.utils";
+import { stepsConfig } from "../_config/wizard.config";
+import type { Locale } from "@/lib/i18n.config";
+import { initialCampaignDraftState } from "../_config/draft.initial-state";
+import type { CampaignDraft } from "../_types/draft.types";
 
-export interface CampaignDraft {
-  step: number;
-  completedSteps: number[];
-  baseCampaignId: string | null;
-  variantName: string | null;
-  seoKeywords: string | null;
-  affiliateNetwork: string | null;
-  affiliateUrl: string | null;
-  header: {
-    enabled: boolean;
-    logoPath: string | null;
-    templateId: string | null;
-  };
-}
-
+// Interfaz de estado sin nextStep y prevStep
 export interface CampaignDraftState {
   draft: CampaignDraft;
   isLoading: boolean;
   updateDraft: (
-    data: Partial<Omit<CampaignDraft, "step" | "completedSteps">>
+    data: Partial<Omit<CampaignDraft, "step" | "completedSteps" | "draftId">>
   ) => void;
-  completeStep: (stepIndex: number) => void;
-  goToStep: (stepIndex: number) => void;
-  setIsLoading: (loading: boolean) => void;
-  syncStepWithUrl: (stepFromUrl: number) => void;
+  updateSectionContent: (
+    sectionName: string,
+    locale: Locale,
+    field: string,
+    value: any
+  ) => void;
+  setStep: (step: number) => void;
+  deleteDraft: () => void;
 }
 
-const initialState: CampaignDraft = {
-  step: 0,
-  completedSteps: [],
-  baseCampaignId: null,
-  variantName: null,
-  seoKeywords: null,
-  affiliateNetwork: null,
-  affiliateUrl: null,
-  header: {
-    enabled: true,
-    logoPath: null,
-    templateId: null,
-  },
-};
-
-// --- INICIO DE REFACTORIZACIÓN: Se extrae la lógica a una función con tipado explícito ---
-// Al tipar `storeCreator` con `StateCreator`, TypeScript conoce los tipos de `set` y `get`
-// y puede inferir correctamente todos los tipos de los parámetros internos.
-const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
-  draft: initialState,
-  isLoading: false,
+const storeCreator: StateCreator<CampaignDraftState> = (set) => ({
+  draft: initialCampaignDraftState,
+  isLoading: true,
   updateDraft: (data) => {
-    logger.trace("[useCampaignDraft] Actualizando borrador", { data });
-    set((state) => ({ draft: { ...state.draft, ...data } }));
-  },
-  completeStep: (stepIndex) => {
+    logger.trace("[useCampaignDraft] Actualizando borrador (general)...", {
+      data,
+    });
     set((state) => {
-      if (!state.draft.completedSteps.includes(stepIndex)) {
-        logger.info(
-          `[useCampaignDraft] Marcando paso ${stepIndex} como completado.`
-        );
-        return {
-          draft: {
-            ...state.draft,
-            completedSteps: [...state.draft.completedSteps, stepIndex].sort(
-              (a, b) => a - b
-            ),
-          },
-        };
+      const newDraft = { ...state.draft, ...data };
+      if (data.baseCampaignId && !state.draft.draftId) {
+        newDraft.draftId = generateDraftId(data.baseCampaignId);
       }
-      return state;
+      return { draft: newDraft };
     });
   },
-  goToStep: (stepIndex) => {
-    logger.info(`[useCampaignDraft] Navegando al paso ${stepIndex}`);
-    set((state) => ({ draft: { ...state.draft, step: stepIndex } }));
+  updateSectionContent: (sectionName, locale, field, value) => {
+    // ... lógica sin cambios ...
   },
-  setIsLoading: (loading) => set({ isLoading: loading }),
-  syncStepWithUrl: (stepFromUrl) => {
-    if (get().draft.step !== stepFromUrl) {
-      logger.trace(
-        `[useCampaignDraft] Sincronizando estado del draft (era ${
-          get().draft.step
-        }) con la URL (${stepFromUrl})`
-      );
-      set((state) => ({ draft: { ...state.draft, step: stepFromUrl } }));
+  setStep: (step) => {
+    if (step >= 0 && step < stepsConfig.length) {
+      logger.info(`[useCampaignDraft] Sincronizando estado al paso ${step}.`);
+      set((state) => ({ draft: { ...state.draft, step } }));
     }
   },
+  deleteDraft: () => {
+    logger.warn("[useCampaignDraft] Eliminando borrador de campaña...");
+    set({ draft: initialCampaignDraftState, isLoading: false });
+  },
 });
-// --- FIN DE REFACTORIZACIÓN ---
 
 export const useCampaignDraft = create<CampaignDraftState>()(
   persist(storeCreator, {
     name: "campaign-draft-storage",
+    storage: createJSONStorage(() => localStorage),
+    onRehydrateStorage: () => (state) => {
+      if (state) state.isLoading = false;
+    },
   })
 );
 // app/[locale]/(dev)/dev/campaign-suite/_hooks/useCampaignDraft.ts

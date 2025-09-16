@@ -2,17 +2,22 @@
 /**
  * @file OrderSection.tsx
  * @description Sección dedicada a la conversión.
- * @version 3.0.0
+ *              - v3.0.0: Rutas y claves de contenido corregidas.
+ *              - v3.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 3.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";
-import { OrderForm } from "@/components/forms/OrderForm"; // RUTA CORREGIDA
+import { OrderForm } from "@/components/forms/OrderForm";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/lib/logging";
 
 interface OrderSectionProps {
-  content: Dictionary["orderSection"]; // Clave corregida
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["orderSection"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
   locale: string;
 }
 
@@ -20,9 +25,16 @@ export function OrderSection({
   content,
   locale,
 }: OrderSectionProps): React.ReactElement | null {
-  console.log("[Observabilidad] Renderizando OrderSection");
+  logger.info("[Observabilidad] Renderizando OrderSection");
 
-  if (!content) return null;
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  if (!content) {
+    logger.warn(
+      "[OrderSection] No se proporcionó contenido. La sección no se renderizará."
+    );
+    return null;
+  }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   return (
     <section id="order-form" className="py-16 sm:py-24 bg-secondary/20">

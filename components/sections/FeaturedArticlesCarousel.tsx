@@ -1,8 +1,9 @@
+// components/sections/FeaturedArticlesCarousel.tsx
 /**
  * @file FeaturedArticlesCarousel.tsx
- * @description Un carrusel interactivo y automático que muestra artículos de blog destacados
- *              con un efecto de flujo tipo "coverflow" para un alto impacto visual.
- * @version 1.0.0
+ * @description Un carrusel interactivo y automático que muestra artículos de blog destacados.
+ *              - v1.1.0 (Resilience): La prop `content` ahora es opcional.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -17,23 +18,14 @@ import { Button } from "@/components/ui/Button";
 import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { FeaturedArticle } from "@/lib/schemas/components/featured-articles-carousel.schema";
 
-/**
- * @interface FeaturedArticlesCarouselProps
- * @description Define el contrato de props para el componente.
- */
 interface FeaturedArticlesCarouselProps {
-  content: Dictionary["featuredArticlesCarousel"];
-  interval?: number; // Intervalo en ms para el cambio automático
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  content?: Dictionary["featuredArticlesCarousel"];
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
+  interval?: number;
 }
 
-/**
- * @component FeaturedArticlesCarousel
- * @description Renderiza una sección de carrusel de artículos destacados.
- * @param {FeaturedArticlesCarouselProps} props - Las propiedades que contienen el contenido y la configuración.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
 export function FeaturedArticlesCarousel({
   content,
   interval = 4000,
@@ -58,18 +50,20 @@ export function FeaturedArticlesCarousel({
   };
 
   useEffect(() => {
-    if (!isHovered) {
+    if (!isHovered && content?.articles && content.articles.length > 1) {
       const timer = setInterval(nextSlide, interval);
       return () => clearInterval(timer);
     }
-  }, [currentIndex, isHovered, interval, nextSlide]);
+  }, [currentIndex, isHovered, interval, nextSlide, content?.articles]);
 
+  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content || !content.articles || content.articles.length === 0) {
     logger.warn(
       "[FeaturedArticlesCarousel] No se proporcionó contenido válido. La sección no se renderizará."
     );
     return null;
   }
+  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { eyebrow, title, articles } = content;
 
@@ -137,7 +131,6 @@ export function FeaturedArticlesCarousel({
                     <span className="text-xs font-bold uppercase tracking-widest text-primary">
                       {article.category}
                     </span>
-                    {/* TODO: El href debe ser dinámico, usando la lógica de rutas y el article.slug */}
                     <Link href={`/news/${article.slug}`} className="block mt-1">
                       <h4 className="text-lg md:text-xl font-bold text-white hover:underline">
                         {article.title}
@@ -149,8 +142,6 @@ export function FeaturedArticlesCarousel({
             );
           })}
         </AnimatePresence>
-
-        {/* Navigation Buttons */}
         <Button
           onClick={prevSlide}
           variant="secondary"
@@ -173,3 +164,4 @@ export function FeaturedArticlesCarousel({
     </section>
   );
 }
+// components/sections/FeaturedArticlesCarousel.tsx
