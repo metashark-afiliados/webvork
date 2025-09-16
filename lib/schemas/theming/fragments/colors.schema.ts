@@ -2,23 +2,22 @@
 /**
  * @file colors.schema.ts
  * @description SSoT para el contrato de datos de un fragmento de paleta de colores.
- *              Define la estructura que debe tener cualquier archivo de paleta de
- *              colores (ej. `scientific.colors.json`) en el sistema de theming.
- * @version 1.0.0
+ *              v2.0.0 (Dual-Mode Theming): Evoluciona el contrato para soportar
+ *              paletas de colores explícitas para modo claro y oscuro.
+ * @version 2.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";
 
-logger.trace("[Schema] Definiendo el contrato para fragmentos de colores...");
+logger.trace("[Schema] Definiendo contrato para fragmentos de colores v2.0...");
 
 /**
- * @const ColorsObjectSchema
- * @description Valida el objeto `colors` interno, asegurando que todas las
- *              claves de color semánticas requeridas por la UI estén presentes
- *              y sean una cadena de texto (que contendrá el valor HSL).
+ * @const SemanticColorSchema
+ * @description Define todas las claves de color semánticas requeridas.
+ *              Ahora es la base para las paletas de modo claro y oscuro.
  */
-const ColorsObjectSchema = z.object({
+const SemanticColorSchema = z.object({
   background: z.string(),
   foreground: z.string(),
   card: z.string(),
@@ -38,19 +37,21 @@ const ColorsObjectSchema = z.object({
 });
 
 /**
+ * @const ColorsObjectSchema
+ * @description Valida el objeto `colors` principal. Ahora contiene la paleta
+ *              base (modo claro) y una paleta `dark` opcional para anulaciones.
+ */
+const ColorsObjectSchema = SemanticColorSchema.extend({
+  dark: SemanticColorSchema.partial().optional(), // <-- OBJETO 'dark' OPCIONAL
+});
+
+/**
  * @const ColorsFragmentSchema
  * @description El schema principal para un archivo de fragmento de colores.
- *              Valida que el archivo contenga una clave raíz "colors" cuyo
- *              valor sea un objeto que cumpla con `ColorsObjectSchema`.
  */
 export const ColorsFragmentSchema = z.object({
   colors: ColorsObjectSchema,
 });
 
-/**
- * @type ColorsFragment
- * @description Tipo inferido a partir del schema, representa un fragmento de
- *              paleta de colores validado.
- */
 export type ColorsFragment = z.infer<typeof ColorsFragmentSchema>;
 // lib/schemas/theming/fragments/colors.schema.ts
