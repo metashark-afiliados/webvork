@@ -4,7 +4,7 @@
  * @description Componente Contenedor de Cliente para el Paso 3 (Tema).
  *              v1.3.0: Refactorizado para consumir el contexto de navegación `useWizard`.
  * @version 1.3.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -6,7 +6,7 @@
  *                `LinkColumn`, `Link`, y `SocialLink` para ser consumidos
  *                directamente por el componente, garantizando la seguridad de tipos.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { LucideIconNameSchema } from "@/config/lucide-icon-names";

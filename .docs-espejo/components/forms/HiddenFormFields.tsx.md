@@ -5,7 +5,7 @@
 - @description Documento Espejo para el aparato HiddenFormFields.tsx. Define su
 -              rol estratégico, arquitectura y contrato de API.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Aparato `HiddenFormFields`

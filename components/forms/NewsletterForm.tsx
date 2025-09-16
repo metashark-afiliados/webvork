@@ -3,7 +3,7 @@
  * @file NewsletterForm.tsx
  * @description Componente de cliente atómico para el formulario de suscripción a la newsletter.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

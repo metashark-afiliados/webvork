@@ -5,7 +5,7 @@
  *              - v3.0.0: Rutas y claves de contenido corregidas.
  *              - v3.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 3.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";

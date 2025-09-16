@@ -5,7 +5,7 @@
  *              Define el mapeo entre los prefijos de la Nomenclatura
  *              Estructurada de Trazos (NET) y sus directorios correspondientes.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { logger } from "@/lib/logging";
 

@@ -5,7 +5,7 @@
  *              v2.1.0 (Fluid UX): Se integra Framer Motion para añadir animaciones
  *              suaves al añadir, eliminar y reordenar secciones, mejorando la UX.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -3,7 +3,7 @@
  * @file WizardContext.tsx
  * @description SSoT para el estado y las acciones de navegación del asistente SDC.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

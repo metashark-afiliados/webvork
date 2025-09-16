@@ -3,7 +3,7 @@
  * @file draft.initial-state.ts
  * @description SSoT para el estado inicial del borrador de campaña.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import type { CampaignDraft } from "../_types/draft.types";
 

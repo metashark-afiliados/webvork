@@ -6,7 +6,7 @@
  *                exportaciones de componentes de paso, que ahora se gestionan
  *                a través de sus propios módulos.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 // Se exportan únicamente los componentes de layout y orquestación que son

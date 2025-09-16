@@ -4,7 +4,7 @@
  * @description Componente de Servidor que inyecta las variables CSS de un tema de
  *              campaña, resolviendo el problema de FOUC (Flash of Unstyled Content).
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs-espejo/components/layout/CampaignThemeProvider.md
  */
 import React from "react";

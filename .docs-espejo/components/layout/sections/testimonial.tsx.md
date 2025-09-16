@@ -4,7 +4,7 @@
 - @file testimonial.tsx.md
 - @description Documento Espejo y SSoT conceptual para la sección TestimonialCarouselSection.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Testimonial Carousel Section

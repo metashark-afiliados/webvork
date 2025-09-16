@@ -5,7 +5,7 @@
  *              - v2.0.0 (Theming Sovereignty): Refactorizado para usar el token
  *                semántico `border-border`.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

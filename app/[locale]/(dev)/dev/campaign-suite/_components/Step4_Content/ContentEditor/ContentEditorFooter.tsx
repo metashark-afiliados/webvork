@@ -3,7 +3,7 @@
  * @file ContentEditorFooter.tsx
  * @description Aparato de presentación atómico para el pie del editor de contenido.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

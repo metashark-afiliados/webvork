@@ -5,7 +5,7 @@
  *              - v4.0.0 (Theming Sovereignty): Refactorizado para usar tokens
  *                de color semánticos (border-border).
  * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import Image from "next/image";

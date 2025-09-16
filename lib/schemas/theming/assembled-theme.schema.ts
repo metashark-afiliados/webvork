@@ -5,7 +5,7 @@
  *              Valida la estructura de un tema después de que todos los fragmentos
  *              (base, colores, fuentes, geometría, etc.) han sido fusionados.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

@@ -4,7 +4,7 @@
  * @description Ensamblador de Servidor para el Paso 1 de la SDC (Estructura).
  *              v1.1.0: Corregida la importación para apuntar a Step1Client.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";

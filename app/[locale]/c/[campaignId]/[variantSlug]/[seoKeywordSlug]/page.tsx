@@ -6,7 +6,7 @@
  *                toda la lógica de datos (`getCampaignData` y `resolveCampaignVariant`)
  *                desde la SSoT única en `lib/i18n/campaign.i18n.ts`.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
 import { notFound } from "next/navigation";

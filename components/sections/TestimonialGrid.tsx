@@ -5,7 +5,7 @@
  *              - v3.1.0: Corrige la ruta de importación de `TestimonialCard` para alinearla
  *                con la estructura de archivos del snapshot SSoT actual.
  * @version 3.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 // --- [INICIO DE REFACTORIZACIÓN DE ALIAS] ---

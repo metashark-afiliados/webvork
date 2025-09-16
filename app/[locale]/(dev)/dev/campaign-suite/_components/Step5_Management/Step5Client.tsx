@@ -7,7 +7,7 @@
  *              el contrato de contenido actualizado para el diálogo de eliminación.
  *              Esta es la solución definitiva a los errores de resolución y de tipo.
  * @version 2.9.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

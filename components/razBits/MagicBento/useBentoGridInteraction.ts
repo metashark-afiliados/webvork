@@ -6,7 +6,7 @@
  *                eliminando la dependencia innecesaria de `config` del hook `useCallback`,
  *                lo que optimiza la memoización y previene re-renderizados innecesarios.
  * @version 1.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

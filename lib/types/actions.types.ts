@@ -5,7 +5,7 @@
  *              v2.0.0 - Se exportan los tipos atómicos SuccessResult y ErrorResult
  *              para permitir la tipificación explícita y robusta en los consumidores.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 /**

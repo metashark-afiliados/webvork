@@ -4,7 +4,7 @@
  * @description Panel de contenido animado y accesible para el DropdownMenu.
  *              Gestiona su visibilidad y el cierre automático.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

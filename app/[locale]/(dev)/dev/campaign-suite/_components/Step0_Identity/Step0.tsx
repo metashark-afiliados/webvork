@@ -4,7 +4,7 @@
  * @description Ensamblador y Cargador de Datos para el Paso 0 de la SDC.
  *              v2.2.0: Corrige la importación de DynamicIcon.
  * @version 2.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

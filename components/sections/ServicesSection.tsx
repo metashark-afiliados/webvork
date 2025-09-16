@@ -4,7 +4,7 @@
  * @description Componente de sección para mostrar una lista de servicios.
  *              - v1.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";

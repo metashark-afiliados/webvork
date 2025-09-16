@@ -3,7 +3,7 @@
  * @file Step5.tsx
  * @description Ensamblador de Servidor para el Paso 5 de la SDC (Gestión).
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";

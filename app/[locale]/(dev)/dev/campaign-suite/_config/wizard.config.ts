@@ -4,7 +4,7 @@
  * @description SSoT para la configuración del asistente de la SDC.
  *              v4.0.0: Añadido el Paso 5 (Gestión) al flujo del asistente.
  * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import type { ComponentType } from "react";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";

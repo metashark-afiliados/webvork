@@ -5,7 +5,7 @@
  *              v2.0.0 (Elite Refactor): Lógica simplificada, más robusta y segura
  *              a nivel de tipos, eliminando aserciones 'any'.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { logger } from "@/lib/logging";
 

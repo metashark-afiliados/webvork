@@ -5,7 +5,7 @@
  *              Esta es la SSoT para la gestión del estado compartido (abierto/cerrado) del menú.
  *              Cumple con la Directiva 003 de Calidad de Componentes.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

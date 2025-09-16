@@ -5,7 +5,7 @@
  *              Combina la flexibilidad de `clsx` para clases condicionales con la
  *              inteligencia de `tailwind-merge` para resolver conflictos de utilidad.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";

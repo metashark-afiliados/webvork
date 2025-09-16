@@ -3,7 +3,7 @@
  * @file Separator.tsx
  * @description Componente visual para una línea divisoria dentro del menú.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 import * as React from "react";

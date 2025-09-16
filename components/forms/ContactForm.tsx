@@ -5,7 +5,7 @@
  *              - v1.1.0 (Build Stability Fix): Se estandarizan las rutas de importación
  *                a su forma canónica (`@/components/ui/*`) para resolver errores de build.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

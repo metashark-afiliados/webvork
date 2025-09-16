@@ -11,7 +11,7 @@
  *                validación con Zod, informando a TypeScript que el contrato de
  *                props es correcto.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
 import { sectionsConfig, type SectionName } from "@/lib/config/sections.config";

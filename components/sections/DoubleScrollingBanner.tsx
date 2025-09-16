@@ -5,7 +5,7 @@
  *              - v3.1.0: Iconografía estandarizada.
  *              - v3.2.0 (Resilience): La prop `content` ahora es opcional.
  * @version 3.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

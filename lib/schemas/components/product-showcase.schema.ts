@@ -5,7 +5,7 @@
  *              - v3.0.0 (Type Safety): Exporta el tipo 'Product' para garantizar
  *                la seguridad de tipos en el componente consumidor.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

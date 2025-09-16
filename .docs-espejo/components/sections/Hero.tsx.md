@@ -4,7 +4,7 @@
 - @file Hero.tsx.md
 - @description Documento Espejo para el componente de sección Hero.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Componente Hero

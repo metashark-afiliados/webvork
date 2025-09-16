@@ -6,7 +6,7 @@
  *              y verifica que cada fragmento de tema referenciado exista en el
  *              sistema de archivos.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import * as fs from "fs/promises";
 import * as path from "path";

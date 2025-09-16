@@ -2,10 +2,10 @@
 /**
  * @file Step4Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 4 (Contenido).
- *              v3.3.0: Se asegura que el callback `onUpdateContent` pasado a
- *              Step4Form cumpla con el nuevo contrato de datos unificado.
- * @version 3.3.0
- * @author RaZ podesta - MetaShark Tech
+ *              v3.4.0 (Type Safety): Se alinea la firma de 'handleUpdateContent'
+ *              con el nuevo contrato de tipo seguro que utiliza 'unknown'.
+ * @version 3.4.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
@@ -25,7 +25,7 @@ interface Step4ClientProps {
 
 export function Step4Client({ content }: Step4ClientProps): React.ReactElement {
   logger.info(
-    "[Step4Client] Renderizando (Contenedor de Lógica, Contrato Corregido)"
+    "[Step4Client] Renderizando (Contenedor de Lógica, Contrato Seguro)"
   );
 
   const { draft, updateSectionContent } = useCampaignDraft();
@@ -36,15 +36,16 @@ export function Step4Client({ content }: Step4ClientProps): React.ReactElement {
     setEditingSection(sectionName);
   const handleCloseEditor = () => setEditingSection(null);
 
-  // La firma de esta función ya era correcta, ahora se alinea con el hijo.
+  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
   const handleUpdateContent = (
     sectionName: string,
     locale: Locale,
     field: string,
-    value: any
+    value: unknown // El tipo ahora es 'unknown'
   ) => {
     updateSectionContent(sectionName, locale, field, value);
   };
+  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
   const handleNext = () => goToNextStep();
 
@@ -55,7 +56,7 @@ export function Step4Client({ content }: Step4ClientProps): React.ReactElement {
       onEditSection={handleEditSection}
       onCloseEditor={handleCloseEditor}
       editingSection={editingSection}
-      onUpdateContent={handleUpdateContent} // Ahora la firma coincide con la prop de Step4Form
+      onUpdateContent={handleUpdateContent}
       onBack={goToPrevStep}
       onNext={handleNext}
       isPending={false}

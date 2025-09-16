@@ -1,9 +1,11 @@
-// app/[locale]/(dev)/dev/campaign-suite/_components/Step0_Identification/Step0Form.tsx
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step0_Identity/Step0Form.tsx
 /**
  * @file Step0Form.tsx
- * @description Componente de Presentación Puro para el formulario del Paso 0.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @description Componente de Presentación para el formulario del Paso 0.
+ *              v4.1.0 (Path & Contract Fix): Corrige la ruta de importación relativa
+ *              y se alinea con el nuevo contrato de datos de i18n.
+ * @version 4.1.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
@@ -17,25 +19,13 @@ import {
   CardDescription,
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/Select";
+import { Form } from "@/components/ui/Form";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Step0Data } from "../../_schemas/step0.schema";
+// --- [INICIO DE CORRECCIÓN DE RUTA] ---
+import { CampaignSelectField, VariantInputField } from "../shared";
+// --- [FIN DE CORRECCIÓN DE RUTA] ---
 
 type Step0Content = NonNullable<Dictionary["campaignSuitePage"]>["step0"];
 
@@ -44,8 +34,6 @@ interface Step0FormProps {
   content: Step0Content;
   baseCampaigns: string[];
   onSubmit: (data: Step0Data) => void;
-  onBack: () => void;
-  isBackButtonDisabled: boolean;
 }
 
 export function Step0Form({
@@ -53,140 +41,43 @@ export function Step0Form({
   content,
   baseCampaigns,
   onSubmit,
-  onBack,
-  isBackButtonDisabled,
 }: Step0FormProps): React.ReactElement {
-  logger.info("Renderizando Step0Form (Presentación Pura)");
+  logger.info("Renderizando Step0Form (Presentación Pura - Hiper-Atomizada)");
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>{content.title}</CardTitle>
-        <CardDescription>
-          Este es el paso fundacional. La información aquí recopilada define la
-          identidad, SEO y tracking de tu campaña.
-        </CardDescription>
+        <CardDescription>{content.description}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <CampaignSelectField
               control={form.control}
               name="baseCampaignId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.baseCampaignLabel}</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={content.baseCampaignPlaceholder}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {baseCampaigns.map((id) => (
-                        <SelectItem key={id} value={id}>
-                          {id}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label={content.baseCampaignLabel}
+              placeholder={content.baseCampaignPlaceholder}
+              description={content.baseCampaignDescription}
+              options={baseCampaigns.map((id) => ({
+                value: id,
+                label: `Campaña ${id}`,
+              }))}
             />
-
-            <FormField
+            <VariantInputField
               control={form.control}
               name="variantName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.variantNameLabel}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={content.variantNamePlaceholder}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label={content.variantNameLabel}
+              placeholder={content.variantNamePlaceholder}
             />
-
-            <FormField
+            <VariantInputField
               control={form.control}
               name="seoKeywords"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.seoKeywordsLabel}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={content.seoKeywordsPlaceholder}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label={content.seoKeywordsLabel}
+              placeholder={content.seoKeywordsPlaceholder}
+              description={content.seoKeywordsDescription}
             />
-
-            <FormField
-              control={form.control}
-              name="affiliateNetwork"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.affiliateNetworkLabel}</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={content.affiliateNetworkPlaceholder}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="webvork">Webvork</SelectItem>
-                      <SelectItem value="clickbank">ClickBank</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="affiliateUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.affiliateUrlLabel}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={content.affiliateUrlPlaceholder}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex justify-between items-center pt-6 border-t">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={onBack}
-                disabled={isBackButtonDisabled}
-              >
-                Retroceder
-              </Button>
+            <div className="flex justify-end items-center pt-8 border-t">
               <Button type="submit">Guardar y Continuar</Button>
             </div>
           </form>
@@ -195,4 +86,4 @@ export function Step0Form({
     </Card>
   );
 }
-// app/[locale]/(dev)/dev/campaign-suite/_components/Step0_Identification/Step0Form.tsx
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step0_Identity/Step0Form.tsx

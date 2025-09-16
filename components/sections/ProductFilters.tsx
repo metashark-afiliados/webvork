@@ -3,7 +3,7 @@
  * @file ProductFilters.tsx
  * @description Aparato de UI atómico que renderiza la barra lateral de filtros de la tienda.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs-espejo/components/sections/ProductFilters.md
  */
 import React from "react";

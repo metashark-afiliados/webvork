@@ -5,7 +5,7 @@
  *              Exporta todos los componentes de sección para permitir importaciones
  *              limpias y centralizadas.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 export * from "./BenefitsSection";

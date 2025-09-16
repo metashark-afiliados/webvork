@@ -4,7 +4,7 @@
  * @description Componente de UI global para la subida de imágenes.
  *              v2.2.0: Sincroniza el nombre del icono con la SSoT actualizada.
  * @version 2.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

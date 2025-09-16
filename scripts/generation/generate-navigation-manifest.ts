@@ -5,7 +5,7 @@
  *              de rutas `src/lib/navigation.ts`. Es semánticamente consciente de la
  *              estructura del App Router, incluyendo Grupos de Rutas.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import * as fs from "fs";
 import * as path from "path";

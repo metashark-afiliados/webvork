@@ -4,7 +4,7 @@
 - @file pricing.tsx.md
 - @description Documento Espejo y SSoT conceptual para la sección de Precios.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Pricing Section

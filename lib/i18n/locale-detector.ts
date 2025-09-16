@@ -5,7 +5,7 @@
  *              navegador. Es la SSoT para esta lógica y es compatible con el
  *              Vercel Edge Runtime.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see roadmap-v2.md - Tarea 4.1
  */
 import "server-only";

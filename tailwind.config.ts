@@ -3,7 +3,7 @@
  * @file tailwind.config.ts
  * @description Configuración de Tailwind CSS v4.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see app/globals.css - Esta es la nueva SSoT para el sistema de diseño.
  *
  * @description_es En Tailwind CSS v4, la configuración principal del tema (colores,

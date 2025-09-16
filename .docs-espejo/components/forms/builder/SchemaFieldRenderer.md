@@ -1,10 +1,11 @@
 // .docs-espejo/components/forms/builder/SchemaFieldRenderer.md
-/**
- * @file SchemaFieldRenderer.md
- * @description Documento Espejo y SSoT conceptual para el módulo SchemaFieldRenderer.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
- */
+/\*\*
+
+- @file SchemaFieldRenderer.md
+- @description Documento Espejo y SSoT conceptual para el módulo SchemaFieldRenderer.
+- @version 1.0.0
+- @author RaZ Podestá - MetaShark Tech
+  \*/
 
 # Manifiesto Conceptual: Módulo `SchemaFieldRenderer`
 
@@ -45,3 +46,4 @@ Generador de Formularios Completos: Crear un SchemaFormBuilder.tsx que tome un s
 Integración con Tooltips: Integrar el sistema con un componente <Tooltip> de shadcn/ui para que, si un schema tiene una .description(), se muestre un icono de información junto a la etiqueta del campo con la descripción.
 Layouts de Grid: Añadir metadatos al schema para controlar el layout (ej. z.string().describe("col-span-2")) y que el SchemaFieldRenderer pueda colocar los campos en una cuadrícula.
 Validación Asíncrona: Integrar soporte para validaciones de Zod asíncronas (.refine(async ...)), mostrando un estado de carga/validación a nivel de campo.
+```

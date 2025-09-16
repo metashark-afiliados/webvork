@@ -6,7 +6,7 @@
  *                TODAS las claves de texto requeridas por el generador de rutas y
  *                los componentes de UI, resolviendo la cascada de errores de tipo TS2339.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

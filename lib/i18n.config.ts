@@ -6,7 +6,7 @@
  *                validación más clara y con logging explícito, facilitando la
  *                depuración del locale por defecto.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

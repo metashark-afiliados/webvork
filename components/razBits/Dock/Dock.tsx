@@ -5,7 +5,7 @@
  *              - v2.2.0: Corrige el comentario de ruta interno para reflejar la
  *                ubicación real del archivo en el proyecto.
  * @version 2.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs-espejo/components/razBits/Dock/Dock.tsx.md
  */
 "use client";

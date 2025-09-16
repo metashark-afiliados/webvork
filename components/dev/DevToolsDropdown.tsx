@@ -5,7 +5,7 @@
  *              v3.1.0 (Holistic Refactor - Contract Alignment): Re-entrega para
  *              confirmar el consumo del contrato de diccionario completo.
  * @version 3.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

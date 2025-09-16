@@ -4,7 +4,7 @@
  * @description Componente Contenedor de Cliente para el Paso 2 (Layout).
  *              v1.3.0: Restaurado y alineado con la arquitectura de navegación.
  * @version 1.3.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

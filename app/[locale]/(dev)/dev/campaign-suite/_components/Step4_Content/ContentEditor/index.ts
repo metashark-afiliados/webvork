@@ -5,7 +5,7 @@
  *              Exporta únicamente el orquestador, encapsulando los detalles de
  *              implementación de los subcomponentes.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 export * from "./ContentEditor";

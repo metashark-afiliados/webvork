@@ -1,3 +1,13 @@
+// tsconfig.json
+/**
+ * @file tsconfig.json
+ * @description SSoT para la configuración del compilador de TypeScript.
+ *              v2.0.0 (Holistic Refactor): Se refina la directiva 'include' para
+ *              ser más explícita y granular, resolviendo errores de 'archivo no encontrado'
+ *              tras la refactorización de la estructura de archivos.
+ * @version 2.0.0
+ * @author RaZ Podestá - MetaShark Tech
+ */
 {
   "compilerOptions": {
     "target": "es2017",
@@ -23,6 +33,24 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+  // En lugar de un patrón global "**/*", especificamos explícitamente los
+  // directorios que contienen el código fuente relevante para la aplicación Next.js.
+  // Esto previene que TypeScript intente analizar archivos que han sido movidos o
+  // eliminados de rutas que ya no deberían ser de su incumbencia.
+  "include": [
+    "next-env.d.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "lib/**/*.ts",
+    "config/**/*.ts",
+    "hooks/**/*.ts",
+    "messages/**/*.json",
+    "content/**/*.json",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
+// tsconfig.json

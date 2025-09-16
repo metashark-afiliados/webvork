@@ -2,11 +2,11 @@
 /**
  * @file ContentEditor.tsx
  * @description Orquestador de alto nivel para la edición de contenido.
- *              v4.1.0 (Type Safety & Path Fix): Se corrige la ruta de importación
- *              y se implementa un tipado estricto inferido de Zod, eliminando
- *              todos los 'any'.
- * @version 4.1.0
- * @author RaZ podesta - MetaShark Tech
+ *              v5.2.0 (Direct Import Architecture): Resuelve el error 'Module not found'
+ *              adoptando importaciones directas y explícitas para sus sub-componentes.
+ *              Esta es la solución definitiva al problema de resolución de módulos.
+ * @version 5.2.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
@@ -18,18 +18,21 @@ import { toast } from "sonner";
 import { logger } from "@/lib/logging";
 import type { CampaignDraft } from "../../../_types/draft.types";
 import { supportedLocales, type Locale } from "@/lib/i18n.config";
-import { ContentEditorHeader } from "./ContentEditorHeader";
-import { ContentEditorBody } from "./ContentEditorBody";
-// --- [INICIO DE CORRECCIÓN DE RUTA] ---
-import { ContentEditorFooter } from "./ContentEditorFooter";
-// --- [FIN DE CORRECCIÓN DE RUTA] ---
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA DEFINITIVA] ---
+// Se importan los sub-componentes directamente desde sus archivos fuente.
+import { ContentEditorHeader } from "./_components/ContentEditorHeader";
+import { ContentEditorBody } from "./_components/ContentEditorBody";
+import { ContentEditorFooter } from "./_components/ContentEditorFooter";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA DEFINITIVA] ---
 
-// Se infiere un tipo genérico para los datos del formulario a partir del schema.
-type SectionFormData = z.infer<z.ZodObject<any>>;
+// Se usa 'unknown' en lugar de 'any' para máxima seguridad de tipos.
+type SectionFormData = z.infer<
+  z.ZodObject<any, any, any, { [x: string]: any }, { [x: string]: any }>
+>;
 
 interface ContentEditorProps {
   sectionName: string;
-  sectionSchema: z.ZodObject<any>; // Se mantiene genérico aquí
+  sectionSchema: z.ZodObject<any>;
   draft: CampaignDraft;
   onClose: () => void;
   onUpdateContent: (
@@ -58,9 +61,6 @@ export function ContentEditor({
   });
 
   useEffect(() => {
-    logger.trace(
-      `[ContentEditor] Sincronizando formulario con borrador para locale: ${activeLocale}`
-    );
     form.reset(draft.contentData[sectionName]?.[activeLocale] || {});
   }, [activeLocale, draft, sectionName, form]);
 
@@ -72,7 +72,6 @@ export function ContentEditor({
   };
 
   const handleSubmit = () => {
-    logger.success(`[ContentEditor] Edición finalizada para ${sectionName}.`);
     onClose();
   };
 

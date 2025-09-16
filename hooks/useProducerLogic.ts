@@ -6,7 +6,7 @@
  *              interacción del usuario para optimizar el rendimiento inicial y
  *              respetar las mejores prácticas de Core Web Vitals.
  * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs-espejo/hooks/useProducerLogic.ts.md
  */
 "use client";

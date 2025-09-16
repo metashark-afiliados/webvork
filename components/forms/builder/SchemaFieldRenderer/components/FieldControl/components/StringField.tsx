@@ -3,7 +3,7 @@
  * @file StringField.tsx
  * @description Aparato hiper-atómico para renderizar un control <Textarea>.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

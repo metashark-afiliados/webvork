@@ -3,7 +3,7 @@
  * @file preview.utils.ts
  * @description Utilidades del lado del cliente para ensamblar los datos de la vista previa.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

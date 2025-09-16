@@ -6,7 +6,7 @@
  *                asociada al obsoleto "Simulador de Campañas", resolviendo el
  *                error de tipo TS2339 y alineando la UI con el manifiesto de rutas.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";

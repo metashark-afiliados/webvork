@@ -4,7 +4,7 @@
  * @description Componente de UI atómico para un control de interruptor (toggle switch).
  *              Basado en la implementación de alta calidad de shadcn/ui y Radix UI.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

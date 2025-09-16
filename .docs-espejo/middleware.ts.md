@@ -4,7 +4,7 @@
 - @file middleware.ts.md
 - @description Documento Espejo y SSoT conceptual para el Middleware de la aplicación.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Middleware Guardián

@@ -4,7 +4,7 @@
  * @description Orquestrador de Configuração e SSoT para todas as variáveis
  *              relacionadas ao produtor e ao tracking.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

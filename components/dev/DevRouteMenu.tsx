@@ -5,7 +5,7 @@
  *              v2.1.0 (Holistic Refactor - Contract Alignment): Re-entrega para
  *              confirmar el contrato de props con el orquestador.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

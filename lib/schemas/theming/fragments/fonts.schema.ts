@@ -5,7 +5,7 @@
  *              Define la estructura que debe tener cualquier archivo de fuentes
  *              (ej. `poppins-inter.fonts.json`) en el sistema de theming.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

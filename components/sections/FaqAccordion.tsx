@@ -6,7 +6,7 @@
  *              con el contrato de props unificado del SectionRenderer.
  *              - v6.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 6.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { AccordionItem } from "@/components/ui/Accordion";

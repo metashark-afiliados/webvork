@@ -6,7 +6,7 @@
  *              - v1.2.0: Mejora la consistencia del sistema de iconos al reemplazar la
  *                importación directa de `LayoutGrid` por el componente `DynamicIcon`.
  * @version 1.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 // import { LayoutGrid } from "lucide-react"; // <-- ELIMINADO

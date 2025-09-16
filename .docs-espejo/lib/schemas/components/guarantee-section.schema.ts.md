@@ -6,7 +6,7 @@
 - @description Manifiesto conceptual y SSoT para el contrato de datos del
 -              componente GuaranteeSection.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 ## 1. Rol Estratégico y Propósito

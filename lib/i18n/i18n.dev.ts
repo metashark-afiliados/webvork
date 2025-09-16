@@ -6,7 +6,7 @@
  *                que el diccionario ensamblado sea consistentemente del tipo
  *                `Partial<Dictionary>`, alineando el contrato interno.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
 import { type ZodError } from "zod";

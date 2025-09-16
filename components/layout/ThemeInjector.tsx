@@ -7,7 +7,7 @@
  *                y se carga desde globals.css. Este componente queda como un placeholder
  *                arquitectónico para futuras capacidades de theming global dinámico.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";

@@ -6,7 +6,7 @@
  *                del estado se retrasa a un `useEffect` para garantizar que
  *                `localStorage` solo se acceda en el lado del cliente.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

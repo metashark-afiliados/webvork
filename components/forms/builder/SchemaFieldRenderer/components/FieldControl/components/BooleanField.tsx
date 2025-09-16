@@ -5,7 +5,7 @@
  *              v2.0.0 (Architectural Fix): Corrige la ruta de importación de
  *              tipos y el contrato de props para alinearse con la SSoT.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

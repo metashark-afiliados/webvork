@@ -3,7 +3,7 @@
  * @file WizardNavigation.tsx
  * @description Aparato de UI atómico y genérico para la navegación del asistente.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

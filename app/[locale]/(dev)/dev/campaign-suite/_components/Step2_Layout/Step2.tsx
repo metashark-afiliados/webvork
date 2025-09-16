@@ -3,7 +3,7 @@
  * @file Step2.tsx
  * @description Ensamblador de Servidor para el Paso 2 de la SDC (Layout).
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";

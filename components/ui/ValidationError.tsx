@@ -4,7 +4,7 @@
  * @description Componente de UI atómico para mostrar errores de validación de Zod.
  *              v1.1.0: Sincroniza el nombre del icono con la SSoT actualizada.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { type ZodError } from "zod";

@@ -4,7 +4,7 @@
  * @description Hook de React para renderizar un efecto de rayos de luz volumétricos
  *              usando WebGL (ogl). Versión definitiva con tipado robusto y lógica completa.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

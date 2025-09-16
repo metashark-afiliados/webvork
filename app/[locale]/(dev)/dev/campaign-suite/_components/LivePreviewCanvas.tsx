@@ -5,7 +5,7 @@
  *              v2.4.0: Resuelve errores de tipo de DOM y de contrato de datos
  *              mediante aserciones de tipo seguras.
  * @version 2.4.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -4,7 +4,7 @@
 - @file .docs-espejo/lib/config/sections.config.ts.md
 - @description Documento Espejo y SSoT conceptual para el aparato de configuración de secciones.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Registro de Secciones (`sections.config.ts`)

@@ -4,7 +4,7 @@
 - @file ContactForm.tsx.md
 - @description Documento Espejo y SSoT conceptual para el componente atómico ContactForm.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: ContactForm

@@ -4,7 +4,7 @@
  * @description Componente despachador inteligente para renderizar iconos de banderas.
  *              Mapea un código de locale a su componente SVG de bandera correspondiente.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

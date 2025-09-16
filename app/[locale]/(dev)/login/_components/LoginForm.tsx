@@ -6,7 +6,7 @@
  *              importación del schema de i18n para usar el alias raíz y el
  *              nombre de archivo completo.
  * @version 6.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

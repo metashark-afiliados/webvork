@@ -3,7 +3,7 @@
  * @file dev-test-page.schema.ts
  * @description Esquema de Zod para el contenido i18n de la página de prueba del DCC.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

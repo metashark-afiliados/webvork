@@ -6,7 +6,7 @@
  *                de locale. Exporta `BenefitsSectionContentSchema` como la SSoT para
  *                el contenido puro, resolviendo el error de tipo TS2740 en los consumidores.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { LucideIconNameSchema } from "@/config/lucide-icon-names";

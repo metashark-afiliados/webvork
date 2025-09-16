@@ -9,7 +9,7 @@
  *                refactorización de `FormInput.tsx`. Esto resuelve los errores
  *                de tipo TS2322.
  * @version 5.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs/development/TODO.md - Tarefa 2.3
  * @principle Principio de Responsabilidad Única (PRU)
  */

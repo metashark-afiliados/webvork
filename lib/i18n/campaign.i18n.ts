@@ -5,7 +5,7 @@
  *              v13.1.0: Se corrige la lógica de fusión para alinearse con la nueva
  *              firma de `deepMerge` de dos argumentos, resolviendo el error de tipo TS2556.
  * @version 13.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
 import {

@@ -6,7 +6,7 @@
  *              contexto de logging más útil para activos estáticos no encontrados,
  *              resolviendo el problema de las rutas vacías.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

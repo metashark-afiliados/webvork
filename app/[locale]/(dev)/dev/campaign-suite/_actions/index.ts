@@ -5,7 +5,7 @@
  *              v1.2.0: Añade la extensión .ts a todas las exportaciones para
  *              garantizar la resolución de módulos en el build de producción.
  * @version 1.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 export * from "./getThemeFragments.action.ts";

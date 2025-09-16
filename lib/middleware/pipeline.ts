@@ -5,7 +5,7 @@
  *              Su única responsabilidad es ejecutar una cadena de manejadores de
  *              middleware de forma secuencial y predecible.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see roadmap.md - Tarea 3.1 (Revisada)
  */
 

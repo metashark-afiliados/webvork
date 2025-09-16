@@ -3,7 +3,7 @@
  * @file Group.tsx
  * @description Componente de agrupación semántica para items de menú.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 import * as React from "react";

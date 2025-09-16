@@ -4,7 +4,7 @@
  * @description Layout de Servidor para la SDC. Simplificado para delegar
  *              la carga de datos al nuevo layout raíz de desarrollo.
  * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";

@@ -1,9 +1,12 @@
 // app/[locale]/(dev)/dev/campaign-suite/_types/draft.types.ts
 /**
  * @file draft.types.ts
- * @description SSoT para los contratos de tipos relacionados con el borrador de campaña.
- * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @description SSoT para los contratos de tipos del borrador de campaña.
+ *              v1.2.0 (Holistic Sync): Reemplaza 'any' por 'unknown' en todos
+ *              los tipos y elimina las funciones obsoletas 'nextStep' y 'prevStep'
+ *              para sincronizar perfectamente con la implementación del hook.
+ * @version 1.2.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 import type { Locale } from "@/lib/i18n.config";
 
@@ -28,7 +31,13 @@ export interface ThemeConfig {
   radiusPreset: string | null;
 }
 
-export type ContentData = Record<string, Partial<Record<Locale, any>>>;
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se reemplaza 'any' por 'unknown' para máxima seguridad de tipos.
+export type ContentData = Record<
+  string,
+  Partial<Record<Locale, Record<string, unknown>>>
+>;
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 export interface CampaignDraft {
   draftId: string | null;
@@ -46,6 +55,8 @@ export interface CampaignDraft {
   contentData: ContentData;
 }
 
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se sincroniza la interfaz con la implementación actual del hook.
 export interface CampaignDraftState {
   draft: CampaignDraft;
   isLoading: boolean;
@@ -56,11 +67,11 @@ export interface CampaignDraftState {
     sectionName: string,
     locale: Locale,
     field: string,
-    value: any
+    value: unknown // Se corrige 'any' por 'unknown'.
   ) => void;
-  nextStep: () => void;
-  prevStep: () => void;
+  // 'nextStep' y 'prevStep' se eliminan porque ya no existen en la implementación.
   setStep: (step: number) => void;
   deleteDraft: () => void;
 }
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 // app/[locale]/(dev)/dev/campaign-suite/_types/draft.types.ts

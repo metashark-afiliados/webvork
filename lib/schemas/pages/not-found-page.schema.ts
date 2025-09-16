@@ -3,7 +3,7 @@
  * @file not-found-page.schema.ts
  * @description Esquema de Zod y SSoT para el contrato de datos de la página 404.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

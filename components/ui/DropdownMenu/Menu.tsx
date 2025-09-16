@@ -4,7 +4,7 @@
  * @description Componente principal y proveedor de estado para el sistema DropdownMenu.
  *              Encapsula la lógica de estado y proporciona el contexto a sus hijos.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -4,7 +4,7 @@
  * @description Manejador de middleware atómico para la internacionalización de rutas.
  *              Refactorizado para consumir la utilidad pura `locale-detector`.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see roadmap-v2.md - Tarea 4.2
  */
 import { NextRequest, NextResponse } from "next/server";

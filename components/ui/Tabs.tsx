@@ -5,7 +5,7 @@
  *              Basado en las primitivas de Radix UI para máxima accesibilidad y
  *              estilizado con CVA para una total coherencia con el sistema de diseño.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

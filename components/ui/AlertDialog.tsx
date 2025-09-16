@@ -7,7 +7,7 @@
  *              alinea con el sistema de theming semántico y se expande la
  *              documentación TSDoc.
  * @version 3.0.0
- * @author shadcn/ui (Original), RaZ podesta - MetaShark Tech (Naturalización y Nivelación)
+ * @author shadcn/ui (Original), RaZ Podestá - MetaShark Tech (Naturalización y Nivelación)
  */
 "use client";
 

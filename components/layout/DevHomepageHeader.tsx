@@ -6,7 +6,7 @@
  *              Ahora desestructura la respuesta, es resiliente a contenido faltante y
  *              utiliza tokens de theming semánticos.
  * @version 8.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

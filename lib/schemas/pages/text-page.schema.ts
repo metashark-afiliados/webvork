@@ -5,7 +5,7 @@
  *              - v2.0.0: Refactorizado para consumir el SSoT ContentBlocksSchema,
  *                asegurando la consistencia en todo el sistema.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { ContentBlocksSchema } from "@/lib/schemas/components/content-block.schema"; // <-- IMPORTAR CONTRATO

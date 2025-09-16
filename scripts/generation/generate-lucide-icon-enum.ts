@@ -6,7 +6,7 @@
  *              soportar tanto comillas simples como dobles, resolviendo el
  *              error de parseo del manifiesto.
  * @version 5.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import * as fs from "fs";
 import * as path from "path";

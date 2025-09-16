@@ -5,7 +5,7 @@
  *              - v1.1.0: Consistencia confirmada.
  *              - v1.2.0 (Resilience): La prop `content` ahora es opcional.
  * @version 1.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import Image from "next/image";

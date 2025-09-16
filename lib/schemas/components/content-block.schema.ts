@@ -4,7 +4,7 @@
  * @description SSoT para el contrato de datos de bloques de contenido genéricos.
  *              Este es el schema reutilizable para cualquier contenido textual estructurado.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

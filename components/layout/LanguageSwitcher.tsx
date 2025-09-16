@@ -6,7 +6,7 @@
  *              mediante una aserción de tipo segura, garantizando que el `locale`
  *              pasado a FlagIcon sea del tipo `Locale`.
  * @version 4.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -7,7 +7,7 @@
  *              una cascada de errores de tipo TS2322 en toda la aplicación.
  *              Mejora la lógica polimórfica para un manejo más seguro de `href`.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

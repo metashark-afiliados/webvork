@@ -4,7 +4,7 @@
  * @description Orquestador de Middleware de Élite.
  *              Consume la fachada pública del motor y de los manejadores.
  * @version 2.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { NextRequest, NextResponse } from "next/server";
 // --- INICIO DE REFACTORIZACIÓN: Importaciones semánticas ---

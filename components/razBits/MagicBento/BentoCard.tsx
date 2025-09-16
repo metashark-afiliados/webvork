@@ -4,7 +4,7 @@
  * @description Componente de presentación puro para una tarjeta individual
  *              dentro de la cuadrícula MagicBento.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
@@ -40,8 +40,8 @@ export function BentoCard({
     <div
       ref={cardRef}
       className={twMerge(
-        `group card flex flex-col justify-between relative aspect-square md:aspect-[4/3] min-h-[200px] p-5 rounded-3xl border border-white/10 
-         bg-black/30 backdrop-blur-sm overflow-hidden transition-all duration-300 
+        `group card flex flex-col justify-between relative aspect-square md:aspect-[4/3] min-h-[200px] p-5 rounded-3xl border border-white/10
+         bg-black/30 backdrop-blur-sm overflow-hidden transition-all duration-300
          ease-in-out hover:-translate-y-1`,
         className
       )}
@@ -69,8 +69,8 @@ export function BentoCard({
       </div>
       {/* Elemento para el efecto de brillo de borde, controlado por el hook vía JS y CSS variables */}
       <div
-        className="absolute inset-0 rounded-3xl pointer-events-none 
-                   bg-[radial-gradient(var(--glow-radius)_circle_at_var(--glow-x)_var(--glow-y),_rgba(var(--glow-color),_calc(var(--glow-intensity)_*_0.25)),_transparent_40%)] 
+        className="absolute inset-0 rounded-3xl pointer-events-none
+                   bg-[radial-gradient(var(--glow-radius)_circle_at_var(--glow-x)_var(--glow-y),_rgba(var(--glow-color),_calc(var(--glow-intensity)_*_0.25)),_transparent_40%)]
                    opacity-[var(--glow-intensity)] transition-opacity duration-300"
         style={
           {

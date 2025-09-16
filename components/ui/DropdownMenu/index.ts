@@ -4,7 +4,7 @@
  * @description Fachada pública para el sistema DropdownMenu. Proporciona
  *              nombres de exportación consistentes y semánticos.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { Content } from "./Content";
 import { Group } from "./Group";

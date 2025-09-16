@@ -3,7 +3,7 @@
  * @file index.ts (Barrel File)
  * @description Fachada pública para los hooks de la Suite de Diseño de Campañas.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 export * from "./useCampaignDraft";

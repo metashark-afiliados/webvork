@@ -5,7 +5,7 @@
  *              - v2.0.0: Adherido al contrato de props unificado.
  *              - v2.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";

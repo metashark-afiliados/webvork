@@ -5,7 +5,7 @@
  *              renderizar todos los campos de formulario ocultos necesarios para la
  *              atribución de tracking y la integración con el sistema del productor.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs/development/TODO.md - Tarefa 2.3
  * @principle Principio de Responsabilidad Única (PRU)
  */
@@ -28,7 +28,7 @@ export function HiddenFormFields(): React.ReactElement {
 
   return (
     <>
-      {/* 
+      {/*
         Estos campos son una réplica exacta y completa de los campos encontrados en la página del productor.
         El script `webvork.js` (que será injetado globalmente) encontrará estes inputs
         pelo seu atributo 'name' e preencherá seus valores dinamicamente.

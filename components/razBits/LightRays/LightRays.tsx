@@ -6,7 +6,7 @@
  *                mover la llamada al hook `useLightRays` al nivel superior del componente,
  *                asegurando que se ejecute incondicionalmente.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -4,7 +4,7 @@
  * @description Componente de UI atómico que anima la aparición de sus hijos
  *              cuando entran en el viewport.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

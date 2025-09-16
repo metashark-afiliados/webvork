@@ -5,7 +5,7 @@
  *              v2.0.0 (Dual-Mode Theming): Evoluciona el contrato para soportar
  *              paletas de colores explícitas para modo claro y oscuro.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

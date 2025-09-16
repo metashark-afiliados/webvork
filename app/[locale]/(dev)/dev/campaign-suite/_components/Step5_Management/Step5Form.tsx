@@ -5,7 +5,7 @@
  *              v1.2.0 (Direct Import Architecture): Se impone la importación
  *              directa para `AlertDialogTrigger` para erradicar el error de build.
  * @version 1.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

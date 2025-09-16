@@ -5,7 +5,7 @@
  *              v18.0.0: Cambia a una exportación nombrada para resolver una
  *              cascada de errores de importación en toda la aplicación.
  * @version 18.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

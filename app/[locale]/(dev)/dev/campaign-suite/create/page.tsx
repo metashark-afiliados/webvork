@@ -5,7 +5,7 @@
  *              delegar toda la carga de datos específicos del paso a los
  *              módulos correspondientes.
  * @version 5.0.0 (Data Fetching Decoupling)
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React, { Suspense } from "react";
 import { getDictionary } from "@/lib/i18n";

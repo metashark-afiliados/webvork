@@ -4,7 +4,7 @@
 - @file campaign.map.resolver.ts.md
 - @description Documento Espejo y SSoT conceptual para el Campaign Map Resolver.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Campaign Map Resolver

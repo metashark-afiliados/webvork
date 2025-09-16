@@ -5,7 +5,7 @@
  *              v1.2.0: Se elimina la directiva "server-only" para resolver
  *              errores de build cuando es consumido por Server Actions.
  * @version 1.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { promises as fs } from "fs";
 import path from "path";

@@ -5,7 +5,7 @@
  *              - v5.0.0 (Alineación de Contrato): Contrato y tipos corregidos.
  *              - v5.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 5.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

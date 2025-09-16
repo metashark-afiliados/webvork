@@ -3,7 +3,7 @@
  * @file step0.schema.ts
  * @description Schema de Zod para la validación del formulario del Paso 0.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

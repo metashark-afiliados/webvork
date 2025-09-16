@@ -7,7 +7,7 @@
  *              - v5.1.0: Movido a la ubicación canónica `components/ui/` y rutas de
  *                importación corregidas para resolver errores TS2307.
  * @version 5.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

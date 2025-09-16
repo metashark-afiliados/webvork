@@ -4,7 +4,7 @@
  * @description Conjunto de componentes atómicos para la construcción de tarjetas de UI.
  *              Diseñado siguiendo un patrón de composición para máxima flexibilidad.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
 import { twMerge } from "tailwind-merge";

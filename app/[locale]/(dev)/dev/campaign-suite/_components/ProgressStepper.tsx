@@ -5,7 +5,7 @@
  *              v2.3.0: Se corrige la importación de DynamicIcon para usar
  *              una importación nombrada desde la fachada de UI.
  * @version 2.3.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

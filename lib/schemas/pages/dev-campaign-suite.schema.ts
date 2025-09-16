@@ -2,20 +2,14 @@
 /**
  * @file dev-campaign-suite.schema.ts
  * @description Esquema de Zod y SSoT para el contenido i18n de la Suite de Diseño de Campañas.
- *              v4.1.0: Añade el contrato de contenido explícito para el diálogo
- *              de confirmación de eliminación (`deleteDialog`), asegurando que toda la
- *              UI del Paso 5 sea completamente data-driven.
- * @version 4.1.0
+ *              v5.0.0 (Holistic Contract Sync): Sincronizado con todas las
+ *              refactorizaciones de UI, incluyendo las descripciones para los
+ *              pasos 0 y 1. Esta es la versión canónica del contrato.
+ * @version 5.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 
-/**
- * @const CampaignSuiteLocaleSchema
- * @description Valida la estructura del contenido para la página de la SDC
- *              en un único locale. Cada clave de paso corresponde a la UI de
- *              ese paso específico en el asistente.
- */
 export const CampaignSuiteLocaleSchema = z.object({
   campaignSuitePage: z
     .object({
@@ -23,12 +17,15 @@ export const CampaignSuiteLocaleSchema = z.object({
       subtitle: z.string(),
       step0: z.object({
         title: z.string(),
+        description: z.string(),
         baseCampaignLabel: z.string(),
         baseCampaignPlaceholder: z.string(),
+        baseCampaignDescription: z.string(),
         variantNameLabel: z.string(),
         variantNamePlaceholder: z.string(),
         seoKeywordsLabel: z.string(),
         seoKeywordsPlaceholder: z.string(),
+        seoKeywordsDescription: z.string(),
         affiliateNetworkLabel: z.string(),
         affiliateNetworkPlaceholder: z.string(),
         affiliateUrlLabel: z.string(),
@@ -36,6 +33,7 @@ export const CampaignSuiteLocaleSchema = z.object({
       }),
       step1: z.object({
         title: z.string(),
+        description: z.string(),
         headerSwitchLabel: z.string(),
         footerSwitchLabel: z.string(),
         headerGalleryTitle: z.string(),
@@ -75,14 +73,12 @@ export const CampaignSuiteLocaleSchema = z.object({
         publishButtonText: z.string(),
         packageButtonText: z.string(),
         deleteButtonText: z.string(),
-        // --- INICIO DE MEJORA DE CONTRATO ---
         deleteDialog: z.object({
           title: z.string(),
           description: z.string(),
           cancelButton: z.string(),
           confirmButton: z.string(),
         }),
-        // --- FIN DE MEJORA DE CONTRATO ---
       }),
     })
     .optional(),

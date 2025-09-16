@@ -4,7 +4,7 @@
  * @description Componente de Presentación Puro para la UI del Paso 2 (Layout).
  *              v3.0.0: Integra el componente LayoutBuilder funcional.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -6,7 +6,7 @@
  *              - v4.0.0 (Alias Unification): Rutas de importación refactorizadas.
  *              - v4.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 4.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";

@@ -5,7 +5,7 @@
  *              v5.0.0 (Dual-Mode Engine): La función `generateCampaignThemeVariablesStyle`
  *              ahora es capaz de generar reglas para modo claro y oscuro.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { type AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
 import { logger } from "@/lib/logging";

@@ -5,7 +5,7 @@
  *              - v5.0.0 (Theming Soberano): Reemplaza la clave `preset` por `theme`,
  *                que ahora valida la nueva Nomenclatura Estructurada de Trazos (NET).
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

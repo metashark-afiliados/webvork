@@ -5,7 +5,7 @@
  *              - v3.1.0: Corrige el error de linting `react/no-unescaped-entities`
  *                escapando las comillas dobles literales en el mensaje de error.
  * @version 3.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";

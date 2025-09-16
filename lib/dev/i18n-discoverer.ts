@@ -7,7 +7,7 @@
  *              scripts externos a Next.js (como tsx), resolviendo el error
  *              ERR_MODULE_NOT_FOUND.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 // import "server-only"; // <-- ¡ELIMINADO!
 import * as fs from "fs/promises";

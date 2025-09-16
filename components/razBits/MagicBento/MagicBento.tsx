@@ -7,7 +7,7 @@
  *                completo y válido, utilizando el schema de Zod para generar los
  *                valores por defecto cuando sea necesario.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

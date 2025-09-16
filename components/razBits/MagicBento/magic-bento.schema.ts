@@ -3,7 +3,7 @@
  * @file magic-bento.schema.ts
  * @description Esquema de Zod para el contenido y configuración del componente MagicBento.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

@@ -4,7 +4,7 @@
 - @file .docs-espejo/components/ui/DynamicIcon.tsx.md
 - @description Documento Espejo y SSoT conceptual para el aparato DynamicIcon.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Aparato DynamicIcon

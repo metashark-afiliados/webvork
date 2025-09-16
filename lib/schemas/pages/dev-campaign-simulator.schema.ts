@@ -3,7 +3,7 @@
  * @file dev-campaign-simulator.schema.ts
  * @description Esquema de Zod para el contenido i18n de la página del Simulador de Campañas.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

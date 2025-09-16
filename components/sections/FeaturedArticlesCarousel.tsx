@@ -4,7 +4,7 @@
  * @description Un carrusel interactivo y automático que muestra artículos de blog destacados.
  *              - v1.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

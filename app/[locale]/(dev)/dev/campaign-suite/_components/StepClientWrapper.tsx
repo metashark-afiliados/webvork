@@ -4,7 +4,7 @@
  * @description Ensamblador y Renderizador de Pasos. Refactorizado para ser un
  *              orquestador puro, agnóstico a los datos específicos de cada paso.
  * @version 10.0.0 (Data Flow Decoupling)
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

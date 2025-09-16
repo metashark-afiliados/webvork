@@ -5,7 +5,7 @@
  *              - v5.0.0: Adherido al contrato de props unificado.
  *              - v5.1.0 (Resilience): La prop `content` ahora es opcional.
  * @version 5.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

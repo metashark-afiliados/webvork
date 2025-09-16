@@ -6,7 +6,7 @@
  *                del schema obsoleto `DevLayoutConfiguratorLocaleSchema`, completando
  *                la erradicación del módulo `layout-configurator`.
  * @version 12.4.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

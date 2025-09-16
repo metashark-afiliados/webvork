@@ -7,7 +7,7 @@
  *                `app/globals.css`. Este archivo solo exporta las claves de
  *                los tokens para uso programático (ej. en el Dev Canvas).
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 /**

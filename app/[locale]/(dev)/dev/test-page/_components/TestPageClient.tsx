@@ -5,7 +5,7 @@
  *              v16.2.0: Importa el tipo `AvailableTheme` desde la nueva SSoT,
  *              rompiendo la dependencia circular y resolviendo el error de build.
  * @version 16.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

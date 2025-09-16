@@ -2,21 +2,20 @@
 /**
  * @file Step1Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 1 (Estructura).
- *              v2.3.0: Restaurado y alineado con la arquitectura de navegación.
- * @version 2.3.0
- * @author RaZ podesta - MetaShark Tech
+ *              v3.0.0 (Gallery Integration): Gestiona el estado de la
+ *              selección de componentes de la galería.
+ * @version 3.0.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React, { useTransition } from "react";
+import React from "react";
 import { useCampaignDraft } from "../../_hooks";
 import type { HeaderConfig, FooterConfig } from "../../_types/draft.types";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- [INICIO DE CORRECCIÓN] ---
 import { Step1Form } from "./Step1Form";
 import { useWizard } from "../../_context/WizardContext";
-// --- [FIN DE CORRECCIÓN] ---
 
 type Step1Content = NonNullable<Dictionary["campaignSuitePage"]>["step1"];
 
@@ -29,15 +28,14 @@ export function Step1Client({ content }: Step1ClientProps): React.ReactElement {
 
   const { draft, updateDraft } = useCampaignDraft();
   const { goToNextStep, goToPrevStep } = useWizard();
-  const [isPending, startTransition] = useTransition();
 
-  const onHeaderConfigChange = (newConfig: Partial<HeaderConfig>) => {
+  const handleHeaderConfigChange = (newConfig: Partial<HeaderConfig>) => {
     updateDraft({
       headerConfig: { ...draft.headerConfig, ...newConfig },
     });
   };
 
-  const onFooterConfigChange = (newConfig: Partial<FooterConfig>) => {
+  const handleFooterConfigChange = (newConfig: Partial<FooterConfig>) => {
     updateDraft({
       footerConfig: { ...draft.footerConfig, ...newConfig },
     });
@@ -48,11 +46,10 @@ export function Step1Client({ content }: Step1ClientProps): React.ReactElement {
       content={content}
       headerConfig={draft.headerConfig}
       footerConfig={draft.footerConfig}
-      onHeaderConfigChange={onHeaderConfigChange}
-      onFooterConfigChange={onFooterConfigChange}
+      onHeaderConfigChange={handleHeaderConfigChange}
+      onFooterConfigChange={handleFooterConfigChange}
       onBack={goToPrevStep}
       onNext={goToNextStep}
-      isPending={isPending}
     />
   );
 }

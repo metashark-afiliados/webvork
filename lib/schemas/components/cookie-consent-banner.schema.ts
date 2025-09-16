@@ -5,7 +5,7 @@
  *              - v1.1.0: Corrige el comentario de ruta interno para reflejar la
  *                ubicación real del archivo en el proyecto.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

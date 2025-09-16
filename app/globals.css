@@ -1,11 +1,8 @@
 /**
  * @file app/globals.css
- * @description SSoT Holística para el Sistema de Diseño de Tailwind CSS v4.
- *              - v6.3.0 (Build Fix): Se corrige un error de sintaxis fatal
- *                añadiendo la llave de cierre faltante para la directiva '@layer base'
- *                y eliminando comentarios inválidos.
- * @version 6.3.0
- * @author RaZ podesta - MetaShark Tech
+ * @description SSoT Holística para el Sistema de Diseño.
+ * @version 7.0.0 (Professional Aesthetic Leveling)
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 /* ==========================================================================
@@ -46,6 +43,9 @@
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-collapsible-down: collapsible-down 0.2s ease-in-out;
   --animate-collapsible-up: collapsible-up 0.2s ease-in-out;
+  --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-strong:
+    0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 /* ==========================================================================
@@ -85,7 +85,7 @@
 }
 
 /* ==========================================================================
-   4. @layer base: Unificada para Estilos Globales y Valores por Defecto
+   4. @layer base: Estilos Globales, Resets y Valores por Defecto
    ========================================================================== */
 @layer base {
   :root {
@@ -140,20 +140,39 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: radial-gradient(
-      hsl(var(--muted-foreground) / 0.1) 1px,
-      transparent 1px
-    );
-    background-size: 24px 24px;
-    z-index: -1;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  h1 {
+    @apply text-4xl font-bold tracking-tighter;
+  }
+  h2 {
+    @apply text-2xl font-bold tracking-tight;
+  }
+  h3 {
+    @apply text-xl font-semibold tracking-tight;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
 }

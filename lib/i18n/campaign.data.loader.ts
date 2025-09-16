@@ -4,7 +4,7 @@
  * @description Aparato Atómico: Cargador de Activos JSON.
  *              v3.0.0 - Generalizado para cargar desde diferentes directorios raíz.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
 import fs from "fs/promises";

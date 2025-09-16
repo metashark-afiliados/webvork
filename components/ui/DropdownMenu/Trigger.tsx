@@ -5,7 +5,7 @@
  *              Adopta el patrón `Slot` de @radix-ui/react-slot de forma canónica
  *              y segura para máxima flexibilidad y accesibilidad.
  * @version 15.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

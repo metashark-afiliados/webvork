@@ -4,7 +4,7 @@
  * @description Componente de Presentación Puro para la UI del Paso 3 (Tema).
  *              v2.1.0: Corregida la importación de tipos para apuntar a la SSoT atomizada.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

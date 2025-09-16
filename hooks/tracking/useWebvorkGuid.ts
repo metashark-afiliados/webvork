@@ -4,7 +4,7 @@
  * @description Hook Atómico de Efecto para obtener el GUID de Webvork.
  *              Diseñado para ser activado una sola vez por un hook orquestador.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

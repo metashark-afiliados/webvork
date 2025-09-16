@@ -5,7 +5,7 @@
  *              v1.3.0 (Architectural Migration): Se actualiza la ruta de
  *              importación de SchemaFieldRenderer.
  * @version 1.3.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

@@ -4,7 +4,7 @@
  * @description Componente de presentación para mostrar los metadatos de un componente.
  *              - v1.1.0: Corregida la ruta de importación de la configuración de branding.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Palette, Ruler, Text, LayoutGrid } from "lucide-react";

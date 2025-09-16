@@ -3,7 +3,7 @@
  * @file light-rays.schema.ts
  * @description Esquema de Zod para la configuración del componente LightRays.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

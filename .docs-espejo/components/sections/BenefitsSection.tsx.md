@@ -4,7 +4,7 @@
 - @file .docs-espejo/components/sections/BenefitsSection.tsx.md
 - @description Manifiesto conceptual y SSoT para el aparato de sección de beneficios.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: BenefitsSection

@@ -6,7 +6,7 @@
  *              para permitir que el `ComponentLoader` distinga entre componentes
  *              globales y componentes que dependen de datos de campaña.
  * @version 1.5.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 export interface ComponentRegistryEntry {
   name: string;

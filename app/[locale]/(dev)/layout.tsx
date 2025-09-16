@@ -7,7 +7,7 @@
  *              fundamentalmente, inyectar el sistema de theming global a través
  *              de AppProviders, solucionando la ausencia de estilos.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";

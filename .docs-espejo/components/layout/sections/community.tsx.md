@@ -4,7 +4,7 @@
 - @file community.tsx.md
 - @description Documento Espejo y SSoT conceptual para la sección de Comunidad.
 - @version 1.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Community Section

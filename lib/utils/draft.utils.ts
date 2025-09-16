@@ -3,7 +3,7 @@
  * @file draft.utils.ts
  * @description Utilidades puras y atómicas para la lógica de negocio de los borradores de campaña.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @principle SOLID (SRP), DRY
  */
 import { logger } from "@/lib/logging";

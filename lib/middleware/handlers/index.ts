@@ -5,7 +5,7 @@
  *              Centraliza las exportaciones para simplificar y robustecer las
  *              importaciones en el orquestador del pipeline.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 export * from "./i18n.handler";

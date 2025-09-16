@@ -8,7 +8,7 @@
  *                obligatoria, restaurando el contrato de datos estricto. La
  *                resiliencia se delega al SectionRenderer.
  * @version 4.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";

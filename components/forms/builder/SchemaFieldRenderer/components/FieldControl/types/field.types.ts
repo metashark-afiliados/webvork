@@ -5,7 +5,7 @@
  *              v1.1.0 (Type Safety): Reemplaza 'any' por 'unknown' para forzar
  *              la validación de tipos en los consumidores.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 import type { ControllerRenderProps, FieldValues, Path } from "react-hook-form";

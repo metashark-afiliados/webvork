@@ -5,7 +5,7 @@
  * @description SSoT para la configuración de ESLint v9+ (Flat Config).
  *              Este archivo reemplaza los obsoletos .eslintrc.json y .eslintignore.
  * @version 1.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 import eslint from "@eslint/js";

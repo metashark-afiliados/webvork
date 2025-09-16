@@ -6,7 +6,7 @@
  *                aceptando un array de bloques de contenido y encapsulando
  *                la lógica de renderizado.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";

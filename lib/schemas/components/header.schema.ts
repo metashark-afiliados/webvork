@@ -4,7 +4,7 @@
  * @description Esquema de Zod que define el contrato de datos para el contenido del Header.
  *              Resuelve la definición de tipo recursiva para sub-enlaces anidados.
  * @version 7.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 

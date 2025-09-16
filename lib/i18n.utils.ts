@@ -5,7 +5,7 @@
  *              Refactorizado para incluir documentación exhaustiva TSDoc y formalizar
  *              su rol como SSoT para la manipulación de rutas localizadas.
  * @version 2.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs-espejo/lib/i18n.utils.ts.md
  */
 import {

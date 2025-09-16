@@ -5,7 +5,7 @@
  *              v8.4.0: Desacopla la definición del tipo `AvailableTheme` a su
  *              propia SSoT para romper la dependencia circular con el cliente.
  * @version 8.4.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";

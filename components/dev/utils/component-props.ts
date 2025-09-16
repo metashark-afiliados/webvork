@@ -7,7 +7,7 @@
  *                la sintaxis JSX (`<DynamicIcon />`) por `React.createElement(DynamicIcon, ...)`,
  *                lo que es compatible con archivos `.ts`. Mantiene el uso de `DynamicIcon`.
  * @version 1.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 // import { Gauge } from "lucide-react"; // Ya eliminado

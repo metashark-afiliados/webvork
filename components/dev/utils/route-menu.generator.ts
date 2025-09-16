@@ -6,7 +6,7 @@
  *              contenido `undefined` devolviendo un array vacío y logueando una
  *              advertencia clara. Resuelve todos los errores de tipo TS2339.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { type LucideIconName } from "@/config/lucide-icon-names";
 import { producerConfig } from "@/config/producer.config";

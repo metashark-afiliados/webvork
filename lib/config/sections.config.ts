@@ -7,7 +7,7 @@
  *                en lugar de los schemas de locale opcionales. Esto alinea el
  *                contrato de tipos y estabiliza el SectionRenderer.
  * @version 16.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { z } from "zod";

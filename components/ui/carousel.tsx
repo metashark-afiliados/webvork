@@ -7,7 +7,7 @@
  *                los botones de navegación que hereda solo los atributos de un botón real,
  *                eliminando por completo la ambigüedad polimórfica heredada del componente Button.
  * @version 2.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

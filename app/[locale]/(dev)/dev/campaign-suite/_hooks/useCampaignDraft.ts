@@ -2,10 +2,10 @@
 /**
  * @file useCampaignDraft.ts
  * @description Hook de Zustand para gestionar el estado del borrador de la campaña.
- *              v8.0.0 (SoC Refactor): Se elimina la lógica de navegación (nextStep, prevStep)
- *              para adherirse al Principio de Responsabilidad Única.
- * @version 8.0.0
- * @author RaZ podesta - MetaShark Tech
+ *              v8.2.0 (Code Hygiene): Se eliminan todas las importaciones no utilizadas
+ *              para resolver los errores de linting y mejorar la limpieza del código.
+ * @version 8.2.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
@@ -13,26 +13,12 @@ import type { StateCreator } from "zustand";
 import { logger } from "@/lib/logging";
 import { generateDraftId } from "@/lib/utils/draft.utils";
 import { stepsConfig } from "../_config/wizard.config";
-import type { Locale } from "@/lib/i18n.config";
 import { initialCampaignDraftState } from "../_config/draft.initial-state";
-import type { CampaignDraft } from "../_types/draft.types";
-
-// Interfaz de estado sin nextStep y prevStep
-export interface CampaignDraftState {
-  draft: CampaignDraft;
-  isLoading: boolean;
-  updateDraft: (
-    data: Partial<Omit<CampaignDraft, "step" | "completedSteps" | "draftId">>
-  ) => void;
-  updateSectionContent: (
-    sectionName: string,
-    locale: Locale,
-    field: string,
-    value: any
-  ) => void;
-  setStep: (step: number) => void;
-  deleteDraft: () => void;
-}
+// --- [INICIO DE CORRECCIÓN DE HIGIENE] ---
+// Se importan únicamente los tipos que se usan directamente en este archivo.
+import type { CampaignDraftState } from "../_types/draft.types";
+// Las importaciones de 'Locale', 'CampaignDraft' y 'set' han sido eliminadas.
+// --- [FIN DE CORRECCIÓN DE HIGIENE] ---
 
 const storeCreator: StateCreator<CampaignDraftState> = (set) => ({
   draft: initialCampaignDraftState,
@@ -49,8 +35,25 @@ const storeCreator: StateCreator<CampaignDraftState> = (set) => ({
       return { draft: newDraft };
     });
   },
-  updateSectionContent: (sectionName, locale, field, value) => {
-    // ... lógica sin cambios ...
+  updateSectionContent: (sectionName, locale, field, value: unknown) => {
+    logger.trace("[useCampaignDraft] Actualizando contenido de sección...", {
+      sectionName,
+      locale,
+      field,
+      value,
+    });
+    set((state) => {
+      const newContentData = { ...state.draft.contentData };
+      if (!newContentData[sectionName]) {
+        newContentData[sectionName] = {};
+      }
+      if (!newContentData[sectionName][locale]) {
+        newContentData[sectionName][locale] = {};
+      }
+      (newContentData[sectionName][locale] as Record<string, unknown>)[field] =
+        value;
+      return { draft: { ...state.draft, contentData: newContentData } };
+    });
   },
   setStep: (step) => {
     if (step >= 0 && step < stepsConfig.length) {

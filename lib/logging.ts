@@ -5,7 +5,7 @@
  *              resolviendo errores de SSR al verificar el entorno antes de usar APIs de navegador.
  *              La exportación unificada 'logger' es la causa de los errores en cascada que se corregirán.
  * @version 6.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs-espejo/lib/logging.ts.md
  */
 

@@ -5,7 +5,7 @@
  *              Estos bloques de construcción son reutilizados para definir
  *              tanto los presets como los temas ensamblados.
  * @version 1.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { sectionsConfig } from "@/lib/config/sections.config";

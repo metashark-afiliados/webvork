@@ -6,7 +6,7 @@
  *              envolviendo las funciones de navegación en useCallback y actualizando
  *              las dependencias de useMemo. Esto resuelve el error crítico del cliente.
  * @version 4.2.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 

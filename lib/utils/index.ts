@@ -5,7 +5,7 @@
  *              v4.4.0: Se elimina la exportación de 'theme.utils' para
  *              favorecer la importación directa y resolver un error de build.
  * @version 4.4.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { logger } from "@/lib/logging";
 

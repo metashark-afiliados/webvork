@@ -5,7 +5,7 @@
  *              v3.1.0 - Corregido error de importación. Ahora consume el tipo
  *              `AssembledTheme` desde su SSoT en `lib/schemas`.
  * @version 3.1.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
 import { type Dictionary } from "@/lib/schemas/i18n.schema";

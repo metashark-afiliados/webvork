@@ -2,22 +2,28 @@
 /**
  * @file Step4Form.tsx
  * @description Orquestador de Presentación para el Paso 4.
- *              v5.0.0 (Hyper-Atomization): Refactorizado para ensamblar los
- *              subcomponentes atómicos `SectionList` y `WizardNavigation`.
- * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ *              v5.4.0 (Type Safety): Se alinea el contrato de la prop
+ *              'onUpdateContent' con el nuevo tipo seguro 'unknown'.
+ * @version 5.4.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { CampaignDraft } from "../../_types/draft.types";
 import type { Locale } from "@/lib/i18n.config";
 import { sectionsConfig } from "@/lib/config/sections.config";
 import { ContentEditor } from "./ContentEditor";
-import { SectionList } from "./components/SectionList";
+import { SectionList } from "./components";
 import { WizardNavigation } from "../../_components/WizardNavigation";
 
 type Step4Content = NonNullable<Dictionary["campaignSuitePage"]>["step4"];
@@ -28,7 +34,14 @@ interface Step4FormProps {
   onEditSection: (sectionName: string) => void;
   onCloseEditor: () => void;
   editingSection: string | null;
-  onUpdateContent: (sectionName: string, locale: Locale, field: string, value: any) => void;
+  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+  onUpdateContent: (
+    sectionName: string,
+    locale: Locale,
+    field: string,
+    value: unknown
+  ) => void;
+  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
   onBack: () => void;
   onNext: () => void;
   isPending: boolean;
@@ -45,7 +58,7 @@ export function Step4Form({
   onNext,
   isPending,
 }: Step4FormProps): React.ReactElement {
-  logger.info("[Step4Form] Orquestando presentación del Paso 4.");
+  logger.info("[Step4Form] Orquestando presentación del Paso 4 (v5.4).");
 
   const editingSectionSchema = editingSection
     ? sectionsConfig[editingSection as keyof typeof sectionsConfig]?.schema

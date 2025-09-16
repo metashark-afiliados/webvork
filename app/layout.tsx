@@ -5,7 +5,7 @@
  *              Este es el único layout que debe contener las etiquetas <html> y <body>.
  *              Es agnóstico al idioma y su única función es renderizar a sus hijos.
  * @version 3.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";

@@ -5,7 +5,7 @@
  *              - v2.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
  *                de locale para resolver errores de tipo en los consumidores.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";

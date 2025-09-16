@@ -4,7 +4,7 @@
 - @file campaign.i18n.ts.md
 - @description Documento Espejo y SSoT conceptual para el Orquestador de Datos de Campaña.
 - @version 2.0.0
-- @author RaZ podesta - MetaShark Tech
+- @author RaZ Podestá - MetaShark Tech
   \*/
 
 # Manifiesto Conceptual: Orquestador de Datos de Campaña

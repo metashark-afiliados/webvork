@@ -5,7 +5,7 @@
  *              Su responsabilidad es renderizar el contenido del item y gestionar la
  *              acción de cerrar el menú cuando se hace clic en él.
  * @version 5.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  * @see .docs-espejo/components/ui/DropdownMenu/DropdownMenu.md
  */
 "use client";

@@ -5,7 +5,7 @@
  *              v2.0.0 (Completeness): Actualizado para exportar los nuevos
  *              componentes NumberField y StringField.
  * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ * @author RaZ Podestá - MetaShark Tech
  */
 
 export * from "./BooleanField";

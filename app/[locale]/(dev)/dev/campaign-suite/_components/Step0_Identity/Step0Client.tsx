@@ -2,9 +2,10 @@
 /**
  * @file Step0Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 0.
- *              v2.0.0: Refactorizado para consumir el contexto de navegación `useWizard`.
- * @version 2.0.0
- * @author RaZ podesta - MetaShark Tech
+ *              v2.1.0 (DX Enhancement): Pre-rellena el formulario con valores
+ *              de prueba para agilizar el flujo de desarrollo y pruebas.
+ * @version 2.1.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
@@ -15,7 +16,7 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { step0Schema, type Step0Data } from "../../_schemas/step0.schema";
 import { useCampaignDraft } from "../../_hooks";
-import { useWizard } from "../../_context/WizardContext"; // <-- Se consume el nuevo contexto
+import { useWizard } from "../../_context/WizardContext";
 import { Step0Form } from "./Step0Form";
 
 type Step0Content = NonNullable<Dictionary["campaignSuitePage"]>["step0"];
@@ -32,41 +33,36 @@ export function Step0Client({
   logger.info("Renderizando Step0Client (Contenedor de Lógica)");
 
   const { draft, updateDraft } = useCampaignDraft();
-  const { goToNextStep, goToPrevStep } = useWizard(); // <-- Se obtienen las acciones de navegación
+  const { goToNextStep } = useWizard();
 
   const form = useForm<Step0Data>({
     resolver: zodResolver(step0Schema),
+    // --- [INICIO] MEJORA DE DX: VALORES POR DEFECTO ---
     defaultValues: {
-      baseCampaignId: draft.baseCampaignId ?? "",
-      variantName: draft.variantName ?? "",
-      seoKeywords: draft.seoKeywords ?? "",
-      affiliateNetwork: draft.affiliateNetwork ?? "",
-      affiliateUrl: draft.affiliateUrl ?? "",
+      baseCampaignId: draft.baseCampaignId ?? baseCampaigns[0] ?? "",
+      variantName: draft.variantName ?? "Test Variant",
+      seoKeywords: draft.seoKeywords ?? "test, keywords, for, seo",
+      affiliateNetwork: draft.affiliateNetwork ?? "webvork",
+      affiliateUrl: draft.affiliateUrl ?? "https://example.com/offer/123",
     },
+    // --- [FIN] MEJORA DE DX: VALORES POR DEFECTO ---
   });
 
-  const { reset } = form;
-
   const onSubmit = (data: Step0Data) => {
-    logger.trace(
-      "[Step0Client] Formulario válido. Actualizando estado y navegando."
-    );
     updateDraft(data);
-    goToNextStep(); // <-- Se usa la acción de navegación del contexto
+    goToNextStep();
   };
 
+  // Sincronización con el borrador persistido (sin cambios)
   useEffect(() => {
-    if (draft) {
-      logger.trace("[Step0Client] Sincronizando formulario con el borrador.");
-      reset({
-        baseCampaignId: draft.baseCampaignId ?? "",
-        variantName: draft.variantName ?? "",
-        seoKeywords: draft.seoKeywords ?? "",
-        affiliateNetwork: draft.affiliateNetwork ?? "",
-        affiliateUrl: draft.affiliateUrl ?? "",
-      });
-    }
-  }, [draft, reset]);
+    form.reset({
+      baseCampaignId: draft.baseCampaignId ?? baseCampaigns[0] ?? "",
+      variantName: draft.variantName ?? "Test Variant",
+      seoKeywords: draft.seoKeywords ?? "test, keywords, for, seo",
+      affiliateNetwork: draft.affiliateNetwork ?? "webvork",
+      affiliateUrl: draft.affiliateUrl ?? "https://example.com/offer/123",
+    });
+  }, [draft, baseCampaigns, form.reset]);
 
   return (
     <Step0Form
@@ -74,8 +70,6 @@ export function Step0Client({
       content={content}
       baseCampaigns={baseCampaigns}
       onSubmit={onSubmit}
-      onBack={goToPrevStep} // <-- Se usa la acción de navegación del contexto
-      isBackButtonDisabled={draft.step === 0}
     />
   );
 }
