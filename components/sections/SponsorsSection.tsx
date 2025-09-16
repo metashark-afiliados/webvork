@@ -9,7 +9,7 @@
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { SponsorItem } from "@/lib/schemas/components/sponsors-section.schema";

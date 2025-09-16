@@ -5,7 +5,7 @@ import * as React from "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
 // import { ChevronDown } from "lucide-react"; // <-- ELIMINADO: Se usará DynamicIcon
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
+import { DynamicIcon } from "@/components/ui"; // <-- AÑADIDO: Importación de DynamicIcon
 
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logging"; // <-- AÑADIDO: Para observabilidad

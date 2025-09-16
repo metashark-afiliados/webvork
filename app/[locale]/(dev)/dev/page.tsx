@@ -15,7 +15,7 @@ import { logger } from "@/lib/logging";
 import type { Locale } from "@/lib/i18n.config";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Container } from "@/components/ui/Container";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import {
   Card,
   CardContent,

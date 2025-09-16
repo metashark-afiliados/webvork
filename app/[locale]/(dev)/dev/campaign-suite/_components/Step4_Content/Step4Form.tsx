@@ -2,9 +2,9 @@
 /**
  * @file Step4Form.tsx
  * @description Componente de Presentación Puro para la UI del Paso 4 (Contenido).
- *              v4.1.0: Corregida la importación de tipos, tipado explícito en `map`
- *              para resolver el error `any` implícito.
- * @version 4.1.0
+ *              v4.2.0: Sincroniza la firma de la prop 'onUpdateContent' con la del
+ *              ContentEditor para resolver el conflicto de tipos TS2322.
+ * @version 4.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -16,14 +16,12 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+  Button,
+  DynamicIcon,
+} from "@/components/ui";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { CampaignDraft, LayoutConfigItem } from "../../_types/draft.types";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { Locale } from "@/lib/i18n.config";
 import { sectionsConfig } from "@/lib/config/sections.config";
 import { ContentEditor } from "./ContentEditor";
@@ -36,7 +34,15 @@ interface Step4FormProps {
   onEditSection: (sectionName: string) => void;
   onCloseEditor: () => void;
   editingSection: string | null;
-  onUpdateContent: (locale: Locale, field: string, value: any) => void;
+  // --- [INICIO DE CORRECCIÓN DE CONTRATO] ---
+  // La firma ahora es idéntica a la que espera ContentEditor.
+  onUpdateContent: (
+    sectionName: string,
+    locale: Locale,
+    field: string,
+    value: any
+  ) => void;
+  // --- [FIN DE CORRECCIÓN DE CONTRATO] ---
   onBack: () => void;
   onNext: () => void;
   isPending: boolean;
@@ -53,7 +59,9 @@ export function Step4Form({
   onNext,
   isPending,
 }: Step4FormProps): React.ReactElement {
-  logger.info("Renderizando Step4Form (Presentación Pura)");
+  logger.info(
+    "[Step4Form] Renderizando (Presentación Pura, Contrato Corregido)"
+  );
 
   const editingSectionSchema = editingSection
     ? sectionsConfig[editingSection as keyof typeof sectionsConfig]?.schema
@@ -68,9 +76,7 @@ export function Step4Form({
         </CardHeader>
         <CardContent className="space-y-4">
           {draft.layoutConfig.length > 0 ? (
-            // --- [INICIO DE CORRECCIÓN DE TIPO] ---
             draft.layoutConfig.map((section: LayoutConfigItem) => (
-              // --- [FIN DE CORRECCIÓN DE TIPO] ---
               <div
                 key={section.name}
                 className="flex items-center justify-between p-3 border rounded-md bg-muted/30"
@@ -105,9 +111,7 @@ export function Step4Form({
                   className="mr-2 h-4 w-4 animate-spin"
                 />
               )}
-              {isPending
-                ? "Generando Activos..."
-                : "Finalizar y Generar Activos"}
+              {isPending ? "Finalizando..." : "Finalizar y Continuar"}
             </Button>
           </div>
         </CardContent>
@@ -119,7 +123,7 @@ export function Step4Form({
           sectionSchema={editingSectionSchema}
           draft={draft}
           onClose={onCloseEditor}
-          onUpdateContent={onUpdateContent}
+          onUpdateContent={onUpdateContent} // Ahora la firma coincide perfectamente.
         />
       )}
     </>

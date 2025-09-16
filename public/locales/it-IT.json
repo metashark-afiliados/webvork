@@ -241,7 +241,13 @@
       "summaryPlaceholder": "Anteprima del riepilogo in costruzione...",
       "publishButtonText": "Pubblica sul Sito",
       "packageButtonText": "Esporta come .zip",
-      "deleteButtonText": "Elimina Bozza"
+      "deleteButtonText": "Elimina Bozza",
+      "deleteDialog": {
+        "title": "Sei assolutamente sicuro?",
+        "description": "Questa azione non può essere annullata. Questo eliminerà permanentemente la bozza della tua campagna.",
+        "cancelButton": "Annulla",
+        "confirmButton": "Conferma Eliminazione"
+      }
     }
   },
   "benefitsSection": {

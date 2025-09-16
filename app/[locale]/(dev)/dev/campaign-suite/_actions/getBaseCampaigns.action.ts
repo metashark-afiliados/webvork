@@ -11,10 +11,14 @@ import { logger } from "@/lib/logging";
 import { getAllCampaignsAndVariants } from "@/lib/dev/campaign.utils";
 import type { ActionResult } from "@/lib/types/actions.types";
 
-export async function getBaseCampaignsAction(): Promise<ActionResult<string[]>> {
+export async function getBaseCampaignsAction(): Promise<
+  ActionResult<string[]>
+> {
   try {
     const campaigns = await getAllCampaignsAndVariants();
-    const baseCampaigns = Array.from(new Set(campaigns.map((c) => c.campaignId)));
+    const baseCampaigns = Array.from(
+      new Set(campaigns.map((c) => c.campaignId))
+    );
     logger.success(
       `[Action] ${baseCampaigns.length} campañas base encontradas.`
     );

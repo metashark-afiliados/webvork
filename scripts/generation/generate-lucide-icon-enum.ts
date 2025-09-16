@@ -1,24 +1,24 @@
 // scripts/generation/generate-lucide-icon-enum.ts
 /**
  * @file generate-lucide-icon-enum.ts
- * @description Script de automatización de élite para la DX. Lee la SSoT de
- *              iconos de lucide-react y genera un schema de Zod y un tipo
- *              de TypeScript para los nombres de iconos. Refactorizado con la
- *              ruta canónica y definitiva al manifiesto de iconos.
- * @version 4.0.0
+ * @description Script de automatización de élite para la DX.
+ *              v5.1.0 (Robust Regex): Se actualiza la expresión regular para
+ *              soportar tanto comillas simples como dobles, resolviendo el
+ *              error de parseo del manifiesto.
+ * @version 5.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import * as fs from "fs";
 import * as path from "path";
 import chalk from "chalk";
+import { createRequire } from "module";
 
-const LUCIDE_MANIFEST_PATH = path.resolve(
-  process.cwd(),
-  "node_modules/lucide-react/dist/esm/dynamicIconImports.js"
-);
+const require = createRequire(import.meta.url);
+
 const OUTPUT_FILE = path.resolve(
   process.cwd(),
-  "src/config/lucide-icon-names.ts"
+  "config",
+  "lucide-icon-names.ts"
 );
 
 function kebabToPascal(str: string): string {
@@ -34,23 +34,35 @@ function main() {
   );
 
   try {
-    if (!fs.existsSync(LUCIDE_MANIFEST_PATH)) {
-      throw new Error(
-        `No se encontró el manifiesto de Lucide en: ${LUCIDE_MANIFEST_PATH}`
-      );
-    }
+    const lucideManifestPath = require.resolve(
+      "lucide-react/dynamicIconImports"
+    );
+    console.log(
+      chalk.gray(
+        `   Manifiesto de iconos encontrado en: ${path.relative(process.cwd(), lucideManifestPath)}`
+      )
+    );
 
-    const manifestContent = fs.readFileSync(LUCIDE_MANIFEST_PATH, "utf-8");
-    const iconKeysMatches = manifestContent.matchAll(/"([^"]+)":/g);
+    const manifestContent = fs.readFileSync(lucideManifestPath, "utf-8");
+
+    // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+    // La nueva regex /['"]([^'"]+)['"]:/g busca una comilla (simple o doble),
+    // captura cualquier caracter que NO sea una comilla, y luego busca la comilla
+    // de cierre y los dos puntos. Esto es mucho más robusto.
+    const iconKeysMatches = manifestContent.matchAll(/['"]([^'"]+)['"]:/g);
+    // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
+
     const iconKeys = Array.from(iconKeysMatches, (m) => m[1]);
 
     if (iconKeys.length === 0) {
-      throw new Error("No se encontraron claves de iconos en el manifiesto.");
+      throw new Error(
+        "No se encontraron claves de iconos en el manifiesto. ¿Cambió el formato del archivo de lucide-react?"
+      );
     }
 
     const pascalCaseIconNames = iconKeys.map(kebabToPascal);
 
-    const fileContent = `// src/config/lucide-icon-names.ts
+    const fileContent = `// config/lucide-icon-names.ts
 /**
  * @file lucide-icon-names.ts
  * @description Manifiesto de Nombres de Iconos de Lucide y SSoT.
@@ -59,7 +71,7 @@ function main() {
  * @author Script de Generación Automática
  * @version ${new Date().toISOString()}
  */
-import { z } from 'zod';
+import { z } from "zod";
 
 export const lucideIconNames = ${JSON.stringify(
       pascalCaseIconNames,
@@ -77,7 +89,7 @@ export type LucideIconName = z.infer<typeof LucideIconNameSchema>;
     console.log(
       chalk.green(
         `✅ Zod Enum y Tipo generados con éxito en ${chalk.yellow(
-          "src/config/lucide-icon-names.ts"
+          path.relative(process.cwd(), OUTPUT_FILE)
         )}`
       )
     );

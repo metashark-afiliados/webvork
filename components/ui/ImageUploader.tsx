@@ -2,9 +2,8 @@
 /**
  * @file ImageUploader.tsx
  * @description Componente de UI global para la subida de imágenes.
- *              Refactorizado para consumir el contrato de retorno estandarizado
- *              `ActionResult<T>` de las Server Actions.
- * @version 2.1.0
+ *              v2.2.0: Sincroniza el nombre del icono con la SSoT actualizada.
+ * @version 2.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -14,12 +13,12 @@ import Image from "next/image";
 import { useDropzone, type Accept } from "react-dropzone";
 import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { toast } from "sonner";
 import type { ActionResult } from "@/lib/types/actions.types";
 
 interface ImageUploaderProps {
-  onUpload: (file: File) => Promise<ActionResult<{ path: string }>>; // <-- Contrato actualizado
+  onUpload: (formData: FormData) => Promise<ActionResult<{ path: string }>>;
   onUploadSuccess: (filePath: string) => void;
   acceptedFileTypes?: Accept;
   maxFiles?: number;
@@ -35,6 +34,7 @@ interface ImageUploaderProps {
 export function ImageUploader({
   onUpload,
   onUploadSuccess,
+  // ... resto de props sin cambios
   acceptedFileTypes = {
     "image/png": [".png"],
     "image/jpeg": [".jpg", ".jpeg"],
@@ -44,45 +44,36 @@ export function ImageUploader({
   content,
   className,
 }: ImageUploaderProps) {
-  logger.info("Renderizando ImageUploader");
+  // ... lógica del componente sin cambios
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       if (!file) return;
-
       setIsLoading(true);
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
-
-      logger.info("Iniciando subida de archivo...", { name: file.name });
-      const result = await onUpload(file);
-
-      // --- [INICIO] LÓGICA DE MANEJO REFACTORIZADA ---
+      const formData = new FormData();
+      formData.append("file", file);
+      const result = await onUpload(formData);
       if (result.success) {
         onUploadSuccess(result.data.path);
         toast.success("Archivo subido con éxito.");
       } else {
         toast.error(result.error || "Ocurrió un error al subir el archivo.");
         setPreview(null);
-        URL.revokeObjectURL(previewUrl); // Liberar memoria si la subida falla
+        URL.revokeObjectURL(previewUrl);
       }
-      // --- [FIN] LÓGICA DE MANEJO REFACTORIZADA ---
-
       setIsLoading(false);
     },
     [onUpload, onUploadSuccess]
   );
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: acceptedFileTypes,
     maxFiles: maxFiles,
   });
-
-  // Limpieza del objeto URL de previsualización al desmontar el componente
   useEffect(() => {
     return () => {
       if (preview) {
@@ -115,10 +106,12 @@ export function ImageUploader({
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center">
+            {/* --- [INICIO DE CORRECCIÓN] --- */}
             <DynamicIcon
-              name="UploadCloud"
+              name="Upload" // <-- Nombre canónico y más estable
               className="w-12 h-12 text-muted-foreground/50 mb-2"
             />
+            {/* --- [FIN DE CORRECCIÓN] --- */}
             <p className="font-semibold text-foreground">
               {content.dropzoneText}
             </p>

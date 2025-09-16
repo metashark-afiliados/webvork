@@ -241,7 +241,13 @@
       "summaryPlaceholder": "Vista previa del resumen en construcción...",
       "publishButtonText": "Publicar en el Sitio",
       "packageButtonText": "Exportar como .zip",
-      "deleteButtonText": "Eliminar Borrador"
+      "deleteButtonText": "Eliminar Borrador",
+      "deleteDialog": {
+        "title": "¿Estás absolutamente seguro?",
+        "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente tu borrador de campaña.",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Confirmar Eliminación"
+      }
     }
   },
   "benefitsSection": {

@@ -13,10 +13,8 @@ import { useCampaignDraft } from "../../_hooks";
 import type { LayoutConfigItem } from "../../_types/draft.types";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- [INICIO DE CORRECCIÓN] ---
 import { Step2Form } from "./Step2Form";
 import { useWizard } from "../../_context/WizardContext";
-// --- [FIN DE CORRECCIÓN] ---
 
 type Step2Content = NonNullable<Dictionary["campaignSuitePage"]>["step2"];
 

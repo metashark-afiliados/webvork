@@ -241,7 +241,13 @@
       "summaryPlaceholder": "Pré-visualização do resumo em construção...",
       "publishButtonText": "Publicar no Site",
       "packageButtonText": "Exportar como .zip",
-      "deleteButtonText": "Excluir Rascunho"
+      "deleteButtonText": "Excluir Rascunho",
+      "deleteDialog": {
+        "title": "Você tem certeza absoluta?",
+        "description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente o rascunho da sua campanha.",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Confirmar Exclusão"
+      }
     }
   },
   "benefitsSection": {

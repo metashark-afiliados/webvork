@@ -1,22 +1,22 @@
 // components/layout/LanguageSwitcher.tsx
 /**
  * @file LanguageSwitcher.tsx
- * @description Componente de UI puro y atómico para cambiar el idioma.
- *              Refactorizado para ser data-driven y completamente reutilizable.
- *              - v2.1.0: Mejora la consistencia del sistema de iconos al reemplazar
- *                las importaciones directas de `Globe` y `ChevronDown` por el
- *                componente `DynamicIcon`.
- * @version 2.1.0
+ * @description Componente de UI para cambiar el idioma, con banderas y texto refinado.
+ *              v4.1.0 (Type Assertion Fix): Resuelve el error de tipo TS2322
+ *              mediante una aserción de tipo segura, garantizando que el `locale`
+ *              pasado a FlagIcon sea del tipo `Locale`.
+ * @version 4.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
-// import { Globe, ChevronDown } from "lucide-react"; // <-- ELIMINADO
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
-import { type Locale } from "@/lib/i18n.config";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
+import { FlagIcon } from "@/components/ui/FlagIcon";
+import { type Locale, supportedLocales } from "@/lib/i18n.config";
 import { logger } from "@/lib/logging";
+import { cn } from "@/lib/utils";
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;
@@ -27,12 +27,11 @@ export function LanguageSwitcher({
   currentLocale,
   supportedLocales,
 }: LanguageSwitcherProps): React.ReactElement {
-  logger.info(
-    "[Observabilidad] Renderizando LanguageSwitcher (Client Component)"
-  ); // Observabilidad actualizada
+  logger.info("[LanguageSwitcher] Renderizando (v4.1 - Type Assertion Fix)");
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,13 +44,32 @@ export function LanguageSwitcher({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLanguageChange = (newLocale: string) => {
-    const segments = pathname.split("/");
-    segments[1] = newLocale; // El locale es siempre el primer segmento
-    const newPath = segments.join("/");
-    router.push(newPath);
-    setIsOpen(false);
-  };
+  const handleLanguageChange = useCallback(
+    (newLocale: string) => {
+      const segments = pathname.split("/");
+      const localeIndex = segments.findIndex((segment) =>
+        supportedLocales.includes(segment as Locale)
+      );
+
+      if (localeIndex !== -1) {
+        segments[localeIndex] = newLocale;
+      } else {
+        segments.splice(1, 0, newLocale);
+      }
+
+      const newPathname = segments.join("/");
+      const currentSearchParams = new URLSearchParams(
+        Array.from(searchParams.entries())
+      );
+      const newUrl = `${newPathname}?${currentSearchParams.toString()}`;
+
+      router.push(newUrl);
+      setIsOpen(false);
+    },
+    [pathname, searchParams, router]
+  );
+
+  const getShortLocale = (locale: Locale) => locale.split("-")[0].toUpperCase();
 
   return (
     <div ref={menuRef} className="relative">
@@ -61,32 +79,40 @@ export function LanguageSwitcher({
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
-        <DynamicIcon name="Globe" size={18} /> {/* <-- USO DE DYNAMICICON */}
-        <span className="text-sm font-medium">
-          {currentLocale.toUpperCase()}
+        <FlagIcon locale={currentLocale} className="w-5 h-5 rounded-sm" />
+        <span className="text-sm font-semibold">
+          {getShortLocale(currentLocale)}
         </span>
-        <DynamicIcon // <-- USO DE DYNAMICICON
+        <DynamicIcon
           name="ChevronDown"
           size={16}
-          className={`transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
-          }`}
+          className={cn(
+            "transition-transform duration-200 text-muted-foreground",
+            isOpen && "rotate-180"
+          )}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-background py-1 shadow-2xl ring-1 ring-white/10 focus:outline-none">
+        <div className="absolute right-0 mt-2 w-48 origin-top-right rounded-md bg-background py-1 shadow-2xl ring-1 ring-white/10 focus:outline-none animate-in fade-in-0 zoom-in-95">
           {supportedLocales.map((locale) => (
             <button
               key={locale}
               onClick={() => handleLanguageChange(locale)}
-              className={`flex items-center w-full px-4 py-2 text-sm text-left transition-colors ${
+              className={cn(
+                "flex items-center gap-3 w-full px-4 py-2 text-sm text-left transition-colors",
                 currentLocale === locale
                   ? "bg-primary/10 font-semibold text-primary"
                   : "text-foreground hover:bg-muted"
-              }`}
+              )}
             >
-              {locale.toUpperCase()}
+              {/* --- [INICIO DE CORRECCIÓN DE TIPO] --- */}
+              <FlagIcon
+                locale={locale as Locale}
+                className="w-5 h-5 rounded-sm"
+              />
+              {/* --- [FIN DE CORRECCIÓN DE TIPO] --- */}
+              <span>{locale.toUpperCase()}</span>
             </button>
           ))}
         </div>
@@ -94,3 +120,4 @@ export function LanguageSwitcher({
     </div>
   );
 }
+// components/layout/LanguageSwitcher.tsx

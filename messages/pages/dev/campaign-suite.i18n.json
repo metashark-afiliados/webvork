@@ -56,7 +56,13 @@
         "summaryPlaceholder": "Anteprima del riepilogo in costruzione...",
         "publishButtonText": "Pubblica sul Sito",
         "packageButtonText": "Esporta come .zip",
-        "deleteButtonText": "Elimina Bozza"
+        "deleteButtonText": "Elimina Bozza",
+        "deleteDialog": {
+          "title": "Sei assolutamente sicuro?",
+          "description": "Questa azione non può essere annullata. Questo eliminerà permanentemente la bozza della tua campagna.",
+          "cancelButton": "Annulla",
+          "confirmButton": "Conferma Eliminazione"
+        }
       }
     }
   },
@@ -117,7 +123,13 @@
         "summaryPlaceholder": "Vista previa del resumen en construcción...",
         "publishButtonText": "Publicar en el Sitio",
         "packageButtonText": "Exportar como .zip",
-        "deleteButtonText": "Eliminar Borrador"
+        "deleteButtonText": "Eliminar Borrador",
+        "deleteDialog": {
+          "title": "¿Estás absolutamente seguro?",
+          "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente tu borrador de campaña.",
+          "cancelButton": "Cancelar",
+          "confirmButton": "Confirmar Eliminación"
+        }
       }
     }
   },
@@ -178,7 +190,13 @@
         "summaryPlaceholder": "Summary preview under construction...",
         "publishButtonText": "Publish to Site",
         "packageButtonText": "Export as .zip",
-        "deleteButtonText": "Delete Draft"
+        "deleteButtonText": "Delete Draft",
+        "deleteDialog": {
+          "title": "Are you absolutely sure?",
+          "description": "This action cannot be undone. This will permanently delete your campaign draft.",
+          "cancelButton": "Cancel",
+          "confirmButton": "Confirm Deletion"
+        }
       }
     }
   },
@@ -239,7 +257,13 @@
         "summaryPlaceholder": "Pré-visualização do resumo em construção...",
         "publishButtonText": "Publicar no Site",
         "packageButtonText": "Exportar como .zip",
-        "deleteButtonText": "Excluir Rascunho"
+        "deleteButtonText": "Excluir Rascunho",
+        "deleteDialog": {
+          "title": "Você tem certeza absoluta?",
+          "description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente o rascunho da sua campanha.",
+          "cancelButton": "Cancelar",
+          "confirmButton": "Confirmar Exclusão"
+        }
       }
     }
   }

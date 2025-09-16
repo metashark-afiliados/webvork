@@ -2,41 +2,43 @@
 /**
  * @file ContentEditor.tsx
  * @description Editor de contenido dinámico.
- *              v2.3.0: Corregida la importación de tipos para apuntar a la SSoT atomizada.
- * @version 2.3.0
+ *              v3.0.0 (Schema-Aware): Refactorizado para usar SchemaFieldRenderer,
+ *              renderizando el control de UI apropiado para cada tipo de dato.
+ * @version 3.0.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
 import { logger } from "@/lib/logging";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { CampaignDraft } from "../../_types/draft.types";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { supportedLocales, type Locale } from "@/lib/i18n.config";
-import { Button } from "@/components/ui/Button";
 import {
+  Button,
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/Form";
-import { Textarea } from "@/components/ui/Textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  DynamicIcon,
+} from "@/components/ui";
+import { SchemaFieldRenderer } from "./SchemaFieldRenderer"; // <-- Importar el nuevo renderer
 
 interface ContentEditorProps {
   sectionName: string;
   sectionSchema: z.ZodObject<any>;
   draft: CampaignDraft;
   onClose: () => void;
-  onUpdateContent: (locale: Locale, field: string, value: any) => void;
+  onUpdateContent: (
+    sectionName: string,
+    locale: Locale,
+    field: string,
+    value: any
+  ) => void;
 }
 
 export function ContentEditor({
@@ -54,21 +56,23 @@ export function ContentEditor({
     defaultValues: draft.contentData[sectionName]?.[activeLocale] || {},
   });
 
+  // Sincroniza el formulario cuando cambia el locale o el borrador
+  useEffect(() => {
+    form.reset(draft.contentData[sectionName]?.[activeLocale] || {});
+  }, [activeLocale, draft, sectionName, form]);
+
+  const handleUpdateAndPersist = (field: string, value: any) => {
+    onUpdateContent(sectionName, activeLocale, field, value);
+  };
+
   const onSubmit = (data: any) => {
     logger.success(
-      `[ContentEditor] Datos validados para ${sectionName} [${activeLocale}]:`,
-      data
+      `[ContentEditor] Cambios guardados para ${sectionName} [${activeLocale}]`
     );
-    Object.entries(data).forEach(([field, value]) => {
-      onUpdateContent(activeLocale, field, value as unknown);
-    });
     toast.success(
       `Contenido para "${sectionName}" guardado en [${activeLocale}].`
     );
-  };
-
-  const handleTabChange = (value: string) => {
-    setActiveLocale(value as Locale);
+    onClose();
   };
 
   const fieldsToRender = Object.keys(sectionSchema.shape);
@@ -87,7 +91,11 @@ export function ContentEditor({
           </Button>
         </header>
         <div className="flex-grow overflow-y-auto p-6 pr-4">
-          <Tabs defaultValue={activeLocale} onValueChange={handleTabChange}>
+          <Tabs
+            defaultValue={activeLocale}
+            onValueChange={(v) => setActiveLocale(v as Locale)}
+            className="w-full"
+          >
             <TabsList>
               {supportedLocales.map((locale) => (
                 <TabsTrigger key={locale} value={locale}>
@@ -97,42 +105,22 @@ export function ContentEditor({
             </TabsList>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4">
-                {supportedLocales.map((locale) => (
-                  <TabsContent key={locale} value={locale} forceMount>
-                    <div className="space-y-4">
-                      {fieldsToRender.map((fieldName) => (
-                        <FormField
-                          key={`${locale}-${fieldName}`}
-                          control={form.control}
-                          name={fieldName}
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="capitalize">
-                                {fieldName.replace(/([A-Z])/g, " $1")}
-                              </FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder={`Contenido para ${fieldName} en ${locale.toUpperCase()}`}
-                                  {...field}
-                                  onBlur={(e) => {
-                                    field.onBlur();
-                                    onUpdateContent(
-                                      locale,
-                                      fieldName,
-                                      e.target.value
-                                    );
-                                  }}
-                                  className="min-h-[80px]"
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      ))}
-                    </div>
-                  </TabsContent>
-                ))}
+                <div className="space-y-4">
+                  {fieldsToRender.map((fieldName) => (
+                    <SchemaFieldRenderer
+                      key={`${activeLocale}-${fieldName}`}
+                      control={form.control}
+                      fieldName={fieldName}
+                      fieldSchema={sectionSchema.shape[fieldName]}
+                      currentValue={
+                        draft.contentData[sectionName]?.[activeLocale]?.[
+                          fieldName
+                        ]
+                      }
+                      onValueChange={handleUpdateAndPersist}
+                    />
+                  ))}
+                </div>
               </form>
             </Form>
           </Tabs>
@@ -141,7 +129,9 @@ export function ContentEditor({
           <Button variant="outline" onClick={onClose}>
             Cerrar
           </Button>
-          <Button onClick={form.handleSubmit(onSubmit)}>Guardar Cambios</Button>
+          <Button onClick={form.handleSubmit(onSubmit)}>
+            Guardar y Cerrar
+          </Button>
         </footer>
       </div>
     </div>

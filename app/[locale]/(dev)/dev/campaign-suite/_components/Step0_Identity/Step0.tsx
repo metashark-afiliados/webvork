@@ -2,10 +2,8 @@
 /**
  * @file Step0.tsx
  * @description Ensamblador y Cargador de Datos para el Paso 0 de la SDC.
- *              v2.1.0: Refactorizado a Client Component para resolver la violación
- *              de frontera "server-only". Ahora obtiene datos a través de una
- *              Server Action dedicada y consume desde el barrel file corregido.
- * @version 2.1.0
+ *              v2.2.0: Corrige la importación de DynamicIcon.
+ * @version 2.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -16,7 +14,7 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { Step0Client } from "./Step0Client";
 import { getBaseCampaignsAction } from "../../_actions";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui"; // <-- CORRECCIÓN
 
 interface Step0Props {
   content: NonNullable<Dictionary["campaignSuitePage"]>["step0"];

@@ -11,7 +11,7 @@
  */
 import React from "react";
 // import { Gauge } from "lucide-react"; // Ya eliminado
-import DynamicIcon from "@/components/ui/DynamicIcon"; // Importación de DynamicIcon
+import { DynamicIcon } from "@/components/ui"; // Importación de DynamicIcon
 import { logger } from "@/lib/logging";
 
 /**

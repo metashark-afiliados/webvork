@@ -1,14 +1,14 @@
 // components/ui/ValidationError.tsx
 /**
  * @file ValidationError.tsx
- * @description Componente de UI atómico para mostrar errores de validación de Zod
- *              en el entorno de desarrollo. No renderiza nada en producción.
- * @version 1.0.0
+ * @description Componente de UI atómico para mostrar errores de validación de Zod.
+ *              v1.1.0: Sincroniza el nombre del icono con la SSoT actualizada.
+ * @version 1.1.0
  * @author RaZ podesta - MetaShark Tech
  */
 import React from "react";
 import { type ZodError } from "zod";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 
 interface ValidationErrorProps {
@@ -16,12 +16,6 @@ interface ValidationErrorProps {
   error: ZodError;
 }
 
-/**
- * @component ValidationError
- * @description Muestra un panel de error detallado durante el desarrollo si los datos
- *              de una sección no cumplen con su schema de Zod.
- * @returns {React.ReactElement | null}
- */
 export function ValidationError({
   sectionName,
   error,
@@ -31,12 +25,14 @@ export function ValidationError({
     { validationErrors: error.flatten().fieldErrors }
   );
 
-  // Guarda de seguridad: No renderizar nunca este componente en producción.
   if (process.env.NODE_ENV !== "production") {
     return (
       <div className="container my-12 p-4 border-2 border-dashed border-destructive rounded-lg bg-destructive/10 text-destructive">
         <div className="flex items-start gap-4">
-          <DynamicIcon name="AlertTriangle" className="h-6 w-6 mt-1" />
+          {/* --- [INICIO DE CORRECCIÓN] --- */}
+          {/* 'AlertTriangle' ahora es 'TriangleAlert'. */}
+          <DynamicIcon name="TriangleAlert" className="h-6 w-6 mt-1" />
+          {/* --- [FIN DE CORRECCIÓN] --- */}
           <div>
             <h3 className="font-bold text-lg">
               Error de Contrato de Datos en la Sección: &quot;{sectionName}
@@ -61,7 +57,6 @@ export function ValidationError({
     );
   }
 
-  // En producción, no se renderiza nada para no exponer errores internos.
   return null;
 }
 // components/ui/ValidationError.tsx

@@ -15,12 +15,12 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+  Button,
+} from "@/components/ui";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { LayoutConfigItem } from "../../_types/draft.types";
-import { LayoutBuilder } from "./LayoutBuilder"; // <-- Se importa el nuevo componente
+import { LayoutBuilder } from "./LayoutBuilder";
 
 type Step2Content = NonNullable<Dictionary["campaignSuitePage"]>["step2"];
 

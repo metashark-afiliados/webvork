@@ -17,7 +17,7 @@ import {
   CardDescription,
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";

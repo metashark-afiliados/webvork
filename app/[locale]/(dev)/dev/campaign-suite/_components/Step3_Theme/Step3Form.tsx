@@ -31,7 +31,7 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { ThemeConfig } from "../../_types/draft.types";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { DiscoveredFragments } from "../../_actions/getThemeFragments.action";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 
 type Step3Content = NonNullable<Dictionary["campaignSuitePage"]>["step3"];
 

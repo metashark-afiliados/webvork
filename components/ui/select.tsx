@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 
 import { cn } from "@/lib/utils";

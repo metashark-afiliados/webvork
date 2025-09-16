@@ -344,4 +344,3 @@ export default function TestPageClient({
   );
 }
 // app/[locale]/(dev)/dev/test-page/_components/TestPageClient.tsx
-

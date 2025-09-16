@@ -2,7 +2,9 @@
 /**
  * @file Step5Form.tsx
  * @description Componente de Presentación Puro para la UI del Paso 5 (Gestión).
- * @version 1.0.0
+ *              v1.2.0 (Direct Import Architecture): Se impone la importación
+ *              directa para `AlertDialogTrigger` para erradicar el error de build.
+ * @version 1.2.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
@@ -14,11 +16,15 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+  Button,
+  DynamicIcon,
+} from "@/components/ui";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se importa el componente directamente desde su archivo fuente, eludiendo el barrel file.
+import { AlertDialogTrigger } from "@/components/ui/AlertDialog";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import DynamicIcon from "@/components/ui/DynamicIcon";
 
 type Step5Content = NonNullable<Dictionary["campaignSuitePage"]>["step5"];
 
@@ -38,12 +44,11 @@ export function Step5Form({
   onBack,
   onPublish,
   onPackage,
-  onDelete,
   isPublishing,
   isPackaging,
   isDeleting,
 }: Step5FormProps): React.ReactElement {
-  logger.info("[Observabilidad] Renderizando Step5Form (Presentación Pura)");
+  logger.info("[Step5Form] Renderizando (Presentación Pura, Arch. Directa)");
 
   const isAnyActionPending = isPublishing || isPackaging || isDeleting;
 
@@ -74,19 +79,17 @@ export function Step5Form({
             Retroceder
           </Button>
           <div className="flex flex-wrap gap-2 justify-end">
-            <Button
-              variant="destructive"
-              onClick={onDelete}
-              disabled={isAnyActionPending}
-            >
-              {isDeleting && (
-                <DynamicIcon
-                  name="LoaderCircle"
-                  className="mr-2 h-4 w-4 animate-spin"
-                />
-              )}
-              {content.deleteButtonText}
-            </Button>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" disabled={isAnyActionPending}>
+                {isDeleting && (
+                  <DynamicIcon
+                    name="LoaderCircle"
+                    className="mr-2 h-4 w-4 animate-spin"
+                  />
+                )}
+                {content.deleteButtonText}
+              </Button>
+            </AlertDialogTrigger>
             <Button
               variant="secondary"
               onClick={onPackage}

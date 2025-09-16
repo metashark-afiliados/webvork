@@ -15,7 +15,7 @@ import * as React from "react";
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/Button";

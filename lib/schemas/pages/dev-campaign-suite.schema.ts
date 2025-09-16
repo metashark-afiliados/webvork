@@ -1,13 +1,21 @@
 // lib/schemas/pages/dev-campaign-suite.schema.ts
 /**
  * @file dev-campaign-suite.schema.ts
- * @description Esquema de Zod y SSoT para el contenido de la SDC.
- *              v4.0.0: Añadido el contrato de contenido para el Paso 5: Gestión.
- * @version 4.0.0
+ * @description Esquema de Zod y SSoT para el contenido i18n de la Suite de Diseño de Campañas.
+ *              v4.1.0: Añade el contrato de contenido explícito para el diálogo
+ *              de confirmación de eliminación (`deleteDialog`), asegurando que toda la
+ *              UI del Paso 5 sea completamente data-driven.
+ * @version 4.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 
+/**
+ * @const CampaignSuiteLocaleSchema
+ * @description Valida la estructura del contenido para la página de la SDC
+ *              en un único locale. Cada clave de paso corresponde a la UI de
+ *              ese paso específico en el asistente.
+ */
 export const CampaignSuiteLocaleSchema = z.object({
   campaignSuitePage: z
     .object({
@@ -59,7 +67,6 @@ export const CampaignSuiteLocaleSchema = z.object({
         contentEditorTitle: z.string(),
         contentEditorDescription: z.string(),
       }),
-      // --- INICIO DE MEJORA: Contrato de contenido para el Paso 5 ---
       step5: z.object({
         title: z.string(),
         description: z.string(),
@@ -68,8 +75,15 @@ export const CampaignSuiteLocaleSchema = z.object({
         publishButtonText: z.string(),
         packageButtonText: z.string(),
         deleteButtonText: z.string(),
+        // --- INICIO DE MEJORA DE CONTRATO ---
+        deleteDialog: z.object({
+          title: z.string(),
+          description: z.string(),
+          cancelButton: z.string(),
+          confirmButton: z.string(),
+        }),
+        // --- FIN DE MEJORA DE CONTRATO ---
       }),
-      // --- FIN DE MEJORA ---
     })
     .optional(),
 });

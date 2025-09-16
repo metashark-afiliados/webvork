@@ -12,7 +12,7 @@
 import React from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type {

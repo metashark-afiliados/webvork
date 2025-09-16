@@ -17,7 +17,7 @@ import { logger } from "@/lib/logging";
 import { routes } from "@/lib/navigation";
 import { type Locale } from "@/lib/i18n.config";
 import { Container } from "@/components/ui/Container";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
 import { ToggleTheme } from "@/components/layout/toogle-theme";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";

@@ -241,7 +241,13 @@
       "summaryPlaceholder": "Summary preview under construction...",
       "publishButtonText": "Publish to Site",
       "packageButtonText": "Export as .zip",
-      "deleteButtonText": "Delete Draft"
+      "deleteButtonText": "Delete Draft",
+      "deleteDialog": {
+        "title": "Are you absolutely sure?",
+        "description": "This action cannot be undone. This will permanently delete your campaign draft.",
+        "cancelButton": "Cancel",
+        "confirmButton": "Confirm Deletion"
+      }
     }
   },
   "benefitsSection": {

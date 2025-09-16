@@ -24,7 +24,7 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { HeaderConfig, FooterConfig } from "../../_types/draft.types";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 
 type Step1Content = NonNullable<Dictionary["campaignSuitePage"]>["step1"];
 

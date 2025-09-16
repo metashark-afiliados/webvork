@@ -12,7 +12,7 @@
 import React from "react";
 import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
 

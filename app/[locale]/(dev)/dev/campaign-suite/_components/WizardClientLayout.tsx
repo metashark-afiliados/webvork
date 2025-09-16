@@ -17,7 +17,7 @@ import { Toaster } from "sonner";
 import { useCampaignDraft } from "../_hooks";
 import { stepsConfig } from "../_config/wizard.config";
 import { ProgressStepper, type StepStatus } from "./ProgressStepper";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
 import { WizardProvider } from "../_context/WizardContext";

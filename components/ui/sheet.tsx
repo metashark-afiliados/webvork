@@ -5,7 +5,7 @@ import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
 // import { X } from "lucide-react"; // <-- ELIMINADO
-import DynamicIcon from "@/components/ui/DynamicIcon"; // <-- AÑADIDO: Importación de DynamicIcon
+import { DynamicIcon } from "@/components/ui"; // <-- AÑADIDO: Importación de DynamicIcon
 import { logger } from "@/lib/logging"; // <-- AÑADIDO: para observabilidad
 
 import { cn } from "@/lib/utils";

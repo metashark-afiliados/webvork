@@ -1,47 +1,48 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/ProgressStepper.tsx
 /**
  * @file ProgressStepper.tsx
- * @description Componente de UI "Semáforo de Pasos".
- * @version 2.0.0 - Exporta el tipo StepStatus para definir su contrato público.
+ * @description Componente de UI "Semáforo de Pasos" para el asistente SDC.
+ *              v2.3.0: Se corrige la importación de DynamicIcon para usar
+ *              una importación nombrada desde la fachada de UI.
+ * @version 2.3.0
  * @author RaZ podesta - MetaShark Tech
  */
 "use client";
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/Collapsible";
+  DynamicIcon, // Importación nombrada desde la fachada
+} from "@/components/ui";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
+import { logger } from "@/lib/logging";
 
-// --- INICIO DE CORRECCIÓN: Se exporta el tipo para que sea la SSoT de este contrato ---
 export type StepStatus = "completed" | "active" | "pending";
-// --- FIN DE CORRECCIÓN ---
-
+// ... (resto del componente sin cambios)
 interface Step {
   id: number;
   title: string;
   status: StepStatus;
 }
-
 interface ProgressStepperProps {
   steps: Step[];
   onStepClick: (stepId: number) => void;
 }
 
-// (El resto del código del componente permanece sin cambios)
 const statusStyles: Record<
   StepStatus,
   { icon: React.ReactNode; textClass: string }
 > = {
   completed: {
-    icon: <DynamicIcon name="CheckCircle2" className="text-green-500" />,
+    icon: <DynamicIcon name="CircleCheck" className="text-green-500" />,
     textClass: "text-foreground",
   },
   active: {
-    icon: <DynamicIcon name="MoreHorizontal" className="text-yellow-500" />,
+    icon: <DynamicIcon name="Ellipsis" className="text-yellow-500" />,
     textClass: "text-yellow-500 font-bold",
   },
   pending: {
@@ -51,6 +52,7 @@ const statusStyles: Record<
 };
 
 export function ProgressStepper({ steps, onStepClick }: ProgressStepperProps) {
+  logger.info("[Observabilidad] Renderizando ProgressStepper");
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <Collapsible defaultOpen={true}>

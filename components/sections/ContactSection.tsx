@@ -10,7 +10,7 @@
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";

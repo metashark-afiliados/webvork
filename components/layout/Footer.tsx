@@ -12,7 +12,7 @@ import { Container } from "@/components/ui/Container";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { Separator } from "@/components/ui/Separator";
 // --- [INICIO] REFACTORIZACIÓN DE TIPOS ---
 import type {

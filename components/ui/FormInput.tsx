@@ -12,7 +12,7 @@
 import React, { forwardRef } from "react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import DynamicIcon from "@/components/ui/DynamicIcon";
+import { DynamicIcon } from "@/components/ui";
 import { type LucideIconName } from "@/config/lucide-icon-names";
 import { logger } from "@/lib/logging";
 
