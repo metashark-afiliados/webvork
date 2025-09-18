@@ -2,22 +2,25 @@
 /**
  * @file Step5.tsx
  * @description Ensamblador de Servidor para el Paso 5 de la SDC (Gestión).
- * @version 1.0.0
+ * @version 3.0.0 (Holistic Type Alignment): Se alinea con la nueva
+ *              arquitectura de props "envueltas".
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { Step5Client } from "./Step5Client";
+import type { StepProps } from "../../_types/step.types";
+import type { Step5ContentSchema } from "../../_schemas/steps/step5.schema";
+import type { z } from "zod";
 
-interface Step5Props {
-  content: NonNullable<Dictionary["campaignSuitePage"]>["step5"];
-}
+type Content = z.infer<typeof Step5ContentSchema>;
 
 export default async function Step5({
-  content,
-}: Step5Props): Promise<React.ReactElement> {
-  logger.info("[Observabilidad] Renderizando Step5 Ensamblador de Servidor...");
+  content: rawContent,
+}: StepProps<{ step5: Content }>): Promise<React.ReactElement> {
+  const content = rawContent.step5;
+  logger.info("[Step5 Ensamblador] Ensamblando y delegando al cliente (v3.0).");
   return <Step5Client content={content} />;
 }
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/Step5.tsx

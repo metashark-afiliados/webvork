@@ -1,10 +1,9 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/Step5Form.tsx
 /**
  * @file Step5Form.tsx
- * @description Componente de Presentación Puro para la UI del Paso 5 (Gestión).
- *              v1.2.0 (Direct Import Architecture): Se impone la importación
- *              directa para `AlertDialogTrigger` para erradicar el error de build.
- * @version 1.2.0
+ * @description Orquestador de presentación puro para el Paso 5, ahora con el
+ *              Checklist de Lanzamiento integrado y resumen detallado de la campaña.
+ * @version 7.0.0 (Detailed Campaign Summary)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -16,41 +15,50 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  Button,
-  DynamicIcon,
 } from "@/components/ui";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// Se importa el componente directamente desde su archivo fuente, eludiendo el barrel file.
-import { AlertDialogTrigger } from "@/components/ui/AlertDialog";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import {
+  CampaignSummary,
+  ManagementActions,
+  LaunchChecklist,
+} from "./_components";
+import type { Step5ContentSchema } from "../../_schemas/steps/step5.schema";
+import type { z } from "zod";
+import type { ChecklistItem } from "../../_utils/draft.validator";
+import type { CampaignDraft } from "../../_types/draft.types"; // <-- NUEVA IMPORTACIÓN
 
-type Step5Content = NonNullable<Dictionary["campaignSuitePage"]>["step5"];
+type Content = z.infer<typeof Step5ContentSchema>;
 
 interface Step5FormProps {
-  content: Step5Content;
+  content: Content;
+  draft: CampaignDraft; // <-- NUEVO: Recibe el borrador completo
   onBack: () => void;
   onPublish: () => void;
   onPackage: () => void;
-  onDelete: () => void;
+  onSaveAsTemplate: (name: string, description: string) => void;
   isPublishing: boolean;
   isPackaging: boolean;
   isDeleting: boolean;
+  isSavingTemplate: boolean;
+  checklistItems: ChecklistItem[];
 }
 
 export function Step5Form({
   content,
+  draft, // <-- Recibe el borrador
   onBack,
   onPublish,
   onPackage,
+  onSaveAsTemplate,
   isPublishing,
   isPackaging,
   isDeleting,
+  isSavingTemplate,
+  checklistItems,
 }: Step5FormProps): React.ReactElement {
-  logger.info("[Step5Form] Renderizando (Presentación Pura, Arch. Directa)");
+  logger.info("[Step5Form] Renderizando orquestador de presentación v7.0.");
 
-  const isAnyActionPending = isPublishing || isPackaging || isDeleting;
+  const isReadyForLaunch = checklistItems.every((item) => item.isCompleted);
 
   return (
     <Card>
@@ -58,64 +66,35 @@ export function Step5Form({
         <CardTitle>{content.title}</CardTitle>
         <CardDescription>{content.description}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-10">
-        <div className="p-6 border rounded-lg bg-muted/20">
-          <h3 className="font-semibold text-lg text-foreground mb-4">
-            {content.summaryTitle}
-          </h3>
-          <div className="min-h-[150px] flex items-center justify-center border border-dashed rounded-md bg-background">
-            <p className="text-sm text-muted-foreground">
-              {content.summaryPlaceholder}
-            </p>
-          </div>
+      <CardContent>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <CampaignSummary
+            draft={draft} // <-- Pasar el borrador a CampaignSummary
+            title={content.summaryTitle}
+            placeholder={content.summaryPlaceholder}
+          />
+          <LaunchChecklist
+            items={checklistItems}
+            title={content.checklistTitle}
+          />
         </div>
-
-        <div className="flex justify-between items-center pt-6 border-t">
-          <Button
-            variant="ghost"
-            onClick={onBack}
-            disabled={isAnyActionPending}
-          >
-            Retroceder
-          </Button>
-          <div className="flex flex-wrap gap-2 justify-end">
-            <AlertDialogTrigger asChild>
-              <Button variant="destructive" disabled={isAnyActionPending}>
-                {isDeleting && (
-                  <DynamicIcon
-                    name="LoaderCircle"
-                    className="mr-2 h-4 w-4 animate-spin"
-                  />
-                )}
-                {content.deleteButtonText}
-              </Button>
-            </AlertDialogTrigger>
-            <Button
-              variant="secondary"
-              onClick={onPackage}
-              disabled={isAnyActionPending}
-            >
-              {isPackaging && (
-                <DynamicIcon
-                  name="LoaderCircle"
-                  className="mr-2 h-4 w-4 animate-spin"
-                />
-              )}
-              {content.packageButtonText}
-            </Button>
-            <Button onClick={onPublish} disabled={isAnyActionPending}>
-              {isPublishing && (
-                <DynamicIcon
-                  name="LoaderCircle"
-                  className="mr-2 h-4 w-4 animate-spin"
-                />
-              )}
-              {content.publishButtonText}
-            </Button>
-          </div>
-        </div>
+        <ManagementActions
+          onBack={onBack}
+          onPublish={onPublish}
+          onPackage={onPackage}
+          onSaveAsTemplate={onSaveAsTemplate}
+          isPublishing={isPublishing}
+          isPackaging={isPackaging}
+          isDeleting={isDeleting}
+          isSavingTemplate={isSavingTemplate}
+          isLaunchReady={isReadyForLaunch}
+          publishButtonText={content.publishButtonText}
+          packageButtonText={content.packageButtonText}
+          deleteButtonText={content.deleteButtonText}
+          templateButtonText={content.templateButtonText}
+          templateDialogContent={content.templateDialog}
+        />
       </CardContent>
     </Card>
   );
 }
-// app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/Step5Form.tsx

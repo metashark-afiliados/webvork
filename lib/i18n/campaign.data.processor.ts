@@ -2,16 +2,16 @@
 /**
  * @file campaign.data.processor.ts
  * @description Aparato Atómico: Procesador de Datos de Campaña.
- *              v3.1.0 - Corregido error de importación. Ahora consume el tipo
- *              `AssembledTheme` desde su SSoT en `lib/schemas`.
- * @version 3.1.0
+ *              v4.0.0 (Type Safety): Erradica el uso de 'any', forzando
+ *              un contrato de tipos más estricto y seguro.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
 import { type Dictionary } from "@/lib/schemas/i18n.schema";
 import {
   AssembledThemeSchema,
-  type AssembledTheme, // <-- IMPORTACIÓN CORREGIDA
+  type AssembledTheme,
 } from "@/lib/schemas/theming/assembled-theme.schema";
 import { logger } from "@/lib/logging";
 
@@ -26,8 +26,10 @@ import { logger } from "@/lib/logging";
  */
 export function processCampaignData(
   globalDictionary: Dictionary,
-  campaignLocaleContent: any,
-  finalAssembledTheme: any
+  // --- [INICIO DE CORRECCIÓN DE TIPO] ---
+  campaignLocaleContent: Record<string, unknown>, // Se usa 'unknown' en lugar de 'any'
+  finalAssembledTheme: unknown // Se usa 'unknown' en lugar de 'any'
+  // --- [FIN DE CORRECCIÓN DE TIPO] ---
 ): { dictionary: Dictionary; theme: AssembledTheme } {
   logger.trace(`[Procesador] Procesando y validando datos de campaña...`);
 

@@ -2,10 +2,9 @@
 /**
  * @file page.tsx
  * @description Página de inicio del portal.
- *              - v1.4.0 (Schema Decoupling Mitigation): Añade guardas de
- *                existencia para cada sección, restaurando la seguridad de
- *                runtime tras la refactorización del i18n.schema.ts.
- * @version 1.4.0
+ *              v1.5.0 (Code Hygiene): Se elimina la importación no utilizada
+ *              de 'Dictionary' para cumplir con las reglas de ESLint.
+ * @version 1.5.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -14,7 +13,6 @@ import { HeroNews } from "@/components/sections/HeroNews";
 import { NewsGrid } from "@/components/sections/NewsGrid";
 import { SocialProofLogos } from "@/components/sections/SocialProofLogos";
 import { CommunitySection } from "@/components/sections/CommunitySection";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
 import { logger } from "@/lib/logging";
 
@@ -29,15 +27,11 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
 
   const { dictionary } = await getDictionary(locale);
 
-  // --- [INICIO] MITIGACIÓN DE TIPO 'ANY' ---
-  // Se extraen y verifican explícitamente los datos de cada sección.
   const heroNewsContent = dictionary.heroNews;
   const socialProofLogosContent = dictionary.socialProofLogos;
   const newsGridContent = dictionary.newsGrid;
   const communitySectionContent = dictionary.communitySection;
-  // --- [FIN] MITIGACIÓN DE TIPO 'ANY' ---
 
-  // El logging de advertencia se mantiene como una capa secundaria de diagnóstico.
   if (!heroNewsContent)
     logger.warn("[HomePage] Contenido para 'heroNews' no encontrado.");
   if (!socialProofLogosContent)
@@ -49,7 +43,6 @@ export default async function HomePage({ params: { locale } }: HomePageProps) {
 
   return (
     <>
-      {/* El renderizado ahora es condicional, previniendo errores de runtime */}
       {heroNewsContent && <HeroNews content={heroNewsContent} />}
       {socialProofLogosContent && (
         <SocialProofLogos content={socialProofLogosContent} />

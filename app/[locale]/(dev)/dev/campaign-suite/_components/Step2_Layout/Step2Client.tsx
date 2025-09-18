@@ -2,8 +2,7 @@
 /**
  * @file Step2Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 2 (Layout).
- *              v1.3.0: Restaurado y alineado con la arquitectura de navegación.
- * @version 1.3.0
+ * @version 2.0.0 (Elite Leveling)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -23,12 +22,13 @@ interface Step2ClientProps {
 }
 
 export function Step2Client({ content }: Step2ClientProps): React.ReactElement {
-  logger.info("Renderizando Step2Client (Contenedor de Lógica)");
+  logger.info("[Step2Client] Renderizando contenedor de lógica (v2.0).");
 
   const { draft, updateDraft } = useCampaignDraft();
   const { goToNextStep, goToPrevStep } = useWizard();
 
   const onLayoutChange = (newLayout: LayoutConfigItem[]) => {
+    logger.trace("[Step2Client] Layout modificado, actualizando borrador...");
     updateDraft({
       layoutConfig: newLayout,
     });

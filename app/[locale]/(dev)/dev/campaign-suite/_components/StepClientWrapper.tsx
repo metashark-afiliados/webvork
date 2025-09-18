@@ -1,35 +1,33 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/StepClientWrapper.tsx
 /**
  * @file StepClientWrapper.tsx
- * @description Ensamblador y Renderizador de Pasos. Refactorizado para ser un
- *              orquestador puro, agnóstico a los datos específicos de cada paso.
- * @version 10.0.0 (Data Flow Decoupling)
+ * @description Ensamblador y Renderizador de Pasos.
+ *              v12.1.0 (Definitive Generic Type Safety): Alineado con la nueva
+ *              arquitectura de configuración genérica.
+ * @version 12.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { useCampaignDraft } from "../_hooks/useCampaignDraft";
+import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { stepsConfig } from "../_config/wizard.config";
+import type { StepProps } from "../_types/step.types";
 
-type WizardContent = NonNullable<Dictionary["campaignSuitePage"]>;
-
-// --- MEJORA: Se elimina la prop baseCampaigns, simplificando el contrato ---
 interface StepClientWrapperProps {
-  wizardContent: WizardContent;
+  stepContent: object;
 }
 
 export function StepClientWrapper({
-  wizardContent,
+  stepContent,
 }: StepClientWrapperProps): React.ReactElement {
-  logger.info("Renderizando StepClientWrapper (Orquestador Puro)");
+  logger.info("Renderizando StepClientWrapper (Arquitectura Genérica Segura)");
 
-  const { draft } = useCampaignDraft();
-  const currentStepId = draft.step;
-  const stepConfig = stepsConfig[currentStepId];
+  const searchParams = useSearchParams();
+  const currentStepId = parseInt(searchParams.get("step") || "0", 10);
+  const stepConfig = stepsConfig.find((s) => s.id === currentStepId);
 
   if (!stepConfig) {
     const errorMessage = `Configuración no encontrada para el paso ${currentStepId}.`;
@@ -39,26 +37,11 @@ export function StepClientWrapper({
     );
   }
 
-  const StepComponent = stepConfig.Component;
-  const stepContent =
-    wizardContent[stepConfig.contentKey as keyof typeof wizardContent];
-
-  if (!stepContent || typeof stepContent !== "object") {
-    const errorMessage = `Contenido para '${String(
-      stepConfig.contentKey
-    )}' no encontrado o inválido.`;
-    logger.error(`[StepClientWrapper] ${errorMessage}`);
-    return (
-      <div className="text-destructive text-center p-8">{errorMessage}</div>
-    );
-  }
-
-  // --- MEJORA: La inyección de props ahora es universal ---
-  // Los datos específicos del servidor ahora son cargados por los propios
-  // componentes ensambladores de paso (ej. Step0.tsx).
-  const componentProps = {
-    content: stepContent,
-  };
+  // TypeScript ahora entiende que StepComponent espera el tipo genérico con
+  // la forma correcta, y que `stepContent` coincide con esa forma.
+  const StepComponent = stepConfig.Component as React.ComponentType<
+    StepProps<object>
+  >;
 
   logger.success(
     `[StepClientWrapper] Renderizando paso ${currentStepId}: ${stepConfig.titleKey}`
@@ -73,8 +56,7 @@ export function StepClientWrapper({
         exit={{ opacity: 0, x: -20 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        {/* @ts-ignore */}
-        <StepComponent {...componentProps} />
+        <StepComponent content={stepContent} />
       </motion.div>
     </AnimatePresence>
   );

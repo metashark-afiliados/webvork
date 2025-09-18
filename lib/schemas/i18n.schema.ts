@@ -2,38 +2,45 @@
 /**
  * @file i18n.schema.ts
  * @description Aparato ensamblador y SSoT para el contrato de datos del diccionario i18n.
- *              - v12.4.0 (Deprecation Cleanup): Se elimina la importación y fusión
- *                del schema obsoleto `DevLayoutConfiguratorLocaleSchema`, completando
- *                la erradicación del módulo `layout-configurator`.
- * @version 12.4.0
+ *              Esta es la Única Fuente de Verdad que define la forma completa de
+ *              todo el contenido internacionalizado de la aplicación.
+ * @version 18.0.0 (BAVI Asset Explorer Integration)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";
 
-// --- Importaciones de Schemas Globales y de Páginas ---
+// --- GRUPO 1: Schemas Globales y de Páginas del Portal ---
 import { GlobalsLocaleSchema } from "@/lib/schemas/globals.schema";
 import { StorePageLocaleSchema } from "@/lib/schemas/pages/store-page.schema";
-import { TextPageLocaleSchema } from "@/lib/schemas/pages/text-page.schema";
+import { TextPageContentSchema } from "@/lib/schemas/pages/text-page.schema"; // Genérico
 import { NotFoundPageLocaleSchema } from "@/lib/schemas/pages/not-found-page.schema";
+
+// --- GRUPO 2: Schemas de Páginas del Developer Command Center (DCC) ---
 import { DevDashboardLocaleSchema } from "@/lib/schemas/pages/dev-dashboard.schema";
-import { DevCampaignSimulatorLocaleSchema } from "@/lib/schemas/pages/dev-campaign-simulator.schema";
 import { DevLoginPageLocaleSchema } from "@/lib/schemas/pages/dev-login-page.schema";
 import { DevTestPageLocaleSchema } from "@/lib/schemas/pages/dev-test-page.schema";
 import { CampaignSuiteLocaleSchema } from "@/lib/schemas/pages/dev-campaign-suite.schema";
+import { BaviHomePageLocaleSchema } from "./pages/bavi-home-page.schema";
+import { BaviAssetExplorerLocaleSchema } from "./pages/bavi-asset-explorer.i18n.schema"; // <-- NUEVA IMPORTACIÓN
 
-// --- Importaciones de Schemas de Componentes ---
+// --- GRUPO 3: Schemas de Componentes de Layout ---
+import { HeaderLocaleSchema } from "./components/header.schema";
+import { FooterLocaleSchema } from "./components/footer.schema";
+import { CookieConsentBannerLocaleSchema } from "./components/cookie-consent-banner.schema";
+import { DevHeaderLocaleSchema } from "./components/dev/dev-header.schema";
+import { DevHomepageHeaderLocaleSchema } from "./components/dev/dev-homepage-header.schema";
+import { DevRouteMenuLocaleSchema } from "./components/dev/dev-route-menu.schema";
+
+// --- GRUPO 4: Schemas de Componentes de Sección ---
 import { BenefitsSectionLocaleSchema } from "./components/benefits-section.schema";
 import { CommunitySectionLocaleSchema } from "./components/community-section.schema";
 import { ContactSectionLocaleSchema } from "./components/contact-section.schema";
-import { CookieConsentBannerLocaleSchema } from "./components/cookie-consent-banner.schema";
 import { DoubleScrollingBannerLocaleSchema } from "./components/double-scrolling-banner.schema";
 import { FaqAccordionLocaleSchema } from "./components/faq-accordion.schema";
 import { FeaturedArticlesCarouselLocaleSchema } from "./components/featured-articles-carousel.schema";
 import { FeaturesSectionLocaleSchema } from "./components/features-section.schema";
-import { FooterLocaleSchema } from "./components/footer.schema";
 import { GuaranteeSectionLocaleSchema } from "./components/guarantee-section.schema";
-import { HeaderLocaleSchema } from "./components/header.schema";
 import { HeroLocaleSchema } from "./components/hero.schema";
 import { HeroNewsLocaleSchema } from "./components/hero-news.schema";
 import { IngredientAnalysisLocaleSchema } from "./components/ingredient-analysis.schema";
@@ -41,6 +48,7 @@ import { NewsGridLocaleSchema } from "./components/news-grid.schema";
 import { OrderSectionLocaleSchema } from "./components/order-section.schema";
 import { PricingSectionLocaleSchema } from "./components/pricing-section.schema";
 import { ProductShowcaseLocaleSchema } from "./components/product-showcase.schema";
+import { ScrollingBannerLocaleSchema } from "./components/scrolling-banner.schema";
 import { ServicesSectionLocaleSchema } from "./components/services-section.schema";
 import { SocialProofLogosLocaleSchema } from "./components/social-proof-logos.schema";
 import { SponsorsSectionLocaleSchema } from "./components/sponsors-section.schema";
@@ -48,47 +56,60 @@ import { TeamSectionLocaleSchema } from "./components/team-section.schema";
 import { TestimonialCarouselSectionLocaleSchema } from "./components/testimonial-carousel-section.schema";
 import { TestimonialGridLocaleSchema } from "./components/testimonial-grid.schema";
 import { ThumbnailCarouselLocaleSchema } from "./components/thumbnail-carousel.schema";
-import { ScrollingBannerLocaleSchema } from "./components/scrolling-banner.schema";
-import { DevRouteMenuLocaleSchema } from "./components/dev/dev-route-menu.schema";
-import { DevHeaderLocaleSchema } from "./components/dev/dev-header.schema";
-import { DevHomepageHeaderLocaleSchema } from "./components/dev/dev-homepage-header.schema";
 
-// Importaciones de Schemas de razBits
+// --- GRUPO 5: Schemas de Ecosistemas Adicionales (BAVI, RaZPrompts) ---
+import { BaviUploaderLocaleSchema } from "./bavi/bavi-uploader.i18n.schema";
+import { PromptCreatorLocaleSchema } from "./raz-prompts/prompt-creator.i18n.schema";
+import { PromptVaultLocaleSchema } from "./raz-prompts/prompt-vault.i18n.schema";
 import { DockLocaleSchema } from "@/components/razBits/Dock/dock.schema";
 import { LightRaysLocaleSchema } from "@/components/razBits/LightRays/light-rays.schema";
 import { MagicBentoLocaleSchema } from "@/components/razBits/MagicBento/magic-bento.schema";
 
-logger.trace(
-  "[Schema i18n v12.4] Ensamblando schema tras limpieza de módulos obsoletos..."
-);
+logger.trace("[Schema i18n v18.0] Ensamblando schema maestro optimizado...");
 
+/**
+ * @const i18nSchema
+ * @description El schema maestro que fusiona todos los schemas de contenido
+ *              individuales en un único contrato de datos para el diccionario.
+ *              El uso de `.shape` y el operador spread (`...`) es la forma canónica
+ *              de fusionar objetos de Zod.
+ */
 export const i18nSchema = z
   .object({
-    // --- Páginas y Globales ---
+    // --- Global & Portal Pages ---
     ...GlobalsLocaleSchema.shape,
-    storePage: StorePageLocaleSchema.shape.storePage.unwrap(),
-    aboutPage: TextPageLocaleSchema.optional(),
-    privacyPage: TextPageLocaleSchema.optional(),
-    termsPage: TextPageLocaleSchema.optional(),
+    ...StorePageLocaleSchema.shape,
     ...NotFoundPageLocaleSchema.shape,
+    aboutPage: TextPageContentSchema.optional(),
+    privacyPage: TextPageContentSchema.optional(),
+    termsPage: TextPageContentSchema.optional(),
+    cookiesPage: TextPageContentSchema.optional(),
+
+    // --- Dev Command Center Pages ---
     ...DevDashboardLocaleSchema.shape,
-    ...DevCampaignSimulatorLocaleSchema.shape,
     ...DevLoginPageLocaleSchema.shape,
     ...DevTestPageLocaleSchema.shape,
     ...CampaignSuiteLocaleSchema.shape,
+    ...BaviHomePageLocaleSchema.shape,
+    ...BaviAssetExplorerLocaleSchema.shape, // <-- AÑADIDO EL SCHEMA DEL EXPLORADOR DE ACTIVOS
 
-    // --- Ensamblaje de Schemas de Componentes ---
+    // --- Layout & Dev Components ---
+    ...HeaderLocaleSchema.shape,
+    ...FooterLocaleSchema.shape,
+    ...CookieConsentBannerLocaleSchema.shape,
+    ...DevHeaderLocaleSchema.shape,
+    ...DevHomepageHeaderLocaleSchema.shape,
+    ...DevRouteMenuLocaleSchema.shape,
+
+    // --- Section Components ---
     ...BenefitsSectionLocaleSchema.shape,
     ...CommunitySectionLocaleSchema.shape,
     ...ContactSectionLocaleSchema.shape,
-    ...CookieConsentBannerLocaleSchema.shape,
     ...DoubleScrollingBannerLocaleSchema.shape,
     ...FaqAccordionLocaleSchema.shape,
     ...FeaturedArticlesCarouselLocaleSchema.shape,
     ...FeaturesSectionLocaleSchema.shape,
-    ...FooterLocaleSchema.shape,
     ...GuaranteeSectionLocaleSchema.shape,
-    ...HeaderLocaleSchema.shape,
     ...HeroLocaleSchema.shape,
     ...HeroNewsLocaleSchema.shape,
     ...IngredientAnalysisLocaleSchema.shape,
@@ -104,16 +125,20 @@ export const i18nSchema = z
     ...TestimonialCarouselSectionLocaleSchema.shape,
     ...TestimonialGridLocaleSchema.shape,
     ...ThumbnailCarouselLocaleSchema.shape,
-    ...DevRouteMenuLocaleSchema.shape,
-    ...DevHeaderLocaleSchema.shape,
-    ...DevHomepageHeaderLocaleSchema.shape,
 
-    // --- Ensamblaje de Schemas de razBits ---
+    // --- Additional Ecosystems ---
+    ...BaviUploaderLocaleSchema.shape,
+    ...PromptCreatorLocaleSchema.shape,
+    ...PromptVaultLocaleSchema.shape,
     ...DockLocaleSchema.shape,
     ...LightRaysLocaleSchema.shape,
     ...MagicBentoLocaleSchema.shape,
   })
   .passthrough();
 
+/**
+ * @type Dictionary
+ * @description El tipo de TypeScript inferido para un diccionario de i18n completo
+ *              y validado. Este tipo debe ser utilizado en toda la aplicación.
+ */
 export type Dictionary = z.infer<typeof i18nSchema>;
-// lib/schemas/i18n.schema.ts

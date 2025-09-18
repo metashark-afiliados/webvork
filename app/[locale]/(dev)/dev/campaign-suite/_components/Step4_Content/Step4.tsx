@@ -2,21 +2,24 @@
 /**
  * @file Step4.tsx
  * @description Ensamblador de Servidor para el Paso 4 de la SDC (Contenido).
- * @version 1.0.0
+ * @version 2.0.0 (Holistic Type Alignment): Se alinea con la nueva
+ *              arquitectura de props "envueltas".
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { Step4Client } from "./Step4Client";
+import type { StepProps } from "../../_types/step.types";
+import type { Step4ContentSchema } from "../../_schemas/steps/step4.schema";
+import type { z } from "zod";
 
-interface Step4Props {
-  content: NonNullable<Dictionary["campaignSuitePage"]>["step4"];
-}
+type Content = z.infer<typeof Step4ContentSchema>;
 
 export default async function Step4({
-  content,
-}: Step4Props): Promise<React.ReactElement> {
+  content: rawContent,
+}: StepProps<{ step4: Content }>): Promise<React.ReactElement> {
+  const content = rawContent.step4;
   logger.info("[Step4 Ensamblador] Ensamblando y delegando al cliente...");
   return <Step4Client content={content} />;
 }

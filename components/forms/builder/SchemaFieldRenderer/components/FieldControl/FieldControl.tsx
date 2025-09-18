@@ -2,9 +2,10 @@
 /**
  * @file FieldControl.tsx
  * @description Componente despachador puro.
- *              v3.0.0 (Architectural Alignment): Movido a su ubicación canónica y
- *              rutas de importación corregidas para resolver la ambigüedad del módulo.
- * @version 3.0.0
+ *              v5.1.0 (EnumField & ImageField Integration): Asegura que los campos
+ *              de tipo `ZodEnum` e `ImageField` se despachen correctamente,
+ *              pasando todas las props necesarias, incluyendo `enumOptions` y `placeholder`.
+ * @version 5.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -12,16 +13,21 @@
 import React from "react";
 import type { FieldValues } from "react-hook-form";
 import { logger } from "@/lib/logging";
+import type { z } from "zod";
 
-// --- [INICIO DE CORRECCIÓN DE RUTA DEFINITIVA] ---
-// Desde su nueva ubicación, estas rutas relativas ahora son correctas e inequívocas.
-import { BooleanField, NumberField, StringField } from "./components";
+import {
+  BooleanField,
+  NumberField,
+  StringField,
+  EnumField,
+  ImageField,
+} from "./components";
 import type { FieldComponentProps } from "./types/field.types";
-// --- [FIN DE CORRECCIÓN DE RUTA DEFINITIVA] ---
 
 interface FieldControlProps<TFieldValues extends FieldValues>
   extends FieldComponentProps<TFieldValues> {
   fieldType: string;
+  fieldSchema: z.ZodTypeAny;
 }
 
 export function FieldControl<TFieldValues extends FieldValues>({
@@ -29,12 +35,29 @@ export function FieldControl<TFieldValues extends FieldValues>({
   fieldType,
   onValueChange,
   fieldName,
+  fieldSchema,
 }: FieldControlProps<TFieldValues>): React.ReactElement {
   logger.trace(
     `[FieldControl] Despachando campo '${String(
       fieldName
     )}' del tipo: ${fieldType}`
   );
+
+  const isImageField =
+    fieldType === "ZodString" &&
+    (fieldSchema.description === "image_url" ||
+      fieldSchema.description === "image_asset_id");
+
+  if (isImageField) {
+    return (
+      <ImageField
+        field={field}
+        onValueChange={onValueChange}
+        fieldName={fieldName}
+      />
+    );
+  }
+
   switch (fieldType) {
     case "ZodBoolean":
       return (
@@ -52,6 +75,20 @@ export function FieldControl<TFieldValues extends FieldValues>({
           fieldName={fieldName}
         />
       );
+    case "ZodEnum":
+      const enumOptions = (fieldSchema as z.ZodEnum<[string, ...string[]]>)
+        .options;
+      // Aquí puedes añadir un placeholder si el schema lo provee, ej. a través de .describe()
+      const placeholder = (fieldSchema as any)._def.description; // Intenta leer el placeholder del schema
+      return (
+        <EnumField
+          field={field}
+          onValueChange={onValueChange}
+          fieldName={fieldName}
+          enumOptions={enumOptions}
+          placeholder={placeholder} // Pasar placeholder al EnumField
+        />
+      );
     case "ZodString":
     default:
       return (
@@ -63,4 +100,3 @@ export function FieldControl<TFieldValues extends FieldValues>({
       );
   }
 }
-// components/forms/builder/SchemaFieldRenderer/components/FieldControl/FieldControl.tsx

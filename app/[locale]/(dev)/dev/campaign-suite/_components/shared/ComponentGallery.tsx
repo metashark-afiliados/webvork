@@ -1,8 +1,10 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/shared/ComponentGallery.tsx
 /**
  * @file ComponentGallery.tsx
- * @description Componente de UI atómico para mostrar una selección visual de componentes.
- * @version 1.0.0
+ * @description Componente de UI atómico para mostrar una selección visual.
+ *              v5.0.0 (i18n & Layout Refactor): Consume descripciones i18n
+ *              y utiliza un layout de una sola columna para mayor claridad.
+ * @version 5.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,18 +20,25 @@ interface ComponentGalleryProps {
   items: readonly GalleryItem[];
   selectedValue: string | null;
   onValueChange: (value: string) => void;
+  descriptions: {
+    [key: string]: string;
+  };
 }
 
 export function ComponentGallery({
   items,
   selectedValue,
   onValueChange,
+  descriptions,
 }: ComponentGalleryProps) {
   return (
     <RadioGroup
       value={selectedValue ?? ""}
       onValueChange={onValueChange}
-      className="grid grid-cols-2 md:grid-cols-3 gap-4"
+      // --- [INICIO DE MEJORA DE LAYOUT] ---
+      // Ahora es una sola columna para hacer los items más grandes y claros.
+      className="grid grid-cols-1 gap-4"
+      // --- [FIN DE MEJORA DE LAYOUT] ---
     >
       {items.map((item) => (
         <Label
@@ -38,7 +47,7 @@ export function ComponentGallery({
           className={cn(
             "block cursor-pointer rounded-lg border-2 bg-card p-2 transition-all hover:border-primary/80",
             selectedValue === item.name
-              ? "border-primary shadow-lg"
+              ? "border-primary shadow-lg ring-2 ring-primary/50"
               : "border-muted/50"
           )}
         >
@@ -47,20 +56,25 @@ export function ComponentGallery({
             id={item.name}
             className="sr-only"
           />
-          <div className="overflow-hidden rounded-md">
+          <div
+            className="relative w-full overflow-hidden rounded-md bg-muted/30"
+            style={{ aspectRatio: "16 / 9" }}
+          >
             <Image
               src={item.previewImage}
               alt={`Vista previa de ${item.name}`}
-              width={200}
-              height={100}
-              className="aspect-[2/1] w-full object-cover object-top"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover object-center"
             />
           </div>
           <div className="p-2 text-center">
             <p className="font-semibold text-foreground text-sm">{item.name}</p>
+            {/* --- [INICIO DE MEJORA I18N] --- */}
             <p className="text-xs text-muted-foreground mt-1">
-              {item.description}
+              {descriptions[item.name] || "Descripción no encontrada"}
             </p>
+            {/* --- [FIN DE MEJORA I18N] --- */}
           </div>
         </Label>
       ))}

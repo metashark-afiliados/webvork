@@ -2,23 +2,28 @@
 /**
  * @file Step3.tsx
  * @description Ensamblador de Servidor para el Paso 3 de la SDC (Tema).
- * @version 1.0.0
+ * @version 3.0.0 (Holistic Type Alignment): Se alinea con la nueva
+ *              arquitectura de props "envueltas".
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { Step3Client } from "./Step3Client";
 import { getThemeFragmentsAction } from "../../_actions/getThemeFragments.action";
+import type { StepProps } from "../../_types/step.types";
+import type { Step3ContentSchema } from "../../_schemas/steps/step3.schema";
+import type { z } from "zod";
 
-interface Step3Props {
-  content: NonNullable<Dictionary["campaignSuitePage"]>["step3"];
-}
+type Content = z.infer<typeof Step3ContentSchema>;
 
 export default async function Step3({
-  content,
-}: Step3Props): Promise<React.ReactElement> {
-  logger.info("[Step3 Ensamblador] Obteniendo datos de servidor...");
+  content: rawContent,
+}: StepProps<{ step3: Content }>): Promise<React.ReactElement> {
+  const content = rawContent.step3;
+  logger.info(
+    "[Step3 Ensamblador] Obteniendo datos de servidor para el Paso 3..."
+  );
 
   const fragmentsResult = await getThemeFragmentsAction();
 

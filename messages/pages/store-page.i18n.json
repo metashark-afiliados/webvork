@@ -1,42 +1,176 @@
 {
+  "it-IT": {
+    "storePage": {
+      "title": "Il Nostro Negozio del Benessere",
+      "subtitle": "Una selezione curata di prodotti per potenziare la tua salute e le tue prestazioni.",
+      "filters": {
+        "searchLabel": "Cerca",
+        "searchPlaceholder": "Cerca prodotti...",
+        "categoryTitle": "Categorie",
+        "priceTitle": "Fascia di Prezzo",
+        "tagsTitle": "Etichette",
+        "stockTitle": "Disponibilità",
+        "inStockLabel": "Solo disponibili"
+      },
+      "bestsellerLabel": "Più Venduto",
+      "addToCartButton": "Aggiungi al Carrello",
+      "viewDetailsButton": "Vedi Dettagli",
+      "products": [
+        {
+          "id": "prod_kband_pro",
+          "name": "KineticBand Pro",
+          "category": "Prestazione",
+          "price": 89.99,
+          "imageUrl": "/img/products/kineticband.png",
+          "slug": "kineticband-pro",
+          "tags": ["recupero", "forza"],
+          "inventory": 15,
+          "rating": 4.8,
+          "isBestseller": true
+        },
+        {
+          "id": "prod_vp_filter",
+          "name": "VitaPure Filter",
+          "category": "Nutrizione",
+          "price": 49.99,
+          "imageUrl": "/img/products/vitapure.png",
+          "slug": "vitapure-filter",
+          "tags": ["idratazione", "purezza"],
+          "inventory": 30,
+          "rating": 4.5
+        },
+        {
+          "id": "prod_nb_pods",
+          "name": "NeuroBoost Pods",
+          "category": "Benessere Mentale",
+          "price": 69.99,
+          "imageUrl": "/img/products/neuroboost.png",
+          "slug": "neuroboost-pods",
+          "tags": ["focus", "cognitivo"],
+          "inventory": 0,
+          "rating": 4.9,
+          "isBestseller": true
+        },
+        {
+          "id": "prod_rg_mat",
+          "name": "RegenMat",
+          "category": "Recupero",
+          "price": 129.99,
+          "imageUrl": "/img/products/regenmat.png",
+          "slug": "regenmat",
+          "tags": ["recupero", "yoga"],
+          "inventory": 20,
+          "rating": 4.7
+        },
+        {
+          "id": "prod_eg_blend",
+          "name": "Energetic Greens",
+          "category": "Nutrizione",
+          "price": 59.99,
+          "imageUrl": "/img/products/energetic-greens.png",
+          "slug": "energetic-greens",
+          "tags": ["energia", "vegano"],
+          "inventory": 50,
+          "rating": 4.6
+        },
+        {
+          "id": "prod_ha_bottle",
+          "name": "HydroActive Bottle",
+          "category": "Idratazione",
+          "price": 34.99,
+          "imageUrl": "/img/products/hydroactive-bottle.png",
+          "slug": "hydroactive-bottle",
+          "tags": ["idratazione", "quotidiano"],
+          "inventory": 100,
+          "rating": 4.4
+        }
+      ]
+    }
+  },
   "es-ES": {
     "storePage": {
       "title": "Nuestra Tienda de Bienestar",
       "subtitle": "Una selección curada de productos para potenciar tu salud y rendimiento.",
       "filters": {
+        "searchLabel": "Buscar",
+        "searchPlaceholder": "Buscar productos...",
         "categoryTitle": "Categorías",
-        "categories": [
-          { "label": "Nutrición", "count": 8 },
-          { "label": "Rendimiento", "count": 5 },
-          { "label": "Recuperación", "count": 3 }
-        ],
         "priceTitle": "Rango de Precios",
-        "prices": [
-          { "label": "Hasta €50", "count": 12 },
-          { "label": "€50 - €100", "count": 4 }
-        ]
+        "tagsTitle": "Etiquetas",
+        "stockTitle": "Disponibilidad",
+        "inStockLabel": "Solo en stock"
       },
+      "bestsellerLabel": "Más Vendido",
+      "addToCartButton": "Añadir al Carrito",
+      "viewDetailsButton": "Ver Detalles",
       "products": [
         {
+          "id": "prod_kband_pro",
           "name": "KineticBand Pro",
           "category": "Rendimiento",
           "price": 89.99,
           "imageUrl": "/img/products/kineticband.png",
-          "slug": "kineticband-pro"
+          "slug": "kineticband-pro",
+          "tags": ["recuperacion", "fuerza"],
+          "inventory": 15,
+          "rating": 4.8,
+          "isBestseller": true
         },
         {
+          "id": "prod_vp_filter",
           "name": "VitaPure Filter",
           "category": "Nutrición",
           "price": 49.99,
           "imageUrl": "/img/products/vitapure.png",
-          "slug": "vitapure-filter"
+          "slug": "vitapure-filter",
+          "tags": ["hidratacion", "pureza"],
+          "inventory": 30,
+          "rating": 4.5
         },
         {
+          "id": "prod_nb_pods",
           "name": "NeuroBoost Pods",
           "category": "Bienestar Mental",
           "price": 69.99,
           "imageUrl": "/img/products/neuroboost.png",
-          "slug": "neuroboost-pods"
+          "slug": "neuroboost-pods",
+          "tags": ["enfoque", "cognitivo"],
+          "inventory": 0,
+          "rating": 4.9,
+          "isBestseller": true
+        },
+        {
+          "id": "prod_rg_mat",
+          "name": "RegenMat",
+          "category": "Recuperación",
+          "price": 129.99,
+          "imageUrl": "/img/products/regenmat.png",
+          "slug": "regenmat",
+          "tags": ["recuperacion", "yoga"],
+          "inventory": 20,
+          "rating": 4.7
+        },
+        {
+          "id": "prod_eg_blend",
+          "name": "Energetic Greens",
+          "category": "Nutrición",
+          "price": 59.99,
+          "imageUrl": "/img/products/energetic-greens.png",
+          "slug": "energetic-greens",
+          "tags": ["energia", "vegano"],
+          "inventory": 50,
+          "rating": 4.6
+        },
+        {
+          "id": "prod_ha_bottle",
+          "name": "HydroActive Bottle",
+          "category": "Hidratación",
+          "price": 34.99,
+          "imageUrl": "/img/products/hydroactive-bottle.png",
+          "slug": "hydroactive-bottle",
+          "tags": ["hidratacion", "diario"],
+          "inventory": 100,
+          "rating": 4.4
         }
       ]
     }
@@ -46,39 +180,85 @@
       "title": "Our Wellness Store",
       "subtitle": "A curated selection of products to boost your health and performance.",
       "filters": {
+        "searchLabel": "Search",
+        "searchPlaceholder": "Search products...",
         "categoryTitle": "Categories",
-        "categories": [
-          { "label": "Nutrition", "count": 8 },
-          { "label": "Performance", "count": 5 },
-          { "label": "Recovery", "count": 3 }
-        ],
         "priceTitle": "Price Range",
-        "prices": [
-          { "label": "Up to $50", "count": 12 },
-          { "label": "$50 - $100", "count": 4 }
-        ]
+        "tagsTitle": "Tags",
+        "stockTitle": "Availability",
+        "inStockLabel": "In stock only"
       },
+      "bestsellerLabel": "Bestseller",
+      "addToCartButton": "Add to Cart",
+      "viewDetailsButton": "View Details",
       "products": [
         {
+          "id": "prod_kband_pro",
           "name": "KineticBand Pro",
           "category": "Performance",
           "price": 89.99,
           "imageUrl": "/img/products/kineticband.png",
-          "slug": "kineticband-pro"
+          "slug": "kineticband-pro",
+          "tags": ["recovery", "strength"],
+          "inventory": 15,
+          "rating": 4.8,
+          "isBestseller": true
         },
         {
+          "id": "prod_vp_filter",
           "name": "VitaPure Filter",
           "category": "Nutrition",
           "price": 49.99,
           "imageUrl": "/img/products/vitapure.png",
-          "slug": "vitapure-filter"
+          "slug": "vitapure-filter",
+          "tags": ["hydration", "purity"],
+          "inventory": 30,
+          "rating": 4.5
         },
         {
+          "id": "prod_nb_pods",
           "name": "NeuroBoost Pods",
           "category": "Mental Wellness",
           "price": 69.99,
           "imageUrl": "/img/products/neuroboost.png",
-          "slug": "neuroboost-pods"
+          "slug": "neuroboost-pods",
+          "tags": ["focus", "cognitive"],
+          "inventory": 0,
+          "rating": 4.9,
+          "isBestseller": true
+        },
+        {
+          "id": "prod_rg_mat",
+          "name": "RegenMat",
+          "category": "Recovery",
+          "price": 129.99,
+          "imageUrl": "/img/products/regenmat.png",
+          "slug": "regenmat",
+          "tags": ["recovery", "yoga"],
+          "inventory": 20,
+          "rating": 4.7
+        },
+        {
+          "id": "prod_eg_blend",
+          "name": "Energetic Greens",
+          "category": "Nutrition",
+          "price": 59.99,
+          "imageUrl": "/img/products/energetic-greens.png",
+          "slug": "energetic-greens",
+          "tags": ["energy", "vegan"],
+          "inventory": 50,
+          "rating": 4.6
+        },
+        {
+          "id": "prod_ha_bottle",
+          "name": "HydroActive Bottle",
+          "category": "Hydration",
+          "price": 34.99,
+          "imageUrl": "/img/products/hydroactive-bottle.png",
+          "slug": "hydroactive-bottle",
+          "tags": ["hydration", "daily"],
+          "inventory": 100,
+          "rating": 4.4
         }
       ]
     }
@@ -88,81 +268,85 @@
       "title": "Nossa Loja de Bem-Estar",
       "subtitle": "Uma seleção curada de produtos para impulsionar sua saúde e desempenho.",
       "filters": {
+        "searchLabel": "Buscar",
+        "searchPlaceholder": "Buscar produtos...",
         "categoryTitle": "Categorias",
-        "categories": [
-          { "label": "Nutrição", "count": 8 },
-          { "label": "Desempenho", "count": 5 },
-          { "label": "Recuperação", "count": 3 }
-        ],
         "priceTitle": "Faixa de Preço",
-        "prices": [
-          { "label": "Até R$250", "count": 12 },
-          { "label": "R$250 - R$500", "count": 4 }
-        ]
+        "tagsTitle": "Tags",
+        "stockTitle": "Disponibilidade",
+        "inStockLabel": "Apenas em estoque"
       },
+      "bestsellerLabel": "Mais Vendido",
+      "addToCartButton": "Adicionar ao Carrinho",
+      "viewDetailsButton": "Ver Detalhes",
       "products": [
         {
+          "id": "prod_kband_pro",
           "name": "KineticBand Pro",
           "category": "Desempenho",
-          "price": 89.99,
+          "price": 450,
           "imageUrl": "/img/products/kineticband.png",
-          "slug": "kineticband-pro"
+          "slug": "kineticband-pro",
+          "tags": ["recuperacao", "forca"],
+          "inventory": 15,
+          "rating": 4.8,
+          "isBestseller": true
         },
         {
+          "id": "prod_vp_filter",
           "name": "VitaPure Filter",
           "category": "Nutrição",
-          "price": 49.99,
+          "price": 250,
           "imageUrl": "/img/products/vitapure.png",
-          "slug": "vitapure-filter"
+          "slug": "vitapure-filter",
+          "tags": ["hidratacao", "pureza"],
+          "inventory": 30,
+          "rating": 4.5
         },
         {
+          "id": "prod_nb_pods",
           "name": "NeuroBoost Pods",
           "category": "Bem-Estar Mental",
-          "price": 69.99,
+          "price": 350,
           "imageUrl": "/img/products/neuroboost.png",
-          "slug": "neuroboost-pods"
-        }
-      ]
-    }
-  },
-  "it-IT": {
-    "storePage": {
-      "title": "Il Nostro Negozio del Benessere",
-      "subtitle": "Una selezione curata di prodotti per potenziare la tua salute e le tue prestazioni.",
-      "filters": {
-        "categoryTitle": "Categorie",
-        "categories": [
-          { "label": "Nutrizione", "count": 8 },
-          { "label": "Prestazione", "count": 5 },
-          { "label": "Recupero", "count": 3 }
-        ],
-        "priceTitle": "Fascia di Prezzo",
-        "prices": [
-          { "label": "Fino a €50", "count": 12 },
-          { "label": "€50 - €100", "count": 4 }
-        ]
-      },
-      "products": [
-        {
-          "name": "KineticBand Pro",
-          "category": "Prestazione",
-          "price": 89.99,
-          "imageUrl": "/img/products/kineticband.png",
-          "slug": "kineticband-pro"
+          "slug": "neuroboost-pods",
+          "tags": ["foco", "cognitivo"],
+          "inventory": 0,
+          "rating": 4.9,
+          "isBestseller": true
         },
         {
-          "name": "VitaPure Filter",
-          "category": "Nutrizione",
-          "price": 49.99,
-          "imageUrl": "/img/products/vitapure.png",
-          "slug": "vitapure-filter"
+          "id": "prod_rg_mat",
+          "name": "RegenMat",
+          "category": "Recuperação",
+          "price": 650,
+          "imageUrl": "/img/products/regenmat.png",
+          "slug": "regenmat",
+          "tags": ["recuperacao", "yoga"],
+          "inventory": 20,
+          "rating": 4.7
         },
         {
-          "name": "NeuroBoost Pods",
-          "category": "Benessere Mentale",
-          "price": 69.99,
-          "imageUrl": "/img/products/neuroboost.png",
-          "slug": "neuroboost-pods"
+          "id": "prod_eg_blend",
+          "name": "Energetic Greens",
+          "category": "Nutrição",
+          "price": 300,
+          "imageUrl": "/img/products/energetic-greens.png",
+          "slug": "energetic-greens",
+          "tags": ["energia", "vegano"],
+          "inventory": 50,
+          "rating": 4.6
+        },
+        {
+          "id": "prod_ha_bottle",
+          "name": "HydroActive Bottle",
+          "category": "Hidratação",
+          "price": 175,
+          "imageUrl": "/img/products/hydroactive-bottle.png",
+          "slug": "hydroactive-bottle",
+          "tags": ["hidratacao", "diario"],
+          "inventory": 100,
+          "rating": 4.4
         }
       ]
     }

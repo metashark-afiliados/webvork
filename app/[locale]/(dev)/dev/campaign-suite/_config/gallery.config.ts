@@ -2,7 +2,9 @@
 /**
  * @file gallery.config.ts
  * @description SSoT para los componentes disponibles en las galerías de la SDC.
- * @version 1.0.0
+ *              v4.0.0 (i18n Refactor): Se elimina la descripción harcodeada.
+ *              El componente ahora solo define la estructura, no el contenido.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 
@@ -10,20 +12,23 @@ export const galleryConfig = {
   headers: [
     {
       name: "StandardHeader",
-      previewImage: "/img/previews/headers/standard-header-preview.png",
-      description: "Cabecera estándar con logo, navegación y CTA.",
+      previewImage: "/api/component-preview/StandardHeader",
     },
     {
       name: "MinimalHeader",
-      previewImage: "/img/previews/headers/minimal-header-preview.png",
-      description: "Cabecera minimalista solo con logo.",
+      previewImage: "/api/component-preview/MinimalHeader",
     },
   ],
   footers: [
     {
       name: "StandardFooter",
-      previewImage: "/img/previews/footers/standard-footer-preview.png",
-      description: "Pie de página completo con enlaces y newsletter.",
+      previewImage: "/api/component-preview/StandardFooter",
+    },
+  ],
+  sections: [
+    {
+      name: "BenefitsSection",
+      previewImage: "/api/component-preview/BenefitsSection",
     },
   ],
 } as const;

@@ -2,9 +2,9 @@
 /**
  * @file page.tsx
  * @description Página "Sobre Nosotros", ahora como un simple consumidor de datos.
- *              v3.0.0 (Alias Unification): Rutas de importación refactorizadas
- *              para usar el alias raíz único `@/*`.
- * @version 3.0.0
+ *              v3.1.0 (Code Hygiene): Se elimina la importación no utilizada
+ *              de 'Dictionary' para cumplir con las reglas de ESLint.
+ * @version 3.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -12,7 +12,6 @@ import { getDictionary } from "@/lib/i18n";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TextSection } from "@/components/sections/TextSection";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
 
 interface AboutPageProps {

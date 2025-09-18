@@ -1,28 +1,63 @@
+
 {
+  "it-IT": {
+    "newsGrid": {
+      "title": "Ultime Notizie e Articoli",
+      "articles": [
+        {
+          "slug": "5-supercibi-dieta",
+          "category": "Nutrizione",
+          "title": "5 Superfood da Aggiungere alla Tua Dieta",
+          "summary": "Scopri come questi alimenti possono aumentare naturalmente la tua energia e le tue difese.",
+          "imageUrl": "/img/news/superfoods.jpg",
+          "imageAlt": "Una ciotola colorata di superfood, incluse bacche e noci."
+        },
+        {
+          "slug": "guida-allenamento-funzionale",
+          "category": "Fitness",
+          "title": "Allenamento Funzionale: La Guida Definitiva",
+          "summary": "Massimizza i tuoi risultati in palestra con una routine che imita i movimenti della vita reale.",
+          "imageUrl": "/img/news/functional-training.jpg",
+          "imageAlt": "Una persona che esegue uno squat con kettlebell in una palestra luminosa."
+        },
+        {
+          "slug": "mindfulness-riduzione-stress",
+          "category": "Benessere Mentale",
+          "title": "Mindfulness e Riduzione dello Stress: Tecniche Comprovate",
+          "summary": "Impara a calmare la mente e migliorare la concentrazione con pratiche semplici che puoi fare ovunque.",
+          "imageUrl": "/img/news/mindfulness.jpg",
+          "imageAlt": "Una persona che medita serenamente con un tramonto sullo sfondo."
+        }
+      ]
+    }
+  },
   "es-ES": {
     "newsGrid": {
       "title": "Últimas Noticias y Artículos",
       "articles": [
         {
+          "slug": "5-superalimentos-dieta",
           "category": "Nutrición",
           "title": "5 Superalimentos que Deberías Incluir en Tu Dieta",
           "summary": "Descubre cómo estos alimentos pueden potenciar tu energía y defensas de forma natural.",
           "imageUrl": "/img/news/superfoods.jpg",
-          "slug": "5-superalimentos"
+          "imageAlt": "Un bol colorido de superalimentos, incluyendo bayas y frutos secos."
         },
         {
+          "slug": "guida-entrenamiento-funcional",
           "category": "Fitness",
-          "title": "Entrenamiento Funcional: La Guía Definitiva para Principiantes",
+          "title": "Entrenamiento Funcional: La Guía Definitiva",
           "summary": "Maximiza tus resultados en el gimnasio con una rutina que imita los movimientos de la vida real.",
           "imageUrl": "/img/news/functional-training.jpg",
-          "slug": "guia-entrenamiento-funcional"
+          "imageAlt": "Una persona realizando una sentadilla goblet con una pesa rusa en un gimnasio luminoso."
         },
         {
+          "slug": "mindfulness-reduccion-estres",
           "category": "Bienestar Mental",
           "title": "Mindfulness y Reducción del Estrés: Técnicas Comprobadas",
           "summary": "Aprende a calmar tu mente y mejorar tu enfoque con prácticas sencillas que puedes hacer en cualquier lugar.",
           "imageUrl": "/img/news/mindfulness.jpg",
-          "slug": "mindfulness-reduccion-estres"
+          "imageAlt": "Una persona meditando serenamente con una puesta de sol de fondo."
         }
       ]
     }
@@ -32,25 +67,28 @@
       "title": "Latest News & Articles",
       "articles": [
         {
+          "slug": "5-superfoods-diet",
           "category": "Nutrition",
           "title": "5 Superfoods You Should Add to Your Diet",
           "summary": "Discover how these foods can naturally boost your energy and defenses.",
           "imageUrl": "/img/news/superfoods.jpg",
-          "slug": "5-superfoods"
+          "imageAlt": "A colorful bowl of superfoods, including berries and nuts."
         },
         {
+          "slug": "functional-training-guide",
           "category": "Fitness",
-          "title": "Functional Training: The Ultimate Beginner's Guide",
+          "title": "Functional Training: The Ultimate Guide",
           "summary": "Maximize your gym results with a routine that mimics real-life movements.",
           "imageUrl": "/img/news/functional-training.jpg",
-          "slug": "functional-training-guide"
+          "imageAlt": "A person performing a goblet squat with a kettlebell in a bright gym."
         },
         {
+          "slug": "mindfulness-stress-reduction",
           "category": "Mental Wellness",
           "title": "Mindfulness and Stress Reduction: Proven Techniques",
           "summary": "Learn to calm your mind and improve your focus with simple practices you can do anywhere.",
           "imageUrl": "/img/news/mindfulness.jpg",
-          "slug": "mindfulness-stress-reduction"
+          "imageAlt": "A person meditating serenely with a sunset in the background."
         }
       ]
     }
@@ -60,53 +98,28 @@
       "title": "Últimas Notícias e Artigos",
       "articles": [
         {
+          "slug": "5-superalimentos-dieta",
           "category": "Nutrição",
           "title": "5 Superalimentos que Você Deve Adicionar à Sua Dieta",
           "summary": "Descubra como esses alimentos podem impulsionar sua energia e defesas naturalmente.",
           "imageUrl": "/img/news/superfoods.jpg",
-          "slug": "5-superalimentos"
+          "imageAlt": "Uma tigela colorida de superalimentos, incluindo frutas vermelhas e nozes."
         },
         {
+          "slug": "guia-treinamento-funcional",
           "category": "Fitness",
-          "title": "Treinamento Funcional: O Guia Definitivo para Iniciantes",
+          "title": "Treinamento Funcional: O Guia Definitivo",
           "summary": "Maximize seus resultados na academia com uma rotina que imita os movimentos da vida real.",
           "imageUrl": "/img/news/functional-training.jpg",
-          "slug": "guia-treinamento-funcional"
+          "imageAlt": "Uma pessoa realizando um agachamento goblet com um kettlebell em uma academia iluminada."
         },
         {
+          "slug": "mindfulness-reducao-estresse",
           "category": "Bem-estar Mental",
           "title": "Mindfulness e Redução de Estresse: Técnicas Comprovadas",
           "summary": "Aprenda a acalmar sua mente e melhorar seu foco com práticas simples que você pode fazer em qualquer lugar.",
           "imageUrl": "/img/news/mindfulness.jpg",
-          "slug": "mindfulness-reducao-estresse"
-        }
-      ]
-    }
-  },
-  "it-IT": {
-    "newsGrid": {
-      "title": "Ultime Notizie e Articoli",
-      "articles": [
-        {
-          "category": "Nutrizione",
-          "title": "5 Superfood da Aggiungere alla Tua Dieta",
-          "summary": "Scopri come questi alimenti possono aumentare naturalmente la tua energia e le tue difese.",
-          "imageUrl": "/img/news/superfoods.jpg",
-          "slug": "5-supercibi"
-        },
-        {
-          "category": "Fitness",
-          "title": "Allenamento Funzionale: La Guida Definitiva per Principianti",
-          "summary": "Massimizza i tuoi risultati in palestra con una routine che imita i movimenti della vita reale.",
-          "imageUrl": "/img/news/functional-training.jpg",
-          "slug": "guida-allenamento-funzionale"
-        },
-        {
-          "category": "Benessere Mentale",
-          "title": "Mindfulness e Riduzione dello Stress: Tecniche Comprovate",
-          "summary": "Impara a calmare la mente e migliorare la concentrazione con pratiche semplici che puoi fare ovunque.",
-          "imageUrl": "/img/news/mindfulness.jpg",
-          "slug": "mindfulness-riduzione-stress"
+          "imageAlt": "Uma pessoa meditando serenamente com um pôr do sol ao fundo."
         }
       ]
     }

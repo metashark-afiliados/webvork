@@ -1,27 +1,37 @@
 // lib/schemas/pages/store-page.schema.ts
 /**
  * @file store-page.schema.ts
- * @description Schema para el contenido de la página de la tienda.
- *              - v3.0.0: Desacopla las rutas del contenido reemplazando `href` por `slug`,
- *                alineando el contrato de datos con la estrategia de rutas centralizada.
- * @version 3.0.0
+ * @description SSoT para el contrato de datos de la Tienda v2.0 (Stripe-Ready).
+ * @version 2.1.0 (ProductFilterSchema Export)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
+import { logger } from "@/lib/logging";
 
-const ProductFilterSchema = z.object({
+logger.trace("[Schema] Definiendo contrato para [StorePage] v2.1.");
+
+/**
+ * @const ProductFilterSchema
+ * @description Valida la estructura de un item en los filtros de categoría.
+ *              Aunque no se usa directamente en la UI v2.2, se mantiene para futuras mejoras
+ *              y ahora se exporta para resolver la advertencia 'no-unused-vars'.
+ */
+export const ProductFilterSchema = z.object({
+  // <-- Exportado explícitamente
   label: z.string(),
   count: z.number(),
 });
 
-const ProductCardSchema = z.object({
+export const ProductCardSchema = z.object({
+  id: z.string().min(1, "El ID de producto es obligatorio."),
+  stripePriceId: z.string().startsWith("price_").optional(), // Opcional mientras no se implemente
   name: z.string(),
   category: z.string(),
   price: z.number(),
   imageUrl: z.string().startsWith("/"),
-  // --- [INICIO DE CORRECCIÓN] ---
-  slug: z.string().min(1, "El slug del producto es obligatorio."),
-  // --- [FIN DE CORRECCIÓN] ---
+  slug: z.string().min(1),
+  tags: z.array(z.string()),
+  inventory: z.number().int().min(0),
 });
 
 export const StorePageLocaleSchema = z.object({
@@ -33,10 +43,10 @@ export const StorePageLocaleSchema = z.object({
         categoryTitle: z.string(),
         categories: z.array(ProductFilterSchema),
         priceTitle: z.string(),
-        prices: z.array(ProductFilterSchema),
+        tagsTitle: z.string(),
+        stockTitle: z.string(),
       }),
       products: z.array(ProductCardSchema),
     })
     .optional(),
 });
-// lib/schemas/pages/store-page.schema.ts

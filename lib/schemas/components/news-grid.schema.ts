@@ -1,10 +1,8 @@
 // lib/schemas/components/news-grid.schema.ts
 /**
  * @file news-grid.schema.ts
- * @description Esquema de Zod para el contenido i18n del componente NewsGrid.
- *              - v3.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
- *                de locale.
- * @version 3.0.0
+ * @description SSoT para el contrato de datos de un artículo en una cuadrícula.
+ * @version 2.0.0 (Data-Driven & Resilient)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -13,20 +11,20 @@ import { logger } from "@/lib/logging";
 logger.trace("[Schema] Definiendo contrato para [NewsGrid]");
 
 /**
- * @const ArticleSchema
- * @description Valida la estructura de un único artículo para la cuadrícula de noticias.
+ * @const ArticleCardSchema
+ * @description Valida la estructura de los datos necesarios para renderizar
+ *              una tarjeta de artículo en una cuadrícula o carrusel.
  */
-const ArticleSchema = z.object({
+export const ArticleCardSchema = z.object({
+  slug: z.string().min(1, "El slug del artículo es obligatorio para la navegación."),
   category: z.string().min(1, "La categoría es requerida."),
   title: z.string().min(1, "El título es requerido."),
   summary: z.string().min(1, "El resumen es requerido."),
-  imageUrl: z
-    .string()
-    .startsWith("/", "La ruta de la imagen debe ser absoluta desde /public."),
-  slug: z.string().min(1, "El slug del artículo es obligatorio."),
+  imageUrl: z.string().startsWith("/", "La ruta de la imagen debe ser absoluta."),
+  imageAlt: z.string().min(1, "El texto alternativo es requerido por accesibilidad."),
 });
 
-export type Article = z.infer<typeof ArticleSchema>;
+export type ArticleCardData = z.infer<typeof ArticleCardSchema>;
 
 /**
  * @const NewsGridContentSchema
@@ -34,7 +32,7 @@ export type Article = z.infer<typeof ArticleSchema>;
  */
 export const NewsGridContentSchema = z.object({
   title: z.string(),
-  articles: z.array(ArticleSchema),
+  articles: z.array(ArticleCardSchema),
 });
 
 /**
@@ -43,12 +41,5 @@ export const NewsGridContentSchema = z.object({
  */
 export const NewsGridLocaleSchema = z.object({
   newsGrid: NewsGridContentSchema.optional(),
-});
-
-export const NewsGridI18nSchema = z.object({
-  "es-ES": NewsGridLocaleSchema,
-  "en-US": NewsGridLocaleSchema,
-  "pt-BR": NewsGridLocaleSchema,
-  "it-IT": NewsGridLocaleSchema,
 });
 // lib/schemas/components/news-grid.schema.ts

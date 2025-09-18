@@ -2,9 +2,8 @@
 /**
  * @file ComponentCanvas.tsx
  * @description Componente orquestador para el Dev Component Canvas.
- *              - v3.1.0: Corrige el error de linting `react/no-unescaped-entities`
- *                escapando las comillas dobles literales en el mensaje de error.
- * @version 3.1.0
+ *              - v3.2.0 (Type Safety): Erradica el uso de 'any'.
+ * @version 3.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -63,21 +62,22 @@ export async function ComponentCanvas({
         </div>
       </div>
     );
-  } catch (error: any) {
+  } catch (error) {
+    // --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-explicit-any] ---
+    const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(
       `[CanvasOrchestrator] Falla crítica al cargar "${componentName}":`,
-      { error: error.message }
+      { error: errorMessage }
     );
+    // --- [FIN DE CORRECCIÓN] ---
     return (
       <div className="text-center text-destructive border border-red-500 p-8 rounded-lg">
         <h2 className="text-2xl font-bold">Error de Carga del Componente</h2>
-        {/* --- INICIO DE LA CORRECCIÓN --- */}
         <p className="text-muted-foreground">
           No se pudo cargar el componente &quot;
           <strong>{componentName}</strong>&quot;.
         </p>
-        {/* --- FIN DE LA CORRECCIÓN --- */}
-        <p className="text-sm text-muted-foreground mt-2">{error.message}</p>
+        <p className="text-sm text-muted-foreground mt-2">{errorMessage}</p>
       </div>
     );
   }

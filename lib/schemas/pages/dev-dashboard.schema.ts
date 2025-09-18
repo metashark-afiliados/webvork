@@ -2,10 +2,9 @@
 /**
  * @file dev-dashboard.schema.ts
  * @description Esquema de Zod para el contenido i18n de la página del Dashboard de Desarrollo.
- *              - v2.1.1 (Verification): Auditado y confirmado como la SSoT correcta
- *                para el contrato de datos del Dev Dashboard.
- * @version 2.1.1
- * @author @author RaZ Podestá - MetaShark Tech
+ *              v2.2.0 (Theme Switcher i18n): Añade claves para el nuevo `DevThemeSwitcher` global.
+ * @version 2.2.0
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 
@@ -23,9 +22,17 @@ export const DevDashboardLocaleSchema = z.object({
         componentCanvas: DevToolSchema,
         campaignSimulator: DevToolSchema,
         branding: DevToolSchema,
-        resilienceShowcase: DevToolSchema, // Clave requerida que causaba el fallo en los datos
+        resilienceShowcase: DevToolSchema,
       }),
+      // --- [INICIO DE AÑADIDO: Claves para DevThemeSwitcher] ---
+      selectThemeLabel: z.string(),
+      selectFontLabel: z.string(),
+      selectRadiusLabel: z.string(),
+      defaultPresetName: z.string(),
+      colorFilterPlaceholder: z.string(),
+      fontFilterPlaceholder: z.string(),
+      radiusFilterPlaceholder: z.string(),
+      // --- [FIN DE AÑADIDO] ---
     })
     .optional(),
 });
-// lib/schemas/pages/dev-dashboard.schema.ts

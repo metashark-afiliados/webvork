@@ -1,0 +1,146 @@
+{
+  "it-IT": {
+    "kineticband-pro": {
+      "productData": {
+        "id": "prod_kband_pro",
+        "name": "KineticBand Pro",
+        "category": "Prestazione",
+        "price": 89.99,
+        "imageUrl": "/img/products/kineticband.png",
+        "slug": "kineticband-pro",
+        "tags": ["recupero", "forza"],
+        "inventory": 15,
+        "rating": 4.8,
+        "isBestseller": true
+      },
+      "galleryImages": [
+        {
+          "src": "/img/products/kineticband-gallery-1.png",
+          "alt": "KineticBand Pro in uso"
+        },
+        {
+          "src": "/img/products/kineticband-gallery-2.png",
+          "alt": "Dettaglio del materiale di KineticBand Pro"
+        }
+      ],
+      "description": [
+        {
+          "type": "p",
+          "text": "La KineticBand Pro è progettata per atleti d'élite che cercano di massimizzare il loro potenziale. Realizzata con materiali resistenti e un design ergonomico, offre una resistenza progressiva per migliorare forza, velocità e agilità."
+        },
+        { "type": "h2", "text": "Caratteristiche Principali" }
+      ],
+      "addToCartButton": "Aggiungi al Carrello",
+      "quantityLabel": "Quantità",
+      "relatedProductsTitle": "Potrebbe Piacerti Anche"
+    }
+  },
+  "es-ES": {
+    "kineticband-pro": {
+      "productData": {
+        "id": "prod_kband_pro",
+        "name": "KineticBand Pro",
+        "category": "Rendimiento",
+        "price": 89.99,
+        "imageUrl": "/img/products/kineticband.png",
+        "slug": "kineticband-pro",
+        "tags": ["recuperacion", "fuerza"],
+        "inventory": 15,
+        "rating": 4.8,
+        "isBestseller": true
+      },
+      "galleryImages": [
+        {
+          "src": "/img/products/kineticband-gallery-1.png",
+          "alt": "KineticBand Pro en uso"
+        },
+        {
+          "src": "/img/products/kineticband-gallery-2.png",
+          "alt": "Detalle del material de KineticBand Pro"
+        }
+      ],
+      "description": [
+        {
+          "type": "p",
+          "text": "La KineticBand Pro está diseñada para atletas de élite que buscan maximizar su potencial. Fabricada con materiales resistentes y un diseño ergonómico, ofrece una resistencia progresiva para mejorar la fuerza, velocidad y agilidad."
+        },
+        { "type": "h2", "text": "Características Principales" }
+      ],
+      "addToCartButton": "Añadir al Carrito",
+      "quantityLabel": "Cantidad",
+      "relatedProductsTitle": "También te podría gustar"
+    }
+  },
+  "en-US": {
+    "kineticband-pro": {
+      "productData": {
+        "id": "prod_kband_pro",
+        "name": "KineticBand Pro",
+        "category": "Performance",
+        "price": 89.99,
+        "imageUrl": "/img/products/kineticband.png",
+        "slug": "kineticband-pro",
+        "tags": ["recovery", "strength"],
+        "inventory": 15,
+        "rating": 4.8,
+        "isBestseller": true
+      },
+      "galleryImages": [
+        {
+          "src": "/img/products/kineticband-gallery-1.png",
+          "alt": "KineticBand Pro in use"
+        },
+        {
+          "src": "/img/products/kineticband-gallery-2.png",
+          "alt": "Detail of the KineticBand Pro material"
+        }
+      ],
+      "description": [
+        {
+          "type": "p",
+          "text": "The KineticBand Pro is designed for elite athletes looking to maximize their potential. Made with durable materials and an ergonomic design, it offers progressive resistance to improve strength, speed, and agility."
+        },
+        { "type": "h2", "text": "Main Features" }
+      ],
+      "addToCartButton": "Add to Cart",
+      "quantityLabel": "Quantity",
+      "relatedProductsTitle": "You Might Also Like"
+    }
+  },
+  "pt-BR": {
+    "kineticband-pro": {
+      "productData": {
+        "id": "prod_kband_pro",
+        "name": "KineticBand Pro",
+        "category": "Desempenho",
+        "price": 450,
+        "imageUrl": "/img/products/kineticband.png",
+        "slug": "kineticband-pro",
+        "tags": ["recuperacao", "forca"],
+        "inventory": 15,
+        "rating": 4.8,
+        "isBestseller": true
+      },
+      "galleryImages": [
+        {
+          "src": "/img/products/kineticband-gallery-1.png",
+          "alt": "KineticBand Pro em uso"
+        },
+        {
+          "src": "/img/products/kineticband-gallery-2.png",
+          "alt": "Detalhe do material da KineticBand Pro"
+        }
+      ],
+      "description": [
+        {
+          "type": "p",
+          "text": "A KineticBand Pro é projetada para atletas de elite que buscam maximizar seu potencial. Feita com materiais duráveis e um design ergonômico, oferece resistência progressiva para melhorar a força, velocidade e agilidade."
+        },
+        { "type": "h2", "text": "Principais Características" }
+      ],
+      "addToCartButton": "Adicionar ao Carrinho",
+      "quantityLabel": "Quantidade",
+      "relatedProductsTitle": "Você Também Pode Gostar"
+    }
+  }
+}

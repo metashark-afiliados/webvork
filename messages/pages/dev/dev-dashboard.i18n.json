@@ -1,0 +1,126 @@
+{
+  "it-IT": {
+    "devDashboardPage": {
+      "title": "Developer Command Center",
+      "subtitle": "Strumenti per lo sviluppo e la simulazione delle campagne.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Component Canvas",
+          "description": "Visualizza e testa i componenti dell'interfaccia utente in isolamento con dati di mock."
+        },
+        "campaignSimulator": {
+          "name": "Simulatore di Campagne",
+          "description": "Visualizza in anteprima le varianti di campagna attive leggendo direttamente dai manifesti di dati."
+        },
+        "branding": {
+          "name": "Guida di Stile",
+          "description": "Riferimento visivo per tutti i token di design del sistema (colori, tipografia, ecc.)."
+        },
+        "resilienceShowcase": {
+          "name": "Vetrina di Resilienza",
+          "description": "Renderizza tutti i componenti per verificare la stabilità e la compatibilità dei dati."
+        }
+      },
+      "selectThemeLabel": "Seleziona Tema DCC",
+      "selectFontLabel": "Seleziona Font",
+      "selectRadiusLabel": "Seleziona Raggio",
+      "defaultPresetName": "Predefinito",
+      "colorFilterPlaceholder": "Scegli colore...",
+      "fontFilterPlaceholder": "Scegli font...",
+      "radiusFilterPlaceholder": "Scegli raggio..."
+    }
+  },
+  "es-ES": {
+    "devDashboardPage": {
+      "title": "Centro de Comando del Desarrollador",
+      "subtitle": "Herramientas para el desarrollo y simulación de campañas.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Lienzo de Componentes",
+          "description": "Visualiza y prueba componentes de UI de forma aislada con datos de mock."
+        },
+        "campaignSimulator": {
+          "name": "Simulador de Campañas",
+          "description": "Previsualiza variantes de campaña activas leyendo directamente desde los manifiestos de datos."
+        },
+        "branding": {
+          "name": "Guía de Estilo",
+          "description": "Referencia visual para todos los tokens de diseño del sistema (colores, tipografía, etc.)."
+        },
+        "resilienceShowcase": {
+          "name": "Vitrina de Resiliencia",
+          "description": "Renderiza todos los componentes para verificar la estabilidad y compatibilidad de los datos."
+        }
+      },
+      "selectThemeLabel": "Seleccionar Tema DCC",
+      "selectFontLabel": "Seleccionar Fuente",
+      "selectRadiusLabel": "Seleccionar Radio",
+      "defaultPresetName": "Por Defecto",
+      "colorFilterPlaceholder": "Elige color...",
+      "fontFilterPlaceholder": "Elige fuente...",
+      "radiusFilterPlaceholder": "Elige radio..."
+    }
+  },
+  "en-US": {
+    "devDashboardPage": {
+      "title": "Developer Command Center",
+      "subtitle": "Tools for campaign development and simulation.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Component Canvas",
+          "description": "Visualize and test UI components in isolation with mock data."
+        },
+        "campaignSimulator": {
+          "name": "Campaign Simulator",
+          "description": "Preview active campaign variants by reading directly from data manifests."
+        },
+        "branding": {
+          "name": "Style Guide",
+          "description": "Visual reference for all system design tokens (colors, typography, etc.)."
+        },
+        "resilienceShowcase": {
+          "name": "Resilience Showcase",
+          "description": "Renders all components to verify stability and data compatibility."
+        }
+      },
+      "selectThemeLabel": "Select DCC Theme",
+      "selectFontLabel": "Select Font",
+      "selectRadiusLabel": "Select Radius",
+      "defaultPresetName": "Default",
+      "colorFilterPlaceholder": "Choose color...",
+      "fontFilterPlaceholder": "Choose font...",
+      "radiusFilterPlaceholder": "Choose radius..."
+    }
+  },
+  "pt-BR": {
+    "devDashboardPage": {
+      "title": "Centro de Comando do Desenvolvedor",
+      "subtitle": "Ferramentas para o desenvolvimento e simulação de campanhas.",
+      "tools": {
+        "componentCanvas": {
+          "name": "Canvas de Componentes",
+          "description": "Visualize e teste componentes de UI isoladamente com dados mock."
+        },
+        "campaignSimulator": {
+          "name": "Simulador de Campanhas",
+          "description": "Pré-visualize variantes de campanha ativas lendo diretamente dos manifestos de dados."
+        },
+        "branding": {
+          "name": "Guia de Estilo",
+          "description": "Referência visual para todos os tokens de design do sistema (cores, tipografia, etc.)."
+        },
+        "resilienceShowcase": {
+          "name": "Vitrine de Resiliência",
+          "description": "Renderiza todos os componentes para verificar a estabilidade e a compatibilidade dos dados."
+        }
+      },
+      "selectThemeLabel": "Selecionar Tema DCC",
+      "selectFontLabel": "Selecionar Fonte",
+      "selectRadiusLabel": "Selecionar Raio",
+      "defaultPresetName": "Padrão",
+      "colorFilterPlaceholder": "Escolha cor...",
+      "fontFilterPlaceholder": "Escolha fonte...",
+      "radiusFilterPlaceholder": "Escolha raio..."
+    }
+  }
+}

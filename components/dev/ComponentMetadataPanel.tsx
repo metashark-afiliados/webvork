@@ -2,18 +2,20 @@
 /**
  * @file src/components/dev/ComponentMetadataPanel.tsx
  * @description Componente de presentación para mostrar los metadatos de un componente.
- *              - v1.1.0: Corregida la ruta de importación de la configuración de branding.
- * @version 1.1.0
+ *              - v1.2.0 (Type Safety): Erradica el uso de 'any'.
+ * @version 1.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { Palette, Ruler, Text, LayoutGrid } from "lucide-react";
-// --- CORRECCIÓN DE RUTA ---
 import { GLOBAL_DESIGN_TOKENS } from "@/config/branding.config";
+import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
 
 interface ComponentMetadataPanelProps {
-  appliedTheme: any;
-  componentProps: Record<string, any>;
+  // --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-explicit-any] ---
+  appliedTheme: AssembledTheme | null;
+  componentProps: Record<string, unknown>;
+  // --- [FIN DE CORRECCIÓN] ---
 }
 
 export function ComponentMetadataPanel({

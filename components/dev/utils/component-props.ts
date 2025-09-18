@@ -2,16 +2,12 @@
 /**
  * @file component-props.ts
  * @description Utilidad para generar props de fallback robustas y estructuradas para componentes de desarrollo.
- *              Atomizado desde ComponentCanvas.tsx para respetar el Principio de Responsabilidad Única.
- *              - v1.2.0: Resuelve errores de compilación (`TS2749`, `TS1005`, etc.) al reemplazar
- *                la sintaxis JSX (`<DynamicIcon />`) por `React.createElement(DynamicIcon, ...)`,
- *                lo que es compatible con archivos `.ts`. Mantiene el uso de `DynamicIcon`.
- * @version 1.2.0
+ *              - v1.3.0 (Type Safety): Erradica el uso de 'any'.
+ * @version 1.3.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-// import { Gauge } from "lucide-react"; // Ya eliminado
-import { DynamicIcon } from "@/components/ui"; // Importación de DynamicIcon
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 
 /**
@@ -20,9 +16,9 @@ import { logger } from "@/lib/logging";
  *              del Dev Canvas, asegurando que la estructura esperada por el componente
  *              esté presente para evitar TypeError.
  * @param {string} name - Nombre del componente para el cual generar las props de fallback.
- * @returns {Record<string, any>} Objeto de props de fallback estructuradas.
+ * @returns {Record<string, unknown>} Objeto de props de fallback estructuradas.
  */
-export function getFallbackProps(name: string): Record<string, any> {
+export function getFallbackProps(name: string): Record<string, unknown> {
   logger.trace(`[getFallbackProps] Generando props de fallback para: ${name}`);
   switch (name) {
     case "Hero":
@@ -45,12 +41,12 @@ export function getFallbackProps(name: string): Record<string, any> {
       return {
         items: [
           {
-            icon: React.createElement(DynamicIcon, { name: "Gauge", size: 18 }), // <-- ¡CORRECCIÓN APLICADA AQUÍ!
+            icon: React.createElement(DynamicIcon, { name: "Gauge", size: 18 }),
             label: "Default Mock Item C",
             onClick: () => logger.info("Default Mock Item C clicked!"),
           },
           {
-            icon: React.createElement(DynamicIcon, { name: "Gauge", size: 18 }), // <-- ¡CORRECCIÓN APLICADA AQUÍ!
+            icon: React.createElement(DynamicIcon, { name: "Gauge", size: 18 }),
             label: "Default Mock Item D",
             onClick: () => logger.info("Default Mock Item D clicked!"),
           },
@@ -67,7 +63,7 @@ export function getFallbackProps(name: string): Record<string, any> {
           navLinks: [{ label: "Mock Link", href: "/dev" }],
           ctaButton: { label: "CTA Mock", href: "/dev" },
         },
-        devDictionary: {}, // Proporcionar un mock vacío para devDictionary
+        devDictionary: {},
       };
     case "Footer":
       return {
@@ -84,3 +80,4 @@ export function getFallbackProps(name: string): Record<string, any> {
       return {};
   }
 }
+// components/dev/utils/component-props.ts

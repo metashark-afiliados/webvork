@@ -1,0 +1,114 @@
+{
+  "it-IT": {
+    "step5": {
+      "title": "Passo 5: Gestione e Pubblicazione",
+      "description": "Sei all'ultimo passo. Rivedi la configurazione e scegli l'azione finale per la tua nuova variante di campagna.",
+      "summaryTitle": "Riepilogo della Configurazione",
+      "summaryPlaceholder": "Anteprima della configurazione (da implementare)...",
+      "publishButtonText": "Pubblica sul Sito",
+      "packageButtonText": "Esporta come .zip",
+      "deleteButtonText": "Elimina Bozze",
+      "templateButtonText": "Salva come Template",
+      "deleteDialog": {
+        "title": "Sei assolutamente sicuro?",
+        "description": "Questa azione non può essere annullata. Questo eliminerà permanentemente la tua bozza di campagna.",
+        "cancelButton": "Annulla",
+        "confirmButton": "Sì, Elimina"
+      },
+      "templateDialog": {
+        "title": "Salva come Template",
+        "description": "Salva la configurazione attuale come un template riutilizzabile per future campagne.",
+        "nameLabel": "Nome del Template",
+        "namePlaceholder": "Es. Template di Vendita Diret...",
+        "descriptionLabel": "Descrizione",
+        "descriptionPlaceholder": "Per campagne con focus su...",
+        "saveButton": "Salva Template",
+        "cancelButton": "Annulla"
+      }
+    }
+  },
+  "es-ES": {
+    "step5": {
+      "title": "Paso 5: Gestión y Publicación",
+      "description": "Estás en el último paso. Revisa la configuración y elige la acción final para tu nueva variante de campaña.",
+      "summaryTitle": "Resumen de la Configuración",
+      "summaryPlaceholder": "Vista previa de la configuración (pendiente)...",
+      "publishButtonText": "Publicar en el Sitio",
+      "packageButtonText": "Exportar como .zip",
+      "deleteButtonText": "Eliminar Borrador",
+      "templateButtonText": "Guardar como Plantilla",
+      "deleteDialog": {
+        "title": "¿Estás absolutamente seguro?",
+        "description": "Esta acción no se puede deshacer. Esto eliminará permanentemente tu borrador de campaña.",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Sí, Eliminar"
+      },
+      "templateDialog": {
+        "title": "Guardar como Plantilla",
+        "description": "Guarda la configuración actual como una plantilla reutilizable para futuras campañas.",
+        "nameLabel": "Nombre de la Plantilla",
+        "namePlaceholder": "Ej. Plantilla de Venta Directa...",
+        "descriptionLabel": "Descripción",
+        "descriptionPlaceholder": "Para campañas con enfoque en...",
+        "saveButton": "Guardar Plantilla",
+        "cancelButton": "Cancelar"
+      }
+    }
+  },
+  "en-US": {
+    "step5": {
+      "title": "Step 5: Management & Publishing",
+      "description": "You are at the final step. Review the configuration and choose the final action for your new campaign variant.",
+      "summaryTitle": "Configuration Summary",
+      "summaryPlaceholder": "Configuration preview (to be implemented)...",
+      "publishButtonText": "Publish to Site",
+      "packageButtonText": "Export as .zip",
+      "deleteButtonText": "Delete Draft",
+      "templateButtonText": "Save as Template",
+      "deleteDialog": {
+        "title": "Are you absolutely sure?",
+        "description": "This action cannot be undone. This will permanently delete your campaign draft.",
+        "cancelButton": "Cancel",
+        "confirmButton": "Yes, Delete"
+      },
+      "templateDialog": {
+        "title": "Save as Template",
+        "description": "Save the current configuration as a reusable template for future campaigns.",
+        "nameLabel": "Template Name",
+        "namePlaceholder": "E.g., Direct Sale Template...",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "For campaigns focusing on...",
+        "saveButton": "Save Template",
+        "cancelButton": "Cancel"
+      }
+    }
+  },
+  "pt-BR": {
+    "step5": {
+      "title": "Passo 5: Gestão e Publicação",
+      "description": "Você está no último passo. Revise a configuração e escolha a ação final para sua nova variante de campanha.",
+      "summaryTitle": "Resumo da Configuração",
+      "summaryPlaceholder": "Pré-visualização da configuração (a ser implementada)...",
+      "publishButtonText": "Publicar no Site",
+      "packageButtonText": "Exportar como .zip",
+      "deleteButtonText": "Excluir Rascunho",
+      "templateButtonText": "Salvar como Modelo",
+      "deleteDialog": {
+        "title": "Você tem certeza absoluta?",
+        "description": "Esta ação não pode ser desfeita. Isso excluirá permanentemente seu rascunho de campanha.",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Sim, Excluir"
+      },
+      "templateDialog": {
+        "title": "Salvar como Modelo",
+        "description": "Salve a configuração atual como um modelo reutilizável para futuras campanhas.",
+        "nameLabel": "Nome do Modelo",
+        "namePlaceholder": "Ex: Modelo de Venda Direta...",
+        "descriptionLabel": "Descrição",
+        "descriptionPlaceholder": "Para campanhas com foco em...",
+        "saveButton": "Salvar Modelo",
+        "cancelButton": "Cancelar"
+      }
+    }
+  }
+}

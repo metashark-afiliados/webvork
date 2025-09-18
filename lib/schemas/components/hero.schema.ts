@@ -2,9 +2,7 @@
 /**
  * @file hero.schema.ts
  * @description Esquema de Zod para el contenido i18n del componente Hero.
- *              - v3.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
- *                de locale.
- * @version 3.0.0
+ * @version 3.0.0 (Architectural Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -17,8 +15,8 @@ logger.trace("[Schema] Definiendo contrato para [Hero]");
  * @description La SSoT para la ESTRUCTURA del contenido de la sección.
  */
 export const HeroContentSchema = z.object({
-  title: z.string(),
-  subtitle: z.string(),
+  title: z.string().min(1, "El título es requerido."),
+  subtitle: z.string().min(1, "El subtítulo es requerido."),
 });
 
 /**
@@ -27,12 +25,5 @@ export const HeroContentSchema = z.object({
  */
 export const HeroLocaleSchema = z.object({
   hero: HeroContentSchema.optional(),
-});
-
-export const HeroI18nSchema = z.object({
-  "es-ES": HeroLocaleSchema,
-  "pt-BR": HeroLocaleSchema,
-  "en-US": HeroLocaleSchema,
-  "it-IT": HeroLocaleSchema,
 });
 // lib/schemas/components/hero.schema.ts

@@ -1,11 +1,11 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step4_Content/ContentEditor/ContentEditor.tsx
 /**
  * @file ContentEditor.tsx
- * @description Orquestador de alto nivel para la edición de contenido.
- *              v5.2.0 (Direct Import Architecture): Resuelve el error 'Module not found'
- *              adoptando importaciones directas y explícitas para sus sub-componentes.
- *              Esta es la solución definitiva al problema de resolución de módulos.
- * @version 5.2.0
+ * @description Orquestador de alto nivel para la edición de contenido de una sección.
+ *              Gestiona el estado del formulario, la sincronización con el borrador
+ *              y la comunicación con el padre. Ahora pasa el `sectionName` a sus
+ *              hijos para habilitar el Modo Enfoque.
+ * @version 8.0.0 (Focus Mode Prop Drilling)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,21 +18,16 @@ import { toast } from "sonner";
 import { logger } from "@/lib/logging";
 import type { CampaignDraft } from "../../../_types/draft.types";
 import { supportedLocales, type Locale } from "@/lib/i18n.config";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA DEFINITIVA] ---
-// Se importan los sub-componentes directamente desde sus archivos fuente.
-import { ContentEditorHeader } from "./_components/ContentEditorHeader";
-import { ContentEditorBody } from "./_components/ContentEditorBody";
-import { ContentEditorFooter } from "./_components/ContentEditorFooter";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA DEFINITIVA] ---
+import { ContentEditorHeader } from "./ContentEditorHeader";
+import { ContentEditorBody } from "./ContentEditorBody";
+import { ContentEditorFooter } from "./ContentEditorFooter";
+import { useFocusStore } from "../../../_context/FocusContext";
 
-// Se usa 'unknown' en lugar de 'any' para máxima seguridad de tipos.
-type SectionFormData = z.infer<
-  z.ZodObject<any, any, any, { [x: string]: any }, { [x: string]: any }>
->;
+type SectionFormData = z.infer<z.ZodObject<z.ZodRawShape>>;
 
 interface ContentEditorProps {
   sectionName: string;
-  sectionSchema: z.ZodObject<any>;
+  sectionSchema: z.ZodObject<z.ZodRawShape>;
   draft: CampaignDraft;
   onClose: () => void;
   onUpdateContent: (
@@ -51,6 +46,8 @@ export function ContentEditor({
   onUpdateContent,
 }: ContentEditorProps): React.ReactElement {
   const [activeLocale, setActiveLocale] = useState<Locale>(supportedLocales[0]);
+  const { clearFocus } = useFocusStore();
+
   logger.info(
     `[ContentEditor] Orquestando editor para '${sectionName}', locale: '${activeLocale}'`
   );
@@ -61,6 +58,9 @@ export function ContentEditor({
   });
 
   useEffect(() => {
+    logger.trace(
+      `[ContentEditor] Sincronizando formulario con borrador para locale: ${activeLocale}`
+    );
     form.reset(draft.contentData[sectionName]?.[activeLocale] || {});
   }, [activeLocale, draft, sectionName, form]);
 
@@ -71,14 +71,20 @@ export function ContentEditor({
     });
   };
 
-  const handleSubmit = () => {
+  const handleClose = () => {
+    clearFocus(); // Limpia el foco al cerrar el editor
     onClose();
+  };
+
+  const handleSubmit = () => {
+    logger.success(`[ContentEditor] Edición finalizada para ${sectionName}.`);
+    handleClose();
   };
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 animate-in fade-in-0">
       <div className="relative bg-background border rounded-lg shadow-2xl w-full max-w-2xl h-[90vh] flex flex-col">
-        <ContentEditorHeader sectionName={sectionName} onClose={onClose} />
+        <ContentEditorHeader sectionName={sectionName} onClose={handleClose} />
         <ContentEditorBody
           form={form}
           activeLocale={activeLocale}
@@ -86,8 +92,9 @@ export function ContentEditor({
           sectionSchema={sectionSchema}
           onPersistChange={handlePersistChange}
           onSubmit={form.handleSubmit(handleSubmit)}
+          sectionName={sectionName} // <-- Se pasa la prop para el Modo Foco
         />
-        <ContentEditorFooter onClose={onClose} onSubmit={handleSubmit} />
+        <ContentEditorFooter onClose={handleClose} onSubmit={handleSubmit} />
       </div>
     </div>
   );

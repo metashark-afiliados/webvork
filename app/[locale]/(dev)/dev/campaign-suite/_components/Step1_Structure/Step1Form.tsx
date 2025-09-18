@@ -2,9 +2,9 @@
 /**
  * @file Step1Form.tsx
  * @description Componente de Presentación para la UI del Paso 1.
- *              v4.0.0 (Hyper-Atomization): Re-arquitecturado para ser un orquestador
- *              puro que consume el componente atómico StructuralSectionConfig.
- * @version 4.0.0
+ *              v6.1.0 (Contract Sync): Alineado con el schema de i18n actualizado,
+ *              consumiendo `galleryDescriptions` y resolviendo el error de tipo.
+ * @version 6.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -16,13 +16,14 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
+  CardFooter,
 } from "@/components/ui/Card";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { HeaderConfig, FooterConfig } from "../../_types/draft.types";
 import { WizardNavigation } from "../../_components/WizardNavigation";
 import { galleryConfig } from "../../_config/gallery.config";
-import { StructuralSectionConfig } from "./_components"; // <-- Importación del nuevo átomo
+import { StructuralSectionConfig } from "./_components";
 
 type Step1Content = NonNullable<Dictionary["campaignSuitePage"]>["step1"];
 
@@ -45,16 +46,16 @@ export function Step1Form({
   onBack,
   onNext,
 }: Step1FormProps): React.ReactElement {
-  logger.info("Renderizando Step1Form (Presentación Pura - Hiper-Atomizada)");
+  logger.info("Renderizando Step1Form (v6.1 - Contract Synced)");
 
   return (
-    <Card>
+    <Card className="flex flex-col h-full">
       <CardHeader>
         <CardTitle>{content.title}</CardTitle>
         <CardDescription>{content.description}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-10">
-        <div className="space-y-6">
+      <CardContent className="flex-grow space-y-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <StructuralSectionConfig
             switchId="use-header"
             switchLabel={content.headerSwitchLabel}
@@ -66,8 +67,8 @@ export function Step1Form({
             onSelectionChange={(value) =>
               onHeaderConfigChange({ componentName: value })
             }
+            descriptions={content.galleryDescriptions} // <-- Ahora válido
           />
-
           <StructuralSectionConfig
             switchId="use-footer"
             switchLabel={content.footerSwitchLabel}
@@ -79,11 +80,13 @@ export function Step1Form({
             onSelectionChange={(value) =>
               onFooterConfigChange({ componentName: value })
             }
+            descriptions={content.galleryDescriptions} // <-- Ahora válido
           />
         </div>
-
-        <WizardNavigation onBack={onBack} onNext={onNext} />
       </CardContent>
+      <CardFooter className="sticky bottom-0 bg-background/95 backdrop-blur-sm py-4 border-t z-10">
+        <WizardNavigation onBack={onBack} onNext={onNext} />
+      </CardFooter>
     </Card>
   );
 }

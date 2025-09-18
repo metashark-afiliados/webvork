@@ -1,37 +1,72 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/LivePreviewCanvas.tsx
 /**
  * @file LivePreviewCanvas.tsx
- * @description Lienzo de vista previa en tiempo real para la SDC.
- *              v2.4.0: Resuelve errores de tipo de DOM y de contrato de datos
- *              mediante aserciones de tipo seguras.
- * @version 2.4.0
+ * @description Lienzo de vista previa en tiempo real (EDVI), ahora con scroll
+ *              y resaltado sincronizado con el editor de contenido ("Modo Enfoque").
+ * @version 4.0.0 (Synchronized Focus Mode)
  * @author RaZ Podestá - MetaShark Tech
+ * @see .docs/suite-de-diseno-campanas/README.md "Experiencia Adrenalínica"
  */
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useCampaignDraft } from "../_hooks";
 import { motion } from "framer-motion";
-
-import { logger } from "@/lib/logging";
+import { useCampaignDraft } from "../_hooks/useCampaignDraft";
+import { usePreviewTheme } from "../_hooks/usePreviewTheme";
+import { useFocusStore } from "../_context/FocusContext";
 import { generateCampaignThemeVariablesStyle } from "@/lib/utils/theme.utils";
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import { SectionRenderer } from "@/components/layout/SectionRenderer";
 import { buildPreviewDictionary } from "../_utils/preview.utils";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
-import { deepMerge } from "@/lib/utils/merge";
+import { DynamicIcon } from "@/components/ui";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+
+/**
+ * @component IframeOverlay
+ * @description Micro-componente atómico para mostrar estados (carga, error)
+ *              dentro del iframe, asegurando que los estilos no se filtren.
+ * @private
+ */
+const IframeOverlay = ({ children }: { children: React.ReactNode }) => (
+  <div
+    style={{
+      position: "absolute",
+      inset: 0,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "2rem",
+      textAlign: "center",
+      backgroundColor: "rgba(0,0,0,0.7)",
+      color: "white",
+      fontFamily: "sans-serif",
+    }}
+  >
+    {children}
+  </div>
+);
 
 export function LivePreviewCanvas() {
   const draft = useCampaignDraft((state) => state.draft);
+  const { theme, isLoading, error } = usePreviewTheme();
   const [iframeBody, setIframeBody] = useState<HTMLElement | null>(null);
-  const [assembledTheme, setAssembledTheme] = useState<AssembledTheme | null>(
-    null
-  );
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-  // Efecto para inyectar estilos y fuentes en el iframe una vez que está listo
+  // --- Lógica de Modo Enfoque ---
+  const focusedSection = useFocusStore((state) => state.focusedSection);
+  const sectionRefs = useRef<Record<string, HTMLElement>>({});
+
+  useEffect(() => {
+    if (focusedSection && sectionRefs.current[focusedSection]) {
+      sectionRefs.current[focusedSection].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [focusedSection]);
+
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
@@ -39,12 +74,20 @@ export function LivePreviewCanvas() {
     const handleLoad = () => {
       const iframeDoc = iframe.contentDocument;
       if (iframeDoc) {
-        // Inyectar Google Fonts
-        const fontLink = iframeDoc.createElement("link");
-        fontLink.href =
-          "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@700&display=swap";
-        fontLink.rel = "stylesheet";
-        iframeDoc.head.appendChild(fontLink);
+        iframeDoc.head.innerHTML = `
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@700&family=Playfair+Display:wght@700&display=swap');
+            body {
+              margin: 0;
+              font-family: 'Inter', sans-serif;
+              background-color: hsl(var(--background));
+              color: hsl(var(--foreground));
+              transition: background-color 0.3s ease, color 0.3s ease;
+              scroll-behavior: smooth;
+            }
+            * { box-sizing: border-box; }
+          </style>
+        `;
         setIframeBody(iframeDoc.body);
       }
     };
@@ -57,78 +100,14 @@ export function LivePreviewCanvas() {
     } else {
       iframe.addEventListener("load", handleLoad);
     }
-
-    return () => {
-      iframe.removeEventListener("load", handleLoad);
-    };
+    return () => iframe.removeEventListener("load", handleLoad);
   }, []);
 
-  // Efecto para ensamblar el tema del lado del cliente
-  useEffect(() => {
-    const assembleTheme = async () => {
-      if (
-        !draft.themeConfig.colorPreset ||
-        !draft.themeConfig.fontPreset ||
-        !draft.themeConfig.radiusPreset
-      ) {
-        setAssembledTheme(null);
-        return;
-      }
-      try {
-        const [baseRes, colorsRes, fontsRes, radiiRes] = await Promise.all([
-          fetch("/theme-fragments/base/global.theme.json").catch(() => null),
-          fetch(
-            `/theme-fragments/colors/${draft.themeConfig.colorPreset}.colors.json`
-          ).catch(() => null),
-          fetch(
-            `/theme-fragments/fonts/${draft.themeConfig.fontPreset}.fonts.json`
-          ).catch(() => null),
-          fetch(
-            `/theme-fragments/radii/${draft.themeConfig.radiusPreset}.radii.json`
-          ).catch(() => null),
-        ]);
-
-        const themeParts = await Promise.all([
-          baseRes?.json(),
-          colorsRes?.json(),
-          fontsRes?.json(),
-          radiiRes?.json(),
-        ]);
-
-        const validParts = themeParts.filter((p) => p);
-        if (validParts.length < 4) {
-          logger.warn(
-            "Faltan uno o más fragmentos de tema. La vista previa puede estar incompleta."
-          );
-          return;
-        }
-
-        const finalTheme = validParts.reduce(
-          (acc, current) => deepMerge(acc, current),
-          {}
-        ) as AssembledTheme;
-
-        setAssembledTheme(finalTheme);
-      } catch (error) {
-        logger.error("Fallo al ensamblar el tema de la vista previa", {
-          error,
-        });
-      }
-    };
-
-    assembleTheme();
-  }, [draft.themeConfig]);
-
-  // --- [INICIO DE CORRECCIÓN DE TIPO] ---
-  // Se realiza una aserción de tipo segura. Sabemos que SectionRenderer solo
-  // accederá a las claves que existen en este objeto parcial.
   const previewDictionary = buildPreviewDictionary(
     draft.contentData,
     draft.layoutConfig,
     "it-IT"
   ) as Dictionary;
-  // --- [FIN DE CORRECCIÓN DE TIPO] ---
-  const previewSections = draft.layoutConfig;
 
   return (
     <motion.div
@@ -137,25 +116,56 @@ export function LivePreviewCanvas() {
       className="h-full bg-muted/20 p-2 rounded-lg sticky top-24"
     >
       <iframe
-        // --- [INICIO DE CORRECCIÓN DE TIPO] ---
-        // Se utiliza la ref para obtener una referencia directa al elemento iframe.
         ref={iframeRef}
-        // --- [FIN DE CORRECCIÓN DE TIPO] ---
         className="w-full h-full bg-background rounded-md border"
         title="Live Preview"
       />
-
       {iframeBody &&
-        assembledTheme &&
         createPortal(
-          <CampaignThemeProvider theme={assembledTheme}>
-            <style>{generateCampaignThemeVariablesStyle(assembledTheme)}</style>
-            <SectionRenderer
-              sections={previewSections}
-              dictionary={previewDictionary}
-              locale={"it-IT"}
-            />
-          </CampaignThemeProvider>,
+          <>
+            {isLoading && (
+              <IframeOverlay>
+                <DynamicIcon
+                  name="LoaderCircle"
+                  className="w-8 h-8 animate-spin"
+                />
+                <p style={{ marginTop: "1rem", fontSize: "0.875rem" }}>
+                  Ensamblando tema...
+                </p>
+              </IframeOverlay>
+            )}
+            {error && (
+              <IframeOverlay>
+                <DynamicIcon
+                  name="TriangleAlert"
+                  className="w-8 h-8"
+                  style={{ color: "#ef4444" }}
+                />
+                <p
+                  style={{
+                    marginTop: "1rem",
+                    fontSize: "0.875rem",
+                    color: "#ef4444",
+                  }}
+                >
+                  Error al cargar el tema.
+                </p>
+                <p style={{ fontSize: "0.75rem", opacity: 0.7 }}>{error}</p>
+              </IframeOverlay>
+            )}
+            {theme && (
+              <CampaignThemeProvider theme={theme}>
+                <style>{generateCampaignThemeVariablesStyle(theme)}</style>
+                <SectionRenderer
+                  sections={draft.layoutConfig}
+                  dictionary={previewDictionary}
+                  locale={"it-IT"}
+                  focusedSection={focusedSection}
+                  sectionRefs={sectionRefs}
+                />
+              </CampaignThemeProvider>
+            )}
+          </>,
           iframeBody
         )}
     </motion.div>

@@ -2,12 +2,10 @@
 /**
  * @file ComponentLoader.ts
  * @description Módulo de servicio para la carga dinámica de componentes en el Dev Canvas.
- *              - v4.2.0 (Sincronización de Contrato): Actualizado para consumir el nuevo
- *                contrato de `getDictionary`, desestructurando la respuesta y resolviendo
- *                los errores de tipo.
- * @version 4.2.0
+ *              - v4.3.0 (Type Safety): Se erradica el uso de 'any', reforzando
+ *                los contratos de tipos y la seguridad del orquestador.
+ * @version 4.3.0
  * @author RaZ Podestá - MetaShark Tech
- * @date 2025-09-14T18:20:40.121Z
  */
 import React from "react";
 import {
@@ -19,12 +17,12 @@ import { getDictionary } from "@/lib/i18n";
 import { getCampaignData } from "@/lib/i18n/campaign.i18n";
 import { getFallbackProps } from "./utils/component-props";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { CampaignData } from "@/lib/i18n/campaign.i18n";
+import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
 
 interface ComponentLoadResult {
-  ComponentToRender: React.ComponentType<any>;
-  componentProps: Record<string, any>;
-  appliedTheme: CampaignData["theme"] | null;
+  ComponentToRender: React.ComponentType<Record<string, unknown>>; // Tipo más seguro
+  componentProps: Record<string, unknown>; // Tipo más seguro
+  appliedTheme: AssembledTheme | null;
   entry: ComponentRegistryEntry;
 }
 
@@ -44,8 +42,8 @@ export async function loadComponentAndProps(
     throw new Error(errorMsg);
   }
 
-  let componentProps: Record<string, any> = {};
-  let appliedTheme: CampaignData["theme"] | null = null;
+  let componentProps: Record<string, unknown> = {}; // Tipo más seguro
+  let appliedTheme: AssembledTheme | null = null;
   let dictionary: Partial<Dictionary> = {};
 
   try {
@@ -58,10 +56,8 @@ export async function loadComponentAndProps(
       dictionary = campaignData.dictionary;
       appliedTheme = campaignData.theme;
     } else {
-      // --- [INICIO] CORRECCIÓN DE CONTRATO ---
       const { dictionary: globalDictionary } = await getDictionary(locale);
       dictionary = globalDictionary;
-      // --- [FIN] CORRECCIÓN DE CONTRATO ---
     }
 
     const key = entry.dictionaryKey as keyof Dictionary;
@@ -86,7 +82,7 @@ export async function loadComponentAndProps(
 
   try {
     const componentModule = await import(
-      /* @vite-ignore */ `../../${entry.componentPath.replace("@/", "")}`
+      `../../${entry.componentPath.replace("@/", "")}`
     );
     const ComponentToRender =
       componentModule.default ||
@@ -115,3 +111,4 @@ export async function loadComponentAndProps(
     );
   }
 }
+// components/dev/ComponentLoader.ts

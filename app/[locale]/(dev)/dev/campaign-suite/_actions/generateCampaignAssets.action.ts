@@ -2,8 +2,9 @@
 /**
  * @file generateCampaignAssets.action.ts
  * @description Server Action para generar y guardar los activos de una campaña.
- *              v2.2.0: Corregida la importación de tipos para apuntar a la SSoT atomizada.
- * @version 2.2.0
+ *              v2.4.0 (Type Safety): Erradica el uso de 'any', garantizando la
+ *              seguridad de tipos en la construcción del objeto de contenido.
+ * @version 2.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
@@ -12,9 +13,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import { logger } from "@/lib/logging";
 import type { ActionResult } from "@/lib/types/actions.types";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { CampaignDraft } from "../_types/draft.types";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import {
   CampaignMapSchema,
   type CampaignMap,
@@ -86,13 +85,18 @@ export async function generateCampaignAssetsAction(
       themeOverrides: {},
     };
 
-    const contentObject: Partial<Record<Locale, any>> = {};
+    const contentObject: Partial<Record<Locale, Record<string, unknown>>> = {};
     for (const locale of supportedLocales) {
       contentObject[locale] = {};
       for (const sectionName in contentData) {
-        if (contentData[sectionName][locale]) {
-          contentObject[locale]![sectionName] =
-            contentData[sectionName][locale];
+        if (
+          Object.prototype.hasOwnProperty.call(contentData, sectionName) &&
+          contentData[sectionName][locale]
+        ) {
+          if (contentObject[locale]) {
+            contentObject[locale]![sectionName] =
+              contentData[sectionName][locale];
+          }
         }
       }
     }

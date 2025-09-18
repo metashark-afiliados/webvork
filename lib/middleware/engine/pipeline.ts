@@ -2,11 +2,9 @@
 /**
  * @file pipeline.ts
  * @description Orquestador de middleware atómico y compatible con Vercel Edge Runtime.
- *              Su única responsabilidad es ejecutar una cadena de manejadores de
- *              middleware de forma secuencial y predecible.
- * @version 1.0.0
+ *              v1.1.0 (Code Hygiene): Limpia variables no utilizadas.
+ * @version 1.1.0
  * @author RaZ Podestá - MetaShark Tech
- * @see roadmap-v2.md - Tarea 5.1
  */
 import { NextRequest, NextResponse } from "next/server";
 import { logger } from "@/lib/logging";
@@ -20,8 +18,10 @@ export function createPipeline(
   handlers: MiddlewareHandler[]
 ): MiddlewareHandler {
   return async function (
-    req: NextRequest,
-    res: NextResponse
+    req: NextRequest
+    // --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-unused-vars] ---
+    // El parámetro 'res' no se utiliza en esta implementación.
+    // --- [FIN DE CORRECCIÓN] ---
   ): Promise<NextResponse> {
     let currentResponse = NextResponse.next();
 

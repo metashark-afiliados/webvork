@@ -2,8 +2,9 @@
 /**
  * @file Step2Form.tsx
  * @description Componente de Presentación Puro para la UI del Paso 2 (Layout).
- *              v3.0.0: Integra el componente LayoutBuilder funcional.
- * @version 3.0.0
+ *              v5.0.0 (Holistic Contract Fix): Sincronizado completamente con el
+ *              contrato de datos unificado de i18n, resolviendo todos los errores TS2339.
+ * @version 5.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -15,12 +16,12 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  Button,
 } from "@/components/ui";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { LayoutConfigItem } from "../../_types/draft.types";
 import { LayoutBuilder } from "./LayoutBuilder";
+import { WizardNavigation } from "../../_components/WizardNavigation";
 
 type Step2Content = NonNullable<Dictionary["campaignSuitePage"]>["step2"];
 
@@ -39,13 +40,17 @@ export function Step2Form({
   onBack,
   onNext,
 }: Step2FormProps): React.ReactElement {
-  logger.info("Renderizando Step2Form (Presentación Pura)");
+  logger.info(
+    "[Step2Form] Renderizando formulario de presentación puro (v5.0)."
+  );
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>{content.title}</CardTitle>
-        <CardDescription>{content.layoutBuilderDescription}</CardDescription>
+        {/* --- [INICIO DE CORRECCIÓN] --- */}
+        <CardDescription>{content.description}</CardDescription>
+        {/* --- [FIN DE CORRECCIÓN] --- */}
       </CardHeader>
       <CardContent className="space-y-10">
         <LayoutBuilder
@@ -54,14 +59,20 @@ export function Step2Form({
           content={{
             libraryTitle: content.libraryTitle,
             canvasTitle: content.canvasTitle,
+            // --- [INICIO DE CORRECCIÓN] ---
+            addSectionButtonText: content.addSectionButtonText,
+            emptyLibraryText: content.emptyLibraryText,
+            emptyCanvasText: content.emptyCanvasText,
+            // --- [FIN DE CORRECCIÓN] ---
           }}
         />
-        <div className="flex justify-between items-center pt-6 border-t">
-          <Button variant="ghost" onClick={onBack}>
-            Retroceder
-          </Button>
-          <Button onClick={onNext}>Guardar y Continuar</Button>
-        </div>
+        {/* --- [INICIO DE CORRECCIÓN] --- */}
+        <WizardNavigation
+          onBack={onBack}
+          onNext={onNext}
+          nextButtonText={content.nextButtonText}
+        />
+        {/* --- [FIN DE CORRECCIÓN] --- */}
       </CardContent>
     </Card>
   );

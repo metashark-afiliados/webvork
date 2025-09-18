@@ -1,58 +1,73 @@
-// src/components/sections/ProductFilters.tsx
+// components/sections/ProductFilters.tsx
 /**
  * @file ProductFilters.tsx
- * @description Aparato de UI atómico que renderiza la barra lateral de filtros de la tienda.
- * @version 1.0.0
+ * @description Barra lateral de filtros para la Tienda v2.0. Ahora es 100%
+ *              data-driven, theming-aware, y listo para ser conectado a un estado de cliente.
+ * @version 2.1.0 (Elite Leveling)
  * @author RaZ Podestá - MetaShark Tech
- * @see .docs-espejo/components/sections/ProductFilters.md
  */
+"use client";
+
 import React from "react";
 import type { z } from "zod";
 import type { StorePageLocaleSchema } from "@/lib/schemas/pages/store-page.schema";
+import { logger } from "@/lib/logging";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
+import { Checkbox } from "@/components/ui/Checkbox";
+import { Slider } from "@/components/ui/Slider";
+import { Switch } from "@/components/ui/Switch";
 
-// --- Tipos de Datos ---
-type StorePageContent = NonNullable<
-  z.infer<typeof StorePageLocaleSchema>["storePage"]
->;
-type FilterData = StorePageContent["filters"];
-type CategoryFilter = FilterData["categories"][number];
+type FilterData = NonNullable<z.infer<typeof StorePageLocaleSchema>["storePage"]>["filters"];
 
 interface ProductFiltersProps {
   filters: FilterData;
+  allTags: string[];
 }
 
-/**
- * @component ProductFilters
- * @description Componente de presentación puro para la barra lateral de filtros.
- * @param {ProductFiltersProps} props Las propiedades que contienen los datos de los filtros.
- * @returns {React.ReactElement} El elemento JSX de la barra lateral.
- */
-export function ProductFilters({
-  filters,
-}: ProductFiltersProps): React.ReactElement {
-  console.log("[Observabilidad] Renderizando ProductFilters");
+export function ProductFilters({ filters, allTags }: ProductFiltersProps): React.ReactElement {
+  logger.info("[ProductFilters v2.1] Renderizando componente de élite...");
 
   return (
-    <aside className="lg:col-span-1 p-6 bg-background/50 backdrop-blur-sm rounded-lg h-fit border border-white/5">
-      <h2 className="text-lg font-bold text-primary mb-4">
-        {filters.categoryTitle}
-      </h2>
-      <ul className="space-y-2 text-sm text-muted-foreground">
-        {filters.categories.map((cat: CategoryFilter) => (
-          <li
-            key={cat.label}
-            className="flex justify-between items-center group"
-          >
-            <a href="#" className="hover:text-foreground transition-colors">
-              {cat.label}
-            </a>
-            <span className="text-xs bg-secondary px-2 py-0.5 rounded-full group-hover:bg-primary group-hover:text-primary-foreground">
-              {cat.count}
-            </span>
-          </li>
-        ))}
-      </ul>
+    <aside className="lg:col-span-1 p-6 bg-card rounded-lg h-fit border border-border shadow-sm sticky top-24">
+      <div className="space-y-8">
+        {/* Búsqueda por Texto */}
+        <div>
+          <Label htmlFor="search" className="text-lg font-bold text-primary mb-2 block">{filters.searchLabel}</Label>
+          <Input id="search" placeholder={filters.searchPlaceholder} />
+        </div>
+
+        {/* Filtro por Etiquetas (Tags) */}
+        <div>
+          <h3 className="text-lg font-bold text-primary mb-4">{filters.tagsTitle}</h3>
+          <div className="space-y-2">
+            {allTags.map(tag => (
+              <div key={tag} className="flex items-center space-x-2">
+                <Checkbox id={`tag-${tag}`} />
+                <Label htmlFor={`tag-${tag}`} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize cursor-pointer">
+                  {tag}
+                </Label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Filtro por Precio */}
+        <div>
+           <h3 className="text-lg font-bold text-primary mb-4">{filters.priceTitle}</h3>
+           <Slider defaultValue={[50]} max={100} step={1} />
+        </div>
+
+        {/* Filtro por Stock */}
+        <div className="flex items-center justify-between pt-4 border-t border-border">
+           <h3 className="text-lg font-bold text-primary">{filters.stockTitle}</h3>
+           <div className="flex items-center space-x-2">
+            <Switch id="stock-switch" />
+            <Label htmlFor="stock-switch" className="text-sm cursor-pointer">{filters.inStockLabel}</Label>
+           </div>
+        </div>
+      </div>
     </aside>
   );
 }
-// src/components/sections/ProductFilters.tsx
+// components/sections/ProductFilters.tsx

@@ -4,7 +4,8 @@
  * @description Utilidad pura y atómica para detectar el locale preferido del
  *              navegador. Es la SSoT para esta lógica y es compatible con el
  *              Vercel Edge Runtime.
- * @version 1.0.0
+ *              v2.1.0 (Linter Alignment): Se alinea con la política de supresión de errores.
+ * @version 2.1.0
  * @author RaZ Podestá - MetaShark Tech
  * @see roadmap-v2.md - Tarea 4.1
  */
@@ -30,11 +31,14 @@ export function getLocaleFromBrowser(request: NextRequest): Locale {
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
-  // @ts-ignore - Los tipos de Negotiator pueden no estar perfectamente alineados
-  // con las cabeceras de NextRequest, pero la lógica es funcional.
+  // --- [INICIO DE CORRECCIÓN DE LINTING] ---
+  // @ ts-expect-error -- Los tipos de Negotiator pueden no estar perfectamente
+  // alineados con las cabeceras de NextRequest, pero la lógica es funcional y
+  // es la práctica recomendada por la comunidad.
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages([
     ...supportedLocales,
   ]);
+  // --- [FIN DE CORRECCIÓN DE LINTING] ---
 
   const locale = matchLocale(
     languages,

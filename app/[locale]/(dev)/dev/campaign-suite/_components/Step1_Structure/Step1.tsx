@@ -2,24 +2,24 @@
 /**
  * @file Step1.tsx
  * @description Ensamblador de Servidor para el Paso 1 de la SDC (Estructura).
- *              v1.1.0: Corregida la importación para apuntar a Step1Client.
- * @version 1.1.0
+ *              v2.0.0 (Holistic Type Alignment): Se alinea con la nueva
+ *              arquitectura de props "envueltas".
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- [INICIO DE CORRECCIÓN] ---
 import { Step1Client } from "./Step1Client";
-// --- [FIN DE CORRECCIÓN] ---
+import type { StepProps } from "../../_types/step.types";
+import type { Step1ContentSchema } from "../../_schemas/steps/step1.schema";
+import type { z } from "zod";
 
-interface Step1Props {
-  content: NonNullable<Dictionary["campaignSuitePage"]>["step1"];
-}
+type Content = z.infer<typeof Step1ContentSchema>;
 
 export default async function Step1({
-  content,
-}: Step1Props): Promise<React.ReactElement> {
+  content: rawContent,
+}: StepProps<{ step1: Content }>): Promise<React.ReactElement> {
+  const content = rawContent.step1;
   logger.info("[Step1 Ensamblador] Ensamblando y delegando al cliente...");
   return <Step1Client content={content} />;
 }

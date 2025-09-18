@@ -2,7 +2,7 @@
 /**
  * @file preview.utils.ts
  * @description Utilidades del lado del cliente para ensamblar los datos de la vista previa.
- * @version 1.0.0
+ * @version 1.1.0 (Type Safety)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -28,12 +28,17 @@ export function buildPreviewDictionary(
     const sectionKey =
       sectionsConfig[section.name as keyof typeof sectionsConfig]
         ?.dictionaryKey;
+
     if (
       sectionKey &&
       contentData[section.name] &&
       contentData[section.name][locale]
     ) {
-      (dictionary as any)[sectionKey] = contentData[section.name][locale];
+      // --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-explicit-any] ---
+      // Se utiliza una aserción de tipo para informar a TypeScript sobre la estructura.
+      (dictionary as Record<string, unknown>)[sectionKey] =
+        contentData[section.name][locale];
+      // --- [FIN DE CORRECCIÓN] ---
     }
   }
 

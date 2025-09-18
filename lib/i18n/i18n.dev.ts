@@ -2,10 +2,10 @@
 /**
  * @file i18n.dev.ts
  * @description Motor de i18n para el entorno de desarrollo.
- *              - v2.1.0 (Type Fix): Resuelve el error de tipo TS2322 asegurando
- *                que el diccionario ensamblado sea consistentemente del tipo
- *                `Partial<Dictionary>`, alineando el contrato interno.
- * @version 2.1.0
+ *              - v2.2.0 (Critical Bug Fix: DiscoveryResult Reduction): Resuelve el error
+ *                de la propiedad 'reduce' no encontrada en `DiscoveryResult` al acceder
+ *                correctamente al array `contents` dentro del objeto.
+ * @version 2.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
@@ -13,7 +13,12 @@ import { type ZodError } from "zod";
 import { type Locale } from "@/lib/i18n.config";
 import { i18nSchema, type Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
-import { discoverAndReadI18nFiles } from "@/lib/dev/i18n-discoverer";
+// --- [INICIO DE CORRECCIÓN: Importación correcta de tipos] ---
+import {
+  discoverAndReadI18nFiles,
+  type I18nFileContent,
+} from "@/lib/dev/i18n-discoverer";
+// --- [FIN DE CORRECCIÓN] ---
 
 const devDictionariesCache: Partial<
   Record<
@@ -38,15 +43,17 @@ export async function getDevDictionary(locale: Locale): Promise<{
   try {
     const allI18nContents = await discoverAndReadI18nFiles();
 
-    // --- INICIO DE CORRECCIÓN: Se declara con el tipo correcto `Partial<Dictionary>` ---
-    const assembledDictionary: Partial<Dictionary> = allI18nContents.reduce(
-      (acc: Partial<Dictionary>, moduleContent) => {
-        const contentForLocale = moduleContent[locale];
-        return { ...acc, ...(contentForLocale || {}) };
-      },
-      {}
-    );
-    // --- FIN DE CORRECCIÓN ---
+    // --- [INICIO DE CORRECCIÓN CRÍTICA] ---
+    // El método .reduce() debe llamarse sobre el array 'contents' dentro del objeto 'allI18nContents'.
+    const assembledDictionary: Partial<Dictionary> =
+      allI18nContents.contents.reduce(
+        (acc: Partial<Dictionary>, moduleContent: I18nFileContent) => {
+          const contentForLocale = moduleContent[locale];
+          return { ...acc, ...(contentForLocale || {}) };
+        },
+        {}
+      );
+    // --- [FIN DE CORRECCIÓN CRÍTICA] ---
 
     const validation = i18nSchema.safeParse(assembledDictionary);
 
@@ -85,4 +92,3 @@ export async function getDevDictionary(locale: Locale): Promise<{
     return result;
   }
 }
-// lib/i18n/i18n.dev.ts

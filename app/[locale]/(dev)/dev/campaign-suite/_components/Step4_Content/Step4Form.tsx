@@ -1,10 +1,8 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step4_Content/Step4Form.tsx
 /**
  * @file Step4Form.tsx
- * @description Orquestador de Presentación para el Paso 4.
- *              v5.4.0 (Type Safety): Se alinea el contrato de la prop
- *              'onUpdateContent' con el nuevo tipo seguro 'unknown'.
- * @version 5.4.0
+ * @description Orquestador de presentación puro para el Paso 4.
+ * @version 8.0.0 (Architectural Refactor)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,30 +16,28 @@ import {
   CardDescription,
 } from "@/components/ui";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { CampaignDraft } from "../../_types/draft.types";
-import type { Locale } from "@/lib/i18n.config";
-import { sectionsConfig } from "@/lib/config/sections.config";
-import { ContentEditor } from "./ContentEditor";
-import { SectionList } from "./components";
 import { WizardNavigation } from "../../_components/WizardNavigation";
+import { SectionList } from "./_components/SectionList";
+import { EditorOrchestrator } from "./_components/EditorOrchestrator";
+import type { Step4ContentSchema } from "../../_schemas/steps/step4.schema";
+import type { z } from "zod";
+import type { Locale } from "@/lib/i18n.config";
 
-type Step4Content = NonNullable<Dictionary["campaignSuitePage"]>["step4"];
+type Content = z.infer<typeof Step4ContentSchema>;
 
 interface Step4FormProps {
-  content: Step4Content;
+  content: Content;
   draft: CampaignDraft;
   onEditSection: (sectionName: string) => void;
   onCloseEditor: () => void;
   editingSection: string | null;
-  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
   onUpdateContent: (
     sectionName: string,
     locale: Locale,
     field: string,
     value: unknown
   ) => void;
-  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
   onBack: () => void;
   onNext: () => void;
   isPending: boolean;
@@ -58,42 +54,40 @@ export function Step4Form({
   onNext,
   isPending,
 }: Step4FormProps): React.ReactElement {
-  logger.info("[Step4Form] Orquestando presentación del Paso 4 (v5.4).");
-
-  const editingSectionSchema = editingSection
-    ? sectionsConfig[editingSection as keyof typeof sectionsConfig]?.schema
-    : null;
+  logger.info("[Step4Form] Orquestando presentación del Paso 4 (v8.0).");
 
   return (
     <>
       <Card>
         <CardHeader>
           <CardTitle>{content.title}</CardTitle>
-          <CardDescription>{content.contentEditorDescription}</CardDescription>
+          <CardDescription>{content.description}</CardDescription>
         </CardHeader>
         <CardContent>
           <SectionList
             layoutConfig={draft.layoutConfig}
             onEditSection={onEditSection}
+            content={{
+              editButtonText: content.editButtonText,
+              emptyStateTitle: content.emptyStateTitle,
+              emptyStateDescription: content.emptyStateDescription,
+            }}
           />
           <WizardNavigation
             onBack={onBack}
             onNext={onNext}
             isPending={isPending}
-            nextButtonText="Finalizar y Continuar"
+            nextButtonText={content.nextButtonText}
           />
         </CardContent>
       </Card>
 
-      {editingSection && editingSectionSchema && (
-        <ContentEditor
-          sectionName={editingSection}
-          sectionSchema={editingSectionSchema}
-          draft={draft}
-          onClose={onCloseEditor}
-          onUpdateContent={onUpdateContent}
-        />
-      )}
+      <EditorOrchestrator
+        draft={draft}
+        editingSection={editingSection}
+        onCloseEditor={onCloseEditor}
+        onUpdateContent={onUpdateContent}
+      />
     </>
   );
 }

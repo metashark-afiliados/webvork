@@ -2,8 +2,10 @@
 /**
  * @file Step0.tsx
  * @description Ensamblador y Cargador de Datos para el Paso 0 de la SDC.
- *              v2.2.0: Corrige la importación de DynamicIcon.
- * @version 2.2.0
+ *              v3.0.0 (Holistic Type Alignment): Se alinea con la nueva
+ *              arquitectura de props "envueltas", desenvolviendo el contenido
+ *              antes de pasarlo al cliente.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -11,16 +13,19 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { Step0Client } from "./Step0Client";
 import { getBaseCampaignsAction } from "../../_actions";
-import { DynamicIcon } from "@/components/ui"; // <-- CORRECCIÓN
+import { DynamicIcon } from "@/components/ui";
+import type { StepProps } from "../../_types/step.types";
+import type { Step0ContentSchema } from "../../_schemas/steps/step0.schema";
+import type { z } from "zod";
 
-interface Step0Props {
-  content: NonNullable<Dictionary["campaignSuitePage"]>["step0"];
-}
+type Content = z.infer<typeof Step0ContentSchema>;
 
-export default function Step0({ content }: Step0Props): React.ReactElement {
+export default function Step0({
+  content: rawContent,
+}: StepProps<{ step0: Content }>): React.ReactElement {
+  const content = rawContent.step0;
   const [baseCampaigns, setBaseCampaigns] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

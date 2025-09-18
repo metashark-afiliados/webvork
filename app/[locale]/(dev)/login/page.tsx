@@ -2,18 +2,15 @@
 /**
  * @file page.tsx
  * @description Página de login para el Developer Command Center (DCC).
- *              - v2.1.0 (Sincronización de Contrato): Actualizado para consumir el nuevo
- *                contrato de `getDictionary`, desestructurando la respuesta y
- *                mejorando la resiliencia ante contenido faltante.
- * @version 2.1.0
+ *              v2.2.0 (Code Hygiene): Se elimina la importación no utilizada
+ *              de 'Dictionary' para cumplir con las reglas de ESLint.
+ * @version 2.2.0
  * @author RaZ Podestá - MetaShark Tech
- * @date 2025-09-14T18:20:40.121Z
  */
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
 import {
   Card,
@@ -44,10 +41,8 @@ export default async function DevLoginPage({
     `[DevLoginPage] Renderizando la página de login para locale: ${locale}`
   );
 
-  // --- [INICIO] CORRECCIÓN DE CONTRATO ---
   const { dictionary } = await getDictionary(locale);
   const content = dictionary.devLoginPage;
-  // --- [FIN] CORRECCIÓN DE CONTRATO ---
 
   if (!content) {
     logger.error(
@@ -112,3 +107,4 @@ export default async function DevLoginPage({
     </div>
   );
 }
+// app/[locale]/(dev)/login/page.tsx

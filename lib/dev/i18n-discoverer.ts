@@ -1,15 +1,12 @@
 // lib/dev/i18n-discoverer.ts
 /**
  * @file i18n-discoverer.ts
- * @description Utilidad pura y atómica del lado del servidor.
- *              v2.0.0 (Build Fix): Se elimina la importación de "server-only"
- *              para garantizar la compatibilidad con entornos de ejecución de
- *              scripts externos a Next.js (como tsx), resolviendo el error
- *              ERR_MODULE_NOT_FOUND.
- * @version 2.0.0
+ * @description Utilidad pura y atómica del lado del servidor. Ahora puede
+ *              devolver las rutas de los archivos junto con su contenido para
+ *              habilitar builds incrementales y es más robusta a JSON malformados.
+ * @version 3.1.0 (Robust JSON Parsing)
  * @author RaZ Podestá - MetaShark Tech
  */
-// import "server-only"; // <-- ¡ELIMINADO!
 import * as fs from "fs/promises";
 import * as path from "path";
 import chalk from "chalk";
@@ -29,23 +26,37 @@ const DEV_CONTENT_PATHS_TO_IGNORE = [
 ];
 
 // Contrato de datos para el contenido de un archivo i18n.
-export type I18nFileContent = { [key in Locale]?: Record<string, any> };
+export type I18nFileContent = { [key in Locale]?: Record<string, unknown> };
+
+/**
+ * @type DiscoveryResult
+ * @description Define la estructura del objeto de retorno, que ahora
+ *              incluye tanto las rutas como el contenido de los archivos.
+ */
+export type DiscoveryResult = {
+  files: string[];
+  contents: I18nFileContent[];
+};
 
 /**
  * @function discoverAndReadI18nFiles
  * @description Escanea recursivamente los directorios de contenido, lee todos los
- *              archivos `.i18n.json` y devuelve un array con sus contenidos parseados.
+ *              archivos `.i18n.json` y devuelve sus rutas y contenidos parseados.
+ *              Es resiliente a errores de parsing de JSON en archivos individuales.
  * @param {object} [options] - Opciones de configuración.
  * @param {boolean} [options.excludeDevContent=false] - Si es true, omite los archivos de contenido de desarrollo.
- * @returns {Promise<I18nFileContent[]>} Un array de los contenidos de los archivos.
+ * @returns {Promise<DiscoveryResult>} Un objeto con dos arrays: `files` (rutas) y `contents` (contenidos).
  */
 export async function discoverAndReadI18nFiles(options?: {
   excludeDevContent?: boolean;
-}): Promise<I18nFileContent[]> {
+}): Promise<DiscoveryResult> {
   const { excludeDevContent = false } = options || {};
-  logger.trace("[i18n-discoverer] Iniciando descubrimiento de archivos...");
+  logger.trace(
+    "[i18n-discoverer] Iniciando descubrimiento de archivos (v3.1)..."
+  );
 
-  const allContents: I18nFileContent[] = [];
+  const files: string[] = [];
+  const contents: I18nFileContent[] = [];
 
   if (excludeDevContent) {
     logger.trace("[i18n-discoverer] Modo de exclusión de desarrollo activado.");
@@ -53,14 +64,14 @@ export async function discoverAndReadI18nFiles(options?: {
 
   for (const dir of CONTENT_ROOT_DIRS) {
     try {
-      const files = await fs.readdir(dir, {
+      const dirEntries = await fs.readdir(dir, {
         recursive: true,
         withFileTypes: true,
       });
 
-      for (const file of files) {
-        if (file.isFile() && file.name.endsWith(".i18n.json")) {
-          const filePath = path.join(file.path, file.name);
+      for (const entry of dirEntries) {
+        if (entry.isFile() && entry.name.endsWith(".i18n.json")) {
+          const filePath = path.join(entry.path, entry.name);
 
           // Lógica de exclusión
           if (
@@ -78,32 +89,37 @@ export async function discoverAndReadI18nFiles(options?: {
             continue;
           }
 
-          // Resiliencia a nivel de archivo
+          // Resiliencia a nivel de archivo: `try...catch` para cada JSON.parse
           try {
             const contentString = await fs.readFile(filePath, "utf-8");
-            allContents.push(JSON.parse(contentString));
+            const parsedContent = JSON.parse(contentString); // Intenta parsear aquí
+            files.push(filePath);
+            contents.push(parsedContent);
           } catch (error) {
+            // Este es el log de advertencia que viste. Ahora es más específico.
             console.warn(
               chalk.yellow(
                 `[i18n-discoverer] ADVERTENCIA: No se pudo leer o parsear el archivo ${path.relative(
                   process.cwd(),
                   filePath
                 )}. Se omitirá.`
-              )
+              ),
+              { error: error instanceof Error ? error.message : String(error) }
             );
+            // No se añade el archivo ni su contenido si hay error, el `object-hash` no recibirá `undefined`.
           }
         }
       }
     } catch (err) {
       logger.warn(
-        `[i18n-discoverer] ADVERTENCIA: No se pudo escanear el directorio ${dir}.`
+        `[i18n-discoverer] ADVERTENCIA: No se pudo escanear el directorio ${dir}.`,
+        { error: err instanceof Error ? err.message : String(err) }
       );
     }
   }
 
   logger.trace(
-    `[i18n-discoverer] Descubrimiento finalizado. Se encontraron ${allContents.length} archivos de contenido.`
+    `Descubrimiento finalizado. Se encontraron ${contents.length} archivos.`
   );
-  return allContents;
+  return { files, contents };
 }
-// lib/dev/i18n-discoverer.ts

@@ -2,9 +2,10 @@
 /**
  * @file campaign.i18n.ts
  * @description Aparato Orquestador Soberano para la obtención de datos de campaña.
- *              v13.1.0: Se corrige la lógica de fusión para alinearse con la nueva
- *              firma de `deepMerge` de dos argumentos, resolviendo el error de tipo TS2556.
- * @version 13.1.0
+ *              v15.1.0 (Definitive Type Assertion): Resuelve la cascada de errores
+ *              de tipo mediante aserciones de tipo explícitas tras el Promise.all,
+ *              eliminando la ambigüedad para el compilador de TypeScript.
+ * @version 15.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
@@ -27,13 +28,13 @@ import {
   type CampaignVariantMap,
 } from "@/lib/schemas/campaigns/campaign-map.schema";
 import { logger } from "@/lib/logging";
+import { ZodError } from "zod";
 
 export async function resolveCampaignVariant(
   campaignId: string,
   identifier: string,
   bySlug = false
 ): Promise<{ variantId: string; variant: CampaignVariantMap }> {
-  // ... (lógica interna sin cambios)
   logger.trace(
     `[Resolver] Resolviendo para campaña ${campaignId}, ${
       bySlug ? "slug" : "ID"
@@ -53,7 +54,7 @@ export async function resolveCampaignVariant(
 
     if (bySlug) {
       foundEntry = Object.entries(variants).find(
-        ([_, v]) => v.variantSlug === identifier
+        ([, v]) => v.variantSlug === identifier
       );
     } else {
       const variant = variants[identifier];
@@ -94,13 +95,19 @@ export const getCampaignData = async (
     const { variant } = await resolveCampaignVariant(campaignId, variantId);
     const themePlan = parseThemeNetString(variant.theme);
 
+    type CampaignContentFile = Partial<Record<Locale, Record<string, unknown>>>;
+    type GlobalDictionaryResult = {
+      dictionary: Partial<Dictionary>;
+      error: ZodError | Error | null;
+    };
+
     const promises = [
       loadJsonAsset<Partial<AssembledTheme>>(
         "theme-fragments",
         "base",
         "global.theme.json"
       ),
-      loadJsonAsset<any>(
+      loadJsonAsset<CampaignContentFile>(
         "campaigns",
         campaignId,
         variant.content.replace("./", "")
@@ -121,12 +128,15 @@ export const getCampaignData = async (
       }),
     ];
 
-    const [
-      baseTheme,
-      campaignContent,
-      { dictionary: globalDictionary, error: dictError },
-      ...themeFragments
-    ] = await Promise.all(promises);
+    const resolvedPromises = await Promise.all(promises);
+
+    const baseTheme = resolvedPromises[0] as Partial<AssembledTheme>;
+    const campaignContent = resolvedPromises[1] as CampaignContentFile;
+    const {
+      dictionary: globalDictionary,
+      error: dictError,
+    } = resolvedPromises[2] as GlobalDictionaryResult;
+    const themeFragments = resolvedPromises.slice(3) as Partial<AssembledTheme>[];
 
     if (dictError || !globalDictionary) {
       throw new Error("El diccionario global base está corrupto.", {
@@ -134,19 +144,15 @@ export const getCampaignData = async (
       });
     }
 
-    // --- [INICIO DE CORRECCIÓN LÓGICA] ---
     const themeToMerge = [
       baseTheme,
       ...themeFragments,
       variant.themeOverrides ?? {},
     ];
-    // Se utiliza `reduce` para aplicar `deepMerge` de forma secuencial,
-    // respetando la nueva firma de dos argumentos.
     const finalAssembledTheme = themeToMerge.reduce(
       (acc, current) => deepMerge(acc, current as object),
       {}
     );
-    // --- [FIN DE CORRECCIÓN LÓGICA] ---
 
     const campaignLocaleContent = campaignContent[validatedLocale] || {};
     const processedData = processCampaignData(
@@ -156,12 +162,12 @@ export const getCampaignData = async (
     );
 
     logger.success(
-      `[Orquestador v13.1] Datos para Campaña ${campaignId} / Variante "${variant.name}" ensamblados con éxito.`
+      `[Orquestador v15.1] Datos para Campaña ${campaignId} / Variante "${variant.name}" ensamblados con éxito.`
     );
     return processedData;
   } catch (error) {
     logger.error(
-      `[Orquestador v13.1] Fallo crítico en el ensamblaje de datos de campaña.`,
+      `[Orquestador v15.1] Fallo crítico en el ensamblaje de datos de campaña.`,
       { error }
     );
     throw error;

@@ -2,70 +2,89 @@
 /**
  * @file wizard.config.ts
  * @description SSoT para la configuración del asistente de la SDC.
- *              v4.0.0: Añadido el Paso 5 (Gestión) al flujo del asistente.
- * @version 4.0.0
+ * @version 10.0.0 (Holistic Type Alignment): Se alinea la configuración con
+ *              la nueva arquitectura de props "envueltas", logrando una
+ *              seguridad de tipos completa y resolviendo todos los errores TS2322.
+ * @version 10.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import type { ComponentType } from "react";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { z } from "zod";
 import type { StepProps } from "../_types/step.types";
+import { logger } from "@/lib/logging";
+import {
+  Step0,
+  Step1,
+  Step2,
+  Step3,
+  Step4,
+  Step5,
+} from "../_components/all-steps";
+import {
+  Step0ContentSchema,
+  Step1ContentSchema,
+  Step2ContentSchema,
+  Step3ContentSchema,
+  Step4ContentSchema,
+  Step5ContentSchema,
+} from "../_schemas/steps";
 
-import { Step0 } from "../_components/Step0_Identity";
-import { Step1 } from "../_components/Step1_Structure";
-import { Step2 } from "../_components/Step2_Layout";
-import { Step3 } from "../_components/Step3_Theme";
-import { Step4 } from "../_components/Step4_Content";
-import { Step5 } from "../_components/Step5_Management";
+logger.trace("[wizard.config] Cargando SDC v10.0 (Holistic Type Alignment).");
 
-type WizardContentKeys = keyof NonNullable<Dictionary["campaignSuitePage"]>;
-
-type StepDefinition<TProps extends StepProps<any>> = {
+export interface StepDefinition<TContent extends z.ZodRawShape> {
   readonly id: number;
   readonly titleKey: string;
-  readonly contentKey: WizardContentKeys;
-  readonly Component: ComponentType<TProps>;
-};
+  readonly Component: ComponentType<StepProps<z.infer<z.ZodObject<TContent>>>>;
+  readonly i18nPath: string;
+  readonly schema: z.ZodObject<TContent>;
+}
 
-const createStep = <TProps extends StepProps<any>>(
-  config: StepDefinition<TProps>
-): typeof config => config;
+const createStep = <TContent extends z.ZodRawShape>(
+  config: StepDefinition<TContent>
+): StepDefinition<TContent> => config;
 
 export const stepsConfig = [
   createStep({
     id: 0,
-    titleKey: "Paso 0: Identificación",
-    contentKey: "step0",
+    titleKey: "Identificación",
     Component: Step0,
+    i18nPath: "messages/pages/dev/campaign-suite/steps/step0.i18n.json",
+    schema: z.object({ step0: Step0ContentSchema }),
   }),
   createStep({
     id: 1,
-    titleKey: "Paso 1: Estructura",
-    contentKey: "step1",
+    titleKey: "Estructura",
     Component: Step1,
+    i18nPath: "messages/pages/dev/campaign-suite/steps/step1.i18n.json",
+    schema: z.object({ step1: Step1ContentSchema }),
   }),
   createStep({
     id: 2,
-    titleKey: "Paso 2: Layout",
-    contentKey: "step2",
+    titleKey: "Layout",
     Component: Step2,
+    i18nPath: "messages/pages/dev/campaign-suite/steps/step2.i18n.json",
+    schema: z.object({ step2: Step2ContentSchema }),
   }),
   createStep({
     id: 3,
-    titleKey: "Paso 3: Tema",
-    contentKey: "step3",
+    titleKey: "Tema",
     Component: Step3,
+    i18nPath: "messages/pages/dev/campaign-suite/steps/step3.i18n.json",
+    schema: z.object({ step3: Step3ContentSchema }),
   }),
   createStep({
     id: 4,
-    titleKey: "Paso 4: Contenido",
-    contentKey: "step4",
+    titleKey: "Contenido",
     Component: Step4,
+    i18nPath: "messages/pages/dev/campaign-suite/steps/step4.i18n.json",
+    schema: z.object({ step4: Step4ContentSchema }),
   }),
   createStep({
     id: 5,
-    titleKey: "Paso 5: Gestión",
-    contentKey: "step5",
+    titleKey: "Gestión",
     Component: Step5,
+    i18nPath: "messages/pages/dev/campaign-suite/steps/step5.i18n.json",
+    schema: z.object({ step5: Step5ContentSchema }),
   }),
 ] as const;
 
