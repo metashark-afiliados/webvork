@@ -2,10 +2,10 @@
 /**
  * @file useCampaignDraft.ts
  * @description Hook de Zustand para la gestión de estado híbrida.
- *              - v13.0.0 (Definitive State Contract): Sincronizado con el contrato de
- *                estado definitivo, se añade una guardia de tipo robusta y se mejora
- *                la lógica de hidratación y la higiene del código.
- * @version 13.0.0
+ *              - v13.1.0 (Definitive Path Fix): Corrige la ruta de importación
+ *                de `draft.utils` para alinearla con la nueva arquitectura de
+ *                archivos y resolver el error de build 'Module not found'.
+ * @version 13.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { create } from "zustand";
@@ -13,7 +13,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import type { StateCreator } from "zustand";
 import { toast } from "sonner";
 import { logger } from "@/lib/logging";
-import { generateDraftId } from "@/lib/utils/draft.utils";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// La importación ahora apunta a la ubicación canónica del módulo de utilidades de borradores.
+import { generateDraftId } from "@/lib/drafts/draft.utils";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { stepsConfig } from "../_config/wizard.config";
 import { initialCampaignDraftState } from "../_config/draft.initial-state";
 import type { CampaignDraft, CampaignDraftState } from "../_types/draft.types";
@@ -22,7 +25,6 @@ import {
   CampaignDraftDataSchema,
   type CampaignDraftDb,
 } from "@/lib/schemas/campaigns/draft.schema";
-// Se elimina la importación no utilizada de 'Locale'.
 
 let debounceTimeout: NodeJS.Timeout;
 const DEBOUNCE_DELAY = 1500;
@@ -43,7 +45,7 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
       if (new Date(dbDraft.updatedAt) >= new Date(localDraft.updatedAt)) {
         logger.info("[useCampaignDraft] Hidratando estado desde MongoDB.");
         draftToLoad = {
-          ...localDraft, // Mantiene el 'step' local
+          ...localDraft,
           ...(dbDraft as Omit<CampaignDraftDb, "userId" | "createdAt">),
           updatedAt: dbDraft.updatedAt,
         };
@@ -154,7 +156,6 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
     logger.warn("[useCampaignDraft] Eliminando borrador de campaña...");
     set({ draft: initialCampaignDraftState, isLoading: false });
     toast.success("Borrador local eliminado.");
-    // Aquí iría la llamada a la acción para eliminar de la DB
   },
 });
 
