@@ -1,16 +1,17 @@
-// app/[locale]/(dev)/dev/_components/SuiteStyleComposerModal.tsx
+// RUTA: components/dev/SuiteStyleComposerModal.tsx
+
 /**
  * @file SuiteStyleComposerModal.tsx
  * @description Orquestador modal para la composición de temas.
- * @version 4.2.0 (Syntax Fix): Corrige la sintaxis de importación de React
- *              para resolver la cascada de errores de parsing.
+ *              v4.3.0 (Module Resolution Fix): Corrige la ruta de importación
+ *              del hook `useSuiteStyleComposer` para alinearse con la convención
+ *              de nomenclatura kebab-case.
+ * @version 4.3.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-// --- [INICIO DE CORRECCIÓN DE SINTAXIS] ---
 import React, { useEffect } from "react";
-// --- [FIN DE CORRECCIÓN DE SINTAXIS] ---
 import {
   Dialog,
   DialogContent,
@@ -22,9 +23,11 @@ import {
 import { logger } from "@/lib/logging";
 import {
   useSuiteStyleComposer,
-  type SuiteThemeConfig,
-  type LoadedFragments,
-} from "./SuiteStyleComposer/useSuiteStyleComposer";
+} from "./SuiteStyleComposer/use-suite-style-composer"; // <-- RUTA CORREGIDA
+import {
+    type SuiteThemeConfig,
+    type LoadedFragments,
+} from "./SuiteStyleComposer/types"; // <-- Importación separada para claridad
 import { ComposerHeader } from "./SuiteStyleComposer/ComposerHeader";
 import { ComposerFooter } from "./SuiteStyleComposer/ComposerFooter";
 import { SuiteColorsTab } from "./SuiteStyleComposer/SuiteColorsTab";
@@ -73,7 +76,7 @@ export function SuiteStyleComposerModal({
   onSave,
   content,
 }: SuiteStyleComposerModalProps): React.ReactElement {
-  logger.info("[SuiteStyleComposerModal] Renderizando (v4.2 - Syntax Fix)");
+  logger.info("[SuiteStyleComposerModal] Renderizando (v4.3 - Module Fix)");
 
   const {
     localSuiteConfig,
@@ -192,4 +195,3 @@ export function SuiteStyleComposerModal({
     </Dialog>
   );
 }
-// app/[locale]/(dev)/dev/_components/SuiteStyleComposerModal.tsx

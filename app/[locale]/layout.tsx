@@ -1,15 +1,15 @@
-// app/[locale]/layout.tsx
+// RUTA: app/[locale]/layout.tsx
+
 /**
  * @file layout.tsx
  * @description Layout Localizado. SSoT para la estructura principal del portal.
- *              v6.0.0 (Layout Context Fix): Resuelve el bug del doble header al
- *              hacer que el renderizado del DevHomepageHeader sea condicional
- *              a la ruta de la página de inicio.
- * @version 6.0.0
+ *              v6.3.0 (Footer Sync): Se alinea con el nuevo contrato de Footer,
+ *              asumiendo la responsabilidad de la carga de su contenido.
+ * @version 6.3.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { headers } from "next/headers"; // Importar headers de Next.js
+import { headers } from "next/headers";
 import { getDictionary } from "@/lib/i18n";
 import {
   defaultLocale,
@@ -35,10 +35,10 @@ export default async function LocaleLayout({
   const safeLocale = supportedLocales.includes(params.locale as Locale)
     ? params.locale!
     : defaultLocale;
-  const pathname = headers().get("x-next-pathname") || ""; // Obtener el pathname en el servidor
+  const pathname = headers().get("x-next-pathname") || "";
 
   logger.info(
-    `[Observabilidad][ARQUITECTURA-LOCALE] Renderizando LocaleLayout para locale: [${safeLocale}] en ruta: [${pathname}]`
+    `[Observabilidad][ARQUITECTURA-LOCALE] Renderizando LocaleLayout v6.3 para locale: [${safeLocale}] en ruta: [${pathname}]`
   );
 
   const { dictionary, error } = await getDictionary(safeLocale);
@@ -54,15 +54,15 @@ export default async function LocaleLayout({
   const devRouteMenuContent = dictionary?.devRouteMenu;
   const cookieConsentContent = dictionary?.cookieConsentBanner;
   const footerContent = dictionary?.footer;
+  const toggleThemeContent = dictionary?.toggleTheme;
+  const languageSwitcherContent = dictionary?.languageSwitcher;
 
-  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
   const isHomePage = pathname === `/${safeLocale}` || pathname === "/";
   const showDevHomepageHeader =
     process.env.NODE_ENV === "development" &&
     isHomePage &&
     devHomepageHeaderContent &&
     devRouteMenuContent;
-  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
   return (
     <>
@@ -77,9 +77,13 @@ export default async function LocaleLayout({
             devRouteMenuDictionary={devRouteMenuContent}
           />
         ) : (
-          headerContent && (
+          headerContent &&
+          toggleThemeContent &&
+          languageSwitcherContent && (
             <Header
               content={headerContent}
+              toggleThemeContent={toggleThemeContent}
+              languageSwitcherContent={languageSwitcherContent}
               currentLocale={safeLocale}
               supportedLocales={supportedLocales}
               devDictionary={devRouteMenuContent}
@@ -92,4 +96,3 @@ export default async function LocaleLayout({
     </>
   );
 }
-// app/[locale]/layout.tsx

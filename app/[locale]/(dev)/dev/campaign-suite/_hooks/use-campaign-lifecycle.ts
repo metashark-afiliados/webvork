@@ -1,8 +1,12 @@
-// app/[locale]/(dev)/dev/campaign-suite/_hooks/useCampaignLifecycle.ts
+// RUTA: app/[locale]/(dev)/dev/campaign-suite/_hooks/use-campaign-lifecycle.ts
+
 /**
- * @file useCampaignLifecycle.ts
+ * @file use-campaign-lifecycle.ts
  * @description Hook atómico para encapsular las acciones de ciclo de vida de un borrador de campaña.
- * @version 1.0.0
+ *              v1.1.0 (Module Resolution Fix): Corrige la ruta de importación de
+ *              useCampaignDraft para alinearse con la convención de nomenclatura
+ *              kebab-case, resolviendo un error crítico de compilación.
+ * @version 1.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -10,7 +14,7 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useCampaignDraft } from "./useCampaignDraft";
+import { useCampaignDraft } from "./use-campaign-draft"; // <-- RUTA CORREGIDA
 import { publishCampaignAction, packageCampaignAction } from "../_actions";
 import { logger } from "@/lib/logging";
 
@@ -83,4 +87,3 @@ export function useCampaignLifecycle() {
     isDeleting,
   };
 }
-// app/[locale]/(dev)/dev/campaign-suite/_hooks/useCampaignLifecycle.ts

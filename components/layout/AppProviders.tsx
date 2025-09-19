@@ -2,17 +2,18 @@
 /**
  * @file AppProviders.tsx
  * @description Orquestador de proveedores del lado del cliente.
- *              v5.0.0: Integración del ThemeProvider para resolver la ausencia
- *              de theming en toda la aplicación. Esta es la solución definitiva.
- * @version 5.0.0
+ *              v5.1.0 (Module Resolution Fix): Corrige la ruta de importación
+ *              del hook `useProducerLogic` para alinearse con la convención
+ *              de nomenclatura `kebab-case` y resolver el error de build.
+ * @version 5.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useEffect } from "react";
-import { ThemeProvider } from "@/components/layout/theme-provider"; // <-- Importar el ThemeProvider
-import { useProducerLogic } from "@/hooks/useProducerLogic";
-import { useUserPreferences } from "@/hooks/useUserPreferences";
+import { ThemeProvider } from "@/components/layout/theme-provider";
+import { useProducerLogic } from "@/hooks/use-producer-logic";
+import { useUserPreferences } from "@/hooks/use-user-preferences";
 import { CookieConsentBanner } from "./CookieConsentBanner";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { defaultLocale, type Locale } from "@/lib/i18n.config";
@@ -45,9 +46,6 @@ export default function AppProviders({
   }, [safeLocale, preferences.locale, setPreference]);
 
   return (
-    // --- [INICIO DE LA SOLUCIÓN] ---
-    // Envolvemos toda la aplicación con el ThemeProvider.
-    // Esto asegura que el contexto de tema (light/dark) esté disponible en todas partes.
     <ThemeProvider
       attribute="class"
       defaultTheme="system"
@@ -65,7 +63,5 @@ export default function AppProviders({
         />
       )}
     </ThemeProvider>
-    // --- [FIN DE LA SOLUCIÓN] ---
   );
 }
-// components/layout/AppProviders.tsx

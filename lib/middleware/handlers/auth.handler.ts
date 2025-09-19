@@ -2,8 +2,10 @@
 /**
  * @file auth.handler.ts
  * @description Manejador de middleware para proteger rutas del DCC.
- * @version 2.1.0 (Code Hygiene): Se elimina la importación no utilizada
- *              de 'NextRequest' para cumplir con las reglas de linting.
+ *              v3.0.0 (Elite Observability): Refactorizado para un logging de
+ *              alta verbosidad, registrando explícitamente las rutas omitidas,
+ *              las redirecciones y los accesos concedidos con su contexto.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { NextResponse } from "next/server";
@@ -16,40 +18,49 @@ export const authHandler: MiddlewareHandler = async (req, res) => {
   try {
     if (!process.env.SESSION_PASSWORD) {
       logger.error(
-        "[AuthHandler] ERROR CRÍTICO: La variable de entorno SESSION_PASSWORD no está definida. La autenticación del DCC se ha desactivado por seguridad. Por favor, defínala en tu archivo .env.",
-        {}
+        "[AuthHandler] ERROR CRÍTICO: La variable de entorno SESSION_PASSWORD no está definida. La autenticación del DCC se ha desactivado por seguridad."
       );
       return res;
     }
 
     const { pathname } = req.nextUrl;
+    const locale = pathname.split("/")[1] || "it-IT";
     const isDevRoute = pathname.includes("/dev");
     const isLoginPage = pathname.includes("/dev/login");
 
-    logger.trace("[AuthHandler] Verificando ruta.", { pathname });
-
+    // --- [INICIO DE MEJORA DE OBSERVABILIDAD] ---
     if (!isDevRoute || isLoginPage) {
-      logger.trace("[AuthHandler] Ruta no requiere autenticación. Omitiendo.");
+      logger.trace(
+        `[authHandler] Ruta pública o de login. Omitiendo verificación de sesión.`,
+        { pathname }
+      );
       return res;
     }
+    // --- [FIN DE MEJORA DE OBSERVABILIDAD] ---
 
     const session = await getSession();
 
     if (!session.isDevAuthenticated) {
       const loginUrl = new URL(req.nextUrl.origin);
-      const locale = pathname.split("/")[1] || "it-IT";
       loginUrl.pathname = `/${locale}/dev/login`;
+
+      // --- [INICIO DE MEJORA DE OBSERVABILIDAD] ---
       logger.warn(
-        `[AuthHandler] Sesión no autenticada. Redirigiendo a página de login.`,
-        { redirectTo: loginUrl.toString() }
+        `[authHandler] Sesión no autenticada. Redirigiendo a página de login.`,
+        { from: pathname, to: loginUrl.toString() }
       );
+      // --- [FIN DE MEJORA DE OBSERVABILIDAD] ---
       return NextResponse.redirect(loginUrl);
     }
 
-    logger.success("[AuthHandler] Sesión autenticada. Acceso concedido.", {});
+    // --- [INICIO DE MEJORA DE OBSERVABILIDAD] ---
+    logger.success(`[authHandler] Sesión autenticada. Acceso concedido.`, {
+      pathname,
+    });
+    // --- [FIN DE MEJORA DE OBSERVABILIDAD] ---
     return res;
   } catch (error) {
-    logger.error("[AuthHandler] Error inesperado durante la ejecución.", {
+    logger.error("[authHandler] Error inesperado durante la ejecución.", {
       error: error instanceof Error ? error.message : String(error),
     });
     return res;
@@ -57,4 +68,3 @@ export const authHandler: MiddlewareHandler = async (req, res) => {
     logger.endTrace(traceId);
   }
 };
-// lib/middleware/handlers/auth.handler.ts

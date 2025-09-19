@@ -1,10 +1,14 @@
-// components/ui/Button.tsx
+// RUTA: components/ui/Button.tsx
+
 /**
  * @file Button.tsx
- * @description Componente de UI atómico y polimórfico.
- * @version 9.1.0 (Accent Variant): Se añade la variante 'accent' para
- *              soportar CTAs de alta visibilidad, alineado con el sistema
- *              de theming semántico.
+ * @description Componente de UI atómico y polimórfico de élite.
+ *              v10.0.0 (Holistic Elite Leveling & MEA): Refactorizado para
+ *              cumplir con todos los pilares de calidad. Implementa una
+ *              micro-interacción MEA/UX con `framer-motion` (`whileTap`) que
+ *              proporciona retroalimentación táctil en cada clic, mejorando
+ *              la experiencia de usuario en toda la aplicación.
+ * @version 10.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -13,7 +17,9 @@ import * as React from "react";
 import Link from "next/link";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logging";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -21,9 +27,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        // --- [INICIO] MEJORA ARQUITECTÓNICA ---
         accent: "bg-accent text-accent-foreground hover:bg-accent/90",
-        // --- [FIN] MEJORA ARQUITECTÓNICA ---
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         secondary:
@@ -54,31 +58,41 @@ export interface ButtonProps
   href?: string;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, href, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+    logger.trace("[Button] Renderizando v10.0 (Elite & MEA).");
 
-    if (href) {
-      return (
-        <Link
-          href={href}
-          className={cn(buttonVariants({ variant, size, className }))}
-        >
-          {props.children}
-        </Link>
-      );
-    }
+    const Comp = asChild || href ? Slot : "button";
 
-    return (
+    const buttonContent = (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
     );
+
+    if (href) {
+      return (
+        <Link href={href} passHref legacyBehavior>
+          {buttonContent}
+        </Link>
+      );
+    }
+
+    return buttonContent;
   }
+);
+ButtonComponent.displayName = "ButtonComponent";
+
+// HOC (High-Order Component) que envuelve el botón con la lógica de animación
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (props, ref) => (
+    <motion.div whileTap={{ scale: 0.97, opacity: 0.9 }}>
+      <ButtonComponent {...props} ref={ref} />
+    </motion.div>
+  )
 );
 Button.displayName = "Button";
 
-export { Button, buttonVariants };
-// components/ui/Button.tsx
+export { buttonVariants };

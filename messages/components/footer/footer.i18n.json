@@ -1,3 +1,5 @@
+
+
 {
   "it-IT": {
     "footer": {
@@ -6,7 +8,8 @@
         "title": "Rimani Aggiornato con Global Fitwell",
         "description": "Ottieni consigli esclusivi sul benessere, approfondimenti scientifici e offerte speciali direttamente nella tua casella di posta.",
         "placeholder": "La tua migliore email",
-        "buttonText": "Iscriviti Ora"
+        "buttonText": "Iscriviti Ora",
+        "buttonAriaLabel": "Invia la tua email per iscriverti alla newsletter"
       },
       "linkColumns": [
         {
@@ -50,7 +53,8 @@
         "title": "Mantente Actualizado con Global Fitwell",
         "description": "Recibe consejos exclusivos de bienestar, investigaciones científicas y ofertas especiales directamente en tu bandeja de entrada.",
         "placeholder": "Tu mejor email",
-        "buttonText": "Suscribirse Ahora"
+        "buttonText": "Suscribirse Ahora",
+        "buttonAriaLabel": "Enviar tu correo electrónico para suscribirte al boletín"
       },
       "linkColumns": [
         {
@@ -94,7 +98,8 @@
         "title": "Stay Updated with Global Fitwell",
         "description": "Get exclusive wellness tips, scientific research insights, and special offers delivered directly to your inbox.",
         "placeholder": "Your best email",
-        "buttonText": "Subscribe Now"
+        "buttonText": "Subscribe Now",
+        "buttonAriaLabel": "Submit your email to subscribe to the newsletter"
       },
       "linkColumns": [
         {
@@ -138,7 +143,8 @@
         "title": "Mantenha-se Atualizado com a Global Fitwell",
         "description": "Receba dicas exclusivas de bem-estar, insights de pesquisas científicas e ofertas especiais diretamente na sua caixa de entrada.",
         "placeholder": "Seu melhor e-mail",
-        "buttonText": "Inscreva-se Agora"
+        "buttonText": "Inscreva-se Agora",
+        "buttonAriaLabel": "Envie seu e-mail para se inscrever na newsletter"
       },
       "linkColumns": [
         {

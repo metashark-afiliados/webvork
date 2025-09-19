@@ -1,10 +1,12 @@
-// app/[locale]/(dev)/layout.tsx
+// RUTA: app/[locale]/(dev)/layout.tsx
+
 /**
  * @file layout.tsx
- * @description Layout raíz para el DCC. v7.1.0 (A11y Fix): Resuelve el error de
- *              linting 'jsx-a11y/html-has-lang' asegurando que el estado de
- *              fallback de error también incluya el atributo 'lang'.
- * @version 7.1.0
+ * @description Layout raíz para el DCC.
+ *              v7.4.0 (LanguageSwitcher Sync): Obtiene y pasa el contenido i18n
+ *              para el nuevo componente de élite LanguageSwitcher y robustece
+ *              la guardia de resiliencia de carga de datos.
+ * @version 7.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -33,7 +35,7 @@ export default async function DevLayout({
   params: { locale },
 }: DevLayoutProps) {
   logger.info(
-    `[DevLayout] Renderizando layout raíz del DCC v7.1 para locale: [${locale}]`
+    `[DevLayout] Renderizando layout raíz del DCC v7.4 para locale: [${locale}]`
   );
 
   const { dictionary, error } = await getDictionary(locale);
@@ -42,21 +44,23 @@ export default async function DevLayout({
 
   if (
     error ||
+    !dictionary.devHeader ||
+    !dictionary.devRouteMenu ||
     !dictionary.devDashboardPage ||
-    !dictionary.cookieConsentBanner
+    !dictionary.cookieConsentBanner ||
+    !dictionary.toggleTheme ||
+    !dictionary.languageSwitcher // <-- NUEVA GUARDIA
   ) {
     logger.error(`[DevLayout] Diccionario esencial no cargado.`, { error });
-    // --- [INICIO DE CORRECCIÓN DE ACCESIBILIDAD] ---
     return (
       <html lang={locale}>
         <body>
-          <div style={{ color: "red", padding: "20px" }}>
+          <div style={{ color: "hsl(var(--destructive))", padding: "20px" }}>
             Error crítico al cargar el diccionario para el DCC.
           </div>
         </body>
       </html>
     );
-    // --- [FIN DE CORRECCIÓN DE ACCESIBILIDAD] ---
   }
 
   const fragmentsResult: ActionResult<DiscoveredFragments> =
@@ -173,6 +177,10 @@ export default async function DevLayout({
             content={devSwitcherContent}
           />
         }
+        content={dictionary.devHeader}
+        devMenuContent={dictionary.devRouteMenu}
+        toggleThemeContent={dictionary.toggleTheme}
+        languageSwitcherContent={dictionary.languageSwitcher} // <-- NUEVO PASO DE PROP
       />
       <main className="py-8 md:py-12">
         <Container>{children}</Container>
@@ -180,4 +188,3 @@ export default async function DevLayout({
     </AppProviders>
   );
 }
-// app/[locale]/(dev)/layout.tsx

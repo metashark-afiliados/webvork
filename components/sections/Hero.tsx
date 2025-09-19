@@ -1,12 +1,14 @@
-// components/sections/Hero.tsx
+// RUTA: components/sections/Hero.tsx
+
 /**
  * @file Hero.tsx
- * @description Componente de presentación para la sección Hero. Ahora es un
- *              componente de cliente que utiliza framer-motion para animaciones
- *              en cascada y soporta resaltado visual para el "Modo Enfoque".
- * @version 8.0.0 (Definitive Elite Version & Animation Fix)
+ * @description Componente de presentación para la sección Hero.
+ *              v9.0.0 (Orchestrated Animation & Elite Compliance): Refactorizado
+ *              para participar en la animación en cascada orquestada por el
+ *              componente Container (MEA/UX). El componente en sí mismo es ahora
+ *              un `motion.section` que responde a las variantes del padre.
+ * @version 9.0.0
  * @author RaZ Podestá - MetaShark Tech
- * @see .docs/suite-de-diseno-campanas/README.md "Experiencia Adrenalínica"
  */
 "use client";
 
@@ -17,24 +19,25 @@ import { Container } from "@/components/ui/Container";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
-/**
- * @interface HeroProps
- * @description Contrato de props para el componente Hero.
- */
 interface HeroProps {
-  /**
-   * @prop content - El objeto de contenido para la sección, validado por Zod.
-   */
   content: Dictionary["hero"];
-  /**
-   * @prop isFocused - Booleano que indica si el editor de la SDC está enfocando esta sección.
-   */
   isFocused?: boolean;
 }
 
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// Se definen las constantes de animación fuera del componente para que no se
-// redeclaren en cada render, optimizando el rendimiento.
+// Variante para la animación del contenedor de la sección, orquestada por el `Container` padre.
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Variantes para la animación interna de las palabras del título.
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -70,17 +73,12 @@ const subtitleVariants: Variants = {
     },
   },
 };
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
-/**
- * @component Hero
- * @description Componente Hero principal, diseñado para ser la primera impresión
- *              impactante de una página de campaña. Utiliza `forwardRef` para
- *              permitir que el SectionRenderer le asigne una ref.
- */
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   ({ content, isFocused }, ref) => {
-    logger.info("[Hero] Renderizando componente (v8.0 - Definitive Version)");
+    logger.info(
+      "[Hero] Renderizando componente v9.0 (Orchestrated Animation)."
+    );
 
     if (!content) {
       logger.warn("[Hero] No se proporcionó contenido. No se renderizará.");
@@ -91,8 +89,9 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     const titleWords = title.split(" ");
 
     return (
-      <section
+      <motion.section
         ref={ref}
+        variants={sectionVariants} // <-- Responde al stagger del Container padre
         id="hero"
         className={cn(
           "bg-background pt-8 pb-16 text-center overflow-hidden transition-all duration-300 rounded-lg",
@@ -104,7 +103,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           <motion.h1
             className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight font-serif text-primary drop-shadow-md"
             aria-label={title}
-            variants={containerVariants}
+            variants={containerVariants} // <-- Orquesta la animación de sus hijos
             initial="hidden"
             animate="visible"
           >
@@ -128,11 +127,9 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
             {subtitle}
           </motion.p>
         </Container>
-      </section>
+      </motion.section>
     );
   }
 );
 
-// Se añade el displayName para mejorar la depuración en React DevTools.
 Hero.displayName = "Hero";
-// components/sections/Hero.tsx

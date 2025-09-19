@@ -2,20 +2,23 @@
 /**
  * @file validate-theme-fragments.ts
  * @description Script de validación que actúa como un guardián de calidad.
- *              Escanea todos los `campaign.map.json`, parsea las cadenas NET
- *              y verifica que cada fragmento de tema referenciado exista en el
- *              sistema de archivos.
- * @version 1.0.0
+ *              v1.1.0 (Linter Hygiene & Observability): Resuelve la advertencia
+ *              'no-unused-vars' y mejora el logging de errores al incluir
+ *              detalles del error de parsing en la salida de la consola.
+ * @version 1.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as fs from "fs/promises";
 import * as path from "path";
 import chalk from "chalk";
-import { parseThemeNetString } from "../../lib/utils/theme.utils.ts";
+import { parseThemeNetString } from "../../lib/theming/theme-utils.ts";
 import { netTracePrefixToPathMap } from "../../lib/config/theming.config.ts";
 
 const CAMPAIGNS_DIR = path.resolve(process.cwd(), "content/campaigns");
-const FRAGMENTS_DIR = path.resolve(process.cwd(), "content/theme-fragments");
+const FRAGMENTS_DIR = path.resolve(
+  process.cwd(),
+  "content/theme-fragments"
+);
 
 async function validateFragments() {
   console.log(
@@ -76,9 +79,16 @@ async function validateFragments() {
           }
         }
       } catch (e) {
+        // --- [INICIO DE CORRECCIÓN DE LINTING Y OBSERVABILIDAD] ---
+        // La variable 'e' ahora se utiliza para proporcionar más contexto en el log,
+        // resolviendo la advertencia de ESLint y mejorando la depuración.
+        const errorMessage = e instanceof Error ? e.message : String(e);
         console.warn(
-          chalk.yellow(`  ⚠️  Advertencia: No se pudo procesar ${mapPath}.`)
+          chalk.yellow(
+            `  ⚠️  Advertencia: No se pudo procesar ${mapPath}. Causa: ${errorMessage}`
+          )
         );
+        // --- [FIN DE CORRECCIÓN DE LINTING Y OBSERVABILIDAD] ---
       }
     }
 
@@ -106,4 +116,3 @@ async function validateFragments() {
 }
 
 validateFragments();
-// scripts/validation/validate-theme-fragments.ts

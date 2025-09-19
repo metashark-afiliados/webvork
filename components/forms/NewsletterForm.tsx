@@ -1,8 +1,12 @@
-// components/forms/NewsletterForm.tsx
+// RUTA: components/forms/NewsletterForm.tsx
+
 /**
  * @file NewsletterForm.tsx
  * @description Componente de cliente atómico para el formulario de suscripción a la newsletter.
- * @version 1.0.0
+ *              v2.0.0 (Holistic Elite Leveling): Refactorizado a un componente de
+ *              presentación puro, 100% data-driven a través de su contrato de props,
+ *              y cumpliendo con todos los pilares de calidad.
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -10,28 +14,28 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { DynamicIcon } from "@/components/ui";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+
+type NewsletterContent = NonNullable<
+  NonNullable<Dictionary["footer"]>["newsletter"]
+>;
 
 interface NewsletterFormProps {
-  content: {
-    placeholder: string;
-    buttonText: string;
-  };
+  content: NewsletterContent;
 }
 
 export function NewsletterForm({
   content,
 }: NewsletterFormProps): React.ReactElement {
-  logger.info(
-    "[Observabilidad] Renderizando NewsletterForm (Client Component)"
-  );
+  logger.info("[NewsletterForm] Renderizando componente de élite (v2.0).");
   const [email, setEmail] = useState("");
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     logger.success("Suscripción a la newsletter (simulado):", { email });
-    // Aquí iría la lógica de envío a un servicio de email marketing
+    // Aquí iría la lógica de envío a un servicio de email marketing.
     setEmail("");
   };
 
@@ -47,8 +51,13 @@ export function NewsletterForm({
         onChange={(e) => setEmail(e.target.value)}
         required
         className="bg-background/80"
+        aria-label={content.placeholder}
       />
-      <Button type="submit" variant="default">
+      <Button
+        type="submit"
+        variant="default"
+        aria-label={content.buttonAriaLabel}
+      >
         <span className="hidden sm:inline">{content.buttonText}</span>
         <DynamicIcon name="Send" className="h-4 w-4 sm:hidden" />
       </Button>

@@ -1,9 +1,13 @@
-// app/[locale]/(dev)/dev/_components/SuiteStyleComposer/SuiteColorsTab.tsx
+// RUTA: components/dev/SuiteStyleComposer/SuiteColorsTab.tsx
+
 /**
  * @file SuiteColorsTab.tsx
  * @description Aparato atómico para la pestaña de colores.
- *              v1.1.0 (Type Contract Sync): Alineado con el contrato de tipo SSoT 'LoadedFragments'.
- * @version 1.1.0
+ *              v1.2.0 (Architectural Fix): Resuelve un error crítico de
+ *              compilación al importar el tipo `LoadedFragments` desde su SSoT
+ *              canónica (`./types.ts`) en lugar de hacerlo desde el archivo
+ *              del hook, fortaleciendo la arquitectura de dependencias.
+ * @version 1.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,10 +22,10 @@ import {
 } from "@/components/ui/Select";
 import { Label } from "@/components/ui/Label";
 import { logger } from "@/lib/logging";
-import type { LoadedFragments } from "./useSuiteStyleComposer"; // <-- Se importa el tipo SSoT
+import type { LoadedFragments } from "./types"; // <-- RUTA CORREGIDA A LA SSoT DE TIPOS
 
 interface SuiteColorsTabProps {
-  allThemeFragments: LoadedFragments; // <-- Se utiliza el tipo SSoT
+  allThemeFragments: LoadedFragments;
   selectedColorPreset: string;
   onColorPresetChange: (value: string) => void;
   content: {
@@ -37,7 +41,7 @@ export function SuiteColorsTab({
   onColorPresetChange,
   content,
 }: SuiteColorsTabProps): React.ReactElement {
-  logger.trace("[SuiteColorsTab] Renderizando pestaña de colores (v1.1).");
+  logger.trace("[SuiteColorsTab] Renderizando pestaña de colores (v1.2).");
 
   const colorOptions = useMemo(
     () => [

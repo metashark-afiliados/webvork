@@ -1,8 +1,18 @@
 {
   "it-IT": {
     "devDashboardPage": {
-      "title": "Developer Command Center",
-      "subtitle": "Strumenti per lo sviluppo e la simulazione delle campagne.",
+      "pageHeader": {
+        "title": "Developer Command Center",
+        "subtitle": "Strumenti per lo sviluppo e la simulazione delle campagne.",
+        "lightRays": {
+          "raysColor": "primary",
+          "raysOrigin": "top-center",
+          "raysSpeed": 0.8,
+          "lightSpread": 0.5,
+          "rayLength": 1.1,
+          "mouseInfluence": 0.05
+        }
+      },
       "tools": {
         "componentCanvas": {
           "name": "Component Canvas",
@@ -48,8 +58,18 @@
   },
   "es-ES": {
     "devDashboardPage": {
-      "title": "Centro de Comando del Desarrollador",
-      "subtitle": "Herramientas para el desarrollo y simulación de campañas.",
+      "pageHeader": {
+        "title": "Centro de Comando del Desarrollador",
+        "subtitle": "Herramientas para el desarrollo y simulación de campañas.",
+        "lightRays": {
+          "raysColor": "primary",
+          "raysOrigin": "top-center",
+          "raysSpeed": 0.8,
+          "lightSpread": 0.5,
+          "rayLength": 1.1,
+          "mouseInfluence": 0.05
+        }
+      },
       "tools": {
         "componentCanvas": {
           "name": "Lienzo de Componentes",
@@ -95,8 +115,18 @@
   },
   "en-US": {
     "devDashboardPage": {
-      "title": "Developer Command Center",
-      "subtitle": "Tools for campaign development and simulation.",
+      "pageHeader": {
+        "title": "Developer Command Center",
+        "subtitle": "Tools for campaign development and simulation.",
+        "lightRays": {
+          "raysColor": "primary",
+          "raysOrigin": "top-center",
+          "raysSpeed": 0.8,
+          "lightSpread": 0.5,
+          "rayLength": 1.1,
+          "mouseInfluence": 0.05
+        }
+      },
       "tools": {
         "componentCanvas": {
           "name": "Component Canvas",
@@ -142,8 +172,18 @@
   },
   "pt-BR": {
     "devDashboardPage": {
-      "title": "Centro de Comando do Desenvolvedor",
-      "subtitle": "Ferramentas para o desenvolvimento e simulação de campanhas.",
+      "pageHeader": {
+        "title": "Centro de Comando do Desenvolvedor",
+        "subtitle": "Ferramentas para o desenvolvimento e simulação de campanhas.",
+        "lightRays": {
+          "raysColor": "primary",
+          "raysOrigin": "top-center",
+          "raysSpeed": 0.8,
+          "lightSpread": 0.5,
+          "rayLength": 1.1,
+          "mouseInfluence": 0.05
+        }
+      },
       "tools": {
         "componentCanvas": {
           "name": "Canvas de Componentes",

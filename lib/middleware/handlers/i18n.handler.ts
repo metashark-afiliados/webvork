@@ -2,12 +2,13 @@
 /**
  * @file i18n.handler.ts
  * @description Manejador de middleware atómico para la internacionalización de rutas.
- *              Refactorizado para consumir la utilidad pura `locale-detector`.
- * @version 2.1.0 (Improved Observability)
+ *              v3.0.0 (Elite Observability): Refactorizado para proporcionar un logging
+ *              de alta verbosidad, registrando la ruta procesada y la acción específica
+ *              tomada (omisión o redirección) con contexto completo.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
- * @see roadmap-v2.md - Tarea 4.2
  */
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import {
   supportedLocales,
   defaultLocale,
@@ -22,25 +23,18 @@ const localePathnameRegex = new RegExp(
   "i"
 );
 
-/**
- * @const i18nHandler
- * @description El manejador de middleware que garantiza que cada ruta esté localizada.
- */
 export const i18nHandler: MiddlewareHandler = (req, res) => {
   const { pathname } = req.nextUrl;
 
-  // 1. Si la ruta ya tiene un locale, no hacemos nada.
+  // --- [INICIO DE MEJORA DE OBSERVABILIDAD] ---
   if (localePathnameRegex.test(pathname)) {
-    // --- [INICIO DE MEJORA DE LOGGING] ---
-    logger.trace(
-      `[i18nHandler] Ruta ya localizada. Omitiendo redirección.`,
-      { pathname }
-    );
-    // --- [FIN DE MEJORA DE LOGGING] ---
+    logger.trace(`[i18nHandler] Ruta ya localizada. Omitiendo acción.`, {
+      pathname,
+    });
     return res;
   }
+  // --- [FIN DE MEJORA DE OBSERVABILIDAD] ---
 
-  // 2. Determinar el locale a utilizar, delegando a la SSoT.
   let detectedLocale: Locale;
   if (process.env.NEXT_PUBLIC_SITE_LOCALE) {
     detectedLocale = defaultLocale;
@@ -48,10 +42,18 @@ export const i18nHandler: MiddlewareHandler = (req, res) => {
     detectedLocale = getLocaleFromBrowser(req);
   }
 
-  // 3. Construir la nueva URL y cortocircuitar el pipeline.
   const newUrl = new URL(`/${detectedLocale}${pathname}`, req.url);
-  logger.info(`[i18nHandler] Redirigiendo a: ${newUrl.toString()}`);
+
+  // --- [INICIO DE MEJORA DE OBSERVABILIDAD] ---
+  logger.info(
+    `[i18nHandler] Ruta no localizada. Redirigiendo para añadir prefijo de locale.`,
+    {
+      from: pathname,
+      to: newUrl.toString(),
+      detectedLocale: detectedLocale,
+    }
+  );
+  // --- [FIN DE MEJORA DE OBSERVABILIDAD] ---
 
   return NextResponse.redirect(newUrl, 308);
 };
-// lib/middleware/handlers/i18n.handler.ts

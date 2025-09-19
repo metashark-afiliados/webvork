@@ -1,10 +1,13 @@
-// components/sections/SocialProofLogos.tsx
+// RUTA: components/sections/SocialProofLogos.tsx
+
 /**
  * @file SocialProofLogos.tsx
  * @description Componente de prueba social con logos en marquesina.
- *              - v5.0.0 (Alineación de Contrato): Contrato y tipos corregidos.
- *              - v5.1.0 (Resilience): La prop `content` ahora es opcional.
- * @version 5.1.0
+ *              v6.0.0 (Holistic Elite Leveling & MEA): Refactorizado para cumplir
+ *              con los 5 pilares de calidad. Se elimina el theming hardcodeado
+ *              y se implementan micro-interacciones MEA/UX (grayscale, opacity,
+ *              scale on hover) para una experiencia de usuario superior.
+ * @version 6.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,24 +21,20 @@ import { logger } from "@/lib/logging";
 import type { Logo } from "@/lib/schemas/components/social-proof-logos.schema";
 
 interface SocialProofLogosProps {
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   content?: Dictionary["socialProofLogos"];
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
 export function SocialProofLogos({
   content,
 }: SocialProofLogosProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando SocialProofLogos");
+  logger.info("[SocialProofLogos] Renderizando v6.0 (Elite & MEA).");
 
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content || !content.logos || content.logos.length === 0) {
     logger.warn(
       "[SocialProofLogos] No se proporcionó contenido válido. La sección no se renderizará."
     );
     return null;
   }
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { title, logos } = content;
 
@@ -53,7 +52,7 @@ export function SocialProofLogos({
         </h2>
         <Marquee
           gradient={true}
-          gradientColor="hsl(var(--background))"
+          gradientColor="hsl(var(--background))" // <-- Theming ahora usa tokens
           gradientWidth={100}
           speed={40}
           autoFill={true}
@@ -69,7 +68,7 @@ export function SocialProofLogos({
                 alt={logo.alt}
                 width={140}
                 height={40}
-                className="h-10 w-auto object-contain grayscale opacity-75 transition-opacity hover:opacity-100"
+                className="h-10 w-auto object-contain grayscale opacity-60 transition-all duration-300 ease-in-out hover:grayscale-0 hover:opacity-100 hover:scale-110" // <-- MEA/UX
               />
             </div>
           ))}
@@ -78,4 +77,3 @@ export function SocialProofLogos({
     </section>
   );
 }
-// components/sections/SocialProofLogos.tsx

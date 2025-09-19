@@ -2,7 +2,10 @@
 /**
  * @file getBaviAssets.action.ts
  * @description Server Action para obtener una lista paginada y filtrada de activos de BAVI.
- * @version 1.0.0
+ *              v1.1.0 (Holistic Refactor): Resuelve errores de importación de
+ *              módulos y de seguridad de tipos (implicit any), alineando el
+ *              aparato con la arquitectura SSoT y las directivas de calidad.
+ * @version 1.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
@@ -25,7 +28,9 @@ import {
   type RaZPromptsSesaTags,
 } from "@/lib/schemas/raz-prompts/atomic.schema";
 import { z } from "zod";
-import { normalizeKeywords } from "@/lib/utils/keyword-normalizer";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA: RUTA DE IMPORTACIÓN] ---
+import { normalizeKeywords } from "@/lib/search/keyword-normalizer";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA: RUTA DE IMPORTACIÓN] ---
 
 const BAVI_MANIFEST_PATH = path.join(
   process.cwd(),
@@ -36,12 +41,11 @@ const SEARCH_INDEX_PATH = path.join(
   "content/bavi/bavi.search-index.json"
 );
 
-// Schema para validar los parámetros de entrada de la acción de búsqueda/filtrado
 const GetBaviAssetsInputSchema = z.object({
   page: z.number().int().min(1).default(1),
   limit: z.number().int().min(1).max(100).default(10),
   query: z.string().optional(),
-  tags: RaZPromptsSesaTagsSchema.partial().optional(), // Permite filtrar por tags SESA
+  tags: RaZPromptsSesaTagsSchema.partial().optional(),
 });
 
 export type GetBaviAssetsInput = z.infer<typeof GetBaviAssetsInputSchema>;
@@ -61,7 +65,6 @@ export async function getBaviAssetsAction(
 
     const { page, limit, query, tags } = validatedInput.data;
 
-    // Cargar manifiesto principal
     const baviManifestContent = await fs
       .readFile(BAVI_MANIFEST_PATH, "utf-8")
       .catch(() => '{ "assets": [] }');
@@ -69,7 +72,6 @@ export async function getBaviAssetsAction(
       JSON.parse(baviManifestContent)
     );
 
-    // Cargar índice de búsqueda (para query de texto libre)
     const searchIndexContent = await fs
       .readFile(SEARCH_INDEX_PATH, "utf-8")
       .catch(() => '{ "version": "1.0.0", "index": {} }');
@@ -79,7 +81,6 @@ export async function getBaviAssetsAction(
 
     let filteredAssets = baviManifest.assets;
 
-    // Aplicar filtro por tags SESA
     if (tags) {
       filteredAssets = filteredAssets.filter((asset) => {
         for (const key in tags) {
@@ -96,15 +97,15 @@ export async function getBaviAssetsAction(
       });
     }
 
-    // Aplicar filtro por query de texto libre (usando baviSearchIndex)
     if (query) {
-      const normalizedQueryKeywords = normalizeKeywords(query.split(" ")); // Normalizar la query
+      const normalizedQueryKeywords = normalizeKeywords(query.split(" "));
       filteredAssets = filteredAssets.filter((asset) => {
         const assetKeywords = baviSearchIndex.index[asset.assetId] || [];
-        // Verificar si alguna palabra clave normalizada de la query está en las palabras clave del activo
-        return normalizedQueryKeywords.some((qKeyword) =>
+        // --- [INICIO DE CORRECCIÓN DE TIPO: IMPLICIT ANY] ---
+        return normalizedQueryKeywords.some((qKeyword: string) =>
           assetKeywords.includes(qKeyword)
         );
+        // --- [FIN DE CORRECCIÓN DE TIPO: IMPLICIT ANY] ---
       });
     }
 

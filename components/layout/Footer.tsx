@@ -1,26 +1,33 @@
-// components/layout/Footer.tsx
+// RUTA: components/layout/Footer.tsx
+
 /**
  * @file Footer.tsx
  * @description Componente de pie de página principal del portal.
- *              - v5.0.0 (Type Safety): Importa y aplica tipos explícitos
- *                desde el schema SSoT para resolver errores de 'any' implícito (TS7006).
- * @version 5.0.0
+ *              v6.0.0 (Holistic Elite Leveling & MEA): Refactorizado a un componente
+ *              de presentación puro, 100% data-driven, y se implementa una mejora
+ *              MEA/UX con tooltips en los iconos de redes sociales.
+ * @version 6.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
+import React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { NewsletterForm } from "@/components/forms/NewsletterForm";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
+import { Separator } from "@/components/ui/Separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { NewsletterForm } from "@/components/forms/NewsletterForm";
-import { DynamicIcon } from "@/components/ui";
-import { Separator } from "@/components/ui/Separator";
-// --- [INICIO] REFACTORIZACIÓN DE TIPOS ---
 import type {
   LinkColumn,
   Link as LinkType,
   SocialLink,
 } from "@/lib/schemas/components/footer.schema";
-// --- [FIN] REFACTORIZACIÓN DE TIPOS ---
 
 type FooterContent = NonNullable<Dictionary["footer"]>;
 
@@ -29,7 +36,7 @@ interface FooterProps {
 }
 
 export function Footer({ content }: FooterProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando Footer v5.0 (Type-Safe)");
+  logger.info("[Footer] Renderizando componente de élite (v6.0 - MEA/UX).");
 
   if (!content) {
     logger.warn(
@@ -60,7 +67,6 @@ export function Footer({ content }: FooterProps): React.ReactElement | null {
           </div>
 
           <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-8">
-            {/* --- [INICIO] APLICACIÓN DE TIPOS --- */}
             {linkColumns.map((column: LinkColumn) => (
               <div key={column.title}>
                 <h4 className="font-semibold text-foreground mb-4">
@@ -80,7 +86,6 @@ export function Footer({ content }: FooterProps): React.ReactElement | null {
                 </ul>
               </div>
             ))}
-            {/* --- [FIN] APLICACIÓN DE TIPOS --- */}
           </div>
         </div>
 
@@ -104,24 +109,29 @@ export function Footer({ content }: FooterProps): React.ReactElement | null {
             <p className="text-xs mt-1 opacity-70">{disclaimer}</p>
           </div>
           <div className="flex items-center gap-4">
-            {/* --- [INICIO] APLICACIÓN DE TIPOS --- */}
-            {socialLinks.map((social: SocialLink) => (
-              <Link
-                key={social.name}
-                href={social.url}
-                className="hover:text-primary transition-colors"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.name}
-              >
-                <DynamicIcon name={social.icon} className="h-5 w-5" />
-              </Link>
-            ))}
-            {/* --- [FIN] APLICACIÓN DE TIPOS --- */}
+            <TooltipProvider>
+              {socialLinks.map((social: SocialLink) => (
+                <Tooltip key={social.name}>
+                  <TooltipTrigger asChild>
+                    <Link
+                      href={social.url}
+                      className="hover:text-primary transition-colors"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.name}
+                    >
+                      <DynamicIcon name={social.icon} className="h-5 w-5" />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{social.name}</p>
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+            </TooltipProvider>
           </div>
         </div>
       </Container>
     </footer>
   );
 }
-// components/layout/Footer.tsx

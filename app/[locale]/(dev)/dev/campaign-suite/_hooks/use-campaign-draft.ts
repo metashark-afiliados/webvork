@@ -1,11 +1,11 @@
-// app/[locale]/(dev)/dev/campaign-suite/_hooks/useCampaignDraft.ts
+// app/[locale]/(dev)/dev/campaign-suite/_hooks/use-campaign-draft.ts
 /**
- * @file useCampaignDraft.ts
+ * @file use-campaign-draft.ts
  * @description Hook de Zustand para la gestión de estado híbrida.
- *              - v13.1.0 (Definitive Path Fix): Corrige la ruta de importación
- *                de `draft.utils` para alinearla con la nueva arquitectura de
- *                archivos y resolver el error de build 'Module not found'.
- * @version 13.1.0
+ *              v14.1.0 (Linter Hygiene Fix): Resuelve las advertencias de
+ *              'no-unused-vars' utilizando la convención de alias con guion
+ *              bajo para las variables omitidas intencionadamente.
+ * @version 14.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { create } from "zustand";
@@ -13,10 +13,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import type { StateCreator } from "zustand";
 import { toast } from "sonner";
 import { logger } from "@/lib/logging";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// La importación ahora apunta a la ubicación canónica del módulo de utilidades de borradores.
-import { generateDraftId } from "@/lib/drafts/draft.utils";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
+import { generateDraftId } from "@/lib/drafts/draft-utils";
 import { stepsConfig } from "../_config/wizard.config";
 import { initialCampaignDraftState } from "../_config/draft.initial-state";
 import type { CampaignDraft, CampaignDraftState } from "../_types/draft.types";
@@ -77,8 +74,13 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
       `[useCampaignDraft] Guardando borrador ${draftToSave.draftId} en DB...`
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { step, updatedAt, ...dataToSave } = draftToSave;
+    // --- [INICIO DE CORRECCIÓN DE HIGIENE DE CÓDIGO] ---
+    // Se utiliza un alias para reasignar las variables no utilizadas a nombres
+    // con prefijo de guion bajo, la convención estándar para indicar a ESLint
+    // que estas variables son intencionadamente ignoradas.
+    const { step: _step, updatedAt: _updatedAt, ...dataToSave } = draftToSave;
+    // --- [FIN DE CORRECCIÓN DE HIGIENE DE CÓDIGO] ---
+
     const validation = CampaignDraftDataSchema.safeParse(dataToSave);
 
     if (!validation.success) {

@@ -1,17 +1,22 @@
-// components/forms/ContactForm.tsx
+// RUTA: components/forms/ContactForm.tsx
+
 /**
  * @file ContactForm.tsx
- * @description Componente de UI atómico y "smart" para el formulario de contacto.
- *              - v1.1.0 (Build Stability Fix): Se estandarizan las rutas de importación
- *                a su forma canónica (`@/components/ui/*`) para resolver errores de build.
- * @version 1.1.0
+ * @description Componente de UI atómico y de élite para el formulario de contacto.
+ *              v2.0.0 (Holistic Elite Leveling & MEA): Refactorizado para una
+ *              experiencia de usuario superior (MEA/UX). Implementa un flujo de
+ *              envío animado con estados de carga y éxito contextuales, y una
+ *              animación de entrada en cascada para los campos del formulario.
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Form,
   FormControl,
@@ -21,7 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+import { Button, DynamicIcon } from "@/components/ui";
 import {
   Select,
   SelectContent,
@@ -36,7 +41,6 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
 type FormContent = NonNullable<Dictionary["contactSection"]>["form"];
 
-// El schema de validación vive con el componente que lo usa.
 const formSchema = z.object({
   firstName: z.string().min(2, "First name is required."),
   lastName: z.string().min(2, "Last name is required."),
@@ -50,8 +54,9 @@ interface ContactFormProps {
 }
 
 export function ContactForm({ content }: ContactFormProps): React.ReactElement {
-  logger.info("[Observabilidad] Renderizando ContactForm");
+  logger.info("[ContactForm] Renderizando v2.0 (Elite & MEA).");
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,127 +67,206 @@ export function ContactForm({ content }: ContactFormProps): React.ReactElement {
       message: "",
     },
   });
+  const {
+    formState: { isSubmitting },
+  } = form;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    // Simular una llamada a la API
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     logger.success("Formulario de contacto enviado (simulado):", values);
-    form.reset();
-  }
+    setIsSubmitted(true);
+
+    // Resetear el formulario después de mostrar el mensaje de éxito
+    setTimeout(() => {
+      setIsSubmitted(false);
+      form.reset();
+    }, 4000);
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const fieldVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
-    <Card className="bg-muted/60 dark:bg-card">
+    <Card className="bg-muted/60 dark:bg-card overflow-hidden">
       <CardContent className="pt-6">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="grid w-full gap-4"
-          >
-            <div className="flex flex-col md:flex-row gap-8">
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>{content.firstNameLabel}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={content.firstNamePlaceholder}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>{content.lastNameLabel}</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder={content.lastNamePlaceholder}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.emailLabel}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder={content.emailPlaceholder}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="subject"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.subjectLabel}</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+        <AnimatePresence mode="wait">
+          {isSubmitted ? (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="flex flex-col items-center justify-center min-h-[400px] text-center"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1, transition: { delay: 0.2, type: "spring" } }}
+              >
+                <DynamicIcon
+                  name="CircleCheck"
+                  className="h-16 w-16 text-green-500"
+                />
+              </motion.div>
+              <h3 className="mt-4 text-xl font-bold text-foreground">
+                Messaggio Inviato!
+              </h3>
+              <p className="mt-2 text-muted-foreground">
+                Grazie per averci contattato. Ti risponderemo presto.
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="form"
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+            >
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="grid w-full gap-4"
+                >
+                  <motion.div
+                    variants={containerVariants}
+                    className="flex flex-col md:flex-row gap-8"
                   >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={content.subjectPlaceholder} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {content.subjectOptions.map((option: string) => (
-                        <SelectItem key={option} value={option}>
-                          {option}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <motion.div variants={fieldVariants} className="w-full">
+                      <FormField
+                        control={form.control}
+                        name="firstName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{content.firstNameLabel}</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder={content.firstNamePlaceholder}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </motion.div>
+                    <motion.div variants={fieldVariants} className="w-full">
+                      <FormField
+                        control={form.control}
+                        name="lastName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{content.lastNameLabel}</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder={content.lastNamePlaceholder}
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </motion.div>
+                  </motion.div>
 
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.messageLabel}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      rows={5}
-                      placeholder={content.messagePlaceholder}
-                      className="resize-none"
-                      {...field}
+                  <motion.div variants={fieldVariants}>
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{content.emailLabel}</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="email"
+                              placeholder={content.emailPlaceholder}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  </motion.div>
 
-            <Button type="submit" className="mt-4">
-              {content.submitButtonText}
-            </Button>
-          </form>
-        </Form>
+                  <motion.div variants={fieldVariants}>
+                    <FormField
+                      control={form.control}
+                      name="subject"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{content.subjectLabel}</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue
+                                  placeholder={content.subjectPlaceholder}
+                                />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {content.subjectOptions.map((option: string) => (
+                                <SelectItem key={option} value={option}>
+                                  {option}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </motion.div>
+
+                  <motion.div variants={fieldVariants}>
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{content.messageLabel}</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              rows={5}
+                              placeholder={content.messagePlaceholder}
+                              className="resize-none"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </motion.div>
+
+                  <motion.div variants={fieldVariants}>
+                    <Button type="submit" className="mt-4 w-full" disabled={isSubmitting}>
+                      {isSubmitting && (
+                        <DynamicIcon
+                          name="LoaderCircle"
+                          className="mr-2 h-4 w-4 animate-spin"
+                        />
+                      )}
+                      {isSubmitting ? "Invio in corso..." : content.submitButtonText}
+                    </Button>
+                  </motion.div>
+                </form>
+              </Form>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </CardContent>
     </Card>
   );
 }
-// components/forms/ContactForm.tsx

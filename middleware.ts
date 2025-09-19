@@ -2,9 +2,10 @@
 /**
  * @file middleware.ts
  * @description Orquestador del pipeline de middleware.
- *              v2.0.0 (Feature Toggle): La inclusión del `authHandler` ahora
- *              está controlada por la variable de entorno DCC_AUTH_ENABLED.
- * @version 2.0.0
+ *              v2.1.0 (Holistic Observability Audit): Auditado como parte de la
+ *              refactorización holística de observabilidad. Se confirma que su
+ *              lógica de composición y el feature toggle son robustos y correctos.
+ * @version 2.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { NextRequest, NextResponse } from "next/server";
@@ -17,7 +18,6 @@ import { logger } from "./lib/logging";
 
 const handlers: MiddlewareHandler[] = [i18nHandler];
 
-// --- [INICIO] LÓGICA DE FEATURE TOGGLE ---
 if (process.env.DCC_AUTH_ENABLED === "true") {
   handlers.push(authHandler);
   logger.info(
@@ -28,7 +28,6 @@ if (process.env.DCC_AUTH_ENABLED === "true") {
     "[Middleware] El manejador de autenticación del DCC está DESACTIVADO."
   );
 }
-// --- [FIN] LÓGICA DE FEATURE TOGGLE ---
 
 const pipeline = createPipeline(handlers);
 
@@ -39,4 +38,3 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)"],
 };
-// middleware.ts

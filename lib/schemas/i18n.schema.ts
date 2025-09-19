@@ -1,10 +1,11 @@
-// lib/schemas/i18n.schema.ts
+// RUTA: lib/schemas/i18n.schema.ts
+
 /**
  * @file i18n.schema.ts
  * @description Aparato ensamblador y SSoT para el contrato de datos del diccionario i18n.
- *              Esta es la Única Fuente de Verdad que define la forma completa de
- *              todo el contenido internacionalizado de la aplicación.
- * @version 19.0.0 (Suite Style Composer i18n Integration)
+ *              v19.4.0 (Cart Ecosystem Integration): Integra el schema de contenido
+ *              para el ecosistema de componentes del Carrito de Compras.
+ * @version 19.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -13,7 +14,7 @@ import { logger } from "@/lib/logging";
 // --- GRUPO 1: Schemas Globales y de Páginas del Portal ---
 import { GlobalsLocaleSchema } from "@/lib/schemas/globals.schema";
 import { StorePageLocaleSchema } from "@/lib/schemas/pages/store-page.schema";
-import { TextPageContentSchema } from "@/lib/schemas/pages/text-page.schema"; // Genérico
+import { TextPageContentSchema } from "@/lib/schemas/pages/text-page.schema";
 import { NotFoundPageLocaleSchema } from "@/lib/schemas/pages/not-found-page.schema";
 
 // --- GRUPO 2: Schemas de Páginas del Developer Command Center (DCC) ---
@@ -24,13 +25,17 @@ import { CampaignSuiteLocaleSchema } from "@/lib/schemas/pages/dev-campaign-suit
 import { BaviHomePageLocaleSchema } from "./pages/bavi-home-page.schema";
 import { BaviAssetExplorerLocaleSchema } from "./pages/bavi-asset-explorer.i18n.schema";
 
-// --- GRUPO 3: Schemas de Componentes de Layout ---
+// --- GRUPO 3: Schemas de Componentes de Layout y UI ---
 import { HeaderLocaleSchema } from "./components/header.schema";
 import { FooterLocaleSchema } from "./components/footer.schema";
 import { CookieConsentBannerLocaleSchema } from "./components/cookie-consent-banner.schema";
 import { DevHeaderLocaleSchema } from "./components/dev/dev-header.schema";
 import { DevHomepageHeaderLocaleSchema } from "./components/dev/dev-homepage-header.schema";
 import { DevRouteMenuLocaleSchema } from "./components/dev/dev-route-menu.schema";
+import { ToggleThemeLocaleSchema } from "./components/toggle-theme.schema";
+import { LanguageSwitcherLocaleSchema } from "./components/language-switcher.schema";
+import { PageHeaderLocaleSchema } from "./components/page-header.schema";
+import { CartLocaleSchema } from "./components/cart.schema"; // <-- NUEVA LÍNEA
 
 // --- GRUPO 4: Schemas de Componentes de Sección ---
 import { BenefitsSectionLocaleSchema } from "./components/benefits-section.schema";
@@ -65,15 +70,8 @@ import { DockLocaleSchema } from "@/components/razBits/Dock/dock.schema";
 import { LightRaysLocaleSchema } from "@/components/razBits/LightRays/light-rays.schema";
 import { MagicBentoLocaleSchema } from "@/components/razBits/MagicBento/magic-bento.schema";
 
-logger.trace("[Schema i18n v19.0] Ensamblando schema maestro optimizado...");
+logger.trace("[Schema i18n v19.4] Ensamblando schema maestro optimizado...");
 
-/**
- * @const i18nSchema
- * @description El schema maestro que fusiona todos los schemas de contenido
- *              individuales en un único contrato de datos para el diccionario.
- *              El uso de `.shape` y el operador spread (`...`) es la forma canónica
- *              de fusionar objetos de Zod.
- */
 export const i18nSchema = z
   .object({
     // --- Global & Portal Pages ---
@@ -100,6 +98,10 @@ export const i18nSchema = z
     ...DevHeaderLocaleSchema.shape,
     ...DevHomepageHeaderLocaleSchema.shape,
     ...DevRouteMenuLocaleSchema.shape,
+    ...ToggleThemeLocaleSchema.shape,
+    ...LanguageSwitcherLocaleSchema.shape,
+    ...PageHeaderLocaleSchema.shape,
+    ...CartLocaleSchema.shape, // <-- NUEVA LÍNEA
 
     // --- Section Components ---
     ...BenefitsSectionLocaleSchema.shape,
@@ -136,9 +138,4 @@ export const i18nSchema = z
   })
   .passthrough();
 
-/**
- * @type Dictionary
- * @description El tipo de TypeScript inferido para un diccionario de i18n completo
- *              y validado. Este tipo debe ser utilizado en toda la aplicación.
- */
 export type Dictionary = z.infer<typeof i18nSchema>;

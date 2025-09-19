@@ -1,20 +1,24 @@
-// app/[locale]/(dev)/dev/campaign-suite/_hooks/usePreviewTheme.ts
+// RUTA: app/[locale]/(dev)/dev/campaign-suite/_hooks/use-preview-theme.ts
+
 /**
- * @file usePreviewTheme.ts
- * @description Hook atómico para ensamblar el tema de la vista previa, ahora con
- *              soporte para previsualizaciones temporales en hover.
- * @version 2.0.0 (Live Preview on Hover)
+ * @file use-preview-theme.ts
+ * @description Hook atómico para ensamblar el tema de la vista previa.
+ *              v2.1.0 (Holistic Fix): Resuelve errores de importación (kebab-case)
+ *              y de seguridad de tipos (any implícito), alineándose con las
+ *              directivas de calidad.
+ * @version 2.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useCampaignDraft } from "./useCampaignDraft";
+import { useCampaignDraft } from "./use-campaign-draft"; // <-- RUTA CORREGIDA
 import { usePreviewStore } from "../_context/PreviewContext";
 import { deepMerge } from "@/lib/utils/merge";
 import { logger } from "@/lib/logging";
 import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
 import { AssembledThemeSchema } from "@/lib/schemas/theming/assembled-theme.schema";
+import type { CampaignDraftState } from "../_types/draft.types"; // <-- TIPO IMPORTADO
 
 interface UsePreviewThemeReturn {
   theme: AssembledTheme | null;
@@ -23,7 +27,9 @@ interface UsePreviewThemeReturn {
 }
 
 export function usePreviewTheme(): UsePreviewThemeReturn {
-  const draftThemeConfig = useCampaignDraft((state) => state.draft.themeConfig);
+  const draftThemeConfig = useCampaignDraft(
+    (state: CampaignDraftState) => state.draft.themeConfig // <-- TIPO APLICADO
+  );
   const previewThemeFromStore = usePreviewStore((state) => state.previewTheme);
 
   const [theme, setTheme] = useState<AssembledTheme | null>(null);

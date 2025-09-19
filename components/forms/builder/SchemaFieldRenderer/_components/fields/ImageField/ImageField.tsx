@@ -2,7 +2,7 @@
 /**
  * @file ImageField.tsx
  * @description Orquestador "smart" atomizado y de élite para el campo de imagen.
- * @version 6.1.0 (Module Resolution Fix)
+ * @version 7.0.0 (Holistic Import & Naming Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -11,13 +11,13 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import type { FieldValues } from "react-hook-form";
 import { logger } from "@/lib/logging";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { getCurrentLocaleFromPathname } from "@/lib/i18n.utils";
-// --- [INICIO DE CORRECCIÓN DE RUTA] ---
-import { AssetSelectorModal } from "@/app/[locale]/(dev)/bavi/_components/AssetSelectorModal";
-// --- [FIN DE CORRECCIÓN DE RUTA] ---
+import { AssetSelectorModal } from "@/app/[locale]/(dev)/bavi/_components";
 import type { FieldComponentProps } from "../../../_types/field.types";
-import { useImageField } from "./_hooks/useImageField";
+import { useImageField } from "./_hooks/use-image-field";
 import { ImagePreview, ImageFieldActions } from "./_components";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
 type I18nContent = NonNullable<Dictionary["baviUploader"]> & {
@@ -41,6 +41,7 @@ export function ImageField<TFieldValues extends FieldValues>(
     const fetchI18n = async () => {
       try {
         const response = await fetch(`/api/i18n?locale=${locale}`);
+        if (!response.ok) throw new Error("Network response was not ok");
         const fullDictionary: Dictionary = await response.json();
         if (
           fullDictionary.baviUploader &&
@@ -114,4 +115,3 @@ export function ImageField<TFieldValues extends FieldValues>(
     </div>
   );
 }
-// components/forms/builder/SchemaFieldRenderer/_components/fields/ImageField/ImageField.tsx

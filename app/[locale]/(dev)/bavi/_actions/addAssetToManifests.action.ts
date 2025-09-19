@@ -18,7 +18,7 @@ import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 // Se importa la utilidad directamente desde su archivo de origen soberano,
 // eliminando la dependencia frágil del "barrel file".
-import { normalizeKeywords } from "@/lib/utils/keyword-normalizer";
+import { normalizeKeywords } from "@/lib/search/keyword-normalizer";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 const BAVI_MANIFEST_PATH = path.join(
@@ -113,4 +113,3 @@ export async function addAssetToManifestsAction(
     };
   }
 }
-// app/[locale]/(dev)/bavi/_actions/addAssetToManifests.action.ts

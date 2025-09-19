@@ -1,52 +1,158 @@
-// app/[locale]/not-found/page.tsx
+// RUTA: app/[locale]/not-found/page.tsx
+
 /**
  * @file page.tsx
- * @description Página 404 localizada.
- *              v1.3.0 (Code Hygiene): Se eliminan las importaciones no utilizadas
- *              de 'Link' y 'Dictionary' para cumplir con las reglas de ESLint.
- * @version 1.3.0
+ * @description Página 404 localizada de élite, con animaciones y efectos MEA/UX.
+ * @version 2.0.0 (Holistic Elite Leveling & MEA)
  * @author RaZ Podestá - MetaShark Tech
+ *
+ * @description_extended Este componente de cliente autocontenido busca su propio
+ *              contenido i18n y renderiza una experiencia 404 pulida. Utiliza
+ *              `framer-motion` para una entrada animada y el `razBit` <LightRays />
+ *              para una atmósfera visual de alta calidad, transformando un error
+ *              en una interacción de marca positiva.
  */
-import React from "react";
-import { getDictionary } from "@/lib/i18n";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { motion, type Variants } from "framer-motion";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { LightRays } from "@/components/razBits/LightRays/LightRays";
 import { logger } from "@/lib/logging";
-import type { Locale } from "@/lib/i18n.config";
+import { type Locale } from "@/lib/i18n.config";
+import { getDictionary } from "@/lib/i18n";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
-interface NotFoundPageProps {
-  params: { locale: Locale };
-}
+type NotFoundContent = NonNullable<Dictionary["notFoundPage"]>;
 
-export default async function NotFoundPage({
+// Variante para la animación del contenedor, que orquesta a sus hijos.
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+// Variante para la animación de cada elemento de texto/botón.
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      damping: 15,
+      stiffness: 100,
+    },
+  },
+};
+
+export default function NotFoundPage({
   params: { locale },
-}: NotFoundPageProps) {
-  logger.info(`[NotFoundPage] Renderizando página 404 para locale: ${locale}`);
+}: {
+  params: { locale: Locale };
+}) {
+  logger.info(
+    `[NotFoundPage] Renderizando página 404 de élite (v2.0) para locale: ${locale}`
+  );
 
-  const { dictionary } = await getDictionary(locale);
-  const content = dictionary.notFoundPage;
+  const [content, setContent] = useState<NotFoundContent | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const title = content?.title ?? "Pagina Non Trovata";
-  const description =
-    content?.description ??
-    "Spiacenti, non siamo riusciti a trovare la pagina che stai cercando.";
-  const buttonText = content?.buttonText ?? "Torna alla Home";
+  useEffect(() => {
+    const fetchContent = async () => {
+      const { dictionary, error } = await getDictionary(locale);
+      if (error || !dictionary.notFoundPage) {
+        logger.error(
+          `[NotFoundPage] No se pudo cargar el contenido para [${locale}].`,
+          { error }
+        );
+      } else {
+        setContent(dictionary.notFoundPage);
+      }
+      setIsLoading(false);
+    };
+
+    fetchContent();
+  }, [locale]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        {/* Renderiza un loader simple o un esqueleto aquí si es necesario */}
+      </div>
+    );
+  }
+
+  if (!content) {
+    // Fallback genérico y sin texto hardcodeado en un idioma específico
+    return (
+      <Container className="flex h-screen items-center justify-center text-center">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-destructive sm:text-5xl">
+            Application Error
+          </h1>
+          <p className="mt-6 text-base leading-7 text-muted-foreground">
+            Could not load page content. Please try again later.
+          </p>
+        </div>
+      </Container>
+    );
+  }
 
   return (
-    <Container className="flex h-[calc(100vh-10rem)] items-center justify-center text-center">
-      <div>
-        <p className="text-base font-semibold text-primary">404</p>
-        <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-5xl">
-          {title}
-        </h1>
-        <p className="mt-6 text-base leading-7 text-muted-foreground">
-          {description}
-        </p>
-        <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Button href={`/${locale}`}>{buttonText}</Button>
-        </div>
-      </div>
-    </Container>
+    <div className="relative h-screen overflow-hidden">
+      <LightRays
+        config={{
+          raysColor: "primary",
+          raysOrigin: "top-center",
+          raysSpeed: 0.3,
+          lightSpread: 0.8,
+          rayLength: 1.5,
+          mouseInfluence: 0.02,
+        }}
+        className="absolute inset-0 z-0 opacity-20"
+      />
+      <Container className="relative z-10 flex h-full items-center justify-center text-center">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.p
+            variants={itemVariants}
+            className="text-base font-semibold text-primary"
+          >
+            404
+          </motion.p>
+          <motion.h1
+            variants={itemVariants}
+            className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-5xl"
+          >
+            {content.title}
+          </motion.h1>
+          <motion.p
+            variants={itemVariants}
+            className="mt-6 text-base leading-7 text-muted-foreground"
+          >
+            {content.description}
+          </motion.p>
+          <motion.div
+            variants={itemVariants}
+            className="mt-10 flex items-center justify-center gap-x-6"
+          >
+            <Button asChild>
+              <Link href={`/${locale}`}>{content.buttonText}</Link>
+            </Button>
+          </motion.div>
+        </motion.div>
+      </Container>
+    </div>
   );
 }
-// app/[locale]/not-found/page.tsx

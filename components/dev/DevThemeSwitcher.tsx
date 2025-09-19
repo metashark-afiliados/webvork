@@ -1,8 +1,12 @@
-// app/[locale]/(dev)/dev/_components/DevThemeSwitcher.tsx
+// RUTA: components/dev/DevThemeSwitcher.tsx
+
 /**
  * @file DevThemeSwitcher.tsx
  * @description Componente de UI para activar el Compositor de Estilos.
- * @version 4.2.0 (Full Content Prop & Type SSoT Sync)
+ *              v4.4.0 (Module Resolution Fix): Corrige la ruta de importación
+ *              del hook `useDevThemeManager` para alinearse con la convención
+ *              de nomenclatura kebab-case, resolviendo un error crítico de build.
+ * @version 4.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -11,14 +15,12 @@ import React, { useState } from "react";
 import { DynamicIcon, Button } from "@/components/ui";
 import { logger } from "@/lib/logging";
 import { SuiteStyleComposerModal } from "./SuiteStyleComposerModal";
-import { useDevThemeManager } from "./SuiteStyleComposer/useDevThemeManager";
+import { useDevThemeManager } from "./SuiteStyleComposer/use-dev-theme-manager";
 import type {
   SuiteThemeConfig,
   LoadedFragments,
-} from "./SuiteStyleComposer/types"; // <-- SSoT IMPORT
+} from "./SuiteStyleComposer/types";
 
-// --- [INICIO DE CORRECCIÓN DE CONTRATO] ---
-// La interfaz ahora espera recibir el objeto de contenido completo que necesita el modal.
 interface DevThemeSwitcherProps {
   allThemeFragments: LoadedFragments;
   content: {
@@ -47,13 +49,12 @@ interface DevThemeSwitcherProps {
     inputHeightLabel: string;
   };
 }
-// --- [FIN DE CORRECCIÓN DE CONTRATO] ---
 
 export function DevThemeSwitcher({
   allThemeFragments,
   content,
 }: DevThemeSwitcherProps) {
-  logger.info("[DevThemeSwitcher] Renderizando (v4.2 - Full Content Prop)");
+  logger.info("[DevThemeSwitcher] Renderizando (v4.4 - Module Resolution Fix)");
 
   const { currentSuiteConfig, setCurrentSuiteConfig } = useDevThemeManager({
     allThemeFragments,
@@ -84,7 +85,7 @@ export function DevThemeSwitcher({
           allThemeFragments={allThemeFragments}
           currentSuiteConfig={currentSuiteConfig}
           onSave={handleSaveSuiteConfig}
-          content={content} // <-- Se pasa el objeto de contenido completo.
+          content={content}
         />
       )}
     </div>

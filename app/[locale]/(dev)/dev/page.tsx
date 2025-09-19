@@ -1,16 +1,17 @@
-// app/[locale]/(dev)/dev/page.tsx
+// RUTA: app/[locale]/(dev)/dev/page.tsx
+
 /**
  * @file page.tsx
  * @description Dashboard principal del DCC.
- * @version 6.0.0 (Holistic Route Fix & SSoT Alignment): Resuelve todos los
- *              errores de tipo, nomenclatura de rutas e inyecta una guardia
- *              de resiliencia para el contenido. Ahora consume la SSoT de
- *              rutas desde 'lib/navigation.ts'.
+ *              v7.0.0 (Elite Component Sync): Se alinea con el nuevo contrato
+ *              del componente PageHeader de élite, pasando el objeto de contenido
+ *              completo para el renderizado data-driven.
+ * @version 7.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";
-import { routes } from "@/lib/navigation"; // <-- IMPORTAR SSoT DE RUTAS
+import { routes } from "@/lib/navigation";
 import { logger } from "@/lib/logging";
 import type { Locale } from "@/lib/i18n.config";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -87,14 +88,14 @@ export default async function DevDashboardPage({
   params: { locale: Locale };
 }) {
   logger.info(
-    `[Observabilidad] Renderizando DevDashboardPage v6.0 para locale: ${locale}`
+    `[Observabilidad] Renderizando DevDashboardPage v7.0 para locale: ${locale}`
   );
   const { dictionary } = await getDictionary(locale);
   const content = dictionary.devDashboardPage;
 
-  if (!content) {
+  if (!content || !content.pageHeader) {
     logger.error(
-      `[DevDashboardPage] Contenido 'devDashboardPage' no encontrado para locale: '${locale}'.`
+      `[DevDashboardPage] Contenido 'devDashboardPage' o 'pageHeader' no encontrado para locale: '${locale}'.`
     );
     return (
       <Container className="py-24 text-center">
@@ -108,14 +109,14 @@ export default async function DevDashboardPage({
 
   return (
     <>
-      <PageHeader title={content.title} subtitle={content.subtitle} />
+      <PageHeader content={content.pageHeader} />
       <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-3">
             <DevToolCard
               title="Suite de Diseño de Campañas"
               description="Un asistente paso a paso para crear, configurar y generar todos los activos de una nueva variante de campaña, sin tocar el código."
-              href={routes.devCampaignSuiteCreate.path({ locale })} // <-- RUTA CORREGIDA
+              href={routes.devCampaignSuiteCreate.path({ locale })}
               icon="WandSparkles"
               isFeatured={true}
               buttonLabel="Abrir"
@@ -125,7 +126,7 @@ export default async function DevDashboardPage({
           <DevToolCard
             title="Vitrina de Resiliencia"
             description="Renderiza todos los componentes para verificar la estabilidad y compatibilidad de los datos."
-            href={routes.devTestPage.path({ locale })} // <-- RUTA CORREGIDA
+            href={routes.devTestPage.path({ locale })}
             icon="ShieldCheck"
             buttonLabel="Abrir"
             featuredButtonLabel="Iniciar"
@@ -133,7 +134,7 @@ export default async function DevDashboardPage({
           <DevToolCard
             title="BAVI"
             description="Biblioteca de Activos Visuales Integrada."
-            href={routes.bavi.path({ locale })} // <-- RUTA CORREGIDA
+            href={routes.bavi.path({ locale })}
             icon="LibraryBig"
             buttonLabel="Abrir"
             featuredButtonLabel="Iniciar"
@@ -141,7 +142,7 @@ export default async function DevDashboardPage({
           <DevToolCard
             title="RaZPrompts"
             description="Bóveda de Conocimiento Generativo."
-            href={routes.razPrompts.path({ locale })} // <-- RUTA CORREGIDA
+            href={routes.razPrompts.path({ locale })}
             icon="BrainCircuit"
             buttonLabel="Abrir"
             featuredButtonLabel="Iniciar"
@@ -151,4 +152,3 @@ export default async function DevDashboardPage({
     </>
   );
 }
-// app/[locale]/(dev)/dev/page.tsx

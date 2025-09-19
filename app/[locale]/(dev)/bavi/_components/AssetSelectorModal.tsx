@@ -1,6 +1,6 @@
-// app/[locale]/(dev)/bavi/_actions/addAssetToManifests.action.ts
+// app/[locale]/(dev)/bavi/_components/AssetSelectorModal.tsx
 /**
- * @file addAssetToManifests.action.ts
+ * @file AssetSelectorModal.tsx
  * @description Server Action atómica para registrar un nuevo activo en los manifiestos de BAVI.
  * @version 2.2.0 (Direct Import Fix)
  * @author RaZ Podestá - MetaShark Tech
@@ -17,7 +17,7 @@ import { connectToDatabase } from "@/lib/mongodb";
 import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 // Se importa la utilidad directamente desde su archivo de origen soberano.
-import { normalizeKeywords } from "@/lib/utils/keyword-normalizer";
+import { normalizeKeywords } from "@/lib/search/keyword-normalizer";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 const BAVI_MANIFEST_PATH = path.join(
@@ -111,4 +111,3 @@ export async function addAssetToManifestsAction(
     };
   }
 }
-// app/[locale]/(dev)/bavi/_actions/addAssetToManifests.action.ts

@@ -1,10 +1,13 @@
-// components/sections/HeroNews.tsx
+// RUTA: components/sections/HeroNews.tsx
+
 /**
  * @file HeroNews.tsx
- * @description Sección Hero.
- *              - v2.1.0: Iconografía estandarizada.
- *              - v2.2.0 (Resilience): La prop `content` ahora es opcional.
- * @version 2.2.0
+ * @description Sección Hero para la página de noticias.
+ *              v3.0.0 (Orchestrated Animation & Elite Compliance): Refactorizado
+ *              para participar en la animación en cascada orquestada por el
+ *              componente Container (MEA/UX), y para cumplir con todos los
+ *              pilares de calidad.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -17,38 +20,53 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
 
 interface HeroNewsProps {
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   content?: Dictionary["heroNews"];
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
+
+// Variante estándar para la animación de entrada de la sección
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Variante para la animación de los elementos de texto internos
+const FADE_UP_ANIMATION_VARIANTS: Variants = {
+  hidden: { opacity: 0, y: 15 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 50, damping: 20 },
+  },
+};
 
 export function HeroNews({
   content,
 }: HeroNewsProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando HeroNews (Client Component)");
+  logger.info(
+    "[HeroNews] Renderizando componente v3.0 (Orchestrated Animation)."
+  );
 
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[HeroNews] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { mainTitle, featuredArticle } = content;
 
-  const FADE_UP_ANIMATION_VARIANTS: Variants = {
-    hidden: { opacity: 0, y: 15 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring", stiffness: 50, damping: 20 },
-    },
-  };
-
   return (
-    <section className="relative overflow-hidden py-24 sm:py-32 bg-background text-center">
+    <motion.section
+      variants={sectionVariants} // <-- Responde al stagger del Container padre
+      className="relative overflow-hidden py-24 sm:py-32 bg-background text-center"
+    >
       <div className="absolute inset-0 bg-grid-pattern opacity-5" />
       <Container className="relative z-10">
         <motion.div
@@ -86,7 +104,6 @@ export function HeroNews({
           </motion.div>
         </motion.div>
       </Container>
-    </section>
+    </motion.section>
   );
 }
-// components/sections/HeroNews.tsx

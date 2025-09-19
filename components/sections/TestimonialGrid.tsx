@@ -1,39 +1,47 @@
-// components/sections/TestimonialGrid.tsx
+// RUTA: components/sections/TestimonialGrid.tsx
+
 /**
  * @file TestimonialGrid.tsx
  * @description Sección de prueba social. Muestra una cuadrícula de testimonios de clientes.
- *              - v3.1.0: Corrige la ruta de importación de `TestimonialCard` para alinearla
- *                con la estructura de archivos del snapshot SSoT actual.
- * @version 3.1.0
+ *              v4.0.0 (Holistic Elite Leveling & MEA): Refactorizado para actuar
+ *              como un orquestador de animaciones MEA/UX. Implementa `framer-motion`
+ *              para animar la entrada de cada TestimonialCard en una cascada
+ *              suave y elegante, cumpliendo con todos los pilares de calidad.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
+"use client";
+
 import React from "react";
-// --- [INICIO DE REFACTORIZACIÓN DE ALIAS] ---
+import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { TestimonialCard } from "@/components/ui/TestimonialCard";
+import {
+  TestimonialCard,
+  testimonialCardVariants, // Importa las variantes del hijo
+} from "@/components/ui/TestimonialCard";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
 import type { Testimonial } from "@/lib/schemas/components/testimonial-grid.schema";
-// --- [FIN DE REFACTORIZACIÓN DE ALIAS] ---
 
-/**
- * @interface TestimonialGridProps
- * @description Contrato de props unificado para el SectionRenderer.
- */
 interface TestimonialGridProps {
   content: Dictionary["testimonialGrid"];
 }
 
-/**
- * @component TestimonialGrid
- * @description Renderiza la sección de testimonios completa.
- * @param {TestimonialGridProps} props Las propiedades con el contenido a renderizar.
- * @returns {React.ReactElement | null} El elemento JSX de la sección, o null si no hay contenido.
- */
+// Variantes para el contenedor de la cuadrícula, que orquesta a los hijos.
+const gridVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1, // Retraso entre la animación de cada tarjeta
+    },
+  },
+};
+
 export function TestimonialGrid({
   content,
 }: TestimonialGridProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando TestimonialGrid");
+  logger.info("[TestimonialGrid] Renderizando v4.0 (Elite & MEA).");
 
   if (!content) {
     logger.warn(
@@ -49,8 +57,15 @@ export function TestimonialGrid({
         <h2 className="text-3xl font-bold text-center text-foreground mb-12 sm:text-4xl">
           {title}
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
           {testimonials.map((testimonial: Testimonial) => (
+            // TestimonialCard es ahora un motion component que recibe sus propias variantes
             <TestimonialCard
               key={testimonial.author}
               quote={testimonial.quote}
@@ -59,9 +74,8 @@ export function TestimonialGrid({
               imageSrc={testimonial.imageSrc}
             />
           ))}
-        </div>
+        </motion.div>
       </Container>
     </section>
   );
 }
-// components/sections/TestimonialGrid.tsx

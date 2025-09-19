@@ -1,26 +1,86 @@
 {
+  "it-IT": {
+    "metadata": {
+      "title": "Global Fitwell",
+      "description": "Il futuro del benessere. Tecnologia e scienza per il tuo potenziale."
+    },
+    "toggleTheme": {
+      "light": "Chiaro",
+      "dark": "Scuro",
+      "system": "Sistema",
+      "toggleAriaLabel": "Attiva/disattiva tema"
+    },
+    "languageSwitcher": {
+      "ariaLabel": "Seleziona la lingua",
+      "languages": {
+        "it-IT": "Italiano",
+        "es-ES": "Spagnolo",
+        "en-US": "Inglese",
+        "pt-BR": "Portoghese"
+      }
+    }
+  },
   "es-ES": {
     "metadata": {
       "title": "Global Fitwell",
       "description": "El futuro del bienestar. Tecnología y ciencia para tu potencial."
-    }
-  },
-  "pt-BR": {
-    "metadata": {
-      "title": "Global Fitwell",
-      "description": "O futuro do bem-estar. Tecnologia e ciência para o seu potencial."
+    },
+    "toggleTheme": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema",
+      "toggleAriaLabel": "Alternar tema"
+    },
+    "languageSwitcher": {
+      "ariaLabel": "Seleccionar idioma",
+      "languages": {
+        "it-IT": "Italiano",
+        "es-ES": "Español",
+        "en-US": "Inglés",
+        "pt-BR": "Portugués"
+      }
     }
   },
   "en-US": {
     "metadata": {
       "title": "Global Fitwell",
       "description": "The future of wellness. Technology and science for your potential."
+    },
+    "toggleTheme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "toggleAriaLabel": "Toggle theme"
+    },
+    "languageSwitcher": {
+      "ariaLabel": "Select language",
+      "languages": {
+        "it-IT": "Italian",
+        "es-ES": "Spanish",
+        "en-US": "English",
+        "pt-BR": "Portuguese"
+      }
     }
   },
-  "it-IT": {
+  "pt-BR": {
     "metadata": {
       "title": "Global Fitwell",
-      "description": "Il futuro del benessere. Tecnologia e scienza per il tuo potenziale."
+      "description": "O futuro do bem-estar. Tecnologia e ciência para o seu potencial."
+    },
+    "toggleTheme": {
+      "light": "Claro",
+      "dark": "Escuro",
+      "system": "Sistema",
+      "toggleAriaLabel": "Alternar tema"
+    },
+    "languageSwitcher": {
+      "ariaLabel": "Selecionar idioma",
+      "languages": {
+        "it-IT": "Italiano",
+        "es-ES": "Espanhol",
+        "en-US": "Inglês",
+        "pt-BR": "Português"
+      }
     }
   }
 }

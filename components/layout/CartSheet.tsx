@@ -1,14 +1,20 @@
-// components/layout/CartSheet.tsx
+// RUTA: components/layout/CartSheet.tsx
+
 /**
  * @file CartSheet.tsx
- * @description Panel lateral (Sheet) que muestra el contenido del carrito de compras.
- * @version 1.0.0
+ * @description Panel lateral (Sheet) de élite para el carrito de compras.
+ * @version 2.1.0 (Holistic i18n Fix): Resuelve una falla crítica de i18n al
+ *              utilizar el `locale` de las props para el formato de la moneda,
+ *              garantizando un cumplimiento total de la Directiva 026.
+ * @version 2.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Sheet,
   SheetContent,
@@ -17,22 +23,33 @@ import {
   SheetFooter,
   SheetClose,
 } from "@/components/ui/Sheet";
-import { Button, DynamicIcon, Separator } from "@/components/ui";
-import { useCartStore, useCartTotals } from "@/store/useCartStore";
-import type { CartItem } from "@/store/useCartStore";
+import { Button, DynamicIcon } from "@/components/ui";
+import { useCartStore, useCartTotals, type CartItem } from "@/store/useCartStore";
 import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Locale } from "@/lib/i18n.config";
+
+type CartContent = NonNullable<Dictionary["cart"]>;
 
 interface CartSheetProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  // TODO: Internacionalizar textos
+  content: CartContent;
+  locale: Locale;
 }
 
-const CartItemRow = ({ item }: { item: CartItem }) => {
+// Subcomponente ahora recibe y utiliza el 'locale' para el formato de moneda.
+const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
   const { updateQuantity, removeItem } = useCartStore();
-
   return (
-    <div className="flex items-center gap-4 py-4">
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className="flex items-center gap-4 py-4"
+    >
       <div className="relative h-16 w-16 rounded-md overflow-hidden border">
         <Image
           src={item.imageUrl}
@@ -45,10 +62,12 @@ const CartItemRow = ({ item }: { item: CartItem }) => {
       <div className="flex-1 space-y-1">
         <h4 className="text-sm font-semibold">{item.name}</h4>
         <p className="text-sm text-muted-foreground">
-          {new Intl.NumberFormat("it-IT", {
+          {/* --- [INICIO DE CORRECCIÓN i18n] --- */}
+          {new Intl.NumberFormat(locale, {
             style: "currency",
             currency: "EUR",
           }).format(item.price)}
+          {/* --- [FIN DE CORRECCIÓN i18n] --- */}
         </p>
         <div className="flex items-center gap-2">
           <Button
@@ -78,58 +97,80 @@ const CartItemRow = ({ item }: { item: CartItem }) => {
       >
         <DynamicIcon name="Trash2" className="h-4 w-4" />
       </Button>
-    </div>
+    </motion.div>
   );
 };
 
-export function CartSheet({ isOpen, onOpenChange }: CartSheetProps) {
-  logger.info("[CartSheet] Renderizando panel del carrito.");
+export function CartSheet({ isOpen, onOpenChange, content, locale }: CartSheetProps) {
+  logger.info("[CartSheet] Renderizando v2.1 (Holistic i18n Fix).");
   const items = useCartStore((state) => state.items);
   const { cartTotal } = useCartTotals();
+  const router = useRouter();
+
+  const handleStartShopping = () => {
+    onOpenChange(false);
+    router.push(`/${locale}/store`);
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={onOpenChange}>
       <SheetContent className="flex w-full flex-col pr-0 sm:max-w-lg">
         <SheetHeader className="px-6">
-          <SheetTitle>Il Tuo Carrello</SheetTitle>
+          <SheetTitle>{content.sheetTitle}</SheetTitle>
         </SheetHeader>
-
-        {items.length > 0 ? (
-          <div className="flex-1 overflow-y-auto px-6">
-            <div className="divide-y">
-              {items.map((item) => (
-                <CartItemRow key={item.id} item={item} />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-            <DynamicIcon
-              name="ShoppingCart"
-              className="w-16 h-16 text-muted-foreground/30"
-            />
-            <p className="text-muted-foreground">Il tuo carrello è vuoto.</p>
-          </div>
-        )}
+        <AnimatePresence>
+          {items.length > 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex-1 overflow-y-auto px-6"
+            >
+              <div className="divide-y">
+                {items.map((item) => (
+                  <CartItemRow key={item.id} item={item} locale={locale} />
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="flex flex-1 flex-col items-center justify-center gap-4 text-center"
+            >
+              <DynamicIcon
+                name="ShoppingCart"
+                className="w-16 h-16 text-muted-foreground/30"
+              />
+              <p className="text-muted-foreground">{content.emptyStateText}</p>
+              <Button onClick={handleStartShopping}>
+                {content.emptyStateButton}
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {items.length > 0 && (
           <SheetFooter className="px-6 py-4 bg-muted/50 mt-auto">
             <div className="w-full space-y-4">
               <div className="flex justify-between text-base font-semibold">
-                <p>Subtotale</p>
+                <p>{content.subtotalLabel}</p>
                 <p>
-                  {new Intl.NumberFormat("it-IT", {
+                  {/* --- [INICIO DE CORRECCIÓN i18n] --- */}
+                  {new Intl.NumberFormat(locale, {
                     style: "currency",
                     currency: "EUR",
                   }).format(cartTotal)}
+                  {/* --- [FIN DE CORRECCIÓN i18n] --- */}
                 </p>
               </div>
               <Button size="lg" className="w-full">
-                Procedi al Checkout
+                {content.checkoutButton}
               </Button>
               <SheetClose asChild>
                 <Button variant="link" className="w-full">
-                  Continua lo Shopping
+                  {content.continueShoppingButton}
                 </Button>
               </SheetClose>
             </div>
@@ -139,4 +180,3 @@ export function CartSheet({ isOpen, onOpenChange }: CartSheetProps) {
     </Sheet>
   );
 }
-// components/layout/CartSheet.tsx

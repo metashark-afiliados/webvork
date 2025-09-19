@@ -1,9 +1,13 @@
-// components/layout/Header.tsx
+// RUTA: components/layout/Header.tsx
+
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal. Corregido para
- *              resolver errores de sintaxis y referencias faltantes.
- * @version 23.2.0 (Formatter & Syntax Fix)
+ * @description Componente de cabecera principal del portal.
+ *              v24.4.0 (Module Resolution Fix): Corrige la ruta de importación de
+ *              ToggleTheme para alinearse explícitamente con la convención de
+ *              nomenclatura PascalCase.tsx, resolviendo errores de build.
+ *              Esta versión consolida todas las refactorizaciones de élite.
+ * @version 24.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -17,14 +21,17 @@ import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { NavLink } from "@/lib/schemas/components/header.schema";
 import { type Locale } from "@/lib/i18n.config";
-import { ToggleTheme } from "./toogle-theme";
+import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { CartTrigger } from "./CartTrigger";
 import { CartSheet } from "./CartSheet";
 
 interface HeaderProps {
-  content: Dictionary["header"];
+  content: NonNullable<Dictionary["header"]>;
   devDictionary?: Dictionary["devRouteMenu"];
+  toggleThemeContent: NonNullable<Dictionary["toggleTheme"]>;
+  languageSwitcherContent: NonNullable<Dictionary["languageSwitcher"]>;
+  cartContent: NonNullable<Dictionary["cart"]>;
   currentLocale: Locale;
   supportedLocales: readonly string[];
 }
@@ -32,10 +39,13 @@ interface HeaderProps {
 export default function Header({
   content,
   devDictionary,
+  toggleThemeContent,
+  languageSwitcherContent,
+  cartContent,
   currentLocale,
   supportedLocales,
 }: HeaderProps): React.ReactElement | null {
-  logger.info("[Header] Renderizando v23.2 (Formatter & Syntax Fix)");
+  logger.info("[Header] Renderizando v24.4 (Module Resolution Fix)");
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -74,20 +84,29 @@ export default function Header({
         </nav>
 
         <div className="flex items-center gap-2 ml-auto">
-          <ToggleTheme />
+          <ToggleTheme content={toggleThemeContent} />
           <LanguageSwitcher
             currentLocale={currentLocale}
             supportedLocales={supportedLocales}
+            content={languageSwitcherContent}
           />
           <Separator orientation="vertical" className="h-6 mx-2" />
-          <CartTrigger onClick={() => setIsCartOpen(true)} />
+          <CartTrigger
+            onClick={() => setIsCartOpen(true)}
+            content={cartContent}
+          />
           {process.env.NODE_ENV === "development" && devDictionary && (
             <DevToolsDropdown dictionary={devDictionary} />
           )}
         </div>
       </header>
 
-      <CartSheet isOpen={isCartOpen} onOpenChange={setIsCartOpen} />
+      <CartSheet
+        isOpen={isCartOpen}
+        onOpenChange={setIsCartOpen}
+        content={cartContent}
+        locale={currentLocale}
+      />
     </>
   );
 }

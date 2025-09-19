@@ -1,12 +1,15 @@
-// components/layout/SectionRenderer.tsx
+// RUTA: components/layout/SectionRenderer.tsx
+
 /**
  * @file SectionRenderer.tsx
- * @description Motor de renderizado de élite, reconstruido para máxima
- *              resiliencia, seguridad de tipos y claridad arquitectónica.
- * @version 7.0.0 (Holistic Reconstruction & Type Shielding)
+ * @description Motor de renderizado de élite. Orquesta el renderizado de secciones,
+ *              la validación de datos contra schemas, la gestión de errores i18n
+ *              y la animación en cascada de entrada (MEA/UX).
+ * @version 8.0.0 (Holistic Refactor & MEA Animation Engine)
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
+import { motion, type Variants } from "framer-motion";
 import { sectionsConfig, type SectionName } from "@/lib/config/sections.config";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
@@ -21,6 +24,20 @@ interface SectionRendererProps {
   sectionRefs?: React.MutableRefObject<Record<string, HTMLElement>>;
 }
 
+// Variante de animación que cada sección (o error) utilizará para responder
+// al `staggerChildren` del componente `Container` padre.
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1], // Curva de easing profesional
+    },
+  },
+};
+
 export function SectionRenderer({
   sections,
   dictionary,
@@ -28,9 +45,10 @@ export function SectionRenderer({
   focusedSection = null,
   sectionRefs,
 }: SectionRendererProps): React.ReactElement {
-  logger.info("[SectionRenderer v7.0] Ensamblando página...");
+  logger.info(
+    "[SectionRenderer v8.0] Ensamblando página con motor de animación MEA."
+  );
 
-  // --- [INICIO DE LÓGICA RESTAURADA] ---
   const validSections = sections.filter(
     (section): section is { name: string } => {
       if (typeof section.name === "string" && section.name.length > 0) {
@@ -43,7 +61,6 @@ export function SectionRenderer({
       return false;
     }
   );
-  // --- [FIN DE LÓGICA RESTAURADA] ---
 
   return (
     <>
@@ -60,29 +77,33 @@ export function SectionRenderer({
 
         const { component: Component, dictionaryKey, schema } = config;
 
-        // --- [INICIO DE GUARDIA DE TIPO DE ÍNDICE] ---
-        // Aseguramos que la clave sea un string válido para indexar el diccionario.
         if (
           typeof dictionaryKey !== "string" ||
           !(dictionaryKey in dictionary)
         ) {
           logger.warn(
-            `[SectionRenderer] La clave de diccionario "${String(dictionaryKey)}" no es válida o no existe.`
+            `[SectionRenderer] La clave de diccionario "${String(
+              dictionaryKey
+            )}" no es válida o no existe.`
           );
           return null;
         }
         const contentData = dictionary[dictionaryKey as keyof Dictionary];
-        // --- [FIN DE GUARDIA DE TIPO DE ÍNDICE] ---
 
         const validation = schema.safeParse(contentData);
 
         if (!validation.success) {
+          // El componente de error también participa en la animación en cascada.
           return (
-            <ValidationError
-              key={`${sectionName}-${index}-error`}
-              sectionName={sectionName}
-              error={validation.error}
-            />
+            dictionary.validationError && (
+              <motion.div key={`${sectionName}-${index}-error`} variants={sectionVariants}>
+                <ValidationError
+                  sectionName={sectionName}
+                  error={validation.error}
+                  content={dictionary.validationError}
+                />
+              </motion.div>
+            )
           );
         }
 
@@ -103,24 +124,20 @@ export function SectionRenderer({
           `[SectionRenderer] Renderizando sección #${index + 1}: ${sectionName}`
         );
 
-        // --- [INICIO DE JUSTIFICACIÓN DE ASERCIÓN DELIBERADA] ---
-        // La siguiente aserción 'as any' es una decisión de diseño deliberada y
-        // necesaria. Debido a la naturaleza del renderizado dinámico de componentes,
-        // TypeScript no puede verificar estáticamente que el tipo de `componentProps.content`
-        // (derivado de una validación de Zod en tiempo de ejecución) coincide
-        // exactamente con las props esperadas por el `Component` genérico.
-        // Nuestra arquitectura en `sections.config.ts` garantiza esta correspondencia,
-        // haciendo que esta aserción sea segura en este contexto específico.
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const WrappedComponent = (props: any) => (
+          <motion.div variants={sectionVariants}>
+            <Component {...props} />
+          </motion.div>
+        );
+
         return (
-          <Component
+          <WrappedComponent
             key={`${sectionName}-${index}`}
-            {...(componentProps as any)}
+            {...componentProps}
           />
         );
-        // --- [FIN DE JUSTIFICACIÓN DE ASERCIÓN DELIBERADA] ---
       })}
     </>
   );
 }
-// components/layout/SectionRenderer.tsx

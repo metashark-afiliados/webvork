@@ -1,44 +1,78 @@
-// src/components/ui/Container.tsx
-import React from "react";
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+// RUTA: components/ui/Container.tsx
 
 /**
  * @file Container.tsx
- * @description Componente de UI atómico y fundamental para la maquetación.
- * @version 2.0.0
- * @dependencies react, clsx, tailwind-merge
- *
- * @prop {React.ReactNode} children - Los elementos hijos que serán envueltos por el contenedor.
- * @prop {string} [className] - Clases de CSS adicionales para extender o sobreescribir los estilos base.
+ * @description Componente de UI fundamental y orquestador de animaciones MEA/UX.
+ *              v3.0.0 (Holistic Elite Leveling & MEA Engine): Refactorizado a un
+ *              componente `motion.div` que orquesta una animación de entrada
+ *              escalonada (stagger) para todos sus hijos directos, creando una
+ *              experiencia de usuario fluida y de alta performance en todo el sitio.
+ *              Cumple con todos los pilares de la Directiva 026.
+ * @version 3.0.0
+ * @author RaZ Podestá - MetaShark Tech
  */
+"use client";
 
+import React from "react";
+import { motion, type Variants } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logging";
+
+/**
+ * @interface ContainerProps
+ * @description Contrato de props para el componente Container.
+ */
 interface ContainerProps {
+  /**
+   * @param {React.ReactNode} children - Los elementos hijos que serán envueltos
+   *        y potencialmente animados por el contenedor.
+   */
   children: React.ReactNode;
+  /**
+   * @param {string} [className] - Clases de CSS adicionales para extender o
+   *        sobreescribir los estilos base del contenedor.
+   */
   className?: string;
 }
 
 /**
+ * @constant containerVariants
+ * @description Define los estados de la animación para framer-motion.
+ *              'visible' utiliza `staggerChildren` para orquestar la animación
+ *              en cascada de los elementos hijos.
+ */
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1, // El tiempo de retraso entre la animación de cada hijo.
+    },
+  },
+};
+
+/**
  * @component Container
- * @description Renderiza un contenedor centrado con un ancho máximo y padding horizontal.
- *              Actúa como el principal limitador de ancho para el contenido de las secciones,
- *              asegurando consistencia visual y legibilidad en todo el sitio.
+ * @description Renderiza un contenedor centrado y de ancho máximo que además
+ *              actúa como un orquestador de animaciones para sus hijos.
  * @param {ContainerProps} props Las propiedades del componente.
- * @returns {React.ReactElement} El elemento JSX que representa el contenedor.
+ * @returns {React.ReactElement} El elemento JSX animado del contenedor.
  */
 export function Container({
   children,
   className,
 }: ContainerProps): React.ReactElement {
-  console.log("[Observabilidad] Renderizando Container");
+  logger.trace("[Container] Renderizando v3.0 (MEA Engine).");
 
-  // Se utiliza `twMerge` junto con `clsx` para fusionar inteligentemente
-  // las clases de Tailwind CSS, permitiendo sobreescribir estilos de forma
-  // predecible y sin conflictos.
-  const finalClassName = twMerge(
-    clsx("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", className)
+  return (
+    <motion.div
+      className={cn("w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8", className)}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      viewport={{ once: true, amount: 0.1 }} // La animación se activa cuando el 10% es visible.
+    >
+      {children}
+    </motion.div>
   );
-
-  return <div className={finalClassName}>{children}</div>;
 }
-// src/components/ui/Container.tsx

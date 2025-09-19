@@ -2,7 +2,7 @@
 /**
  * @file WizardHeader.tsx
  * @description Header de la SDC, ahora con indicador de estado de sincronización.
- * @version 2.0.0 (Sync Status Indicator)
+ * @version 2.1.0 (Filename Convention Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -10,15 +10,11 @@
 import React, { useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ProgressContext } from "../_context/ProgressContext";
-import { useCampaignDraft } from "../_hooks/useCampaignDraft";
+import { useCampaignDraft } from "../_hooks/use-campaign-draft";
 import { ProgressStepper } from "./ProgressStepper";
 import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 
-/**
- * @component SyncStatusIndicator
- * @description Micro-componente atómico para mostrar el estado de guardado.
- */
 const SyncStatusIndicator = () => {
   const isSyncing = useCampaignDraft((state) => state.isSyncing);
   const updatedAt = useCampaignDraft((state) => state.draft.updatedAt);

@@ -1,0 +1,46 @@
+{
+  "it-IT": {
+    "cart": {
+      "triggerAriaLabel": "Vedi carrello, {{count}} articoli",
+      "sheetTitle": "Il Tuo Carrello",
+      "emptyStateText": "Il tuo carrello è vuoto.",
+      "emptyStateButton": "Inizia lo Shopping",
+      "subtotalLabel": "Subtotale",
+      "checkoutButton": "Procedi al Checkout",
+      "continueShoppingButton": "Continua lo Shopping"
+    }
+  },
+  "es-ES": {
+    "cart": {
+      "triggerAriaLabel": "Ver carrito, {{count}} artículos",
+      "sheetTitle": "Tu Carrito",
+      "emptyStateText": "Tu carrito está vacío.",
+      "emptyStateButton": "Empezar a Comprar",
+      "subtotalLabel": "Subtotal",
+      "checkoutButton": "Proceder al Pago",
+      "continueShoppingButton": "Seguir Comprando"
+    }
+  },
+  "en-US": {
+    "cart": {
+      "triggerAriaLabel": "View cart, {{count}} items",
+      "sheetTitle": "Your Cart",
+      "emptyStateText": "Your cart is empty.",
+      "emptyStateButton": "Start Shopping",
+      "subtotalLabel": "Subtotal",
+      "checkoutButton": "Proceed to Checkout",
+      "continueShoppingButton": "Continue Shopping"
+    }
+  },
+  "pt-BR": {
+    "cart": {
+      "triggerAriaLabel": "Ver carrinho, {{count}} itens",
+      "sheetTitle": "Seu Carrinho",
+      "emptyStateText": "Seu carrinho está vazio.",
+      "emptyStateButton": "Começar a Comprar",
+      "subtotalLabel": "Subtotal",
+      "checkoutButton": "Finalizar Compra",
+      "continueShoppingButton": "Continuar Comprando"
+    }
+  }
+}

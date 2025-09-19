@@ -1,9 +1,10 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/WizardClientLayout.tsx
 /**
  * @file WizardClientLayout.tsx
- * @description Orquestador de cliente principal para la SDC. Ahora gestiona
- *              la inicialización del estado del borrador desde la base de datos.
- * @version 11.0.0 (DB Hydration)
+ * @description Orquestador de cliente principal para la SDC.
+ *              v11.1.0 (I18n Prop Drilling): Ahora obtiene y pasa el contenido
+ *              i18n necesario al componente LivePreviewCanvas.
+ * @version 11.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -12,7 +13,7 @@ import React, { useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { logger } from "@/lib/logging";
 import { stepsConfig } from "../_config/wizard.config";
-import { useCampaignDraft } from "../_hooks/useCampaignDraft";
+import { useCampaignDraft } from "../_hooks/use-campaign-draft";
 import { WizardProvider } from "../_context/WizardContext";
 import {
   ProgressContext,
@@ -21,13 +22,26 @@ import {
 import { validateStep1 } from "./Step1_Structure";
 import { DynamicIcon } from "@/components/ui";
 
+// --- [INICIO] REFACTORIZACIÓN: Se importa el componente LivePreviewCanvas ---
+import { LivePreviewCanvas } from "./LivePreviewCanvas";
+// --- [FIN] REFACTORIZACIÓN ---
+
+// --- [INICIO] REFACTORIZACIÓN: Se define el contrato de props para el layout ---
+interface WizardClientLayoutProps {
+  children: React.ReactNode;
+  previewContent: {
+    loadingTheme: string;
+    errorLoadingTheme: string;
+  };
+}
+// --- [FIN] REFACTORIZACIÓN ---
+
 export function WizardClientLayout({
   children,
-}: {
-  children: React.ReactNode;
-}): React.ReactElement {
+  previewContent, // <-- Se recibe la nueva prop
+}: WizardClientLayoutProps): React.ReactElement {
   logger.info(
-    "[WizardClientLayout] Renderizando orquestador (v11.0 - DB Hydration)."
+    "[WizardClientLayout] Renderizando orquestador (v11.1 - I18n Prop Drilling)."
   );
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -144,7 +158,14 @@ export function WizardClientLayout({
   return (
     <WizardProvider value={wizardContextValue}>
       <ProgressContext.Provider value={progressContextValue}>
-        {children}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div className="lg:col-span-1">{children}</div>
+          <div className="lg:col-span-1 h-[calc(100vh-8rem)] hidden lg:block">
+            {/* --- [INICIO] REFACTORIZACIÓN: Se pasa la prop 'content' --- */}
+            <LivePreviewCanvas content={previewContent} />
+            {/* --- [FIN] REFACTORIZACIÓN --- */}
+          </div>
+        </div>
       </ProgressContext.Provider>
     </WizardProvider>
   );

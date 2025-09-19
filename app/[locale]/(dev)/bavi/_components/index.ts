@@ -10,4 +10,3 @@ export * from "./AssetExplorer";
 export * from "./AssetCard";
 export * from "./AssetSelectorModal";
 export * from "./useAssetExplorerLogic";
-// app/[locale]/(dev)/bavi/_components/index.ts

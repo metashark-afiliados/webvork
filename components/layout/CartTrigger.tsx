@@ -1,9 +1,11 @@
-// components/layout/CartTrigger.tsx
+// RUTA: components/layout/CartTrigger.tsx
+
 /**
  * @file CartTrigger.tsx
- * @description Componente de UI que actúa como activador para el panel del
- *              carrito. Muestra el número de ítems y reacciona a los cambios.
- * @version 1.0.0
+ * @description Componente de UI de élite que actúa como activador para el panel del
+ *              carrito. Muestra el número de ítems y reacciona con una animación
+ *              de "salto" (MEA/UX) al añadir nuevos productos.
+ * @version 2.0.0 (Holistic Elite Leveling & MEA)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -11,18 +13,27 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
-import { DynamicIcon } from "@/components/ui";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 import { useCartTotals } from "@/store/useCartStore";
+import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+
+type CartContent = NonNullable<Dictionary["cart"]>;
 
 interface CartTriggerProps {
   onClick: () => void;
+  content: CartContent;
 }
 
-export function CartTrigger({ onClick }: CartTriggerProps) {
+export function CartTrigger({
+  onClick,
+  content,
+}: CartTriggerProps): React.ReactElement {
+  logger.info("[CartTrigger] Renderizando v2.0 (Elite & MEA).");
   const { cartCount } = useCartTotals();
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Efecto para disparar la animación cuando cambia el cartCount
+  // Efecto MEA/UX: Dispara la animación cuando cambia el cartCount.
   useEffect(() => {
     if (cartCount > 0) {
       setIsAnimating(true);
@@ -32,13 +43,17 @@ export function CartTrigger({ onClick }: CartTriggerProps) {
   }, [cartCount]);
 
   const scaleAnimation = isAnimating ? 1.2 : 1;
+  const ariaLabel = content.triggerAriaLabel.replace(
+    "{{count}}",
+    String(cartCount)
+  );
 
   return (
     <Button
       onClick={onClick}
       variant="ghost"
       size="icon"
-      aria-label={`Ver carrito, ${cartCount} artículos`}
+      aria-label={ariaLabel}
       className="relative"
     >
       <DynamicIcon name="ShoppingCart" />
@@ -54,4 +69,3 @@ export function CartTrigger({ onClick }: CartTriggerProps) {
     </Button>
   );
 }
-// components/layout/CartTrigger.tsx
