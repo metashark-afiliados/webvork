@@ -1,12 +1,12 @@
 // RUTA: components/layout/CartSheet.tsx
-
 /**
  * @file CartSheet.tsx
  * @description Panel lateral (Sheet) de élite para el carrito de compras.
- * @version 2.1.0 (Holistic i18n Fix): Resuelve una falla crítica de i18n al
- *              utilizar el `locale` de las props para el formato de la moneda,
- *              garantizando un cumplimiento total de la Directiva 026.
- * @version 2.1.0
+ *              v2.2.0 (Holistic A11Y Compliance): Se alinea con el nuevo Pilar 6,
+ *              garantizando el cumplimiento de las directrices de accesibilidad (A11Y)
+ *              y semántica a través del uso de primitivas accesibles y el correcto
+ *              etiquetado de todos sus elementos.
+ * @version 2.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -24,7 +24,11 @@ import {
   SheetClose,
 } from "@/components/ui/Sheet";
 import { Button, DynamicIcon } from "@/components/ui";
-import { useCartStore, useCartTotals, type CartItem } from "@/store/useCartStore";
+import {
+  useCartStore,
+  useCartTotals,
+  type CartItem,
+} from "@/store/useCartStore";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
@@ -38,7 +42,12 @@ interface CartSheetProps {
   locale: Locale;
 }
 
-// Subcomponente ahora recibe y utiliza el 'locale' para el formato de moneda.
+/**
+ * @component CartItemRow
+ * @description Subcomponente de presentación puro para una fila de item en el carrito.
+ *              Es consciente del locale para un formato de moneda correcto y
+ *              asegura la accesibilidad de las imágenes.
+ */
 const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
   const { updateQuantity, removeItem } = useCartStore();
   return (
@@ -53,7 +62,7 @@ const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
       <div className="relative h-16 w-16 rounded-md overflow-hidden border">
         <Image
           src={item.imageUrl}
-          alt={item.name}
+          alt={item.name} // Pilar 6: Atributo alt descriptivo para accesibilidad.
           fill
           className="object-contain"
           sizes="64px"
@@ -62,12 +71,10 @@ const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
       <div className="flex-1 space-y-1">
         <h4 className="text-sm font-semibold">{item.name}</h4>
         <p className="text-sm text-muted-foreground">
-          {/* --- [INICIO DE CORRECCIÓN i18n] --- */}
           {new Intl.NumberFormat(locale, {
             style: "currency",
             currency: "EUR",
           }).format(item.price)}
-          {/* --- [FIN DE CORRECCIÓN i18n] --- */}
         </p>
         <div className="flex items-center gap-2">
           <Button
@@ -75,15 +82,19 @@ const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
             size="icon"
             className="h-6 w-6"
             onClick={() => updateQuantity(item.id, item.quantity - 1)}
+            aria-label={`Reducir cantidad de ${item.name}`}
           >
             <DynamicIcon name="Minus" className="h-4 w-4" />
           </Button>
-          <span className="text-sm w-4 text-center">{item.quantity}</span>
+          <span className="text-sm w-4 text-center" aria-live="polite">
+            {item.quantity}
+          </span>
           <Button
             variant="outline"
             size="icon"
             className="h-6 w-6"
             onClick={() => updateQuantity(item.id, item.quantity + 1)}
+            aria-label={`Aumentar cantidad de ${item.name}`}
           >
             <DynamicIcon name="Plus" className="h-4 w-4" />
           </Button>
@@ -94,6 +105,7 @@ const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
         size="icon"
         className="text-muted-foreground"
         onClick={() => removeItem(item.id)}
+        aria-label={`Eliminar ${item.name} del carrito`}
       >
         <DynamicIcon name="Trash2" className="h-4 w-4" />
       </Button>
@@ -101,8 +113,13 @@ const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
   );
 };
 
-export function CartSheet({ isOpen, onOpenChange, content, locale }: CartSheetProps) {
-  logger.info("[CartSheet] Renderizando v2.1 (Holistic i18n Fix).");
+export function CartSheet({
+  isOpen,
+  onOpenChange,
+  content,
+  locale,
+}: CartSheetProps) {
+  logger.info("[CartSheet] Renderizando v2.2 (Holistic A11Y Compliance).");
   const items = useCartStore((state) => state.items);
   const { cartTotal } = useCartTotals();
   const router = useRouter();
@@ -142,6 +159,7 @@ export function CartSheet({ isOpen, onOpenChange, content, locale }: CartSheetPr
               <DynamicIcon
                 name="ShoppingCart"
                 className="w-16 h-16 text-muted-foreground/30"
+                aria-hidden="true"
               />
               <p className="text-muted-foreground">{content.emptyStateText}</p>
               <Button onClick={handleStartShopping}>
@@ -157,12 +175,10 @@ export function CartSheet({ isOpen, onOpenChange, content, locale }: CartSheetPr
               <div className="flex justify-between text-base font-semibold">
                 <p>{content.subtotalLabel}</p>
                 <p>
-                  {/* --- [INICIO DE CORRECCIÓN i18n] --- */}
                   {new Intl.NumberFormat(locale, {
                     style: "currency",
                     currency: "EUR",
                   }).format(cartTotal)}
-                  {/* --- [FIN DE CORRECCIÓN i18n] --- */}
                 </p>
               </div>
               <Button size="lg" className="w-full">

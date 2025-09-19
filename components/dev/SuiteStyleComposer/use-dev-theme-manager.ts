@@ -1,12 +1,13 @@
-// components/dev/SuiteStyleComposer/useDevThemeManager.ts
+// RUTA: components/dev/SuiteStyleComposer/use-dev-theme-manager.ts
 /**
- * @file useDevThemeManager.ts
- * @description Hook "cerebro" para la gestión del tema del DCC.
- *              v2.2.0 (Resilient Hydration): Implementa una hidratación de estado
- *              segura desde localStorage, fusionando los datos guardados con los
- *              valores por defecto para prevenir errores de tipo con configuraciones
- *              obsoletas.
- * @version 2.2.0
+ * @file use-dev-theme-manager.ts
+ * @description Hook "cerebro" y soberano para la gestión del tema del DCC.
+ *              v3.0.0 (Architectural Decoupling & Elite Leveling): Refactorizado a
+ *              un estándar de élite. Se elimina la dependencia del store
+ *              `usePreviewStore`. Este hook ahora es soberano y únicamente
+ *              responsable de leer/escribir la configuración del tema del DCC
+ *              en localStorage y aplicarla al DOM mediante variables CSS.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,15 +19,22 @@ import {
   AssembledThemeSchema,
   type AssembledTheme,
 } from "@/lib/schemas/theming/assembled-theme.schema";
-import { usePreviewStore } from "@/app/[locale]/(dev)/dev/campaign-suite/_context/PreviewContext";
 import { logger } from "@/lib/logging";
-import { generateCssVariablesFromTheme } from "@/lib/theming/theme.utils";
+import { generateCssVariablesFromTheme } from "@/lib/theming/theme-utils";
 import type { SuiteThemeConfig, LoadedFragments } from "./types";
 
+/**
+ * @interface UseDevThemeManagerProps
+ * @description Contrato de props para el hook.
+ */
 interface UseDevThemeManagerProps {
   allThemeFragments: LoadedFragments;
 }
 
+/**
+ * @const defaultSuiteConfig
+ * @description La SSoT para el estado inicial y de fallback de la configuración del tema del DCC.
+ */
 const defaultSuiteConfig: SuiteThemeConfig = {
   colorPreset: "default-dcc",
   fontPreset: "minimalist-sans",
@@ -36,18 +44,21 @@ const defaultSuiteConfig: SuiteThemeConfig = {
   granularGeometry: {},
 };
 
+/**
+ * @function useDevThemeManager
+ * @description Hook de élite que gestiona el ciclo de vida completo del tema del DCC.
+ */
 export function useDevThemeManager({
   allThemeFragments,
 }: UseDevThemeManagerProps) {
   logger.info(
-    "[useDevThemeManager] Inicializando hook de gestión de tema DCC (v2.2)."
+    "[useDevThemeManager] Inicializando hook de gestión de tema DCC (v3.0 - Decoupled)."
   );
   const { theme: systemTheme } = useTheme();
-  const { setPreviewTheme } = usePreviewStore();
 
   const [currentSuiteConfig, setCurrentSuiteConfig] =
     useState<SuiteThemeConfig>(() => {
-      // --- [INICIO DE LÓGICA DE HIDRATACIÓN RESILIENTE] ---
+      // Hidratación segura del estado desde localStorage, solo en el cliente.
       if (typeof window === "undefined") {
         return defaultSuiteConfig;
       }
@@ -57,8 +68,8 @@ export function useDevThemeManager({
         );
         if (savedConfigString) {
           const savedConfig = JSON.parse(savedConfigString);
-          // Fusionamos lo guardado con los valores por defecto.
-          // Esto asegura que todas las claves requeridas existan.
+          // La fusión profunda garantiza que el estado sea resiliente a
+          // configuraciones antiguas o incompletas en localStorage.
           return deepMerge(defaultSuiteConfig, savedConfig);
         }
       } catch (e) {
@@ -69,9 +80,12 @@ export function useDevThemeManager({
         localStorage.removeItem("dcc-suite-theme-config");
       }
       return defaultSuiteConfig;
-      // --- [FIN DE LÓGICA DE HIDRATACIÓN RESILIENTE] ---
     });
 
+  /**
+   * @function applyThemeToDocument
+   * @description Función pura que ensambla el tema final y lo inyecta en el DOM.
+   */
   const applyThemeToDocument = useCallback(
     (config: SuiteThemeConfig) => {
       const {
@@ -94,11 +108,12 @@ export function useDevThemeManager({
         ? (allThemeFragments.radii[radiusPreset] ?? {})
         : {};
 
-      const finalTheme: Partial<AssembledTheme> = deepMerge(
+      let finalTheme: Partial<AssembledTheme> = deepMerge(
         deepMerge(baseFragment, colorFragment),
         deepMerge(fontFragment, radiusFragment)
       );
 
+      // Aplica anulaciones granulares si existen
       if (granularColors)
         finalTheme.colors = deepMerge(finalTheme.colors || {}, granularColors);
       if (granularFonts)
@@ -109,6 +124,7 @@ export function useDevThemeManager({
           granularGeometry
         );
 
+      // Aplica la paleta oscura si el tema del sistema es 'dark'
       if (systemTheme === "dark" && finalTheme.colors?.dark) {
         finalTheme.colors = deepMerge(
           finalTheme.colors,
@@ -118,7 +134,7 @@ export function useDevThemeManager({
 
       const validation = AssembledThemeSchema.safeParse(finalTheme);
       if (!validation.success) {
-        logger.error("Tema final ensamblado inválido", {
+        logger.error("El tema final del DCC ensamblado es inválido", {
           error: validation.error,
         });
         return;
@@ -135,16 +151,16 @@ export function useDevThemeManager({
         document.head.appendChild(styleTag);
       }
       styleTag.innerHTML = `:root { ${cssVars} }`;
-
-      setPreviewTheme(validation.data);
     },
-    [allThemeFragments, systemTheme, setPreviewTheme]
+    [allThemeFragments, systemTheme]
   );
 
+  // Efecto para aplicar el tema al DOM cuando la configuración cambia.
   useEffect(() => {
     applyThemeToDocument(currentSuiteConfig);
   }, [currentSuiteConfig, applyThemeToDocument]);
 
+  // Efecto para persistir la configuración en localStorage cuando cambia.
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem(
@@ -157,7 +173,5 @@ export function useDevThemeManager({
   return {
     currentSuiteConfig,
     setCurrentSuiteConfig,
-    applyThemeToDocument,
   };
 }
-// components/dev/SuiteStyleComposer/useDevThemeManager.ts

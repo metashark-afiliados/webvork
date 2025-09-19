@@ -1,5 +1,4 @@
 // RUTA: components/layout/CartTrigger.tsx
-
 /**
  * @file CartTrigger.tsx
  * @description Componente de UI de élite que actúa como activador para el panel del
@@ -33,11 +32,10 @@ export function CartTrigger({
   const { cartCount } = useCartTotals();
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Efecto MEA/UX: Dispara la animación cuando cambia el cartCount.
   useEffect(() => {
     if (cartCount > 0) {
       setIsAnimating(true);
-      const timer = setTimeout(() => setIsAnimating(false), 300); // Duración de la animación
+      const timer = setTimeout(() => setIsAnimating(false), 300);
       return () => clearTimeout(timer);
     }
   }, [cartCount]);

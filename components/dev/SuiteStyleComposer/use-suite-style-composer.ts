@@ -1,62 +1,76 @@
-// app/[locale]/(dev)/dev/_components/SuiteStyleComposer/useSuiteStyleComposer.ts
+// RUTA: components/dev/SuiteStyleComposer/use-suite-style-composer.ts
 /**
- * @file useSuiteStyleComposer.ts
+ * @file use-suite-style-composer.ts
  * @description Hook "cerebro" para el Compositor de Estilos.
- *              v2.4.0 (Type SSoT Export): Exporta el tipo 'LoadedFragments'
- *              para ser consumido por los componentes padres, estableciendo un
- *              contrato de datos único y robusto.
- * @version 2.4.0
+ *              v3.0.0 (Encapsulated Preview Engine): Refactorizado a un estándar
+ *              de élite. Elimina la dependencia de `usePreviewStore` y gestiona
+ *              su propio motor de previsualización inyectando y limpiando una
+ *              etiqueta de estilo temporal, logrando una encapsulación completa.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { deepMerge } from "@/lib/utils/merge";
 import {
   AssembledThemeSchema,
   type AssembledTheme,
 } from "@/lib/schemas/theming/assembled-theme.schema";
-import { usePreviewStore } from "@/app/[locale]/(dev)/dev/campaign-suite/_context/PreviewContext";
-import type { ThemeConfig } from "@/app/[locale]/(dev)/dev/campaign-suite/_types/draft.types";
+import { generateCssVariablesFromTheme } from "@/lib/theming/theme-utils";
 import { logger } from "@/lib/logging";
+import type { SuiteThemeConfig, LoadedFragments } from "./types";
 
-// --- [INICIO] SSoT DE TIPO EXPORTADA ---
-export type LoadedFragments = {
-  base: Partial<AssembledTheme>;
-  colors: Record<string, Partial<AssembledTheme>>;
-  fonts: Record<string, Partial<AssembledTheme>>;
-  radii: Record<string, Partial<AssembledTheme>>;
-};
-// --- [FIN] SSoT DE TIPO EXPORTADA ---
+/**
+ * @const PREVIEW_STYLE_TAG_ID
+ * @description SSoT para el identificador único de la etiqueta de estilo de previsualización.
+ */
+const PREVIEW_STYLE_TAG_ID = "dcc-preview-theme-overrides";
 
-export interface SuiteThemeConfig extends ThemeConfig {
-  granularColors?: Record<string, string>;
-  granularFonts?: Record<string, string>;
-  granularGeometry?: Record<string, string>;
-}
-
+/**
+ * @interface UseSuiteStyleComposerProps
+ * @description Contrato de props para el hook.
+ */
 interface UseSuiteStyleComposerProps {
   initialConfig: SuiteThemeConfig;
   allThemeFragments: LoadedFragments;
 }
 
+/**
+ * @function useSuiteStyleComposer
+ * @description Hook de élite que gestiona el estado local y la lógica de
+ *              previsualización en tiempo real para el modal del compositor de estilos.
+ */
 export function useSuiteStyleComposer({
   initialConfig,
   allThemeFragments,
 }: UseSuiteStyleComposerProps) {
-  // ... (La lógica interna del hook no requiere cambios y se mantiene intacta)
-  logger.trace("[useSuiteStyleComposer] Inicializando hook de lógica (v2.4).");
+  logger.trace(
+    "[useSuiteStyleComposer] Inicializando hook v3.0 (Encapsulated)."
+  );
 
   const [localSuiteConfig, setLocalSuiteConfig] =
     useState<SuiteThemeConfig>(initialConfig);
-  const { setPreviewTheme } = usePreviewStore();
+  const isMounted = useRef(false);
 
+  // Efecto para gestionar el ciclo de vida del componente y asegurar la limpieza
   useEffect(() => {
-    setLocalSuiteConfig(initialConfig);
-  }, [initialConfig]);
+    isMounted.current = true;
+    // La función de limpieza se ejecuta cuando el componente se desmonta.
+    return () => {
+      isMounted.current = false;
+      clearPreview();
+    };
+  }, []); // El array vacío asegura que esto solo se ejecute en montaje y desmontaje.
 
-  const assemblePreviewTheme = useCallback(
-    (config: SuiteThemeConfig): AssembledTheme | null => {
+  /**
+   * @function assembleAndApplyPreview
+   * @description Ensambla un objeto de tema a partir de la configuración actual,
+   *              lo valida y lo inyecta en el <head> del documento como una
+   *              etiqueta <style> temporal para previsualización.
+   */
+  const assembleAndApplyPreview = useCallback(
+    (config: SuiteThemeConfig) => {
       const {
         colorPreset,
         fontPreset,
@@ -77,7 +91,7 @@ export function useSuiteStyleComposer({
         ? (allThemeFragments.radii[radiusPreset] ?? {})
         : {};
 
-      const finalTheme: Partial<AssembledTheme> = deepMerge(
+      let finalTheme: Partial<AssembledTheme> = deepMerge(
         deepMerge(baseFragment, colorFragment),
         deepMerge(fontFragment, radiusFragment)
       );
@@ -93,63 +107,76 @@ export function useSuiteStyleComposer({
         );
 
       const validation = AssembledThemeSchema.safeParse(finalTheme);
-      if (validation.success) {
-        return validation.data;
+      if (!validation.success) {
+        logger.warn(
+          "[useSuiteStyleComposer] El tema de previsualización ensamblado es inválido."
+        );
+        return;
       }
-      logger.warn(
-        "[useSuiteStyleComposer] El tema de previsualización ensamblado es inválido.",
-        { errors: validation.error.flatten() }
-      );
-      return null;
+
+      const cssVars = generateCssVariablesFromTheme(validation.data);
+      let styleTag = document.getElementById(
+        PREVIEW_STYLE_TAG_ID
+      ) as HTMLStyleElement;
+      if (!styleTag) {
+        styleTag = document.createElement("style");
+        styleTag.id = PREVIEW_STYLE_TAG_ID;
+        document.head.appendChild(styleTag);
+      }
+      styleTag.innerHTML = `:root { ${cssVars} }`;
     },
     [allThemeFragments]
   );
 
-  const handleConfigUpdate = useCallback(
-    (newPartialConfig: Partial<SuiteThemeConfig>) => {
-      setLocalSuiteConfig((prev) => {
-        const updatedConfig = deepMerge(prev, newPartialConfig);
-        const previewTheme = assemblePreviewTheme(updatedConfig);
-        if (previewTheme) {
-          setPreviewTheme(previewTheme);
-        }
-        return updatedConfig;
-      });
-    },
-    [assemblePreviewTheme, setPreviewTheme]
-  );
-
-  const handleGranularChange = useCallback(
-    (
-      category: "granularColors" | "granularFonts" | "granularGeometry",
-      cssVar: string,
-      value: string
-    ) => {
-      setLocalSuiteConfig((prev) => {
-        const newCategory = { ...(prev[category] || {}), [cssVar]: value };
-        const updatedConfig = { ...prev, [category]: newCategory };
-        return updatedConfig;
-      });
-    },
-    []
-  );
-
+  /**
+   * @function clearPreview
+   * @description Elimina la etiqueta <style> de previsualización del DOM,
+   *              revirtiendo los estilos a su estado persistido original.
+   */
   const clearPreview = useCallback(() => {
-    setPreviewTheme(null);
-  }, [setPreviewTheme]);
-
-  useEffect(() => {
-    const previewTheme = assemblePreviewTheme(localSuiteConfig);
-    if (previewTheme) {
-      setPreviewTheme(previewTheme);
+    const styleTag = document.getElementById(PREVIEW_STYLE_TAG_ID);
+    if (styleTag) {
+      styleTag.remove();
+      logger.trace(
+        "[useSuiteStyleComposer] Estilos de previsualización limpiados."
+      );
     }
-  }, [localSuiteConfig, assemblePreviewTheme, setPreviewTheme]);
+  }, []);
+
+  // Efecto que aplica la previsualización cada vez que la configuración local cambia.
+  useEffect(() => {
+    if (isMounted.current) {
+      assembleAndApplyPreview(localSuiteConfig);
+    }
+  }, [localSuiteConfig, assembleAndApplyPreview]);
+
+  /**
+   * @function handleConfigUpdate
+   * @description Actualiza el estado de la configuración local con nuevos valores parciales.
+   */
+  const handleConfigUpdate = (newPartialConfig: Partial<SuiteThemeConfig>) => {
+    setLocalSuiteConfig((prev) => deepMerge(prev, newPartialConfig));
+  };
+
+  /**
+   * @function handleGranularChange
+   * @description Actualiza un valor granular específico dentro de la configuración local.
+   */
+  const handleGranularChange = (
+    category: "granularColors" | "granularFonts" | "granularGeometry",
+    cssVar: string,
+    value: string
+  ) => {
+    setLocalSuiteConfig((prev) => {
+      const newCategory = { ...(prev[category] || {}), [cssVar]: value };
+      return { ...prev, [category]: newCategory };
+    });
+  };
 
   return {
     localSuiteConfig,
     handleConfigUpdate,
     handleGranularChange,
     clearPreview,
-    assemblePreviewTheme,
   };
 }

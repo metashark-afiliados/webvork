@@ -1,4 +1,4 @@
-// lib/schemas/components/faq-accordion.schema.ts
+// RUTA: lib/schemas/components/faq-accordion.schema.ts
 /**
  * @file faq-accordion.schema.ts
  * @description Esquema de Zod para el contenido i18n del componente FaqAccordion.
@@ -46,4 +46,3 @@ export const FaqAccordionI18nSchema = z.object({
   "en-US": FaqAccordionLocaleSchema,
   "pt-BR": FaqAccordionLocaleSchema,
 });
-// lib/schemas/components/faq-accordion.schema.ts

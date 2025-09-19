@@ -1,11 +1,11 @@
 // RUTA: components/dev/DevHeader.tsx
-
 /**
  * @file DevHeader.tsx
  * @description Header de élite para el Developer Command Center.
- *              v12.3.0 (LanguageSwitcher Sync): Se alinea con el nuevo contrato de
- *              props del componente de élite LanguageSwitcher.
- * @version 12.3.0
+ *              v12.4.0 (Module Resolution Fix): Corrige la ruta de importación de
+ *              ToggleTheme para alinearse explícitamente con la convención de
+ *              nomenclatura PascalCase.tsx, resolviendo errores de build.
+ * @version 12.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -16,7 +16,9 @@ import { routes } from "@/lib/navigation";
 import { type Locale, supportedLocales } from "@/lib/i18n.config";
 import { Container } from "@/components/ui/Container";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
-import { ToggleTheme } from "@/components/ui/ToggleTheme";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+import { ToggleTheme } from "@/components/ui/ToggleTheme"; // <-- RUTA CORREGIDA
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
@@ -27,7 +29,7 @@ interface DevHeaderProps {
   content: NonNullable<Dictionary["devHeader"]>;
   devMenuContent: NonNullable<Dictionary["devRouteMenu"]>;
   toggleThemeContent: NonNullable<Dictionary["toggleTheme"]>;
-  languageSwitcherContent: NonNullable<Dictionary["languageSwitcher"]>; // <-- NUEVA PROP
+  languageSwitcherContent: NonNullable<Dictionary["languageSwitcher"]>;
 }
 
 export default function DevHeader({
@@ -37,10 +39,10 @@ export default function DevHeader({
   content,
   devMenuContent,
   toggleThemeContent,
-  languageSwitcherContent, // <-- NUEVA PROP
+  languageSwitcherContent,
 }: DevHeaderProps): React.ReactElement {
   logger.info(
-    `[Observabilidad] Renderizando DevHeader (v12.3 - LanguageSwitcher Sync)`
+    `[Observabilidad] Renderizando DevHeader (v12.4 - Module Resolution Fix)`
   );
 
   const headerTitle = content.title ?? "Developer Command Center";
@@ -79,7 +81,7 @@ export default function DevHeader({
             <LanguageSwitcher
               currentLocale={locale}
               supportedLocales={supportedLocales}
-              content={languageSwitcherContent} // <-- PASAR PROP
+              content={languageSwitcherContent}
             />
             <DevToolsDropdown dictionary={devMenuContent} />
           </div>

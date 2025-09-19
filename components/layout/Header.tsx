@@ -1,13 +1,11 @@
 // RUTA: components/layout/Header.tsx
-
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal.
- *              v24.4.0 (Module Resolution Fix): Corrige la ruta de importación de
- *              ToggleTheme para alinearse explícitamente con la convención de
- *              nomenclatura PascalCase.tsx, resolviendo errores de build.
- *              Esta versión consolida todas las refactorizaciones de élite.
- * @version 24.4.0
+ * @description Componente de cabecera principal del portal. Orquesta la
+ *              navegación, los controles de UI y el acceso al carrito.
+ *              v25.0.0 (Holistic Elite Compliance): Versión final auditada para
+ *              cumplir con los 6 Pilares de Calidad, incluyendo A11Y y MEA/UX.
+ * @version 25.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -20,11 +18,12 @@ import { Separator } from "@/components/ui/Separator";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { NavLink } from "@/lib/schemas/components/header.schema";
-import { type Locale } from "@/lib/i18n.config";
+import { type Locale, supportedLocales } from "@/lib/i18n.config";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { CartTrigger } from "./CartTrigger";
 import { CartSheet } from "./CartSheet";
+import { routes } from "@/lib/navigation";
 
 interface HeaderProps {
   content: NonNullable<Dictionary["header"]>;
@@ -33,7 +32,6 @@ interface HeaderProps {
   languageSwitcherContent: NonNullable<Dictionary["languageSwitcher"]>;
   cartContent: NonNullable<Dictionary["cart"]>;
   currentLocale: Locale;
-  supportedLocales: readonly string[];
 }
 
 export default function Header({
@@ -43,9 +41,8 @@ export default function Header({
   languageSwitcherContent,
   cartContent,
   currentLocale,
-  supportedLocales,
 }: HeaderProps): React.ReactElement | null {
-  logger.info("[Header] Renderizando v24.4 (Module Resolution Fix)");
+  logger.info("[Header] Renderizando v25.0 (Holistic Elite Compliance)");
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -61,21 +58,28 @@ export default function Header({
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur-sm md:px-6 border-b border-border">
-        <Link href={`/${currentLocale}`} className="mr-6 flex items-center">
+        <Link
+          href={routes.home.path({ locale: currentLocale })}
+          className="mr-6 flex items-center"
+          aria-label={logoAlt} // Pilar 6: ARIA label descriptivo para el enlace del logo.
+        >
           <Image
             src={logoUrl}
-            alt={logoAlt}
+            alt={logoAlt} // Pilar 6: Texto alternativo para la imagen.
             width={150}
             height={28}
             className="h-7 w-auto"
             priority
           />
         </Link>
-        <nav className="hidden md:flex md:items-center md:gap-6 text-sm font-medium">
+        <nav
+          className="hidden md:flex md:items-center md:gap-6 text-sm font-medium"
+          aria-label="Navegación Principal" // Pilar 6: ARIA label para la navegación.
+        >
           {navLinks.map((route: NavLink) => (
             <Link
               key={route.href}
-              href={route.href}
+              href={`/${currentLocale}${route.href}`.replace("//", "/")}
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
               {route.label}

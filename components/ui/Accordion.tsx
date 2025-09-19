@@ -1,4 +1,4 @@
-// components/ui/Accordion.tsx
+// RUTA: components/ui/Accordion.tsx
 /**
  * @file Accordion.tsx
  * @description Componente atómico reutilizable `AccordionItem`.
@@ -85,4 +85,3 @@ export function AccordionItem({
     </div>
   );
 }
-// components/ui/Accordion.tsx
