@@ -28,7 +28,9 @@ export function SectionList({
   onEditSection,
   content,
 }: SectionListProps): React.ReactElement {
-  logger.trace("[SectionList] Renderizando lista de secciones del layout (v2.0).");
+  logger.trace(
+    "[SectionList] Renderizando lista de secciones del layout (v2.0)."
+  );
 
   return (
     <div className="space-y-4 mb-10">

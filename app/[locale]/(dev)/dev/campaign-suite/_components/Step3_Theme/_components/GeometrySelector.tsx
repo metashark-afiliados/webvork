@@ -2,7 +2,7 @@
 /**
  * @file GeometrySelector.tsx
  * @description Aparato de UI atómico y de élite para la selección visual de estilos de geometría.
- * @version 1.0.0
+ * @version 1.1.0 (Resilient Contract)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -10,25 +10,26 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Button, DynamicIcon } from "@/components/ui";
+import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 
+// --- [INICIO] REFACTORIZACIÓN DE CONTRATO ---
 interface Geometry {
   name: string;
-  // Representa las variables CSS de geometría, ej. `--radius: 0.5rem;`
-  // Para la previsualización, solo necesitamos el valor del radio.
-  geometry: {
+  geometry?: { // La propiedad 'geometry' ahora es opcional
     "--radius"?: string;
   };
 }
+// --- [FIN] REFACTORIZACIÓN DE CONTRATO ---
 
 interface GeometrySelectorProps {
   geometries: Geometry[];
   selectedGeometryName: string | null;
   onSelect: (geometryName: string) => void;
-  onPreview: (geometry: Geometry | null) => void; // Para el hover
+  onPreview: (geometry: Geometry | null) => void;
   onCreate: () => void;
   emptyPlaceholder: string;
+  createNewRadiusStyleButton: string;
 }
 
 export function GeometrySelector({
@@ -38,6 +39,7 @@ export function GeometrySelector({
   onPreview,
   onCreate,
   emptyPlaceholder,
+  createNewRadiusStyleButton
 }: GeometrySelectorProps): React.ReactElement {
   logger.trace("[GeometrySelector] Renderizando selector de geometría.");
 
@@ -50,7 +52,9 @@ export function GeometrySelector({
         </div>
       )}
       {geometries.map((geometry) => {
+        // --- [INICIO] GUARDIA DE RESILIENCIA ---
         const radiusValue = geometry.geometry?.["--radius"] || "0rem";
+        // --- [FIN] GUARDIA DE RESILIENCIA ---
         return (
           <motion.div
             key={geometry.name}
@@ -87,8 +91,13 @@ export function GeometrySelector({
         className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted/50 p-4 transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary"
       >
         <DynamicIcon name="Plus" className="h-8 w-8 mb-2" />
-        <span className="text-sm font-semibold">{geometries.length === 0 ? "Añadir Nuevo Estilo" : "Crear Nuevo Estilo"}</span>
+        <span className="text-sm font-semibold">
+          {geometries.length === 0
+            ? "Añadir Nuevo Estilo"
+            : createNewRadiusStyleButton}
+        </span>
       </button>
     </div>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step3_Theme/_components/GeometrySelector.tsx

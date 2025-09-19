@@ -56,7 +56,6 @@ export async function renderPreviewComponent(
   // Fallback si el renderizador no está registrado
   return {
     jsx: (
-      
       <div tw="flex w-full h-full items-center justify-center bg-red-900/80 text-white border border-red-500/50 rounded-lg">
         <span>Vista previa no definida para: {componentName}</span>
       </div>

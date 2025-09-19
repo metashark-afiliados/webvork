@@ -30,14 +30,12 @@ export function usePreviewTheme(): UsePreviewThemeReturn {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // El tema a renderizar es el de la previsualización si existe, si no, el del borrador.
   const effectiveTheme = useMemo(() => {
     if (previewThemeFromStore) return previewThemeFromStore;
-    return null; // Si no hay previsualización, dejaremos que el useEffect ensamble desde el borrador
+    return null;
   }, [previewThemeFromStore]);
 
   useEffect(() => {
-    // Si ya tenemos un tema de previsualización efectivo, lo usamos directamente.
     if (effectiveTheme) {
       setTheme(effectiveTheme);
       setIsLoading(false);

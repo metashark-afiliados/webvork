@@ -2,9 +2,7 @@
 /**
  * @file Step2Form.tsx
  * @description Componente de Presentación Puro para la UI del Paso 2 (Layout).
- *              v5.0.0 (Holistic Contract Fix): Sincronizado completamente con el
- *              contrato de datos unificado de i18n, resolviendo todos los errores TS2339.
- * @version 5.0.0
+ * @version 5.1.0 (Sovereign Type Contract)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,15 +16,16 @@ import {
   CardDescription,
 } from "@/components/ui";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { LayoutConfigItem } from "../../_types/draft.types";
 import { LayoutBuilder } from "./LayoutBuilder";
 import { WizardNavigation } from "../../_components/WizardNavigation";
+import { z } from "zod";
+import { Step2ContentSchema } from "@/lib/schemas/campaigns/steps/step2.schema";
 
-type Step2Content = NonNullable<Dictionary["campaignSuitePage"]>["step2"];
+type Step2Content = z.infer<typeof Step2ContentSchema>;
 
 interface Step2FormProps {
-  content: Step2Content;
+  content: Step2Content; // <-- Contrato estricto y no opcional
   layoutConfig: LayoutConfigItem[];
   onLayoutChange: (newLayout: LayoutConfigItem[]) => void;
   onBack: () => void;
@@ -41,16 +40,14 @@ export function Step2Form({
   onNext,
 }: Step2FormProps): React.ReactElement {
   logger.info(
-    "[Step2Form] Renderizando formulario de presentación puro (v5.0)."
+    "[Step2Form] Renderizando formulario de presentación puro (Contrato Soberano)."
   );
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>{content.title}</CardTitle>
-        {/* --- [INICIO DE CORRECCIÓN] --- */}
         <CardDescription>{content.description}</CardDescription>
-        {/* --- [FIN DE CORRECCIÓN] --- */}
       </CardHeader>
       <CardContent className="space-y-10">
         <LayoutBuilder
@@ -59,20 +56,16 @@ export function Step2Form({
           content={{
             libraryTitle: content.libraryTitle,
             canvasTitle: content.canvasTitle,
-            // --- [INICIO DE CORRECCIÓN] ---
             addSectionButtonText: content.addSectionButtonText,
             emptyLibraryText: content.emptyLibraryText,
             emptyCanvasText: content.emptyCanvasText,
-            // --- [FIN DE CORRECCIÓN] ---
           }}
         />
-        {/* --- [INICIO DE CORRECCIÓN] --- */}
         <WizardNavigation
           onBack={onBack}
           onNext={onNext}
           nextButtonText={content.nextButtonText}
         />
-        {/* --- [FIN DE CORRECCIÓN] --- */}
       </CardContent>
     </Card>
   );

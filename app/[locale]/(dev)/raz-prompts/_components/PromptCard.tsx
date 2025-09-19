@@ -2,7 +2,7 @@
 /**
  * @file PromptCard.tsx
  * @description Componente de presentación puro para visualizar un prompt en la bóveda.
- * @version 1.0.0
+ * @version 3.0.0 (Full i18n & Quality Leveling)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,50 +18,42 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { DynamicIcon } from "@/components/ui";
+import { Button, DynamicIcon } from "@/components/ui";
 import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
 import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/lib/schemas/i18n.schema";
+
+type SesaOptions = NonNullable<Dictionary["promptCreator"]>["sesaOptions"];
+type VaultContent = NonNullable<Dictionary["promptVault"]>;
 
 interface PromptCardProps {
   prompt: RaZPromptsEntry;
   onViewDetails: (promptId: string) => void;
+  sesaOptions: SesaOptions;
+  content: Pick<VaultContent, "viewDetailsButton" | "noImageYet">;
 }
 
 export function PromptCard({
   prompt,
   onViewDetails,
+  sesaOptions,
+  content,
 }: PromptCardProps): React.ReactElement {
-  logger.trace(`[PromptCard] Renderizando tarjeta para prompt: ${prompt.title}`);
+  logger.trace(
+    `[Observabilidad] Renderizando PromptCard para: ${prompt.title}`
+  );
 
   const latestVersion = prompt.versions[prompt.versions.length - 1];
   const formattedDate = new Date(prompt.createdAt).toLocaleDateString();
 
-  // Mapeo simple de tags SESA a etiquetas legibles (para demostración)
-  const tagLabels: Record<string, string> = {
-    ideo: "Ideogram",
-    mj: "Midjourney",
-    sdxl: "Stable Diffusion",
-    pht: "Fotorealístico",
-    cin: "Cinemático",
-    ill: "Ilustración",
-    "1x1": "Cuadrado",
-    "16-9": "Horizontal",
-    "9-16": "Vertical",
-    ui: "UI",
-    abs: "Abstracto",
-    wom: "Mujer",
-    man: "Hombre",
-    lsc: "Paisaje",
-  };
-
-  const getTagDisplay = (tagKey: keyof RaZPromptsSesaTags, tagValue: string | string[] | undefined) => {
-    if (!tagValue) return null;
-    const value = Array.isArray(tagValue) ? tagValue[0] : tagValue; // Tomar el primero si es array
-
-    if (value && tagLabels[value]) {
-        return <Badge key={tagKey} variant="secondary" className="mr-1">{tagLabels[value]}</Badge>;
-    }
-    return null;
+  const getTagLabel = (
+    category: keyof SesaOptions,
+    value: string | undefined
+  ) => {
+    if (!value) return null;
+    return (
+      sesaOptions[category]?.find((opt) => opt.value === value)?.label || value
+    );
   };
 
   return (
@@ -70,7 +62,7 @@ export function PromptCard({
         <CardTitle className="text-lg">{prompt.title}</CardTitle>
         <CardDescription className="flex items-center text-xs text-muted-foreground">
           <DynamicIcon name="BrainCircuit" className="h-3 w-3 mr-1" />
-          {prompt.aiService.toUpperCase()}
+          {getTagLabel("ai", prompt.tags.ai)}
           <span className="mx-2">·</span>
           <DynamicIcon name="Clock" className="h-3 w-3 mr-1" />
           {formattedDate}
@@ -89,17 +81,8 @@ export function PromptCard({
           ) : (
             <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
               <DynamicIcon name="ImageOff" className="h-6 w-6 mr-2" />
-              <span>No image yet</span>
+              <span>{content.noImageYet}</span>
             </div>
-          )}
-          {prompt.status === "pending_generation" && (
-            <Badge
-              variant="secondary"
-              className="absolute top-2 right-2 bg-yellow-500/20 text-yellow-600 border-yellow-500"
-            >
-              <DynamicIcon name="Hourglass" className="h-3 w-3 mr-1 animate-pulse" />
-              <span>Pending Generation</span>
-            </Badge>
           )}
         </div>
         <p className="text-sm text-muted-foreground line-clamp-3">
@@ -108,17 +91,19 @@ export function PromptCard({
       </CardContent>
       <CardFooter className="flex flex-wrap items-center justify-between pt-0 gap-2">
         <div className="flex flex-wrap gap-1">
-          {getTagDisplay('ai', prompt.tags.ai)}
-          {getTagDisplay('sty', prompt.tags.sty)}
-          {getTagDisplay('fmt', prompt.tags.fmt)}
-          {getTagDisplay('typ', prompt.tags.typ)}
-          {getTagDisplay('sbj', prompt.tags.sbj)}
+          <Badge variant="secondary">{getTagLabel("sty", prompt.tags.sty)}</Badge>
+          <Badge variant="secondary">{getTagLabel("fmt", prompt.tags.fmt)}</Badge>
         </div>
-        <Button variant="outline" size="sm" onClick={() => onViewDetails(prompt.promptId)}>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => onViewDetails(prompt.promptId)}
+        >
           <DynamicIcon name="Eye" className="h-4 w-4 mr-2" />
-          Ver Detalles
+          {content.viewDetailsButton}
         </Button>
       </CardFooter>
     </Card>
   );
 }
+// app/[locale]/(dev)/raz-prompts/_components/PromptCard.tsx

@@ -2,7 +2,7 @@
 /**
  * @file Carousel.tsx
  * @description Componente de UI para un carrusel interactivo, basado en Embla Carousel.
- *              - v2.2.0 (Type Safety Definitiva): Resuelve el error de tipo TS2322 de forma
+ *              - v2.2.0 (Definitive Type Safety): Resuelve el error de tipo TS2322 de forma
  *                robusta. Se crea un tipo de props específico (`CarouselNavButtonProps`) para
  *                los botones de navegación que hereda solo los atributos de un botón real,
  *                eliminando por completo la ambigüedad polimórfica heredada del componente Button.
@@ -47,8 +47,9 @@ const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 function useCarousel() {
   const context = React.useContext(CarouselContext);
   if (!context) {
-    logger.error("useCarousel must be used within a <Carousel />");
-    throw new Error("useCarousel must be used within a <Carousel />");
+    const errorMsg = "useCarousel debe ser usado dentro de un <Carousel />";
+    logger.error(errorMsg);
+    throw new Error(errorMsg);
   }
   return context;
 }
@@ -196,7 +197,6 @@ const CarouselItem = React.forwardRef<
 });
 CarouselItem.displayName = "CarouselItem";
 
-// --- INICIO DE CORRECCIÓN: Tipo de props explícito y no polimórfico ---
 type CarouselNavButtonProps = VariantProps<typeof buttonVariants> &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -257,7 +257,6 @@ const CarouselNext = React.forwardRef<
   );
 });
 CarouselNext.displayName = "CarouselNext";
-// --- FIN DE CORRECCIÓN ---
 
 export {
   type CarouselApi,

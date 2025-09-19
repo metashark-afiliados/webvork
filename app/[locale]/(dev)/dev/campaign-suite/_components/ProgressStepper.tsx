@@ -2,9 +2,8 @@
 /**
  * @file ProgressStepper.tsx
  * @description Componente de UI "Línea de Progreso" para el header de la SDC.
- *              v3.0.0 (Elite UX): Rediseño completo a un stepper horizontal,
+ * @version 3.0.0 (Elite UX): Rediseño completo a un stepper horizontal,
  *              interactivo y animado con tooltips.
- * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -103,4 +102,3 @@ export function ProgressStepper({
     </nav>
   );
 }
-// app/[locale]/(dev)/dev/campaign-suite/_components/ProgressStepper.tsx

@@ -27,30 +27,39 @@ export function validateDraftForLaunch(draft: CampaignDraft): ChecklistItem[] {
   const checklist: ChecklistItem[] = [];
 
   // Regla 1: Identidad Básica Definida
-  const isIdentityComplete = !!(draft.baseCampaignId && draft.variantName && draft.seoKeywords);
+  const isIdentityComplete = !!(
+    draft.baseCampaignId &&
+    draft.variantName &&
+    draft.seoKeywords
+  );
   checklist.push({
-    id: 'identity',
-    label: 'Identidad de la campaña definida',
+    id: "identity",
+    label: "Identidad de la campaña definida",
     isCompleted: isIdentityComplete,
-    helpText: 'Asegúrate de haber completado todos los campos en el Paso 0.'
+    helpText: "Asegúrate de haber completado todos los campos en el Paso 0.",
   });
 
   // Regla 2: Layout Configurado
   const isLayoutComplete = draft.layoutConfig.length > 0;
   checklist.push({
-    id: 'layout',
-    label: 'Layout de página compuesto',
+    id: "layout",
+    label: "Layout de página compuesto",
     isCompleted: isLayoutComplete,
-    helpText: 'Añade al menos una sección en el Paso 2 para continuar.'
+    helpText: "Añade al menos una sección en el Paso 2 para continuar.",
   });
 
   // Regla 3: Tema Visual Seleccionado
-  const isThemeComplete = !!(draft.themeConfig.colorPreset && draft.themeConfig.fontPreset && draft.themeConfig.radiusPreset);
+  const isThemeComplete = !!(
+    draft.themeConfig.colorPreset &&
+    draft.themeConfig.fontPreset &&
+    draft.themeConfig.radiusPreset
+  );
   checklist.push({
-    id: 'theme',
-    label: 'Tema visual seleccionado',
+    id: "theme",
+    label: "Tema visual seleccionado",
     isCompleted: isThemeComplete,
-    helpText: 'Selecciona una paleta de colores, tipografía y geometría en el Paso 3.'
+    helpText:
+      "Selecciona una paleta de colores, tipografía y geometría en el Paso 3.",
   });
 
   // Regla 4: Contenido del Locale Principal Relleno
@@ -65,10 +74,10 @@ export function validateDraftForLaunch(draft: CampaignDraft): ChecklistItem[] {
     }
   }
   checklist.push({
-    id: 'content',
+    id: "content",
     label: `Contenido para el idioma principal (${defaultLocale}) completo`,
     isCompleted: isContentComplete,
-    helpText: `Asegúrate de rellenar el contenido para todas las secciones en el idioma por defecto (${defaultLocale}) en el Paso 4.`
+    helpText: `Asegúrate de rellenar el contenido para todas las secciones en el idioma por defecto (${defaultLocale}) en el Paso 4.`,
   });
 
   return checklist;

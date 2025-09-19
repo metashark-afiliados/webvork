@@ -70,7 +70,6 @@ export function WizardHeader(): React.ReactElement | null {
 
   return (
     <div className="flex w-full items-center justify-between">
-      {/* Placeholder para mantener el layout, se puede eliminar si no hay nada a la izquierda */}
       <div className="w-48"></div>
       <div className="flex-grow flex items-center justify-center">
         <ProgressStepper
@@ -82,4 +81,3 @@ export function WizardHeader(): React.ReactElement | null {
     </div>
   );
 }
-// app/[locale]/(dev)/dev/campaign-suite/_components/WizardHeader.tsx

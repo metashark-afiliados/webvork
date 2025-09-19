@@ -2,10 +2,8 @@
 /**
  * @file route-menu.generator.ts
  * @description Aparato de lógica pura para generar la estructura de datos del menú de desarrollo.
- *              v2.0.0 (Holistic Refactor): Ahora es completamente resiliente. Maneja
- *              contenido `undefined` devolviendo un array vacío y logueando una
- *              advertencia clara. Resuelve todos los errores de tipo TS2339.
- * @version 2.0.0
+ * @version 5.0.0 (Definitive Route Key Sync): Se alinea completamente con las claves
+ *              de ruta generadas por el script v8.0+, resolviendo todos los errores 'TypeError'.
  * @author RaZ Podestá - MetaShark Tech
  */
 import { type LucideIconName } from "@/config/lucide-icon-names";
@@ -26,38 +24,28 @@ export interface RouteGroup {
   items: RouteItem[];
 }
 
-/**
- * @function generateDevRoutes
- * @description Función pura y resiliente que transforma el diccionario i18n y
- *              el locale en una estructura de datos navegable.
- * @param {Dictionary['devRouteMenu']} dictionary - El fragmento del diccionario. Puede ser undefined.
- * @param {Locale} locale - El locale actual.
- * @returns {RouteGroup[]} La estructura de datos del menú, o un array vacío si el contenido es inválido.
- */
 export function generateDevRoutes(
-  dictionary: Dictionary["devRouteMenu"], // Acepta `undefined`
+  dictionary: Dictionary["devRouteMenu"],
   locale: Locale
 ): RouteGroup[] {
   logger.info(
-    "[Observabilidad][route-menu.generator] Generando estructura de datos..."
+    "[Observabilidad][route-menu.generator] Generando estructura de datos v5.0..."
   );
 
-  // --- [INICIO DE REFACTORIZACIÓN HOLÍSTICA] ---
-  // 1. Guarda de seguridad: Si el diccionario no existe, no se puede generar el menú.
   if (!dictionary) {
     logger.warn(
-      "[route-menu.generator] El diccionario 'devRouteMenu' es undefined. No se puede generar el menú de desarrollo. Esto es esperado si el archivo i18n está incompleto."
+      "[route-menu.generator] El diccionario 'devRouteMenu' es undefined."
     );
-    return []; // Devuelve un array vacío para evitar errores de runtime.
+    return [];
   }
-  // --- [FIN DE REFACTORIZACIÓN HOLÍSTICA] ---
 
   const CAMPAIGN_ID = producerConfig.LANDING_ID;
+
   const campaignParams = {
     locale,
     campaignId: CAMPAIGN_ID,
-    variantSlug: "default-variant",
-    seoKeywordSlug: "default-seo-slug",
+    variantSlug: "scientific",
+    seoKeywordSlug: "benessere-evidenza-scientifica",
   };
 
   return [
@@ -66,8 +54,10 @@ export function generateDevRoutes(
       items: [
         {
           name: dictionary.campaignDesignSuite,
-          path: routes.campaignSuiteCreate.path({ locale }),
-          iconName: "WandSparkles",
+          // --- [INICIO DE CORRECCIÓN HOLÍSTICA] ---
+          path: routes.devCampaignSuiteCreate.path({ locale }),
+          iconName: "LayoutTemplate", // Icono más representativo
+          // --- [FIN DE CORRECCIÓN HOLÍSTICA] ---
         },
         {
           name: dictionary.testPage,
@@ -81,7 +71,9 @@ export function generateDevRoutes(
       items: [
         {
           name: dictionary.campaignPage,
-          path: routes.campaign.path(campaignParams),
+          path: routes.cByCampaignIdByVariantSlugBySeoKeywordSlug.path(
+            campaignParams
+          ),
           iconName: "Rocket",
         },
       ],

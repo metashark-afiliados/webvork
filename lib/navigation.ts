@@ -2,10 +2,10 @@
 /**
  * @file navigation.ts
  * @description Manifiesto y SSoT para la definición de rutas.
- *              - v11.0.0: Elimina la ruta obsoleta 'devCampaignSimulator' tras la
- *                deprecación del Configurador de Layouts.
- * @version 11.0.0
- * @author RaZ Podestá - MetaShark Tech
+ *              ESTE ARCHIVO ES GENERADO AUTOMÁTICAMENTE. NO LO EDITE MANUALMENTE.
+ *              Ejecute 'pnpm gen:routes' para actualizarlo.
+ * @version 2025-09-18T17:06:28.479Z
+ * @author Script de Generación Automática de Élite
  */
 import { defaultLocale, type Locale } from "@/lib/i18n.config";
 
@@ -22,85 +22,136 @@ export type RouteParams = {
 };
 
 export const routes = {
-  // --- Rutas Públicas del Portal ---
-  home: {
-    path: (params: RouteParams = {}) => `/${params.locale || defaultLocale}`,
-    type: RouteType.Public,
-  },
   about: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/about`,
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/about`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
     type: RouteType.Public,
   },
-  store: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/store`,
-    type: RouteType.Public,
+  bavi: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/dev/bavi`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.DevOnly,
   },
-  storeProduct: {
-    path: (params: RouteParams & { slug: string }) =>
-      `/${params.locale || defaultLocale}/store/${params.slug}`,
-    type: RouteType.Public,
-  },
-  news: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/news`,
-    type: RouteType.Public,
-  },
-  newsArticle: {
-    path: (params: RouteParams & { slug: string }) =>
-      `/${params.locale || defaultLocale}/news/${params.slug}`,
-    type: RouteType.Public,
-  },
-  // --- Rutas de Campaña ---
-  campaign: {
+  cByCampaignIdByVariantSlugBySeoKeywordSlug: {
     path: (
       params: RouteParams & {
         campaignId: string | number;
-        variantSlug: string;
-        seoKeywordSlug: string;
+        variantSlug: string | number;
+        seoKeywordSlug: string | number;
       }
     ) =>
-      `/${params.locale || defaultLocale}/c/${params.campaignId}/${params.variantSlug}/${params.seoKeywordSlug}`,
-    type: RouteType.Public,
-  },
-  // --- Rutas Legales ---
-  terms: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/terms`,
-    type: RouteType.Public,
-  },
-  privacy: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/privacy`,
+      `/${params.locale || defaultLocale}/c/${params.campaignId}/${params.variantSlug}/${params.seoKeywordSlug}`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
     type: RouteType.Public,
   },
   cookies: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/cookies`,
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/cookies`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
     type: RouteType.Public,
   },
-  // --- Rutas del Developer Command Center (DCC) ---
+  devCampaignSuiteCreate: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/dev/campaign-suite/create`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.DevOnly,
+  },
+  devComponentShowcase: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/dev/component-showcase`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.DevOnly,
+  },
   devDashboard: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/dev`,
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/dev`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.DevOnly,
+  },
+  devLogin: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/dev/login`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
     type: RouteType.DevOnly,
   },
   devTestPage: {
-    path: (params: RouteParams = {}) =>
-      `/${params.locale || defaultLocale}/dev/test-page`,
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/dev/test-page`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
     type: RouteType.DevOnly,
   },
-  campaignSuiteCreate: {
-    path: (params: RouteParams & { step?: number | string }) => {
-      const baseUrl = `/${
-        params.locale || defaultLocale
-      }/dev/campaign-suite/create`;
-      return params.step !== undefined
-        ? `${baseUrl}?step=${params.step}`
-        : baseUrl;
-    },
+  home: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
+  },
+  news: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/news`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
+  },
+  newsBySlug: {
+    path: (params: RouteParams & { slug: string | number }) =>
+      `/${params.locale || defaultLocale}/news/${params.slug}`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
+  },
+  notFound: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/not-found`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
+  },
+  privacy: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/privacy`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
+  },
+  razPrompts: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/dev/raz-prompts`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
     type: RouteType.DevOnly,
+  },
+  store: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/store`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
+  },
+  storeBySlug: {
+    path: (params: RouteParams & { slug: string | number }) =>
+      `/${params.locale || defaultLocale}/store/${params.slug}`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
+  },
+  terms: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/terms`
+        .replace(/[/]{2,}/g, "/")
+        .replace(/[/]$/, "") || "/",
+    type: RouteType.Public,
   },
 } as const;
-// lib/navigation.ts

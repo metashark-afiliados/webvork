@@ -12,7 +12,7 @@ import type { ThemeConfig } from "../../../_types/draft.types";
 import type { DiscoveredFragments } from "../../../_actions/getThemeFragments.action";
 import { ThemeFragmentSelector } from "./ThemeFragmentSelector";
 import { logger } from "@/lib/logging";
-import type { Step3ContentSchema } from "../../../_schemas/steps/step3.schema";
+import type { Step3ContentSchema } from "../../../../../../../../lib/schemas/campaigns/steps/step3.schema";
 import type { z } from "zod";
 
 type Content = z.infer<typeof Step3ContentSchema>;

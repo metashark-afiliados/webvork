@@ -11,7 +11,10 @@
       "altTextPlaceholder": "Una descrizione chiara e concisa dell'immagine...",
       "promptIdLabel": "ID Prompt di Origine (Opzionale)",
       "promptIdPlaceholder": "Incolla qui l'ID da RaZPrompts...",
-      "submitButtonText": "Carica e Registra in BAVI"
+      "submitButtonText": "Carica e Registra in BAVI",
+      "selectFromBaviButton": "Seleziona dalla BAVI",
+      "assetSelectorModalTitle": "Seleziona un Asset dalla Biblioteca",
+      "assetSelectorModalDescription": "Cerca, filtra e scegli un asset esistente per la tua campagna."
     }
   },
   "es-ES": {
@@ -26,7 +29,10 @@
       "altTextPlaceholder": "Una descripción clara y concisa de la imagen...",
       "promptIdLabel": "ID de Prompt de Origen (Opcional)",
       "promptIdPlaceholder": "Pega aquí el ID desde RaZPrompts...",
-      "submitButtonText": "Subir y Registrar en BAVI"
+      "submitButtonText": "Subir y Registrar en BAVI",
+      "selectFromBaviButton": "Seleccionar de la BAVI",
+      "assetSelectorModalTitle": "Seleccionar un Activo de la Biblioteca",
+      "assetSelectorModalDescription": "Busca, filtra y elige un activo existente para tu campaña."
     }
   },
   "en-US": {
@@ -41,7 +47,10 @@
       "altTextPlaceholder": "A clear and concise description of the image...",
       "promptIdLabel": "Source Prompt ID (Optional)",
       "promptIdPlaceholder": "Paste the ID from RaZPrompts here...",
-      "submitButtonText": "Upload and Register in BAVI"
+      "submitButtonText": "Upload and Register in BAVI",
+      "selectFromBaviButton": "Select from BAVI",
+      "assetSelectorModalTitle": "Select an Asset from the Library",
+      "assetSelectorModalDescription": "Search, filter, and choose an existing asset for your campaign."
     }
   },
   "pt-BR": {
@@ -56,7 +65,10 @@
       "altTextPlaceholder": "Uma descrição clara e concisa da imagem...",
       "promptIdLabel": "ID do Prompt de Origem (Opcional)",
       "promptIdPlaceholder": "Cole aqui o ID do RaZPrompts...",
-      "submitButtonText": "Carregar e Registrar na BAVI"
+      "submitButtonText": "Carregar e Registrar na BAVI",
+      "selectFromBaviButton": "Selecionar da BAVI",
+      "assetSelectorModalTitle": "Selecionar um Ativo da Biblioteca",
+      "assetSelectorModalDescription": "Pesquise, filtre e escolha um ativo existente para sua campanha."
     }
   }
 }

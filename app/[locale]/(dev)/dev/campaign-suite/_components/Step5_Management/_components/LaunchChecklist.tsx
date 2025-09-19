@@ -2,17 +2,21 @@
 /**
  * @file LaunchChecklist.tsx
  * @description Componente de UI atómico y gamificado para el checklist de pre-lanzamiento.
- * @version 1.0.0
+ * @version 2.0.0 (Syntax Restoration & Icon SSoT Sync)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
-
-import React from 'react';
-import { motion } from 'framer-motion';
-import { DynamicIcon } from '@/components/ui';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/Tooltip';
-import type { ChecklistItem } from '../../../_utils/draft.validator';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { motion } from "framer-motion";
+import { DynamicIcon } from "@/components/ui";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
+import type { ChecklistItem } from "../../../_utils/draft.validator";
+import { cn } from "@/lib/utils";
 
 interface LaunchChecklistProps {
   items: ChecklistItem[];
@@ -20,7 +24,7 @@ interface LaunchChecklistProps {
 }
 
 export function LaunchChecklist({ items, title }: LaunchChecklistProps) {
-  const completedCount = items.filter(item => item.isCompleted).length;
+  const completedCount = items.filter((item) => item.isCompleted).length;
   const totalCount = items.length;
   const progress = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
@@ -39,10 +43,20 @@ export function LaunchChecklist({ items, title }: LaunchChecklistProps) {
                   className="flex items-center gap-3 p-2 rounded-md"
                 >
                   <DynamicIcon
-                    name={item.isCompleted ? "CheckCircle2" : "XCircle"}
-                    className={cn("h-5 w-5", item.isCompleted ? "text-green-500" : "text-amber-500")}
+                    name={item.isCompleted ? "CircleCheck" : "CircleX"}
+                    className={cn(
+                      "h-5 w-5",
+                      item.isCompleted ? "text-green-500" : "text-amber-500"
+                    )}
                   />
-                  <span className={cn("text-sm", item.isCompleted ? "text-foreground" : "text-muted-foreground")}>
+                  <span
+                    className={cn(
+                      "text-sm",
+                      item.isCompleted
+                        ? "text-foreground"
+                        : "text-muted-foreground"
+                    )}
+                  >
                     {item.label}
                   </span>
                 </motion.div>
@@ -58,12 +72,14 @@ export function LaunchChecklist({ items, title }: LaunchChecklistProps) {
         <div className="relative h-2 w-full bg-muted rounded-full overflow-hidden">
           <motion.div
             className="absolute top-0 left-0 h-full bg-green-500 rounded-full"
-            initial={{ width: '0%' }}
+            initial={{ width: "0%" }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5, ease: 'easeInOut' }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
           />
         </div>
-        <p className="text-xs text-right mt-1 text-muted-foreground">{completedCount} de {totalCount} tareas completadas</p>
+        <p className="text-xs text-right mt-1 text-muted-foreground">
+          {completedCount} de {totalCount} tareas completadas
+        </p>
       </div>
     </div>
   );

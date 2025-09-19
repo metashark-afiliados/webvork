@@ -1,10 +1,13 @@
 // app/[locale]/(dev)/bavi/_components/index.ts
 /**
  * @file index.ts (Barrel File)
- * @description Fachada pública para el módulo atómico AssetUploader.
- * @version 2.0.0 (Asset Explorer Integration)
+ * @description Fachada pública para el módulo atómico de componentes BAVI.
+ * @version 3.0.0 (AssetSelectorModal Export)
  * @author RaZ Podestá - MetaShark Tech
  */
 export * from "./AssetUploader";
-export * from "./AssetExplorer"; // <-- NUEVA EXPORTACIÓN
-export * from "./AssetCard"; // <-- NUEVA EXPORTACIÓN
+export * from "./AssetExplorer";
+export * from "./AssetCard";
+export * from "./AssetSelectorModal";
+export * from "./useAssetExplorerLogic";
+// app/[locale]/(dev)/bavi/_components/index.ts

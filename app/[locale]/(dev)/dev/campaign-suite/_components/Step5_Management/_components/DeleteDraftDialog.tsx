@@ -2,11 +2,10 @@
 /**
  * @file DeleteDraftDialog.tsx
  * @description Aparato atómico para el diálogo de confirmación de eliminación de borrador.
- * @version 1.0.0
+ * @version 2.0.0 (Syntax Restoration & Resilience)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
-
 import React from "react";
 import {
   AlertDialogAction,
@@ -19,7 +18,9 @@ import {
 } from "@/components/ui/AlertDialog";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
-type DeleteDialogContent = NonNullable<Dictionary["campaignSuitePage"]>["step5"]["deleteDialog"];
+type DeleteDialogContent = NonNullable<
+  NonNullable<Dictionary["campaignSuitePage"]>["step5"]
+>["deleteDialog"];
 
 interface DeleteDraftDialogProps {
   content: DeleteDialogContent;
@@ -45,3 +46,4 @@ export function DeleteDraftDialog({
     </AlertDialogContent>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/_components/DeleteDraftDialog.tsx

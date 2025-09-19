@@ -16,7 +16,11 @@ interface SectionLibraryProps {
   title: string;
 }
 
-export function SectionLibrary({ availableSections, onAddSection, title }: SectionLibraryProps) {
+export function SectionLibrary({
+  availableSections,
+  onAddSection,
+  title,
+}: SectionLibraryProps) {
   logger.trace("[SectionLibrary] Renderizando biblioteca de secciones.");
   return (
     <div className="md:col-span-1 p-4 border rounded-lg bg-muted/20">
@@ -28,7 +32,11 @@ export function SectionLibrary({ availableSections, onAddSection, title }: Secti
             className="flex items-center justify-between p-2 border rounded-md bg-background"
           >
             <span className="text-sm font-medium">{section.name}</span>
-            <Button variant="outline" size="sm" onClick={() => onAddSection(section.name)}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onAddSection(section.name)}
+            >
               Añadir <DynamicIcon name="Plus" className="ml-2 h-4 w-4" />
             </Button>
           </div>

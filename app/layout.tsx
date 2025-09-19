@@ -2,18 +2,16 @@
 /**
  * @file layout.tsx
  * @description Layout Raíz de la Aplicación. SSoT para la estructura HTML base.
- *              Este es el único layout que debe contener las etiquetas <html> y <body>.
- *              Ahora precarga Google Fonts para su uso en theming.
- * @version 4.0.0 (Google Fonts Preload)
+ *              v7.1 (Canonical Google Fonts): Utiliza la implementación recomendada
+ *              de `next/font/google` para el auto-hospedaje automático de fuentes.
+ * @version 7.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { logger } from "@/lib/logging";
-import { Inter, Poppins } from "next/font/google"; // <-- Importar Google Fonts
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
-// --- [INICIO DE CONFIGURACIÓN DE GOOGLE FONTS] ---
-// Configurar las fuentes de Google
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -26,7 +24,6 @@ const poppins = Poppins({
   variable: "--font-poppins",
   display: "swap",
 });
-// --- [FIN DE CONFIGURACIÓN DE GOOGLE FONTS] ---
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -34,15 +31,13 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   logger.info(
-    "[Observabilidad][ARQUITECTURA-RAIZ] Renderizando RootLayout (app/layout.tsx)"
+    "[Observabilidad][ARQUITECTURA-RAIZ] Renderizando RootLayout (v7.1 - Canonical Google Fonts)"
   );
 
   return (
-    // Aplicar las variables CSS de las fuentes a la etiqueta html
     <html lang="es" className={`${inter.variable} ${poppins.variable}`}>
-      {" "}
-      {/* <-- Aplicar variables de fuente */}
       <body>{children}</body>
     </html>
   );
 }
+// app/layout.tsx

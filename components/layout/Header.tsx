@@ -1,26 +1,26 @@
 // components/layout/Header.tsx
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal. Ahora integra la
- *              lógica y UI para el carrito de compras.
- * @version 21.0.0 (Shopping Cart Integration)
+ * @description Componente de cabecera principal del portal. Corregido para
+ *              resolver errores de sintaxis y referencias faltantes.
+ * @version 23.2.0 (Formatter & Syntax Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React, { useState } from "react"; // <-- Se añade useState
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
-import { Button } from "@/components/ui/Button";
+import { Separator } from "@/components/ui/Separator";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { NavLink } from "@/lib/schemas/components/header.schema";
 import { type Locale } from "@/lib/i18n.config";
 import { ToggleTheme } from "./toogle-theme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { CartTrigger } from "./CartTrigger"; // <-- NUEVA IMPORTACIÓN
-import { CartSheet } from "./CartSheet"; // <-- NUEVA IMPORTACIÓN
+import { CartTrigger } from "./CartTrigger";
+import { CartSheet } from "./CartSheet";
 
 interface HeaderProps {
   content: Dictionary["header"];
@@ -30,17 +30,14 @@ interface HeaderProps {
 }
 
 export default function Header({
-  // <-- Se cambia a exportación nombrada
   content,
   devDictionary,
   currentLocale,
   supportedLocales,
 }: HeaderProps): React.ReactElement | null {
-  logger.info("[Header] Renderizando v21.0 (Shopping Cart Integration)");
+  logger.info("[Header] Renderizando v23.2 (Formatter & Syntax Fix)");
 
-  // --- [INICIO] LÓGICA DE ESTADO PARA EL CARRITO ---
   const [isCartOpen, setIsCartOpen] = useState(false);
-  // --- [FIN] LÓGICA DE ESTADO PARA EL CARRITO ---
 
   if (!content) {
     logger.warn(
@@ -49,13 +46,12 @@ export default function Header({
     return null;
   }
 
-  const { logoUrl, logoAlt, navLinks, ctaButton } = content;
+  const { logoUrl, logoAlt, navLinks } = content;
 
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between bg-background/80 px-4 backdrop-blur-sm md:px-6 border-b border-border">
-        {/* ... Logo y NavLinks sin cambios ... */}
-        <Link href="/" className="mr-6 flex items-center">
+        <Link href={`/${currentLocale}`} className="mr-6 flex items-center">
           <Image
             src={logoUrl}
             alt={logoAlt}
@@ -83,19 +79,15 @@ export default function Header({
             currentLocale={currentLocale}
             supportedLocales={supportedLocales}
           />
-          {/* --- [INICIO] INTEGRACIÓN DEL CARRITO --- */}
           <Separator orientation="vertical" className="h-6 mx-2" />
           <CartTrigger onClick={() => setIsCartOpen(true)} />
-          {/* --- [FIN] INTEGRACIÓN DEL CARRITO --- */}
           {process.env.NODE_ENV === "development" && devDictionary && (
             <DevToolsDropdown dictionary={devDictionary} />
           )}
         </div>
       </header>
 
-      {/* El panel del carrito se renderiza aquí, controlado por el estado del Header */}
       <CartSheet isOpen={isCartOpen} onOpenChange={setIsCartOpen} />
     </>
   );
 }
-// components/layout/Header.tsx

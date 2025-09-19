@@ -2,24 +2,26 @@
 /**
  * @file generate-navigation-manifest.ts
  * @description Script de élite para descubrir y generar automáticamente el manifiesto
- *              de rutas `src/lib/navigation.ts`. Es semánticamente consciente de la
+ *              de rutas `lib/navigation.ts`. Es semánticamente consciente de la
  *              estructura del App Router, incluyendo Grupos de Rutas y segmentos dinámicos.
- *              Esta versión es más robusta y verbosa, asegurando la creación del
- *              directorio de salida y mejorando el diagnóstico de errores.
- * @version 3.6.0 (Robust File Writing & Verbose Error Handling)
+ * @version 5.0.0 (Definitive Logic & Elite Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as fs from "fs";
 import * as path from "path";
 import chalk from "chalk";
 
-// La raíz del App Router de Next.js es `app`.
 const APP_ROOT_DIR = path.resolve(process.cwd(), "app");
-const OUTPUT_FILE = path.resolve(process.cwd(), "src/lib/navigation.ts");
+const OUTPUT_FILE = path.resolve(process.cwd(), "lib/navigation.ts");
 const IGNORED_ENTITIES = new Set([
   "_components",
   "_hooks",
-  "_lib",
+  "_actions",
+  "_context",
+  "_config",
+  "_schemas",
+  "_types",
+  "_utils",
   "favicon.ico",
   "sitemap.ts",
   "layout.tsx",
@@ -27,7 +29,7 @@ const IGNORED_ENTITIES = new Set([
   "error.tsx",
   "global-error.tsx",
   "not-found.tsx",
-  "api", // Ignorar el directorio /api para la navegación de páginas
+  "api",
 ]);
 
 interface RouteInfo {
@@ -48,19 +50,29 @@ function generateKeyFromSegments(segments: string[]): string {
 
   const keyParts = relevantSegments.map((segment) =>
     segment
-      .replace(/\[([^\]]+)\]/g, "By$1")
+      .replace(
+        /\[([^\]]+)\]/g,
+        (_, param) => `By${param.charAt(0).toUpperCase() + param.slice(1)}`
+      )
       .replace(/^\(.*\)$/, "")
       .replace(/^./, (c) => c.toUpperCase())
   );
   const filteredKeyParts = keyParts.filter((part) => part !== "");
+  const baseKey = filteredKeyParts.join("");
+  const finalKey = toCamelCase(
+    baseKey.charAt(0).toLowerCase() + baseKey.slice(1)
+  );
 
-  const baseKey = toCamelCase(filteredKeyParts.join(""));
-  return baseKey.charAt(0).toLowerCase() + baseKey.slice(1);
+  if (finalKey === "dev") return "devDashboard";
+  if (finalKey === "login") return "devLogin";
+
+  return finalKey;
 }
 
 function discoverRoutes(
   currentDir: string,
-  relativePathSegments: string[] = [] // Segments relative to APP_ROOT_DIR
+  relativePathSegments: string[] = [],
+  isDevZone: boolean = false
 ): RouteInfo[] {
   const routes: RouteInfo[] = [];
   let entries: fs.Dirent[];
@@ -72,22 +84,35 @@ function discoverRoutes(
         `[Generator Error] No se pudo escanear el directorio: ${currentDir}.`
       )
     );
-    throw error; // Re-lanzar para que el main lo capture
+    throw error;
   }
 
   const hasPageFile = entries.some((e) => e.isFile() && e.name === "page.tsx");
-  const pathTemplate = "/" + relativePathSegments.join("/");
+  // --- [INICIO DE CORRECCIÓN LÓGICA] ---
+  // La plantilla de ruta ahora omite el segmento `[locale]` inicial.
+  const pathTemplate =
+    "/" +
+    (relativePathSegments[0] === "[locale]"
+      ? relativePathSegments.slice(1)
+      : relativePathSegments
+    ).join("/");
+  // --- [FIN DE CORRECCIÓN LÓGICA] ---
 
   if (hasPageFile) {
     const key = generateKeyFromSegments(relativePathSegments);
     const paramsInPathTemplate = (
       pathTemplate.match(/\[([^\]]+)\]/g) || []
     ).map((p) => p.slice(1, -1));
-    const type = relativePathSegments.includes("(dev)") ? "DevOnly" : "Public";
+    const type = isDevZone ? "DevOnly" : "Public";
 
+    console.log(
+      chalk.gray(
+        `   Discovered: ${chalk.green(key)} -> ${chalk.yellow(pathTemplate)} (${type})`
+      )
+    );
     routes.push({
       key,
-      pathTemplate: pathTemplate,
+      pathTemplate: pathTemplate.replace(/\/$/, "") || "/",
       params: paramsInPathTemplate,
       type,
     });
@@ -99,11 +124,13 @@ function discoverRoutes(
       const nextRelativePathSegments = isRouteGroup
         ? relativePathSegments
         : [...relativePathSegments, entry.name];
+      const nextIsDevZone = isDevZone || entry.name === "(dev)";
 
       routes.push(
         ...discoverRoutes(
           path.join(currentDir, entry.name),
-          nextRelativePathSegments
+          nextRelativePathSegments,
+          nextIsDevZone
         )
       );
     }
@@ -129,7 +156,8 @@ function generateNavigationFileContent(routes: RouteInfo[]): string {
         );
       });
 
-      const pathFunction = `(params: ${paramsType}) => \`/\${params.locale || defaultLocale}${pathFunctionBody}\`.replace(/\\/\\/+/g, '/').replace(/\\/$/, '') || '/'`;
+      // La función ahora construye la URL correctamente, anteponiendo el locale a la plantilla ya limpia.
+      const pathFunction = `(params: ${paramsType}) => \`/\${params.locale || defaultLocale}${pathFunctionBody}\`.replace(/[/]{2,}/g, '/').replace(/[/]$/, '') || '/'`;
 
       return `
   ${route.key}: {
@@ -139,7 +167,7 @@ function generateNavigationFileContent(routes: RouteInfo[]): string {
     })
     .join(",");
 
-  return `// src/lib/navigation.ts
+  return `// lib/navigation.ts
 /**
  * @file navigation.ts
  * @description Manifiesto y SSoT para la definición de rutas.
@@ -169,37 +197,30 @@ export const routes = {${routesObjectContent}
 
 function main() {
   console.log(
-    chalk.blue.bold("🚀 Iniciando Generador de Manifiesto de Rutas de Élite...")
+    chalk.blue.bold(
+      "🚀 Iniciando Generador de Manifiesto de Rutas de Élite v5.0..."
+    )
   );
   try {
-    // --- [INICIO DE CORRECCIÓN DEFINITIVA DE RUTA DE ESCANEO] ---
-    // La ruta base de escaneo es directamente `app/[locale]` para Next.js App Router.
-    // Esto se construye uniendo `APP_ROOT_DIR` con `[locale]`.
-    const appLocalePath = path.join(APP_ROOT_DIR, "[locale]");
-    console.log(chalk.gray(`   Escaneando directorio base: ${appLocalePath}`));
+    const appPath = path.join(APP_ROOT_DIR);
+    console.log(chalk.gray(`   Escaneando directorio base: ${appPath}`));
 
-    const discoveredRoutes = discoverRoutes(appLocalePath, ["[locale]"]);
-    // --- [FIN DE CORRECCIÓN DEFINITIVA DE RUTA DE ESCANEO] ---
+    const discoveredRoutes = discoverRoutes(appPath);
 
     if (discoveredRoutes.length === 0) {
       console.warn(
         chalk.yellow(
-          "⚠️ No se descubrieron rutas. Verifica la estructura de 'app/[locale]'."
+          "⚠️ No se descubrieron rutas. Verifica la estructura de 'app/'."
         )
       );
     }
 
     discoveredRoutes.sort((a, b) => a.key.localeCompare(b.key));
 
-    // --- [INICIO DE CORRECCIÓN: Crear directorio padre si no existe] ---
     const outputDirPath = path.dirname(OUTPUT_FILE);
     if (!fs.existsSync(outputDirPath)) {
-      console.log(
-        chalk.gray(`   Creando directorio de salida: ${outputDirPath}`)
-      );
       fs.mkdirSync(outputDirPath, { recursive: true });
     }
-    // --- [FIN DE CORRECCIÓN] ---
 
     const fileContent = generateNavigationFileContent(discoveredRoutes);
     fs.writeFileSync(OUTPUT_FILE, fileContent, "utf-8");
@@ -224,3 +245,4 @@ function main() {
 }
 
 main();
+// scripts/generation/generate-navigation-manifest.ts

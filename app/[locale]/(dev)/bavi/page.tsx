@@ -2,7 +2,7 @@
 /**
  * @file page.tsx
  * @description Página principal de la Central de Operaciones BAVI.
- * @version 3.0.0 (Asset Explorer Integration)
+ * @version 2.1.0 (SesaContent Prop Drilling Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -16,12 +16,8 @@ import {
   CardTitle,
   CardDescription,
   CardContent,
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent, // <-- NUEVA IMPORTACIÓN
 } from "@/components/ui";
-import { AssetUploader, AssetExplorer } from "./_components"; // <-- IMPORTACIÓN ACTUALIZADA
+import { AssetUploader } from "./_components/AssetUploader";
 import { logger } from "@/lib/logging";
 
 export default async function BaviHomePage({
@@ -30,24 +26,15 @@ export default async function BaviHomePage({
   params: { locale: Locale };
 }) {
   logger.info(
-    "[BaviHomePage] Renderizando la página principal de la BAVI (v3.0 - Asset Explorer)."
+    "[BaviHomePage] Renderizando la página principal de la BAVI (v2.1)."
   );
   const { dictionary } = await getDictionary(locale);
   const uploaderContent = dictionary.baviUploader;
-  const promptCreatorContent = dictionary.promptCreator; // Necesitamos esto para las opciones SESA
-  const assetExplorerContent = dictionary.assetExplorer; // <-- NUEVA VARIABLE
+  const promptCreatorContent = dictionary.promptCreator;
 
-  if (!uploaderContent || !promptCreatorContent || !assetExplorerContent) {
-    logger.error(
-      `[BaviHomePage] Contenido i18n incompleto para locale: ${locale}.`
-    );
+  if (!uploaderContent || !promptCreatorContent) {
     return <div>Error: Contenido de la página BAVI no encontrado.</div>;
   }
-
-  const sesaContent = {
-    ...promptCreatorContent.sesaLabels,
-    options: promptCreatorContent.sesaOptions,
-  };
 
   return (
     <>
@@ -55,40 +42,27 @@ export default async function BaviHomePage({
         title="BAVI: Biblioteca de Activos Visuales Integrada"
         subtitle="La central de operaciones para la gestión, optimización e indexación de todos los activos del ecosistema."
       />
-      <Container className="py-12">
-        <Tabs defaultValue="upload">
-          <TabsList className="grid w-full grid-cols-2 md:w-[400px] mb-8">
-            <TabsTrigger value="upload">Ingestar Activos</TabsTrigger>
-            <TabsTrigger value="explore">Explorar Bóveda</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="upload">
-            <Card>
-              <CardHeader>
-                <CardTitle>{uploaderContent.metadataFormTitle}</CardTitle>
-                <CardDescription>
-                  {uploaderContent.dropzoneDefault}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <AssetUploader
-                  content={uploaderContent}
-                  sesaContent={sesaContent}
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="explore">
-            <AssetExplorer
-              locale={locale}
-              content={assetExplorerContent}
-              sesaOptions={sesaOptions}
+      <Container className="py-12 space-y-12">
+        <Card>
+          <CardHeader>
+            <CardTitle>Ingesta de Nuevos Activos</CardTitle>
+            <CardDescription>
+              Sube un nuevo activo. Se optimizará automáticamente y se preparará
+              para su indexación en el manifiesto.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* --- [INICIO] REFACTORIZACIÓN DE PROPS --- */}
+            <AssetUploader
+              content={uploaderContent}
+              sesaLabels={promptCreatorContent.sesaLabels}
+              sesaOptions={promptCreatorContent.sesaOptions}
             />
-          </TabsContent>
-        </Tabs>
+            {/* --- [FIN] REFACTORIZACIÓN DE PROPS --- */}
+          </CardContent>
+        </Card>
 
-        <Card className="border-dashed mt-12">
+        <Card className="border-dashed">
           <CardHeader>
             <CardTitle className="text-muted-foreground">
               Boiler de IA (Próximamente)
@@ -103,3 +77,4 @@ export default async function BaviHomePage({
     </>
   );
 }
+// app/[locale]/(dev)/bavi/page.tsx

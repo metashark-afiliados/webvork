@@ -31,6 +31,7 @@ export const RaZPromptsEntrySchema = z.object({
   imageUrl: z.string().url().optional(), // <-- NUEVO: URL de la imagen para mostrar en la bóveda
 
   // --- Sistema de Descubrimiento ---
+  aiService: z.string(), // Dato derivado, SSoT es `tags.ai`
   tags: RaZPromptsSesaTagsSchema,
   keywords: z.array(z.string()),
 

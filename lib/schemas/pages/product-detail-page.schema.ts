@@ -19,10 +19,12 @@ export const ProductDetailPageContentSchema = z.object({
   productData: ProductCardSchema,
 
   // Contenido específico de la página de detalle
-  galleryImages: z.array(z.object({
-    src: z.string().startsWith("/"),
-    alt: z.string(),
-  })),
+  galleryImages: z.array(
+    z.object({
+      src: z.string().startsWith("/"),
+      alt: z.string(),
+    })
+  ),
   description: ContentBlocksSchema,
   addToCartButton: z.string(),
   quantityLabel: z.string(),
@@ -34,5 +36,7 @@ export const ProductDetailPageContentSchema = z.object({
  * @description Valida el objeto de un producto específico dentro de un archivo i18n.
  *              La clave será el slug del producto.
  */
-export const ProductDetailPageLocaleSchema = z.record(ProductDetailPageContentSchema);
+export const ProductDetailPageLocaleSchema = z.record(
+  ProductDetailPageContentSchema
+);
 // lib/schemas/pages/product-detail-page.schema.ts

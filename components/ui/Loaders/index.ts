@@ -5,6 +5,6 @@
  * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
-export * from './DotsWave';
-export * from './FadingLines';
+export * from "./DotsWave";
+export * from "./FadingLines";
 // components/ui/Loaders/index.ts

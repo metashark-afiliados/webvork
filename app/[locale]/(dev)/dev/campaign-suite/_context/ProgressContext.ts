@@ -1,20 +1,25 @@
-// app/[locale]/(dev)/dev/campaign-suite/_context/PreviewContext.ts
+// app/[locale]/(dev)/dev/campaign-suite/_context/ProgressContext.ts
 /**
- * @file PreviewContext.ts
- * @description Store de Zustand para gestionar el estado de previsualización temporal del tema.
+ * @file ProgressContext.ts
+ * @description SSoT para el estado y las acciones de la barra de progreso.
  * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
-import { create } from "zustand";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+"use client";
 
-interface PreviewState {
-  previewTheme: AssembledTheme | null;
-  setPreviewTheme: (theme: AssembledTheme | null) => void;
+import { createContext } from "react";
+
+export type StepStatus = "completed" | "active" | "pending" | "skipped";
+
+export interface ProgressStep {
+  id: number;
+  title: string;
+  status: StepStatus;
 }
 
-export const usePreviewStore = create<PreviewState>((set) => ({
-  previewTheme: null,
-  setPreviewTheme: (theme) => set({ previewTheme: theme }),
-}));
-// app/[locale]/(dev)/dev/campaign-suite/_context/PreviewContext.ts
+interface ProgressContextType {
+  steps: ProgressStep[];
+  onStepClick: (stepId: number) => void;
+}
+
+export const ProgressContext = createContext<ProgressContextType | null>(null);

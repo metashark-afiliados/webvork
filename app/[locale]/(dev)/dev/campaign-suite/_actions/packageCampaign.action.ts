@@ -3,8 +3,7 @@
  * @file packageCampaign.action.ts
  * @description Server Action orquestadora para el empaquetado de una campaña.
  *              v4.0.0 (Atomic Map Update): Refactorizado para garantizar la atomicidad
- *              de las operaciones de actualización del mapa de campaña durante el empaquetado,
- *              resolviendo el bug crítico de race condition.
+ *              de las operaciones de actualización del mapa de campaña durante el empaquetado.
  * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
@@ -63,7 +62,6 @@ export async function packageCampaignAction(
       themeOverrides: draft.themeConfig.themeOverrides ?? {},
     };
 
-    // 1. Obtener el próximo ID de variante y el mapa actual (para la copia temporal)
     const { nextVariantId, campaignMap } = await getOrCreateNextVariantId(
       path.join(process.cwd(), "content", "campaigns", draft.baseCampaignId)
     );
@@ -73,23 +71,15 @@ export async function packageCampaignAction(
       { nextVariantId }
     );
 
-    // 2. Generar los nombres de archivo finales para los activos temporales.
     const fileNames: CampaignVariantFileNames = generateCampaignFileNames(
       draft,
       nextVariantId
     );
-    logger.traceEvent(
-      traceId,
-      "Nombres de archivo finales generados para activos temporales.",
-      { fileNames }
-    );
 
-    // 3. Crear la estructura de directorios temporal para los activos.
     const tempCampaignDir = path.join(tempDir, draft.baseCampaignId);
     await fs.mkdir(path.join(tempCampaignDir, "content"), { recursive: true });
     await fs.mkdir(path.join(tempCampaignDir, "themes"), { recursive: true });
 
-    // 4. Escribir los archivos de tema y contenido en el directorio temporal con sus nombres finales.
     const tempThemePath = path.join(
       tempCampaignDir,
       "themes",
@@ -107,18 +97,15 @@ export async function packageCampaignAction(
       "Activos temporales de tema y contenido escritos."
     );
 
-    // 5. Actualizar el objeto `campaignMap` en memoria con la nueva variante temporal
-    // y luego escribirlo al directorio TEMPORAL para que `next build` lo use.
     await updateCampaignMapEntry(
-      tempCampaignDir, // Pasa el directorio temporal como la base para guardar el mapa
+      tempCampaignDir,
       nextVariantId,
       draft,
       fileNames,
-      campaignMap // El objeto del mapa en memoria para modificar y guardar
+      campaignMap
     );
     logger.traceEvent(traceId, "campaign.map.json temporal actualizado.");
 
-    // El build de Next.js ahora leerá desde el directorio temporal configurado en el env.
     await runScopedNextBuild(draft.baseCampaignId, nextVariantId);
     logger.traceEvent(traceId, "Build estático de Next.js completado.");
 
@@ -154,7 +141,6 @@ export async function packageCampaignAction(
       error: `No se pudo generar el paquete: ${errorMessage}`,
     };
   } finally {
-    // Asegurarse de limpiar el directorio temporal incluso si hay un error.
     if (tempDir) {
       await fs.rm(tempDir, { recursive: true, force: true });
       logger.traceEvent(traceId, "Directorio temporal eliminado.");

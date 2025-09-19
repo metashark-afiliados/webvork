@@ -20,7 +20,9 @@ interface NewsArchivePageProps {
   params: { locale: Locale };
 }
 
-export default async function NewsArchivePage({ params: { locale } }: NewsArchivePageProps) {
+export default async function NewsArchivePage({
+  params: { locale },
+}: NewsArchivePageProps) {
   logger.info(`[NewsArchivePage] Renderizando para locale: ${locale}`);
 
   const { dictionary } = await getDictionary(locale);
@@ -32,10 +34,14 @@ export default async function NewsArchivePage({ params: { locale } }: NewsArchiv
   const communityContent = dictionary.communitySection;
 
   if (!pageContent) {
-    logger.error(`[NewsArchivePage] Contenido 'newsGrid' no encontrado para locale: ${locale}.`);
+    logger.error(
+      `[NewsArchivePage] Contenido 'newsGrid' no encontrado para locale: ${locale}.`
+    );
     return (
       <Container className="py-24 text-center">
-        <h1 className="text-2xl font-bold text-destructive">Error de Contenido</h1>
+        <h1 className="text-2xl font-bold text-destructive">
+          Error de Contenido
+        </h1>
         <p>El contenido para la página de noticias no pudo ser cargado.</p>
       </Container>
     );
@@ -48,7 +54,9 @@ export default async function NewsArchivePage({ params: { locale } }: NewsArchiv
         subtitle="Explora nuestros últimos artículos sobre bienestar, nutrición y rendimiento." // Subtítulo genérico
       />
 
-      {carouselContent && <FeaturedArticlesCarousel content={carouselContent} />}
+      {carouselContent && (
+        <FeaturedArticlesCarousel content={carouselContent} />
+      )}
 
       {gridContent && <NewsGrid content={gridContent} locale={locale} />}
 

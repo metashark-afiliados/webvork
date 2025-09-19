@@ -1,9 +1,8 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/Step5Form.tsx
 /**
  * @file Step5Form.tsx
- * @description Orquestador de presentación puro para el Paso 5, ahora con el
- *              Checklist de Lanzamiento integrado y resumen detallado de la campaña.
- * @version 7.0.0 (Detailed Campaign Summary)
+ * @description Orquestador de presentación puro para el Paso 5.
+ * @version 8.0.0 (Absolute Path & Contract Sync)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -22,16 +21,19 @@ import {
   ManagementActions,
   LaunchChecklist,
 } from "./_components";
-import type { Step5ContentSchema } from "../../_schemas/steps/step5.schema";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se utiliza la ruta absoluta canónica, resolviendo el error TS2307.
+import type { Step5ContentSchema } from "@/lib/schemas/campaigns/steps/step5.schema";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { z } from "zod";
 import type { ChecklistItem } from "../../_utils/draft.validator";
-import type { CampaignDraft } from "../../_types/draft.types"; // <-- NUEVA IMPORTACIÓN
+import type { CampaignDraft } from "../../_types/draft.types";
 
 type Content = z.infer<typeof Step5ContentSchema>;
 
 interface Step5FormProps {
   content: Content;
-  draft: CampaignDraft; // <-- NUEVO: Recibe el borrador completo
+  draft: CampaignDraft;
   onBack: () => void;
   onPublish: () => void;
   onPackage: () => void;
@@ -40,12 +42,13 @@ interface Step5FormProps {
   isPackaging: boolean;
   isDeleting: boolean;
   isSavingTemplate: boolean;
+  isLaunchReady: boolean;
   checklistItems: ChecklistItem[];
 }
 
 export function Step5Form({
   content,
-  draft, // <-- Recibe el borrador
+  draft,
   onBack,
   onPublish,
   onPackage,
@@ -54,11 +57,10 @@ export function Step5Form({
   isPackaging,
   isDeleting,
   isSavingTemplate,
+  isLaunchReady,
   checklistItems,
 }: Step5FormProps): React.ReactElement {
-  logger.info("[Step5Form] Renderizando orquestador de presentación v7.0.");
-
-  const isReadyForLaunch = checklistItems.every((item) => item.isCompleted);
+  logger.info("[Step5Form] Renderizando orquestador de presentación v8.0.");
 
   return (
     <Card>
@@ -69,7 +71,7 @@ export function Step5Form({
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <CampaignSummary
-            draft={draft} // <-- Pasar el borrador a CampaignSummary
+            draft={draft}
             title={content.summaryTitle}
             placeholder={content.summaryPlaceholder}
           />
@@ -87,7 +89,7 @@ export function Step5Form({
           isPackaging={isPackaging}
           isDeleting={isDeleting}
           isSavingTemplate={isSavingTemplate}
-          isLaunchReady={isReadyForLaunch}
+          isLaunchReady={isLaunchReady}
           publishButtonText={content.publishButtonText}
           packageButtonText={content.packageButtonText}
           deleteButtonText={content.deleteButtonText}
@@ -98,3 +100,4 @@ export function Step5Form({
     </Card>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/Step5Form.tsx

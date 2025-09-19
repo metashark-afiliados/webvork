@@ -5,8 +5,8 @@
  * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
-import React from 'react';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { cn } from "@/lib/utils";
 
 interface FadingLinesProps extends React.SVGProps<SVGSVGElement> {}
 
@@ -39,7 +39,7 @@ export function FadingLines({ className, ...props }: FadingLinesProps) {
               from="1"
               to="0"
               dur="1s"
-              begin={`${(i * 1)/12}s`}
+              begin={`${(i * 1) / 12}s`}
               repeatCount="indefinite"
             />
           </rect>

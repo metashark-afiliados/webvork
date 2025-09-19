@@ -4,7 +4,7 @@
  * @description Aparato ensamblador y SSoT para el contrato de datos del diccionario i18n.
  *              Esta es la Única Fuente de Verdad que define la forma completa de
  *              todo el contenido internacionalizado de la aplicación.
- * @version 18.0.0 (BAVI Asset Explorer Integration)
+ * @version 19.0.0 (Suite Style Composer i18n Integration)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -18,11 +18,11 @@ import { NotFoundPageLocaleSchema } from "@/lib/schemas/pages/not-found-page.sch
 
 // --- GRUPO 2: Schemas de Páginas del Developer Command Center (DCC) ---
 import { DevDashboardLocaleSchema } from "@/lib/schemas/pages/dev-dashboard.schema";
-import { DevLoginPageLocaleSchema } from "@/lib/schemas/pages/dev-login-page.schema";
+import { DevLoginPageLocaleSchema } from "./pages/dev-login-page.schema";
 import { DevTestPageLocaleSchema } from "@/lib/schemas/pages/dev-test-page.schema";
 import { CampaignSuiteLocaleSchema } from "@/lib/schemas/pages/dev-campaign-suite.schema";
 import { BaviHomePageLocaleSchema } from "./pages/bavi-home-page.schema";
-import { BaviAssetExplorerLocaleSchema } from "./pages/bavi-asset-explorer.i18n.schema"; // <-- NUEVA IMPORTACIÓN
+import { BaviAssetExplorerLocaleSchema } from "./pages/bavi-asset-explorer.i18n.schema";
 
 // --- GRUPO 3: Schemas de Componentes de Layout ---
 import { HeaderLocaleSchema } from "./components/header.schema";
@@ -65,7 +65,7 @@ import { DockLocaleSchema } from "@/components/razBits/Dock/dock.schema";
 import { LightRaysLocaleSchema } from "@/components/razBits/LightRays/light-rays.schema";
 import { MagicBentoLocaleSchema } from "@/components/razBits/MagicBento/magic-bento.schema";
 
-logger.trace("[Schema i18n v18.0] Ensamblando schema maestro optimizado...");
+logger.trace("[Schema i18n v19.0] Ensamblando schema maestro optimizado...");
 
 /**
  * @const i18nSchema
@@ -91,7 +91,7 @@ export const i18nSchema = z
     ...DevTestPageLocaleSchema.shape,
     ...CampaignSuiteLocaleSchema.shape,
     ...BaviHomePageLocaleSchema.shape,
-    ...BaviAssetExplorerLocaleSchema.shape, // <-- AÑADIDO EL SCHEMA DEL EXPLORADOR DE ACTIVOS
+    ...BaviAssetExplorerLocaleSchema.shape,
 
     // --- Layout & Dev Components ---
     ...HeaderLocaleSchema.shape,

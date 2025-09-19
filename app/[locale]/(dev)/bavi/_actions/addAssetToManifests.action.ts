@@ -2,7 +2,7 @@
 /**
  * @file addAssetToManifests.action.ts
  * @description Server Action atómica para registrar un nuevo activo en los manifiestos de BAVI.
- * @version 2.1.0 (Keyword Normalization)
+ * @version 2.2.0 (Direct Import Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
@@ -15,7 +15,11 @@ import type { ActionResult } from "@/lib/types/actions.types";
 import type { AssetUploadMetadata } from "@/lib/bavi/upload.schema";
 import { connectToDatabase } from "@/lib/mongodb";
 import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
-import { normalizeKeywords } from "@/lib/utils/keyword-normalizer"; // <-- NUEVA IMPORTACIÓN
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se importa la utilidad directamente desde su archivo de origen soberano,
+// eliminando la dependencia frágil del "barrel file".
+import { normalizeKeywords } from "@/lib/utils/keyword-normalizer";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 const BAVI_MANIFEST_PATH = path.join(
   process.cwd(),
@@ -31,17 +35,16 @@ export async function addAssetToManifestsAction(
   cloudinaryResponse: UploadApiResponse
 ): Promise<ActionResult<{ assetId: string }>> {
   try {
-    // Leer manifiesto BAVI
     const baviManifestContent = await fs
       .readFile(BAVI_MANIFEST_PATH, "utf-8")
       .catch(() => '{ "assets": [] }');
     const baviManifest = JSON.parse(baviManifestContent);
+    const now = new Date().toISOString();
 
-    // Crear la nueva entrada del activo
     const newAssetEntry = {
       assetId: metadata.assetId,
       provider: "cloudinary",
-      promptId: metadata.promptId, // Puede ser undefined
+      promptId: metadata.promptId,
       tags: metadata.sesaTags,
       variants: [
         {
@@ -58,6 +61,8 @@ export async function addAssetToManifestsAction(
         altText: metadata.altText,
       },
       imageUrl: metadata.promptId ? cloudinaryResponse.secure_url : undefined,
+      createdAt: now,
+      updatedAt: now,
     };
 
     baviManifest.assets.push(newAssetEntry);
@@ -69,22 +74,18 @@ export async function addAssetToManifestsAction(
       `[addAssetToManifests] Activo ${metadata.assetId} añadido a bavi.manifest.json`
     );
 
-    // Leer y actualizar el índice de búsqueda
     const searchIndexContent = await fs
       .readFile(SEARCH_INDEX_PATH, "utf-8")
       .catch(() => '{ "version": "1.0.0", "index": {} }');
     const searchIndex = JSON.parse(searchIndexContent);
 
-    // --- [INICIO DE INTEGRACIÓN: Normalización de palabras clave] ---
     searchIndex.index[metadata.assetId] = normalizeKeywords(metadata.keywords);
-    // --- [FIN DE INTEGRACIÓN] ---
 
     await fs.writeFile(SEARCH_INDEX_PATH, JSON.stringify(searchIndex, null, 2));
     logger.success(
       `[addAssetToManifests] Activo ${metadata.assetId} añadido a bavi.search-index.json`
     );
 
-    // Actualizar prompt en MongoDB con imageUrl si es necesario
     if (metadata.promptId && cloudinaryResponse.secure_url) {
       const client = await connectToDatabase();
       const db = client.db(process.env.MONGODB_DB_NAME);
@@ -112,3 +113,4 @@ export async function addAssetToManifestsAction(
     };
   }
 }
+// app/[locale]/(dev)/bavi/_actions/addAssetToManifests.action.ts

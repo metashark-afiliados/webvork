@@ -1,11 +1,12 @@
 // components/dev/DevHeader.tsx
 /**
  * @file DevHeader.tsx
- * @description Header de élite para el Developer Command Center.
- *              v10.1.0 (Full DCC Theming Integration): Ahora integra un
- *              ThemeSwitcher global para el DCC, permitiendo cambiar el tema
- *              visual completo (colores, fuentes, geometría) de toda la suite.
- * @version 10.1.0
+ * @description Header de élite para el Developer Command Center. Este componente
+ *              de servidor orquesta la barra de navegación superior para todo el
+ *              entorno de desarrollo, incluyendo el título, el conmutador de tema
+ *              del DCC, el conmutador de tema visual (light/dark), el selector de
+ *              idioma y el menú de herramientas de desarrollo.
+ * @version 12.0.0 (Definitive Production-Ready Version)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -19,37 +20,52 @@ import { Container } from "@/components/ui/Container";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
 import { ToggleTheme } from "@/components/layout/toogle-theme";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
-// DevThemeSwitcher ya está importado en layout.tsx y se pasa como prop.
-// No necesita importarse aquí directamente a menos que se use internamente.
 
+/**
+ * @interface DevHeaderProps
+ * @description Contrato de props para el DevHeader.
+ */
 interface DevHeaderProps {
+  /** El locale actual para la internacionalización y la construcción de rutas. */
   locale: Locale;
+  /** Un componente React opcional para ser renderizado en la zona central del header. */
   centerComponent?: React.ReactNode;
-  devThemeSwitcher?: React.ReactNode; // <-- Recibe el themeswitcher
+  /** El componente opcional para el conmutador de tema del DCC. */
+  devThemeSwitcher?: React.ReactNode;
 }
 
+/**
+ * @component DevHeader
+ * @description Componente de servidor que renderiza la cabecera para el entorno de desarrollo.
+ * @returns {Promise<React.ReactElement>}
+ */
 export default async function DevHeader({
   locale,
   centerComponent,
   devThemeSwitcher,
 }: DevHeaderProps): Promise<React.ReactElement> {
-  logger.info(`[DevHeader] Renderizando (v10.1 - Global Theme Switcher)`);
+  logger.info(
+    `[Observabilidad] Renderizando DevHeader (v12.0 - Production Ready)`
+  );
 
   const { dictionary, error } = await getDictionary(locale);
   const content = dictionary?.devHeader;
   const devMenuContent = dictionary?.devRouteMenu;
   const headerTitle = content?.title ?? "Developer Command Center";
 
+  // Guardia de resiliencia: Si el contenido esencial falta, se renderiza un estado de error claro.
   if (error || !content || !devMenuContent) {
-    logger.warn(
+    logger.error(
       `[DevHeader] Contenido para 'devHeader' o 'devRouteMenu' no encontrado.`,
       { error }
     );
     return (
-      <header className="py-3 sticky top-0 z-50 backdrop-blur-lg bg-red-900/80 text-white border-b border-red-500/20 shadow-lg">
+      <header className="py-3 sticky top-0 z-50 bg-destructive/90 text-destructive-foreground">
         <Container>
-          <div className="flex h-16 items-center justify-between">
-            <span className="font-bold">Error Loading DevHeader</span>
+          <div className="flex h-16 items-center justify-center">
+            <span className="font-bold">
+              Error: No se pudo cargar el contenido del DevHeader.
+            </span>
           </div>
         </Container>
       </header>
@@ -80,19 +96,18 @@ export default async function DevHeader({
             </Link>
           </div>
 
-          {/* El componente central ahora ocupa el espacio principal */}
           <div className="flex-grow w-1/2 flex items-center justify-center">
             {centerComponent}
           </div>
 
           <div className="flex items-center justify-end gap-2 sm:gap-4 flex-shrink-0 w-1/4">
-            {devThemeSwitcher} {/* <-- Renderiza el ThemesSwitcher */}
+            {devThemeSwitcher}
             <ToggleTheme />
             <LanguageSwitcher
               currentLocale={locale}
               supportedLocales={supportedLocales}
             />
-            {devMenuContent && <DevToolsDropdown dictionary={devMenuContent} />}
+            <DevToolsDropdown dictionary={devMenuContent} />
           </div>
         </div>
       </Container>

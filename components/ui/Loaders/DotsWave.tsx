@@ -5,8 +5,8 @@
  * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
-import React from 'react';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { cn } from "@/lib/utils";
 
 interface DotsWaveProps extends React.SVGProps<SVGSVGElement> {}
 
@@ -21,13 +21,40 @@ export function DotsWave({ className, ...props }: DotsWaveProps) {
       {...props}
     >
       <circle cx="4" cy="12" r="3" fill="currentColor">
-        <animate id="a" begin="0;c.end-0.25s" attributeName="r" from="3" to="3" values="3;0;3" dur="1s" repeatCount="indefinite"/>
+        <animate
+          id="a"
+          begin="0;c.end-0.25s"
+          attributeName="r"
+          from="3"
+          to="3"
+          values="3;0;3"
+          dur="1s"
+          repeatCount="indefinite"
+        />
       </circle>
       <circle cx="12" cy="12" r="3" fill="currentColor">
-        <animate id="b" begin="a.end-0.75s" attributeName="r" from="3" to="3" values="3;0;3" dur="1s" repeatCount="indefinite"/>
+        <animate
+          id="b"
+          begin="a.end-0.75s"
+          attributeName="r"
+          from="3"
+          to="3"
+          values="3;0;3"
+          dur="1s"
+          repeatCount="indefinite"
+        />
       </circle>
       <circle cx="20" cy="12" r="3" fill="currentColor">
-        <animate id="c" begin="b.end-0.5s" attributeName="r" from="3" to="3" values="3;0;3" dur="1s" repeatCount="indefinite"/>
+        <animate
+          id="c"
+          begin="b.end-0.5s"
+          attributeName="r"
+          from="3"
+          to="3"
+          values="3;0;3"
+          dur="1s"
+          repeatCount="indefinite"
+        />
       </circle>
     </svg>
   );

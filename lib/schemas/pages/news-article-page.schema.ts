@@ -42,4 +42,3 @@ export type NewsArticlePageContent = z.infer<
   typeof NewsArticlePageContentSchema
 >;
 // lib/schemas/pages/news-article-page.schema.ts
-

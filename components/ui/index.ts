@@ -2,8 +2,7 @@
 /**
  * @file index.ts (Barrel File)
  * @description SSoT y fachada pública para el módulo de componentes de UI.
- *              v2.7.0 (Component Showcase Integration): Añade RadioGroup.
- * @version 2.7.0
+ * @version 2.9.0 (Slider Integration)
  * @author RaZ Podestá - MetaShark Tech
  */
 
@@ -15,6 +14,7 @@ export * from "./Badge";
 export * from "./Button";
 export * from "./Card";
 export * from "./Carousel";
+export * from "./Checkbox";
 export * from "./Collapsible";
 export * from "./Container";
 export * from "./Dialog";
@@ -32,6 +32,7 @@ export * from "./ScrollArea";
 export * from "./Select";
 export * from "./Separator";
 export * from "./Sheet";
+export * from "./Slider"; // <-- NUEVA EXPORTACIÓN
 export * from "./Switch";
 export * from "./Table";
 export * from "./Tabs";
@@ -39,4 +40,3 @@ export * from "./TestimonialCard";
 export * from "./Textarea";
 export * from "./ValidationError";
 export * from "./DropdownMenu";
-// components/ui/index.ts

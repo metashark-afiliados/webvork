@@ -2,9 +2,7 @@
 /**
  * @file Step4Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 4 (Contenido).
- *              v3.4.0 (Type Safety): Se alinea la firma de 'handleUpdateContent'
- *              con el nuevo contrato de tipo seguro que utiliza 'unknown'.
- * @version 3.4.0
+ * @version 3.5.0 (Resilience Guard & Sovereign Contract)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -12,21 +10,33 @@
 import React, { useState } from "react";
 import { useCampaignDraft } from "../../_hooks";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { Step4Form } from "./Step4Form";
 import type { Locale } from "@/lib/i18n.config";
 import { useWizard } from "../../_context/WizardContext";
+import { z } from "zod";
+import { Step4ContentSchema } from "@/lib/schemas/campaigns/steps/step4.schema";
 
-type Step4Content = NonNullable<Dictionary["campaignSuitePage"]>["step4"];
+type Step4Content = z.infer<typeof Step4ContentSchema>;
 
 interface Step4ClientProps {
-  content: Step4Content;
+  content?: Step4Content;
 }
 
 export function Step4Client({ content }: Step4ClientProps): React.ReactElement {
   logger.info(
-    "[Step4Client] Renderizando (Contenedor de Lógica, Contrato Seguro)"
+    "[Step4Client] Renderizando (Contenedor de Lógica, Contrato Soberano)"
   );
+
+  // --- [INICIO] GUARDIA DE RESILIENCIA ---
+  if (!content) {
+    logger.error("[Step4Client] El contenido para el Paso 4 es indefinido.");
+    return (
+      <div className="text-destructive p-8">
+        Error: Faltan datos de contenido para este paso.
+      </div>
+    );
+  }
+  // --- [FIN] GUARDIA DE RESILIENCIA ---
 
   const { draft, updateSectionContent } = useCampaignDraft();
   const { goToNextStep, goToPrevStep } = useWizard();
@@ -36,16 +46,14 @@ export function Step4Client({ content }: Step4ClientProps): React.ReactElement {
     setEditingSection(sectionName);
   const handleCloseEditor = () => setEditingSection(null);
 
-  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
   const handleUpdateContent = (
     sectionName: string,
     locale: Locale,
     field: string,
-    value: unknown // El tipo ahora es 'unknown'
+    value: unknown
   ) => {
     updateSectionContent(sectionName, locale, field, value);
   };
-  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
   const handleNext = () => goToNextStep();
 

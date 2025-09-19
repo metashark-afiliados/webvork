@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/Button";
 import { logger } from "@/lib/logging";
 import type { ThemeConfig } from "../../_types/draft.types";
 import { WizardNavigation } from "../../_components/WizardNavigation";
-import type { Step3ContentSchema } from "../../_schemas/steps/step3.schema";
+import type { Step3ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step3.schema";
 import type { z } from "zod";
 import { DynamicIcon } from "@/components/ui";
 

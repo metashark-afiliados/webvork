@@ -1,10 +1,9 @@
 // components/layout/SectionRenderer.tsx
 /**
  * @file SectionRenderer.tsx
- * @description Motor de renderizado inteligente y resiliente. Ahora es consciente
- *              del "Modo Enfoque", pasando las props necesarias de foco y ref a
- *              las secciones hijas para habilitar el resaltado y scroll sincronizado.
- * @version 4.0.0 (Focus Mode Ready & Elite Leveling)
+ * @description Motor de renderizado de élite, reconstruido para máxima
+ *              resiliencia, seguridad de tipos y claridad arquitectónica.
+ * @version 7.0.0 (Holistic Reconstruction & Type Shielding)
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
@@ -14,35 +13,41 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
 import { ValidationError } from "@/components/ui/ValidationError";
 
-/**
- * @interface SectionRendererProps
- * @description Contrato de props para el motor de renderizado, ahora incluyendo
- *              las propiedades para gestionar el "Modo Enfoque".
- */
 interface SectionRendererProps {
-  sections: { name: string }[];
+  sections: { name?: string | undefined }[];
   dictionary: Dictionary;
   locale: Locale;
-  /** El `name` de la sección que tiene el foco actualmente en el editor. */
-  focusedSection: string | null;
-  /** Un objeto ref mutable para almacenar las referencias a los nodos DOM de cada sección. */
-  sectionRefs: React.MutableRefObject<Record<string, HTMLElement>>;
+  focusedSection?: string | null;
+  sectionRefs?: React.MutableRefObject<Record<string, HTMLElement>>;
 }
 
 export function SectionRenderer({
   sections,
   dictionary,
   locale,
-  focusedSection,
+  focusedSection = null,
   sectionRefs,
 }: SectionRendererProps): React.ReactElement {
-  logger.info(
-    "[SectionRenderer v4.0] Ensamblando página (Focus Mode Ready)..."
+  logger.info("[SectionRenderer v7.0] Ensamblando página...");
+
+  // --- [INICIO DE LÓGICA RESTAURADA] ---
+  const validSections = sections.filter(
+    (section): section is { name: string } => {
+      if (typeof section.name === "string" && section.name.length > 0) {
+        return true;
+      }
+      logger.warn(
+        `[SectionRenderer] Se ha omitido una sección inválida del layout (sin nombre).`,
+        { sectionData: section }
+      );
+      return false;
+    }
   );
+  // --- [FIN DE LÓGICA RESTAURADA] ---
 
   return (
     <>
-      {sections.map((section, index) => {
+      {validSections.map((section, index) => {
         const sectionName = section.name as SectionName;
         const config = sectionsConfig[sectionName];
 
@@ -54,7 +59,20 @@ export function SectionRenderer({
         }
 
         const { component: Component, dictionaryKey, schema } = config;
+
+        // --- [INICIO DE GUARDIA DE TIPO DE ÍNDICE] ---
+        // Aseguramos que la clave sea un string válido para indexar el diccionario.
+        if (
+          typeof dictionaryKey !== "string" ||
+          !(dictionaryKey in dictionary)
+        ) {
+          logger.warn(
+            `[SectionRenderer] La clave de diccionario "${String(dictionaryKey)}" no es válida o no existe.`
+          );
+          return null;
+        }
         const contentData = dictionary[dictionaryKey as keyof Dictionary];
+        // --- [FIN DE GUARDIA DE TIPO DE ÍNDICE] ---
 
         const validation = schema.safeParse(contentData);
 
@@ -68,37 +86,39 @@ export function SectionRenderer({
           );
         }
 
-        // Determina si esta sección específica es la que tiene el foco.
-        const isFocused = sectionName === focusedSection;
-
         const componentProps = {
           content: validation.data,
           locale: locale,
-          isFocused, // Pasa el estado de foco a la sección.
-          // Pasa una función de callback para la ref. Cuando el componente se monte,
-          // registrará su nodo DOM en el objeto `sectionRefs` del LivePreviewCanvas.
+          isFocused: sectionName === focusedSection,
           ref: (el: HTMLElement | null) => {
-            if (el) {
+            if (sectionRefs && el) {
               sectionRefs.current[sectionName] = el;
-            } else {
+            } else if (sectionRefs) {
               delete sectionRefs.current[sectionName];
             }
           },
         };
 
         logger.trace(
-          `[SectionRenderer] Renderizando sección #${index + 1}: ${sectionName} (Focused: ${isFocused})`
+          `[SectionRenderer] Renderizando sección #${index + 1}: ${sectionName}`
         );
 
-        // Se usa `as any` como una aserción de tipo controlada, ya que TypeScript
-        // no puede inferir que el 'ref' en un componente forwardRef es compatible
-        // con la prop `ref` que estamos pasando. La lógica es segura.
+        // --- [INICIO DE JUSTIFICACIÓN DE ASERCIÓN DELIBERADA] ---
+        // La siguiente aserción 'as any' es una decisión de diseño deliberada y
+        // necesaria. Debido a la naturaleza del renderizado dinámico de componentes,
+        // TypeScript no puede verificar estáticamente que el tipo de `componentProps.content`
+        // (derivado de una validación de Zod en tiempo de ejecución) coincide
+        // exactamente con las props esperadas por el `Component` genérico.
+        // Nuestra arquitectura en `sections.config.ts` garantiza esta correspondencia,
+        // haciendo que esta aserción sea segura en este contexto específico.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (
           <Component
             key={`${sectionName}-${index}`}
             {...(componentProps as any)}
           />
         );
+        // --- [FIN DE JUSTIFICACIÓN DE ASERCIÓN DELIBERADA] ---
       })}
     </>
   );

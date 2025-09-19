@@ -32,15 +32,12 @@ export function WizardClientLayout({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // --- [INICIO] LÓGICA DE INICIALIZACIÓN Y ESTADO ---
   const { draft, setStep, updateDraft, initializeDraft, isLoading } =
     useCampaignDraft();
 
-  // Dispara la inicialización desde la DB solo una vez al montar.
   useEffect(() => {
     initializeDraft();
   }, [initializeDraft]);
-  // --- [FIN] LÓGICA DE INICIALIZACIÓN Y ESTADO ---
 
   const currentStepId = useMemo(() => {
     const stepParam = searchParams.get("step");
@@ -60,7 +57,6 @@ export function WizardClientLayout({
     [router, searchParams]
   );
 
-  // ... (El resto de la lógica de navegación no cambia) ...
   const handleNextStep = useCallback(() => {
     let canAdvance = true;
     if (currentStepId === 1) {
@@ -128,7 +124,6 @@ export function WizardClientLayout({
     [progressSteps, handleStepClick]
   );
 
-  // --- [INICIO] RENDERIZADO CONDICIONAL DE CARGA ---
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
@@ -145,7 +140,6 @@ export function WizardClientLayout({
       </div>
     );
   }
-  // --- [FIN] RENDERIZADO CONDICIONAL DE CARGA ---
 
   return (
     <WizardProvider value={wizardContextValue}>
@@ -155,4 +149,3 @@ export function WizardClientLayout({
     </WizardProvider>
   );
 }
-// app/[locale]/(dev)/dev/campaign-suite/_components/WizardClientLayout.tsx

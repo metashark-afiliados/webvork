@@ -2,9 +2,8 @@
 /**
  * @file OrderSection.tsx
  * @description Sección dedicada a la conversión.
- *              - v3.0.0: Rutas y claves de contenido corregidas.
- *              - v3.1.0 (Resilience): La prop `content` ahora es opcional.
- * @version 3.1.0
+ * @version 4.0.0 (Prop Contract Sync): Se alinea la forma en que se pasan las
+ *              props a OrderForm con su contrato de API actualizado.
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -15,9 +14,7 @@ import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { logger } from "@/lib/logging";
 
 interface OrderSectionProps {
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   content?: Dictionary["orderSection"];
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
   locale: string;
 }
 
@@ -25,16 +22,14 @@ export function OrderSection({
   content,
   locale,
 }: OrderSectionProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando OrderSection");
+  logger.info("[Observabilidad] Renderizando OrderSection v4.0");
 
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[OrderSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   return (
     <section id="order-form" className="py-16 sm:py-24 bg-secondary/20">
@@ -47,14 +42,18 @@ export function OrderSection({
             originalPriceLabel={content.originalPriceLabel}
             discountedPriceLabel={content.discountedPriceLabel}
           />
+          {/* --- [INICIO DE CORRECCIÓN DE CONTRATO] --- */}
           <OrderForm
-            nameInputLabel={content.nameInputLabel}
-            nameInputPlaceholder={content.nameInputPlaceholder}
-            phoneInputLabel={content.phoneInputLabel}
-            phoneInputPlaceholder={content.phoneInputPlaceholder}
-            submitButtonText={content.submitButtonText}
-            submitButtonLoadingText={content.submitButtonLoadingText}
+            content={{
+              nameInputLabel: content.nameInputLabel,
+              nameInputPlaceholder: content.nameInputPlaceholder,
+              phoneInputLabel: content.phoneInputLabel,
+              phoneInputPlaceholder: content.phoneInputPlaceholder,
+              submitButtonText: content.submitButtonText,
+              submitButtonLoadingText: content.submitButtonLoadingText,
+            }}
           />
+          {/* --- [FIN DE CORRECCIÓN DE CONTRATO] --- */}
         </div>
       </Container>
     </section>

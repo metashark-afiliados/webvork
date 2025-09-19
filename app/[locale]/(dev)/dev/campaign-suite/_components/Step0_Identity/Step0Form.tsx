@@ -2,9 +2,7 @@
 /**
  * @file Step0Form.tsx
  * @description Componente de Presentación para el formulario del Paso 0.
- *              v4.1.0 (Path & Contract Fix): Corrige la ruta de importación relativa
- *              y se alinea con el nuevo contrato de datos de i18n.
- * @version 4.1.0
+ * @version 4.3.0 (Sovereign Type Contract)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -21,17 +19,16 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Form } from "@/components/ui/Form";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Step0Data } from "../../_schemas/step0.schema";
-// --- [INICIO DE CORRECCIÓN DE RUTA] ---
 import { CampaignSelectField, VariantInputField } from "../shared";
-// --- [FIN DE CORRECCIÓN DE RUTA] ---
+import { Step0ContentSchema } from "@/lib/schemas/campaigns/steps/step0.schema";
+import { z } from "zod";
 
-type Step0Content = NonNullable<Dictionary["campaignSuitePage"]>["step0"];
+type Step0Content = z.infer<typeof Step0ContentSchema>;
 
 interface Step0FormProps {
   form: UseFormReturn<Step0Data>;
-  content: Step0Content;
+  content: Step0Content; // <-- Contrato estricto y no opcional
   baseCampaigns: string[];
   onSubmit: (data: Step0Data) => void;
 }
@@ -42,7 +39,7 @@ export function Step0Form({
   baseCampaigns,
   onSubmit,
 }: Step0FormProps): React.ReactElement {
-  logger.info("Renderizando Step0Form (Presentación Pura - Hiper-Atomizada)");
+  logger.info("Renderizando Step0Form (Presentación Pura - Contrato Soberano)");
 
   return (
     <Card>

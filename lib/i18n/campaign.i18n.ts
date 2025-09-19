@@ -132,11 +132,11 @@ export const getCampaignData = async (
 
     const baseTheme = resolvedPromises[0] as Partial<AssembledTheme>;
     const campaignContent = resolvedPromises[1] as CampaignContentFile;
-    const {
-      dictionary: globalDictionary,
-      error: dictError,
-    } = resolvedPromises[2] as GlobalDictionaryResult;
-    const themeFragments = resolvedPromises.slice(3) as Partial<AssembledTheme>[];
+    const { dictionary: globalDictionary, error: dictError } =
+      resolvedPromises[2] as GlobalDictionaryResult;
+    const themeFragments = resolvedPromises.slice(
+      3
+    ) as Partial<AssembledTheme>[];
 
     if (dictError || !globalDictionary) {
       throw new Error("El diccionario global base está corrupto.", {

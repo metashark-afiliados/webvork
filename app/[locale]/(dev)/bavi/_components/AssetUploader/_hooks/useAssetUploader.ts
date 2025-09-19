@@ -2,7 +2,7 @@
 /**
  * @file useAssetUploader.ts
  * @description Hook "cerebro" soberano para la lógica de subida de activos a la BAVI.
- * @version 3.2.0 (Module Resolution Fix)
+ * @version 3.3.0 (SesaContent Contract Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -13,10 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import type { UploadApiResponse } from "cloudinary";
-// --- [INICIO DE CORRECCIÓN DE RUTA] ---
-// La importación ahora apunta al nuevo "barrel file", que es un módulo válido.
 import { uploadAssetAction } from "../../../_actions";
-// --- [FIN DE CORRECCIÓN DE RUTA] ---
 import {
   assetUploadMetadataSchema,
   type AssetUploadMetadata,
@@ -24,17 +21,22 @@ import {
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
 type UploaderContent = NonNullable<Dictionary["baviUploader"]>;
-type SesaContent = NonNullable<Dictionary["promptCreator"]>["sesaOptions"] &
-  NonNullable<Dictionary["promptCreator"]>["sesaLabels"];
+// --- [INICIO] REFACTORIZACIÓN DE TIPO ---
+// Definimos los tipos base de forma más clara
+type SesaLabels = NonNullable<Dictionary["promptCreator"]>["sesaLabels"];
+type SesaOptions = NonNullable<Dictionary["promptCreator"]>["sesaOptions"];
 
 interface UseAssetUploaderProps {
   content: UploaderContent;
-  sesaContent: SesaContent;
+  sesaLabels: SesaLabels;
+  sesaOptions: SesaOptions;
 }
+// --- [FIN] REFACTORIZACIÓN DE TIPO ---
 
 export function useAssetUploader({
   content,
-  sesaContent,
+  sesaLabels,
+  sesaOptions,
 }: UseAssetUploaderProps) {
   const [isPending, startTransition] = useTransition();
   const [file, setFile] = useState<File | null>(null);
@@ -92,9 +94,7 @@ export function useAssetUploader({
       const formData = new FormData();
       formData.append("file", file);
       formData.append("metadata", JSON.stringify(data));
-
       const result = await uploadAssetAction(formData);
-
       if (result.success) {
         toast.success("Ingestione dell'asset completata!");
         setUploadResult(result.data);
@@ -107,18 +107,24 @@ export function useAssetUploader({
     });
   };
 
+  // --- [INICIO] REFACTORIZACIÓN DE CONSTRUCCIÓN DE OBJETO ---
+  const sesaContentForForm = {
+    ...sesaLabels,
+    options: sesaOptions,
+  };
+  // --- [FIN] REFACTORIZACIÓN DE CONSTRUCCIÓN DE OBJETO ---
+
   return {
     form,
     onSubmit: form.handleSubmit(onSubmit),
     isPending,
-    file,
     preview,
     uploadResult,
     getRootProps,
     getInputProps,
     isDragActive,
     content,
-    sesaContent,
+    sesaContent: sesaContentForForm,
   };
 }
 // app/[locale]/(dev)/bavi/_components/AssetUploader/_hooks/useAssetUploader.ts

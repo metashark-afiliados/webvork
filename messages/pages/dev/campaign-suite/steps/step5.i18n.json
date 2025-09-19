@@ -1,10 +1,12 @@
+
 {
   "it-IT": {
     "step5": {
       "title": "Passo 5: Gestione e Pubblicazione",
       "description": "Sei all'ultimo passo. Rivedi la configurazione e scegli l'azione finale per la tua nuova variante di campagna.",
       "summaryTitle": "Riepilogo della Configurazione",
-      "summaryPlaceholder": "Anteprima della configurazione (da implementare)...",
+      "summaryPlaceholder": "Anteprima della configurazione della campagna...",
+      "checklistTitle": "Checklist di Pre-lancio",
       "publishButtonText": "Pubblica sul Sito",
       "packageButtonText": "Esporta come .zip",
       "deleteButtonText": "Elimina Bozze",
@@ -32,7 +34,8 @@
       "title": "Paso 5: Gestión y Publicación",
       "description": "Estás en el último paso. Revisa la configuración y elige la acción final para tu nueva variante de campaña.",
       "summaryTitle": "Resumen de la Configuración",
-      "summaryPlaceholder": "Vista previa de la configuración (pendiente)...",
+      "summaryPlaceholder": "Vista previa de la configuración de la campaña...",
+      "checklistTitle": "Checklist de Prelanzamiento",
       "publishButtonText": "Publicar en el Sitio",
       "packageButtonText": "Exportar como .zip",
       "deleteButtonText": "Eliminar Borrador",
@@ -60,7 +63,8 @@
       "title": "Step 5: Management & Publishing",
       "description": "You are at the final step. Review the configuration and choose the final action for your new campaign variant.",
       "summaryTitle": "Configuration Summary",
-      "summaryPlaceholder": "Configuration preview (to be implemented)...",
+      "summaryPlaceholder": "Preview of the campaign configuration...",
+      "checklistTitle": "Pre-launch Checklist",
       "publishButtonText": "Publish to Site",
       "packageButtonText": "Export as .zip",
       "deleteButtonText": "Delete Draft",
@@ -88,7 +92,8 @@
       "title": "Passo 5: Gestão e Publicação",
       "description": "Você está no último passo. Revise a configuração e escolha a ação final para sua nova variante de campanha.",
       "summaryTitle": "Resumo da Configuração",
-      "summaryPlaceholder": "Pré-visualização da configuração (a ser implementada)...",
+      "summaryPlaceholder": "Pré-visualização da configuração da campanha...",
+      "checklistTitle": "Checklist de Pré-lançamento",
       "publishButtonText": "Publicar no Site",
       "packageButtonText": "Exportar como .zip",
       "deleteButtonText": "Excluir Rascunho",

@@ -4,7 +4,7 @@
  * @description Componente de presentación para la sección Hero. Ahora es un
  *              componente de cliente que utiliza framer-motion para animaciones
  *              en cascada y soporta resaltado visual para el "Modo Enfoque".
- * @version 6.0.0 (Focus Mode Aware & Elite Leveling)
+ * @version 8.0.0 (Definitive Elite Version & Animation Fix)
  * @author RaZ Podestá - MetaShark Tech
  * @see .docs/suite-de-diseno-campanas/README.md "Experiencia Adrenalínica"
  */
@@ -32,7 +32,9 @@ interface HeroProps {
   isFocused?: boolean;
 }
 
-// Constantes de animación para limpieza de código y rendimiento.
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se definen las constantes de animación fuera del componente para que no se
+// redeclaren en cada render, optimizando el rendimiento.
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -68,6 +70,7 @@ const subtitleVariants: Variants = {
     },
   },
 };
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 /**
  * @component Hero
@@ -77,7 +80,7 @@ const subtitleVariants: Variants = {
  */
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   ({ content, isFocused }, ref) => {
-    logger.info("[Hero] Renderizando componente (v6.0 - Focus Mode Aware)");
+    logger.info("[Hero] Renderizando componente (v8.0 - Definitive Version)");
 
     if (!content) {
       logger.warn("[Hero] No se proporcionó contenido. No se renderizará.");
@@ -105,7 +108,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
             initial="hidden"
             animate="visible"
           >
-            {titleWords.map((word, index) => (
+            {titleWords.map((word: string, index: number) => (
               <motion.span
                 key={`${word}-${index}`}
                 className="inline-block"
@@ -129,5 +132,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     );
   }
 );
+
+// Se añade el displayName para mejorar la depuración en React DevTools.
 Hero.displayName = "Hero";
 // components/sections/Hero.tsx

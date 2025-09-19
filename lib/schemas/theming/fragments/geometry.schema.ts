@@ -2,34 +2,35 @@
 /**
  * @file geometry.schema.ts
  * @description SSoT para el contrato de datos de un fragmento de geometría.
- *              Define la estructura para archivos de radios, bordes, etc.
- *              (ej. `soft.radii.json`) en el sistema de theming.
- * @version 1.0.0
+ *              Expandido para incluir grosor de bordes y espaciado general.
+ * @version 2.0.0 (Granular Geometry & Spacing)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";
 
-logger.trace("[Schema] Definiendo el contrato para fragmentos de geometría...");
+logger.trace(
+  "[Schema] Definiendo el contrato para fragmentos de geometría (v2.0 - Granular)..."
+);
 
 /**
  * @const GeometryObjectSchema
- * @description Valida el objeto `geometry` interno. Cada clave corresponde a una
- *              variable CSS de geometría y es opcional, permitiendo que los
- *              fragmentos definan solo las propiedades que necesitan modificar.
+ * @description Valida el objeto `geometry` interno. Ahora incluye más propiedades de geometría y espaciado.
  */
 const GeometryObjectSchema = z.object({
   "--radius": z.string().optional(),
-  "--border": z.string().optional(),
-  "--input": z.string().optional(),
-  "--ring": z.string().optional(),
+  "--border-width": z.string().optional(), // <-- NUEVO: Grosor de borde
+  "--space": z.string().optional(), // <-- NUEVO: Unidad base de espaciado (ej. 0.25rem)
+  "--input-height": z.string().optional(), // <-- NUEVO: Altura de inputs
+  // Podemos añadir más aquí si es necesario (shadow-offset, etc.)
+  "--border": z.string().optional(), // Para compatibilidad con algunos componentes
+  "--input": z.string().optional(), // Para compatibilidad con algunos componentes
+  "--ring": z.string().optional(), // Para compatibilidad con algunos componentes
 });
 
 /**
  * @const GeometryFragmentSchema
  * @description El schema principal para un archivo de fragmento de geometría.
- *              Valida que el archivo contenga una clave raíz "geometry" cuyo
- *              valor sea un objeto que cumpla con `GeometryObjectSchema`.
  */
 export const GeometryFragmentSchema = z.object({
   geometry: GeometryObjectSchema,
@@ -41,4 +42,3 @@ export const GeometryFragmentSchema = z.object({
  *              geometría validado.
  */
 export type GeometryFragment = z.infer<typeof GeometryFragmentSchema>;
-// lib/schemas/theming/fragments/geometry.schema.ts

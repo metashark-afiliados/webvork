@@ -2,9 +2,7 @@
 /**
  * @file Step1Form.tsx
  * @description Componente de Presentación para la UI del Paso 1.
- *              v6.1.0 (Contract Sync): Alineado con el schema de i18n actualizado,
- *              consumiendo `galleryDescriptions` y resolviendo el error de tipo.
- * @version 6.1.0
+ * @version 6.2.0 (Sovereign Type Contract)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -19,16 +17,17 @@ import {
   CardFooter,
 } from "@/components/ui/Card";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { HeaderConfig, FooterConfig } from "../../_types/draft.types";
 import { WizardNavigation } from "../../_components/WizardNavigation";
 import { galleryConfig } from "../../_config/gallery.config";
 import { StructuralSectionConfig } from "./_components";
+import { Step1ContentSchema } from "@/lib/schemas/campaigns/steps/step1.schema";
+import { z } from "zod";
 
-type Step1Content = NonNullable<Dictionary["campaignSuitePage"]>["step1"];
+type Step1Content = z.infer<typeof Step1ContentSchema>;
 
 interface Step1FormProps {
-  content: Step1Content;
+  content: Step1Content; // <-- Contrato estricto y no opcional
   headerConfig: HeaderConfig;
   footerConfig: FooterConfig;
   onHeaderConfigChange: (newConfig: Partial<HeaderConfig>) => void;
@@ -46,7 +45,7 @@ export function Step1Form({
   onBack,
   onNext,
 }: Step1FormProps): React.ReactElement {
-  logger.info("Renderizando Step1Form (v6.1 - Contract Synced)");
+  logger.info("Renderizando Step1Form (Contrato Soberano)");
 
   return (
     <Card className="flex flex-col h-full">
@@ -67,7 +66,7 @@ export function Step1Form({
             onSelectionChange={(value) =>
               onHeaderConfigChange({ componentName: value })
             }
-            descriptions={content.galleryDescriptions} // <-- Ahora válido
+            descriptions={content.galleryDescriptions}
           />
           <StructuralSectionConfig
             switchId="use-footer"
@@ -80,7 +79,7 @@ export function Step1Form({
             onSelectionChange={(value) =>
               onFooterConfigChange({ componentName: value })
             }
-            descriptions={content.galleryDescriptions} // <-- Ahora válido
+            descriptions={content.galleryDescriptions}
           />
         </div>
       </CardContent>

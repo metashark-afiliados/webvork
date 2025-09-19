@@ -2,7 +2,7 @@
 /**
  * @file bavi-uploader.i18n.schema.ts
  * @description SSoT para el contrato de datos del contenido i18n del AssetUploader.
- * @version 1.0.0
+ * @version 2.0.0 (Modal & Selector Content)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -19,6 +19,9 @@ export const BaviUploaderContentSchema = z.object({
   promptIdLabel: z.string(),
   promptIdPlaceholder: z.string(),
   submitButtonText: z.string(),
+  selectFromBaviButton: z.string(),
+  assetSelectorModalTitle: z.string(),
+  assetSelectorModalDescription: z.string(),
 });
 
 export const BaviUploaderLocaleSchema = z.object({

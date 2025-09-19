@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/Tooltip";
 import { FadingLines, DotsWave } from "@/components/ui/Loaders";
 import type { z } from "zod";
-import type { Step5ContentSchema } from "../../../_schemas/steps/step5.schema";
+import type { Step5ContentSchema } from "../../../../../../../../lib/schemas/campaigns/steps/step5.schema";
 
 type Content = z.infer<typeof Step5ContentSchema>;
 

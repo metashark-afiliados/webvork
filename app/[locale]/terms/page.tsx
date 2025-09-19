@@ -17,14 +17,18 @@ interface TermsPageProps {
   params: { locale: Locale };
 }
 
-export default async function TermsPage({ params: { locale } }: TermsPageProps) {
+export default async function TermsPage({
+  params: { locale },
+}: TermsPageProps) {
   logger.info(`[TermsPage] Renderizando para locale: ${locale}`);
 
   const { dictionary } = await getDictionary(locale);
   const content = dictionary.termsPage;
 
   if (!content) {
-    logger.error(`[TermsPage] Contenido 'termsPage' no encontrado para locale: ${locale}.`);
+    logger.error(
+      `[TermsPage] Contenido 'termsPage' no encontrado para locale: ${locale}.`
+    );
     return notFound();
   }
 

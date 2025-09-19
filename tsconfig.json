@@ -25,13 +25,7 @@
       "@/*": ["./*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts", // <-- CORRECCIÓN: Incluir todos los archivos .ts
-    "**/*.tsx", // <-- CORRECCIÓN: Incluir todos los archivos .tsx
-    "**/*.json", // <-- CORRECCIÓN: Incluir archivos .json para consistencia
-    ".next/types/**/*.ts"
-  ],
-  "exclude": ["node_modules", "out", ".next"] // <-- Simplificado
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
 // tsconfig.json

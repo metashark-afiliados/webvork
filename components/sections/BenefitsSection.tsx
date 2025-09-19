@@ -2,12 +2,7 @@
 /**
  * @file BenefitsSection.tsx
  * @description Componente de presentación para la sección de Beneficios.
- *              - v3.2.0: Resuelve el error TS2741 haciendo que la prop `content` sea
- *                opcional (SOLUCIÓN ANTERIOR, AHORA REVERTIDA).
- *              - v4.0.0 (Strict Contract): La prop `content` vuelve a ser
- *                obligatoria, restaurando el contrato de datos estricto. La
- *                resiliencia se delega al SectionRenderer.
- * @version 4.0.0
+ * @version 5.0.0 (Strict Contract & SSoT Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -15,21 +10,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// El tipo `BenefitItem` ahora se importa desde su SSoT.
 import type { BenefitItem } from "@/lib/schemas/components/benefits-section.schema";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 interface BenefitsSectionProps {
-  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-  // La prop `content` vuelve a ser obligatoria.
   content: Dictionary["benefitsSection"];
-  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 }
 
 export const BenefitsSection = ({
   content,
 }: BenefitsSectionProps): React.ReactElement | null => {
-  logger.info("[Observabilidad] Renderizando componente: BenefitsSection");
+  logger.info(
+    "[Observabilidad] Renderizando componente: BenefitsSection (v5.0)"
+  );
 
-  // La guarda de seguridad se mantiene como una defensa en tiempo de ejecución.
   if (!content) {
     logger.warn(
       "[BenefitsSection] No se proporcionó contenido. La sección no se renderizará."

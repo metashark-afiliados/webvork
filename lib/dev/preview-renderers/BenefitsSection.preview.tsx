@@ -14,9 +14,7 @@ import { logger } from "@/lib/logging";
 export const BenefitsSectionPreview: PreviewRenderer = async (
   locale
 ): Promise<PreviewRenderResult | null> => {
-  logger.trace(
-    `[BenefitsSection.preview] Renderizando para locale: ${locale}`
-  );
+  logger.trace(`[BenefitsSection.preview] Renderizando para locale: ${locale}`);
   const { dictionary } = await getEdgeDictionary(locale);
   const content = dictionary.benefitsSection;
 

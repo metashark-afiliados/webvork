@@ -23,8 +23,12 @@ interface NewsArticlePageProps {
 
 // TODO: Implementar generateStaticParams para pre-renderizar todas las rutas de artículos en tiempo de build.
 
-export default async function NewsArticlePage({ params: { locale, slug } }: NewsArticlePageProps) {
-  logger.info(`[NewsArticlePage] Renderizando artículo con slug: "${slug}" para locale: ${locale}`);
+export default async function NewsArticlePage({
+  params: { locale, slug },
+}: NewsArticlePageProps) {
+  logger.info(
+    `[NewsArticlePage] Renderizando artículo con slug: "${slug}" para locale: ${locale}`
+  );
 
   const { dictionary } = await getDictionary(locale);
 
@@ -33,11 +37,23 @@ export default async function NewsArticlePage({ params: { locale, slug } }: News
   const articleContent: NewsArticlePageContent | undefined = dictionary[slug];
 
   if (!articleContent) {
-    logger.error(`[NewsArticlePage] Contenido para el slug "${slug}" no encontrado.`);
+    logger.error(
+      `[NewsArticlePage] Contenido para el slug "${slug}" no encontrado.`
+    );
     return notFound();
   }
 
-  const { title, subtitle, author, publishedDate, readTime, category, featuredImageUrl, featuredImageAlt, content } = articleContent;
+  const {
+    title,
+    subtitle,
+    author,
+    publishedDate,
+    readTime,
+    category,
+    featuredImageUrl,
+    featuredImageAlt,
+    content,
+  } = articleContent;
 
   return (
     <>
@@ -45,22 +61,24 @@ export default async function NewsArticlePage({ params: { locale, slug } }: News
 
       <Container className="py-8 max-w-4xl">
         <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-            <div className="flex items-center gap-2">
-                <Badge variant="secondary">{category}</Badge>
-                <span>Por {author}</span>
-            </div>
-            <span>{publishedDate} · {readTime} min de lectura</span>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary">{category}</Badge>
+            <span>Por {author}</span>
+          </div>
+          <span>
+            {publishedDate} · {readTime} min de lectura
+          </span>
         </div>
 
         <div className="relative w-full aspect-video rounded-lg overflow-hidden my-8">
-            <Image
-                src={featuredImageUrl}
-                alt={featuredImageAlt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 896px"
-                priority
-            />
+          <Image
+            src={featuredImageUrl}
+            alt={featuredImageAlt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 896px"
+            priority
+          />
         </div>
 
         <TextSection content={content} spacing="compact" />

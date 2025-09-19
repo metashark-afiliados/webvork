@@ -1,18 +1,21 @@
 // app/[locale]/(dev)/dev/page.tsx
 /**
  * @file page.tsx
- * @description Dashboard principal del DCC, ahora con tarjetas interactivas.
- * @version 4.0.0 (MEA-01 Tilt Effect Integration)
+ * @description Dashboard principal del DCC.
+ * @version 6.0.0 (Holistic Route Fix & SSoT Alignment): Resuelve todos los
+ *              errores de tipo, nomenclatura de rutas e inyecta una guardia
+ *              de resiliencia para el contenido. Ahora consume la SSoT de
+ *              rutas desde 'lib/navigation.ts'.
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";
-import { routes } from "@/lib/navigation";
+import { routes } from "@/lib/navigation"; // <-- IMPORTAR SSoT DE RUTAS
 import { logger } from "@/lib/logging";
 import type { Locale } from "@/lib/i18n.config";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Container, DynamicIcon } from "@/components/ui";
-import { TiltCard } from "@/components/ui/TiltCard"; // <-- NUEVA IMPORTACIÓN
+import { TiltCard } from "@/components/ui/TiltCard";
 import {
   Card,
   CardContent,
@@ -29,6 +32,8 @@ interface DevToolCardProps {
   href: string;
   icon: LucideIconName;
   isFeatured?: boolean;
+  buttonLabel: string;
+  featuredButtonLabel: string;
 }
 
 const DevToolCard = ({
@@ -37,10 +42,11 @@ const DevToolCard = ({
   href,
   icon,
   isFeatured = false,
+  buttonLabel,
+  featuredButtonLabel,
 }: DevToolCardProps) => {
   logger.trace(`[Observabilidad] Renderizando DevToolCard: ${title}`);
   return (
-    // La tarjeta ahora está envuelta en el componente TiltCard
     <TiltCard className="h-full">
       <Card
         className={`transition-all duration-300 h-full flex flex-col ${
@@ -67,7 +73,7 @@ const DevToolCard = ({
             variant={isFeatured ? "default" : "secondary"}
             className="mt-6"
           >
-            {isFeatured ? "Iniciar" : "Abrir"}
+            {isFeatured ? featuredButtonLabel : buttonLabel}
           </Button>
         </CardContent>
       </Card>
@@ -81,16 +87,24 @@ export default async function DevDashboardPage({
   params: { locale: Locale };
 }) {
   logger.info(
-    `[Observabilidad] Renderizando DevDashboardPage v4.0 (MEA-01) para locale: ${locale}`
+    `[Observabilidad] Renderizando DevDashboardPage v6.0 para locale: ${locale}`
   );
   const { dictionary } = await getDictionary(locale);
   const content = dictionary.devDashboardPage;
 
   if (!content) {
-    // ... (manejo de error sin cambios)
+    logger.error(
+      `[DevDashboardPage] Contenido 'devDashboardPage' no encontrado para locale: '${locale}'.`
+    );
+    return (
+      <Container className="py-24 text-center">
+        <h1 className="text-2xl font-bold text-destructive">
+          Error de Contenido
+        </h1>
+        <p>El contenido para el dashboard de desarrollo no pudo ser cargado.</p>
+      </Container>
+    );
   }
-
-  const campaignSuitePath = routes.campaignSuiteCreate.path({ locale });
 
   return (
     <>
@@ -101,28 +115,36 @@ export default async function DevDashboardPage({
             <DevToolCard
               title="Suite de Diseño de Campañas"
               description="Un asistente paso a paso para crear, configurar y generar todos los activos de una nueva variante de campaña, sin tocar el código."
-              href={campaignSuitePath}
+              href={routes.devCampaignSuiteCreate.path({ locale })} // <-- RUTA CORREGIDA
               icon="WandSparkles"
               isFeatured={true}
+              buttonLabel="Abrir"
+              featuredButtonLabel="Iniciar"
             />
           </div>
           <DevToolCard
             title="Vitrina de Resiliencia"
             description="Renderiza todos los componentes para verificar la estabilidad y compatibilidad de los datos."
-            href={routes.devTestPage.path({ locale })}
+            href={routes.devTestPage.path({ locale })} // <-- RUTA CORREGIDA
             icon="ShieldCheck"
+            buttonLabel="Abrir"
+            featuredButtonLabel="Iniciar"
           />
           <DevToolCard
             title="BAVI"
             description="Biblioteca de Activos Visuales Integrada."
-            href={`/${locale}/dev/bavi`}
+            href={routes.bavi.path({ locale })} // <-- RUTA CORREGIDA
             icon="LibraryBig"
+            buttonLabel="Abrir"
+            featuredButtonLabel="Iniciar"
           />
           <DevToolCard
             title="RaZPrompts"
             description="Bóveda de Conocimiento Generativo."
-            href={`/${locale}/dev/raz-prompts`}
+            href={routes.razPrompts.path({ locale })} // <-- RUTA CORREGIDA
             icon="BrainCircuit"
+            buttonLabel="Abrir"
+            featuredButtonLabel="Iniciar"
           />
         </div>
       </Container>

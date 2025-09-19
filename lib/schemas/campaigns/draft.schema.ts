@@ -1,37 +1,40 @@
 // lib/schemas/campaigns/draft.schema.ts
 /**
  * @file draft.schema.ts
- * @description SSoT para los schemas atómicos que componen un CampaignDraft.
- *              Reubicado en `lib/` para ser un contrato de datos central.
- * @version 2.0.0
+ * @description SSoT para el schema del borrador de campaña en la base de datos.
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
-import { supportedLocales } from "@/lib/i18n.config";
+import {
+  HeaderConfigSchema,
+  FooterConfigSchema,
+  LayoutConfigSchema,
+  ThemeConfigSchema,
+  ContentDataSchema,
+} from "./draft.parts.schema";
 
-export const HeaderConfigSchema = z.object({
-  useHeader: z.boolean(),
-  componentName: z.string().nullable(),
-  logoPath: z.string().nullable(),
+// Schema para los datos que se guardan (sin 'step')
+export const CampaignDraftDataSchema = z.object({
+  draftId: z.string(),
+  baseCampaignId: z.string().nullable(),
+  variantName: z.string().nullable(),
+  seoKeywords: z.string().nullable(),
+  affiliateNetwork: z.string().nullable(),
+  affiliateUrl: z.string().nullable(),
+  headerConfig: HeaderConfigSchema,
+  footerConfig: FooterConfigSchema,
+  layoutConfig: LayoutConfigSchema,
+  themeConfig: ThemeConfigSchema,
+  contentData: ContentDataSchema,
+  completedSteps: z.array(z.number()),
 });
 
-export const FooterConfigSchema = z.object({
-  useFooter: z.boolean(),
-  componentName: z.string().nullable(),
+// Schema completo del documento en la DB
+export const CampaignDraftDbSchema = CampaignDraftDataSchema.extend({
+  userId: z.string(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
 });
 
-export const LayoutConfigSchema = z.array(z.object({ name: z.string() }));
-
-export const ThemeConfigSchema = z.object({
-  colorPreset: z.string().nullable(),
-  fontPreset: z.string().nullable(),
-  radiusPreset: z.string().nullable(),
-});
-
-const LocaleContentSchema = z.record(z.string(), z.unknown());
-const SectionContentSchema = z.record(
-  z.enum(supportedLocales),
-  LocaleContentSchema.optional()
-);
-export const ContentDataSchema = z.record(z.string(), SectionContentSchema);
-// lib/schemas/campaigns/draft.schema.ts
+export type CampaignDraftDb = z.infer<typeof CampaignDraftDbSchema>;

@@ -2,23 +2,24 @@
 /**
  * @file AssetUploaderForm.tsx
  * @description Componente de presentación puro para la UI del AssetUploader.
- * @version 2.1.0 (Code Hygiene): Se elimina la importación no utilizada 'Control'
- *              para resolver el error de linting y mantener el código limpio.
- * @version 2.1.0
+ * @version 2.3.0 (Absolute Path Resolution)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-// --- [INICIO DE CORRECCIÓN DE HIGIENE] ---
-// Se elimina 'Control' de la importación de react-hook-form.
 import type { UseFormReturn } from "react-hook-form";
-// --- [FIN DE CORRECCIÓN DE HIGIENE] ---
 import type { DropzoneRootProps, DropzoneInputProps } from "react-dropzone";
 import type { UploadApiResponse } from "cloudinary";
 import { Form, Button, DynamicIcon } from "@/components/ui";
-import { AssetDropzone, MetadataForm, UploadPreview } from "./";
-import { SesaTagsFormGroup } from "../../../raz-prompts/_components/SesaTagsFormGroup";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se utilizan rutas absolutas para importar los sub-componentes desde su
+// ubicación canónica en el dominio BAVI, resolviendo los errores de módulo.
+import { AssetDropzone } from "@/app/[locale]/(dev)/bavi/_components/AssetUploader/_components/AssetDropzone";
+import { MetadataForm } from "@/app/[locale]/(dev)/bavi/_components/AssetUploader/_components/MetadataForm";
+import { UploadPreview } from "@/app/[locale]/(dev)/bavi/_components/AssetUploader/_components/UploadPreview";
+import { SesaTagsFormGroup } from "@/app/[locale]/(dev)/raz-prompts/_components/SesaTagsFormGroup";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { AssetUploadMetadata } from "@/lib/bavi/upload.schema";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 

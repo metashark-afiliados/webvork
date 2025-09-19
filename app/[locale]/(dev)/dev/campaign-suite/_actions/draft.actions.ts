@@ -2,7 +2,7 @@
 /**
  * @file draft.actions.ts
  * @description Server Actions para el ciclo de vida de los borradores de campaña en MongoDB.
- * @version 1.0.0
+ * @version 2.1.0 (Code Hygiene)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
@@ -10,7 +10,7 @@
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "@/lib/mongodb";
 import {
-  CampaignDraftDbSchema,
+  CampaignDraftDataSchema,
   type CampaignDraftDb,
 } from "@/lib/schemas/campaigns/draft.schema";
 import type { ActionResult } from "@/lib/types/actions.types";
@@ -64,7 +64,7 @@ export async function saveDraftAction(
       throw new Error("La operación de guardado no modificó ningún documento.");
     }
 
-    revalidatePath("/dev/campaign-suite/create"); // Invalida caché si es necesario
+    revalidatePath("/dev/campaign-suite/create");
     return {
       success: true,
       data: { draftId: draftData.draftId, updatedAt: now },

@@ -1,11 +1,10 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/LivePreviewCanvas.tsx
 /**
  * @file LivePreviewCanvas.tsx
- * @description Lienzo de vista previa en tiempo real (EDVI), ahora con scroll
- *              y resaltado sincronizado con el editor de contenido ("Modo Enfoque").
- * @version 4.0.0 (Synchronized Focus Mode)
+ * @description Lienzo de vista previa en tiempo real (EDVI), ahora con una
+ *              implementación robusta del "Modo Enfoque".
+ * @version 5.0.0 (Robust Focus Mode Implementation)
  * @author RaZ Podestá - MetaShark Tech
- * @see .docs/suite-de-diseno-campanas/README.md "Experiencia Adrenalínica"
  */
 "use client";
 
@@ -15,19 +14,13 @@ import { motion } from "framer-motion";
 import { useCampaignDraft } from "../_hooks/useCampaignDraft";
 import { usePreviewTheme } from "../_hooks/usePreviewTheme";
 import { useFocusStore } from "../_context/FocusContext";
-import { generateCampaignThemeVariablesStyle } from "@/lib/utils/theme.utils";
+import { generateCssVariablesFromTheme } from "@/lib/utils/theme.utils";
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import { SectionRenderer } from "@/components/layout/SectionRenderer";
 import { buildPreviewDictionary } from "../_utils/preview.utils";
 import { DynamicIcon } from "@/components/ui";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
-/**
- * @component IframeOverlay
- * @description Micro-componente atómico para mostrar estados (carga, error)
- *              dentro del iframe, asegurando que los estilos no se filtren.
- * @private
- */
 const IframeOverlay = ({ children }: { children: React.ReactNode }) => (
   <div
     style={{
@@ -54,7 +47,6 @@ export function LivePreviewCanvas() {
   const [iframeBody, setIframeBody] = useState<HTMLElement | null>(null);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-  // --- Lógica de Modo Enfoque ---
   const focusedSection = useFocusStore((state) => state.focusedSection);
   const sectionRefs = useRef<Record<string, HTMLElement>>({});
 
@@ -155,7 +147,7 @@ export function LivePreviewCanvas() {
             )}
             {theme && (
               <CampaignThemeProvider theme={theme}>
-                <style>{generateCampaignThemeVariablesStyle(theme)}</style>
+                <style>{generateCssVariablesFromTheme(theme)}</style>
                 <SectionRenderer
                   sections={draft.layoutConfig}
                   dictionary={previewDictionary}

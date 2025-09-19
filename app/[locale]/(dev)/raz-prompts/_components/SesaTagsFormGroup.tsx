@@ -2,10 +2,9 @@
 /**
  * @file SesaTagsFormGroup.tsx
  * @description Aparato de presentación atómico para el grupo de selectores de SESA.
- * @version 2.0.0 (Type Safe Iteration & Contract Fix): Refactorizado para usar
- *              una iteración segura a nivel de tipos y un contrato explícito,
- *              resolviendo la cascada de errores de inferencia y de importación.
- * @version 2.0.0
+ * @version 3.0.0 (Generic Form Integration): Refactorizado para ser compatible
+ *              con cualquier formulario de react-hook-form que contenga un
+ *              campo anidado 'sesaTags', resolviendo el error de tipo TS2322.
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -23,12 +22,10 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui";
-// --- [INICIO DE CORRECCIÓN DE IMPORTACIÓN Y TIPO] ---
 import {
   RaZPromptsSesaTagsSchema,
-  type RaZPromptsSesaTags as SesaTags,
+  type RaZPromptsSesaTags,
 } from "@/lib/schemas/raz-prompts/atomic.schema";
-// --- [FIN DE CORRECCIÓN DE IMPORTACIÓN Y TIPO] ---
 import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import { logger } from "@/lib/logging";
 import type { z } from "zod";
@@ -38,11 +35,9 @@ type SesaContent = Pick<
   "sesaLabels" | "sesaOptions"
 >;
 
-type SesaFormFields = FieldValues & {
-  tags: SesaTags; // El nombre del campo en el formulario es 'tags'
-};
-
-interface SesaTagsFormGroupProps<TFieldValues extends SesaFormFields> {
+// --- [INICIO] REFACTORIZACIÓN DE TIPO ---
+// Ahora acepta cualquier `FieldValues` como genérico.
+interface SesaTagsFormGroupProps<TFieldValues extends FieldValues> {
   control: Control<TFieldValues>;
   content: {
     [K in keyof SesaContent["sesaLabels"]]: string;
@@ -50,20 +45,17 @@ interface SesaTagsFormGroupProps<TFieldValues extends SesaFormFields> {
     options: SesaContent["sesaOptions"];
   };
 }
+// --- [FIN] REFACTORIZACIÓN DE TIPO ---
 
-// --- [INICIO DE REFACTORIZACIÓN DE ITERACIÓN SEGURA] ---
-// Se define explícitamente el array de claves con el tipo correcto.
-// TypeScript ahora sabe que cada elemento es una clave válida de SesaTags.
-const sesaFields: (keyof SesaTags)[] = Object.keys(
+const sesaFields: (keyof RaZPromptsSesaTags)[] = Object.keys(
   RaZPromptsSesaTagsSchema.shape
-) as (keyof SesaTags)[];
-// --- [FIN DE REFACTORIZACIÓN DE ITERACIÓN SEGURA] ---
+) as (keyof RaZPromptsSesaTags)[];
 
-export function SesaTagsFormGroup<TFieldValues extends SesaFormFields>({
+export function SesaTagsFormGroup<TFieldValues extends FieldValues>({
   control,
   content,
 }: SesaTagsFormGroupProps<TFieldValues>) {
-  logger.trace("[SesaTagsFormGroup] Renderizando grupo de tags SESA v2.0.");
+  logger.trace("[SesaTagsFormGroup] Renderizando grupo de tags SESA v3.0.");
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -71,8 +63,10 @@ export function SesaTagsFormGroup<TFieldValues extends SesaFormFields>({
         <FormField
           key={tagName}
           control={control}
-          // La construcción del path ahora es 100% segura
-          name={`tags.${tagName}` as Path<TFieldValues>}
+          // --- [INICIO] REFACTORIZACIÓN DE RUTA DE CAMPO ---
+          // El 'name' ahora apunta al campo anidado 'sesaTags'.
+          name={`sesaTags.${tagName}` as Path<TFieldValues>}
+          // --- [FIN] REFACTORIZACIÓN DE RUTA DE CAMPO ---
           render={({ field }) => (
             <FormItem>
               <FormLabel>{content[tagName]}</FormLabel>
@@ -83,7 +77,6 @@ export function SesaTagsFormGroup<TFieldValues extends SesaFormFields>({
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {/* TypeScript ahora sabe que content.options[tagName] existe y es un array */}
                   {content.options[tagName].map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}

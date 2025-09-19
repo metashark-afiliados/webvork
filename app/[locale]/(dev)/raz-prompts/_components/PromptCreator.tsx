@@ -1,8 +1,9 @@
 // app/[locale]/(dev)/raz-prompts/_components/PromptCreator.tsx
 /**
  * @file PromptCreator.tsx
- * @description Componente contenedor "smart" para la creación de prompts.
- * @version 1.0.0
+ * @description Componente contenedor "smart" para la creación de prompts,
+ *              ahora cumpliendo con los estándares de calidad del proyecto.
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,7 +19,7 @@ interface PromptCreatorProps {
 }
 
 export function PromptCreator({ content }: PromptCreatorProps) {
-  logger.info("[PromptCreator] Renderizzando contenedor principal.");
+  logger.info("[Observabilidad] Renderizando PromptCreator v2.0");
   const { form, onSubmit, isPending } = usePromptCreator();
 
   return (

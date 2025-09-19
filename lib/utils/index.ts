@@ -9,7 +9,7 @@ import { logger } from "@/lib/logging";
 
 export * from "@/lib/utils/cn";
 export * from "@/lib/utils/draft.utils";
-export * from "@/lib/utils/keyword-normalizer"; // <-- NUEVA EXPORTACIÓN
+export * from "@/lib/utils/keyword-normalizer";
 // Las utilidades 'merge' y 'theme.utils' ahora se importan directamente
 // desde sus módulos para garantizar la resolución en el build.
 

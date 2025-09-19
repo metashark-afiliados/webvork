@@ -16,12 +16,18 @@ logger.trace("[Schema] Definiendo contrato para [NewsGrid]");
  *              una tarjeta de artículo en una cuadrícula o carrusel.
  */
 export const ArticleCardSchema = z.object({
-  slug: z.string().min(1, "El slug del artículo es obligatorio para la navegación."),
+  slug: z
+    .string()
+    .min(1, "El slug del artículo es obligatorio para la navegación."),
   category: z.string().min(1, "La categoría es requerida."),
   title: z.string().min(1, "El título es requerido."),
   summary: z.string().min(1, "El resumen es requerido."),
-  imageUrl: z.string().startsWith("/", "La ruta de la imagen debe ser absoluta."),
-  imageAlt: z.string().min(1, "El texto alternativo es requerido por accesibilidad."),
+  imageUrl: z
+    .string()
+    .startsWith("/", "La ruta de la imagen debe ser absoluta."),
+  imageAlt: z
+    .string()
+    .min(1, "El texto alternativo es requerido por accesibilidad."),
 });
 
 export type ArticleCardData = z.infer<typeof ArticleCardSchema>;

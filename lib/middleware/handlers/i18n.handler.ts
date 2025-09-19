@@ -3,7 +3,7 @@
  * @file i18n.handler.ts
  * @description Manejador de middleware atómico para la internacionalización de rutas.
  *              Refactorizado para consumir la utilidad pura `locale-detector`.
- * @version 2.0.0
+ * @version 2.1.0 (Improved Observability)
  * @author RaZ Podestá - MetaShark Tech
  * @see roadmap-v2.md - Tarea 4.2
  */
@@ -13,10 +13,8 @@ import {
   defaultLocale,
   type Locale,
 } from "@/lib/i18n.config";
-// --- INICIO DE REFACTORIZACIÓN: Importar desde la nueva SSoT ---
 import { getLocaleFromBrowser } from "@/lib/i18n/locale-detector";
-// --- FIN DE REFACTORIZACIÓN ---
-import { type MiddlewareHandler } from "../pipeline";
+import { type MiddlewareHandler } from "../engine/pipeline";
 import { logger } from "@/lib/logging";
 
 const localePathnameRegex = new RegExp(
@@ -33,7 +31,12 @@ export const i18nHandler: MiddlewareHandler = (req, res) => {
 
   // 1. Si la ruta ya tiene un locale, no hacemos nada.
   if (localePathnameRegex.test(pathname)) {
-    logger.trace("[i18nHandler] Ruta ya localizada. Omitiendo.");
+    // --- [INICIO DE MEJORA DE LOGGING] ---
+    logger.trace(
+      `[i18nHandler] Ruta ya localizada. Omitiendo redirección.`,
+      { pathname }
+    );
+    // --- [FIN DE MEJORA DE LOGGING] ---
     return res;
   }
 

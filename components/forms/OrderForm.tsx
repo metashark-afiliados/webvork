@@ -1,17 +1,12 @@
 // components/forms/OrderForm.tsx
 /**
  * @file OrderForm.tsx
- * @description Formulário de pedido final. Refactorizado para una responsabilidad
- *              única: gestionar la entrada y envío de datos del usuario, eliminando
- *              toda la lógica de visualización de precios.
- *              - v5.1.0: Adapta el uso de la prop `icon` en `FormInput` para
- *                aceptar directamente un `LucideIconName` (string), tras la
- *                refactorización de `FormInput.tsx`. Esto resuelve los errores
- *                de tipo TS2322.
- * @version 5.1.0
+ * @description Formulario de pedido final, refactorizado para replicar 100%
+ *              la funcionalidad de sumisión del productor (Webvork). Utiliza
+ *              validación de cliente para una UX de élite, pero realiza un
+ *              envío POST tradicional al endpoint del afiliado.
+ * @version 6.0.0 (Webvork Clone & Elite UX)
  * @author RaZ Podestá - MetaShark Tech
- * @see .docs/development/TODO.md - Tarefa 2.3
- * @principle Principio de Responsabilidad Única (PRU)
  */
 "use client";
 
@@ -19,46 +14,43 @@ import React, { useRef } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-// import { User, Phone } from "lucide-react"; // <-- ELIMINADO: Ya no se importan los componentes directamente
 import { producerConfig } from "@/config/producer.config";
 import { logger } from "@/lib/logging";
 import { useProducerLogic } from "@/hooks/useProducerLogic";
 import { HiddenFormFields } from "@/components/forms/HiddenFormFields";
 import { FormInput } from "@/components/ui/FormInput";
-import { Button } from "@/components/ui/Button";
+import { Button, DynamicIcon } from "@/components/ui";
 
-// --- Schema y Tipos ---
+// --- SSoT de Contratos de Datos y Tipos ---
+
 const OrderFormSchema = z.object({
   name: z.string().min(2, "Il nome è obbligatorio"),
   phone: z
     .string()
-    .min(9, "Il numero de telefono no es válido")
+    .min(9, "Il numero de telefono non è valido")
     .regex(/^\+?[0-9\s-()]+$/, "Formato de telefone inválido"),
 });
+
 type OrderFormData = z.infer<typeof OrderFormSchema>;
 
-// --- Props de Contenido i18n (Simplificadas) ---
 interface OrderFormProps {
-  nameInputLabel: string;
-  nameInputPlaceholder: string;
-  phoneInputLabel: string;
-  phoneInputPlaceholder: string;
-  submitButtonText: string;
-  submitButtonLoadingText: string;
+  content: {
+    nameInputLabel: string;
+    nameInputPlaceholder: string;
+    phoneInputLabel: string;
+    phoneInputPlaceholder: string;
+    submitButtonText: string;
+    submitButtonLoadingText: string;
+  };
 }
 
-export function OrderForm({
-  nameInputLabel,
-  nameInputPlaceholder,
-  phoneInputLabel,
-  phoneInputPlaceholder,
-  submitButtonText,
-  submitButtonLoadingText,
-}: OrderFormProps): React.ReactElement {
-  console.log("[Observabilidad] Renderizando OrderForm (Atomizado)");
+// --- Componente de Élite ---
+
+export function OrderForm({ content }: OrderFormProps): React.ReactElement {
+  logger.info("[Observabilidad] Renderizando OrderForm v6.0 (Webvork Clone)");
   const formRef = useRef<HTMLFormElement>(null);
 
-  // Activa la lógica de tracking diferido
+  // Activa la lógica de tracking diferido de Webvork (UTMs, GUID, etc.)
   useProducerLogic();
 
   const {
@@ -70,28 +62,31 @@ export function OrderForm({
   });
 
   const onSubmit: SubmitHandler<OrderFormData> = (data) => {
-    logger.info(
-      "[OrderForm] Validação do cliente bem-sucedida. Acionando submissão nativa...",
+    logger.success(
+      "[OrderForm] Validación del cliente exitosa. Procediendo con el envío nativo del formulario...",
       { action: producerConfig.ACTION_URL, data }
     );
-    // Dispara el envío nativo del formulario.
+    // Si la validación de Zod pasa, permitimos que el formulario se envíe
+    // de la manera tradicional. El `ref` al formulario dispara el `submit`.
     formRef.current?.submit();
   };
 
   return (
     <form
       ref={formRef}
+      // El `onSubmit` de react-hook-form actúa como un guardián.
+      // Solo si tiene éxito, se ejecutará la acción nativa del formulario.
       onSubmit={handleSubmit(onSubmit)}
-      action={producerConfig.ACTION_URL}
+      action={producerConfig.ACTION_URL} // <-- Endpoint del productor
       method="POST"
-      className="space-y-4 wv_order-form"
-      noValidate
+      className="space-y-4 wv_order-form" // `wv_order-form` es crucial para el script de Webvork
+      noValidate // Deshabilita la validación nativa del navegador en favor de la nuestra
     >
       <FormInput
         id="name"
-        label={nameInputLabel}
-        icon="User" // <-- ¡CORRECCIÓN APLICADA AQUÍ! Se pasa el string literal
-        placeholder={nameInputPlaceholder}
+        label={content.nameInputLabel}
+        icon="User"
+        placeholder={content.nameInputPlaceholder}
         {...register("name")}
         error={errors.name?.message}
         aria-invalid={!!errors.name}
@@ -99,16 +94,20 @@ export function OrderForm({
       />
       <FormInput
         id="phone"
-        label={phoneInputLabel}
-        icon="Phone" // <-- ¡CORRECCIÓN APLICADA AQUÍ! Se pasa el string literal
+        label={content.phoneInputLabel}
+        icon="Phone"
         type="tel"
-        placeholder={phoneInputPlaceholder}
+        placeholder={content.phoneInputPlaceholder}
         {...register("phone")}
         error={errors.phone?.message}
         aria-invalid={!!errors.phone}
         autoComplete="tel"
       />
 
+      {/*
+        Componente atómico que renderiza todos los campos ocultos
+        requeridos por el sistema de tracking de Webvork.
+      */}
       <HiddenFormFields />
 
       <Button
@@ -118,8 +117,17 @@ export function OrderForm({
         className="w-full !mt-6"
         disabled={isSubmitting}
       >
-        {isSubmitting ? submitButtonLoadingText : submitButtonText}
+        {isSubmitting && (
+          <DynamicIcon
+            name="LoaderCircle"
+            className="mr-2 h-4 w-4 animate-spin"
+          />
+        )}
+        {isSubmitting
+          ? content.submitButtonLoadingText
+          : content.submitButtonText}
       </Button>
     </form>
   );
 }
+// components/forms/OrderForm.tsx

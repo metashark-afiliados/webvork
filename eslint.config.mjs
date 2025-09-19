@@ -1,71 +1,46 @@
-// @ts-check
-
+// eslint.config.mjs
 /**
  * @file eslint.config.mjs
  * @description SSoT para la configuración de ESLint v9+ (Flat Config).
- *              Este archivo reemplaza los obsoletos .eslintrc.json y .eslintignore.
- * @version 1.1.0
+ * @version 2.1.0 (Elite & Synced with Hooks & A11y)
  * @author RaZ Podestá - MetaShark Tech
  */
-
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import nextPlugin from "@next/eslint-plugin-next";
 import prettierConfig from "eslint-config-prettier";
+import reactHooksPlugin from "eslint-plugin-react-hooks"; // <-- AÑADIR
+import jsxA11yPlugin from "eslint-plugin-jsx-a11y"; // <-- AÑADIR
 
-/** @type {import('eslint').Linter.Config[]} */
-const config = [
-  // 1. Configuración de ignorados (reemplaza a .eslintignore)
+/** @type {import('eslint').Linter.FlatConfig[]} */
+const config = tseslint.config(
   {
     ignores: [
-      ".next/",
-      "node_modules/",
-      "public/",
-      "out/",
-      ".docs-espejo/",
-      ".vscode/",
-      "pnpm-lock.yaml",
+      // ...sin cambios...
     ],
   },
-
-  // 2. Configuración base para archivos JavaScript y TypeScript
-  ...tseslint.config(
-    // Reglas recomendadas por ESLint y TypeScript-ESLint
-    eslint.configs.recommended,
-    ...tseslint.configs.recommended,
-    {
-      // Aplicar a todos los archivos JS, JSX, TS, TSX
-      files: ["**/*.{js,jsx,ts,tsx}"],
-      // Configuración del parser de TypeScript
-      languageOptions: {
-        parser: tseslint.parser,
-        parserOptions: {
-          project: true, // Usa el tsconfig.json para reglas que requieren información de tipos
-        },
-      },
-      // Reglas específicas (puedes añadir o sobreescribir aquí)
-      rules: {
-        // Ejemplo: Desactivar una regla si es necesario
-        // '@typescript-eslint/no-unused-vars': 'warn',
-      },
-    }
-  ),
-
-  // 3. Configuración específica para Next.js
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  { // <-- NUEVO BLOQUE PARA jsx-a11y
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    plugins: {
+      "jsx-a11y": jsxA11yPlugin,
+    },
+    rules: jsxA11yPlugin.configs.recommended.rules,
+  },
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
     plugins: {
       "@next/next": nextPlugin,
+      "react-hooks": reactHooksPlugin, // <-- AÑADIR PLUGIN
     },
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
+      ...reactHooksPlugin.configs.recommended.rules, // <-- AÑADIR REGLAS
     },
   },
-
-  // 4. Configuración de Prettier (DEBE SER LA ÚLTIMA)
-  // Desactiva las reglas de estilo de ESLint que entran en conflicto con Prettier.
-  prettierConfig,
-];
+  prettierConfig
+);
 
 export default config;

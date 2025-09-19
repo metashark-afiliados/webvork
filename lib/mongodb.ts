@@ -2,35 +2,27 @@
 /**
  * @file mongodb.ts
  * @description SSoT para la conexión a la base de datos de MongoDB.
- *              v2.1.0 (Environment Safety & Production Ready): Implementa una
- *              guardia de seguridad "fail-fast" que previene la ejecución de la
- *              aplicación si las variables de entorno críticas de la base de
- *              datos no están definidas, garantizando la seguridad de tipos
- *              y la resiliencia en tiempo de ejecución.
- * @version 2.1.0
+ * @version 2.2.0 (Definitive Type Safety): Se añade una guardia explícita
+ *              dentro de la función de conexión para una seguridad de tipos
+ *              absoluta y a prueba de fallos.
  * @author RaZ Podestá - MetaShark Tech
  */
 import { MongoClient } from "mongodb";
 import { logger } from "@/lib/logging";
 
-// --- [INICIO] GUARDIA DE SEGURIDAD Y VALIDACIÓN DE ENTORNO ---
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME;
 
-// Esta es la guardia de seguridad a nivel de módulo. Si las variables críticas no están
-// definidas, la aplicación lanzará un error inmediatamente al iniciar, previniendo
-// fallos impredecibles en tiempo de ejecución.
 if (!MONGODB_URI) {
   throw new Error(
-    "Error de Configuración Crítico: La variable de entorno MONGODB_URI no está definida. Revisa tu archivo .env."
+    "Error Crítico: La variable de entorno MONGODB_URI no está definida."
   );
 }
 if (!MONGODB_DB_NAME) {
   throw new Error(
-    "Error de Configuración Crítico: La variable de entorno MONGODB_DB_NAME no está definida. Revisa tu archivo .env."
+    "Error Crítico: La variable de entorno MONGODB_DB_NAME no está definida."
   );
 }
-// --- [FIN] GUARDIA DE SEGURIDAD Y VALIDACIÓN DE ENTORNO ---
 
 let cachedClientPromise: Promise<MongoClient> | null = null;
 
@@ -40,12 +32,20 @@ export async function connectToDatabase(): Promise<MongoClient> {
     return cachedClientPromise;
   }
 
+  // --- [INICIO DE CORRECCIÓN DE SEGURIDAD DE TIPOS] ---
+  // Esta guardia, aunque parezca redundante, es crucial para el análisis de
+  // flujo de control de TypeScript dentro de esta función específica.
+  if (!MONGODB_URI) {
+    throw new Error(
+      "MONGODB_URI no está disponible en el entorno de ejecución."
+    );
+  }
+  // --- [FIN DE CORRECCIÓN DE SEGURIDAD DE TIPOS] ---
+
   logger.info(
     "[MongoDB] Creando nueva conexión de cliente a la base de datos..."
   );
 
-  // Gracias a la guardia de seguridad anterior, TypeScript ahora sabe que
-  // MONGODB_URI es un string, lo que resuelve el error TS2345.
   const client = new MongoClient(MONGODB_URI);
   cachedClientPromise = client.connect();
 
@@ -56,7 +56,7 @@ export async function connectToDatabase(): Promise<MongoClient> {
     );
   } catch (e) {
     logger.error("[MongoDB] Fallo al conectar con la base de datos.", { e });
-    cachedClientPromise = null; // Resetea la caché en caso de fallo para permitir reintentos.
+    cachedClientPromise = null;
     throw e;
   }
 

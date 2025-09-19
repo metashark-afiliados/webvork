@@ -1,21 +1,34 @@
 // middleware.ts
 /**
  * @file middleware.ts
- * @description Orquestador de Middleware de Élite.
- *              Consume la fachada pública del motor y de los manejadores.
- * @version 2.2.0
+ * @description Orquestador del pipeline de middleware.
+ *              v2.0.0 (Feature Toggle): La inclusión del `authHandler` ahora
+ *              está controlada por la variable de entorno DCC_AUTH_ENABLED.
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { NextRequest, NextResponse } from "next/server";
-// --- INICIO DE REFACTORIZACIÓN: Importaciones semánticas ---
 import {
   createPipeline,
   type MiddlewareHandler,
 } from "@/lib/middleware/engine";
-import { i18nHandler } from "@/lib/middleware/handlers";
-// --- FIN DE REFACTORIZACIÓN ---
+import { i18nHandler, authHandler } from "@/lib/middleware/handlers";
+import { logger } from "./lib/logging";
 
 const handlers: MiddlewareHandler[] = [i18nHandler];
+
+// --- [INICIO] LÓGICA DE FEATURE TOGGLE ---
+if (process.env.DCC_AUTH_ENABLED === "true") {
+  handlers.push(authHandler);
+  logger.info(
+    "[Middleware] El manejador de autenticación del DCC está ACTIVADO."
+  );
+} else {
+  logger.warn(
+    "[Middleware] El manejador de autenticación del DCC está DESACTIVADO."
+  );
+}
+// --- [FIN] LÓGICA DE FEATURE TOGGLE ---
 
 const pipeline = createPipeline(handlers);
 

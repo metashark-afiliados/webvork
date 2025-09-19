@@ -26,7 +26,7 @@ import { logger } from "@/lib/logging";
 import { LayoutCanvas } from "./_components/LayoutCanvas";
 import { SectionLibrary } from "./_components/SectionLibrary";
 import { DynamicIcon } from "@/components/ui";
-import type { Step2ContentSchema } from "../../_schemas/steps/step2.schema";
+import type { Step2ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step2.schema";
 import type { z } from "zod";
 
 const availableSections = Object.keys(sectionsConfig).map((name) => ({

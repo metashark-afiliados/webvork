@@ -27,7 +27,7 @@ import {
   Step3ContentSchema,
   Step4ContentSchema,
   Step5ContentSchema,
-} from "../_schemas/steps";
+} from "@/lib/schemas/campaigns/steps";
 
 logger.trace("[wizard.config] Cargando SDC v10.0 (Holistic Type Alignment).");
 
@@ -89,4 +89,3 @@ export const stepsConfig = [
 ] as const;
 
 export type StepConfig = (typeof stepsConfig)[number];
-// app/[locale]/(dev)/dev/campaign-suite/_config/wizard.config.ts

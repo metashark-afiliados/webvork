@@ -7,7 +7,11 @@
  */
 "use client";
 import React from "react";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { motion, AnimatePresence } from "framer-motion";
 import type { LayoutConfigItem } from "../../../_types/draft.types";
@@ -20,8 +24,19 @@ interface SortableItemProps {
 }
 
 function SortableItem({ id, onRemove }: SortableItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
-  const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 };
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
 
   return (
     <motion.div
@@ -37,7 +52,10 @@ function SortableItem({ id, onRemove }: SortableItemProps) {
       {...listeners}
     >
       <div className="flex items-center gap-2">
-        <DynamicIcon name="GripVertical" className="h-5 w-5 text-muted-foreground cursor-grab" />
+        <DynamicIcon
+          name="GripVertical"
+          className="h-5 w-5 text-muted-foreground cursor-grab"
+        />
         <span className="font-medium">{id}</span>
       </div>
       <Button variant="ghost" size="icon" onClick={() => onRemove(id)}>
@@ -53,20 +71,35 @@ interface LayoutCanvasProps {
   title: string;
 }
 
-export function LayoutCanvas({ activeLayout, onRemoveSection, title }: LayoutCanvasProps) {
+export function LayoutCanvas({
+  activeLayout,
+  onRemoveSection,
+  title,
+}: LayoutCanvasProps) {
   logger.trace("[LayoutCanvas] Renderizando lienzo de layout.");
   return (
     <div className="md:col-span-2 p-4 border rounded-lg bg-muted/20 min-h-[400px]">
       <h3 className="font-semibold mb-4">{title}</h3>
       <AnimatePresence>
-        <SortableContext items={activeLayout.map((item) => item.name)} strategy={verticalListSortingStrategy}>
+        <SortableContext
+          items={activeLayout.map((item) => item.name)}
+          strategy={verticalListSortingStrategy}
+        >
           <div className="space-y-2">
             {activeLayout.length > 0 ? (
               activeLayout.map((item) => (
-                <SortableItem key={item.name} id={item.name} onRemove={onRemoveSection} />
+                <SortableItem
+                  key={item.name}
+                  id={item.name}
+                  onRemove={onRemoveSection}
+                />
               ))
             ) : (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-muted-foreground text-center py-10">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-sm text-muted-foreground text-center py-10"
+              >
                 Arrastra o añade secciones aquí para construir tu layout.
               </motion.p>
             )}

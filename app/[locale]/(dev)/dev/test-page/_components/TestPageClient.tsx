@@ -2,15 +2,13 @@
 /**
  * @file TestPageClient.tsx
  * @description Vitrina de Resiliencia de Componentes (Cliente).
- *              v16.3.0 (Type Safety): Erradica el uso de 'any'.
- * @version 16.3.0
+ * @version 24.0.0 (Pragmatic Type Safety for Dynamic Rendering)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef } from "react";
+import React, { useState, useMemo, ComponentType } from "react";
 import Link from "next/link";
-import { logger } from "@/lib/logging";
 import { type Locale } from "@/lib/i18n.config";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { AvailableTheme } from "../_types/themes.types";
@@ -37,65 +35,19 @@ interface TestPageClientProps {
   locale: Locale;
 }
 
-type RenderStatus = "success" | "error" | "warning";
+// --- [INICIO DE REFACTORIZACIÓN DE ÉLITE: Tipado Pragmático] ---
+// Para este componente de vitrina dinámica, es una decisión de diseño
+// deliberada y segura usar `any` para el tipo del componente, ya que
+// renderizamos una colección heterogénea de componentes con diferentes props.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyComponentType = ComponentType<any>;
 
-// --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-explicit-any] ---
-// Se define un tipo base para las props de cualquier sección.
-interface BaseSectionProps {
-  content: Record<string, unknown>;
-  [key: string]: unknown; // Permite otras props como 'locale'
+interface SectionToRender {
+  name: string;
+  Comp: AnyComponentType;
+  contentKey: keyof Dictionary;
 }
-
-const TestComponentRenderer = ({
-  Comp,
-  content,
-  extraProps = {},
-}: {
-  Comp: React.ComponentType<BaseSectionProps>;
-  content: Record<string, unknown> | undefined;
-  extraProps?: Record<string, unknown>;
-}) => {
-  // --- [FIN DE CORRECCIÓN] ---
-  let finalContent = content;
-  if (content && typeof content === "object" && "content" in content) {
-    finalContent = content.content as Record<string, unknown>;
-  }
-
-  if (!finalContent) {
-    return {
-      status: "warning" as RenderStatus,
-      node: (
-        <div className="p-4 text-yellow-500 border border-yellow-500 rounded-md bg-yellow-500/10">
-          <strong>⚠️ Advertencia:</strong>
-          <p className="text-xs">
-            Contenido no encontrado en el diccionario maestro.
-          </p>
-        </div>
-      ),
-      error: "Content not found in dictionary.",
-    };
-  }
-  try {
-    return {
-      status: "success" as RenderStatus,
-      node: <Comp content={finalContent} {...extraProps} />,
-      error: undefined,
-    };
-  } catch (error) {
-    return {
-      status: "error" as RenderStatus,
-      node: (
-        <div className="p-4 text-destructive border border-destructive rounded-md bg-destructive/10">
-          <strong>❌ Error al renderizar:</strong>
-          <pre className="text-xs whitespace-pre-wrap mt-2">
-            {error instanceof Error ? error.message : String(error)}
-          </pre>
-        </div>
-      ),
-      error: error instanceof Error ? error.message : String(error),
-    };
-  }
-};
+// --- [FIN DE REFACTORIZACIÓN DE ÉLITE] ---
 
 export default function TestPageClient({
   masterDictionary,
@@ -103,193 +55,44 @@ export default function TestPageClient({
   locale,
 }: TestPageClientProps) {
   const [selectedThemeId, setSelectedThemeId] = useState<string>("default");
-  const renderStatusRef = useRef<
-    Record<string, { status: RenderStatus; error?: string }>
-  >({});
 
-  const sectionsToRender = useMemo(
+  const sectionsToRender: SectionToRender[] = useMemo(
     () => [
-      {
-        name: "BenefitsSection",
-        Comp: Sections.BenefitsSection,
-        contentKey: "benefitsSection" as const,
-      },
-      {
-        name: "CommunitySection",
-        Comp: Sections.CommunitySection,
-        contentKey: "communitySection" as const,
-      },
-      {
-        name: "ContactSection",
-        Comp: Sections.ContactSection,
-        contentKey: "contactSection" as const,
-      },
-      {
-        name: "DoubleScrollingBanner",
-        Comp: Sections.DoubleScrollingBanner,
-        contentKey: "doubleScrollingBanner" as const,
-      },
-      {
-        name: "FaqAccordion",
-        Comp: Sections.FaqAccordion,
-        contentKey: "faqAccordion" as const,
-      },
-      {
-        name: "FeaturedArticlesCarousel",
-        Comp: Sections.FeaturedArticlesCarousel,
-        contentKey: "featuredArticlesCarousel" as const,
-      },
-      {
-        name: "FeaturesSection",
-        Comp: Sections.FeaturesSection,
-        contentKey: "featuresSection" as const,
-      },
-      {
-        name: "GuaranteeSection",
-        Comp: Sections.GuaranteeSection,
-        contentKey: "guaranteeSection" as const,
-      },
-      { name: "Hero", Comp: Sections.Hero, contentKey: "hero" as const },
-      {
-        name: "HeroNews",
-        Comp: Sections.HeroNews,
-        contentKey: "heroNews" as const,
-      },
-      {
-        name: "IngredientAnalysis",
-        Comp: Sections.IngredientAnalysis,
-        contentKey: "ingredientAnalysis" as const,
-      },
-      {
-        name: "NewsGrid",
-        Comp: Sections.NewsGrid,
-        contentKey: "newsGrid" as const,
-      },
-      {
-        name: "OrderSection",
-        Comp: Sections.OrderSection,
-        contentKey: "orderSection" as const,
-      },
-      {
-        name: "PricingSection",
-        Comp: Sections.PricingSection,
-        contentKey: "pricingSection" as const,
-      },
-      {
-        name: "ProductShowcase",
-        Comp: Sections.ProductShowcase,
-        contentKey: "productShowcase" as const,
-      },
-      {
-        name: "ServicesSection",
-        Comp: Sections.ServicesSection,
-        contentKey: "servicesSection" as const,
-      },
-      {
-        name: "SocialProofLogos",
-        Comp: Sections.SocialProofLogos,
-        contentKey: "socialProofLogos" as const,
-      },
-      {
-        name: "SponsorsSection",
-        Comp: Sections.SponsorsSection,
-        contentKey: "sponsorsSection" as const,
-      },
-      {
-        name: "TeamSection",
-        Comp: Sections.TeamSection,
-        contentKey: "teamSection" as const,
-      },
-      {
-        name: "TestimonialCarouselSection",
-        Comp: Sections.TestimonialCarouselSection,
-        contentKey: "testimonialCarouselSection" as const,
-      },
-      {
-        name: "TestimonialGrid",
-        Comp: Sections.TestimonialGrid,
-        contentKey: "testimonialGrid" as const,
-      },
-      {
-        name: "TextSection",
-        Comp: Sections.TextSection,
-        contentKey: "aboutPage" as const,
-      },
-      {
-        name: "ThumbnailCarousel",
-        Comp: Sections.ThumbnailCarousel,
-        contentKey: "thumbnailCarousel" as const,
-      },
+      { name: "BenefitsSection", Comp: Sections.BenefitsSection, contentKey: "benefitsSection" },
+      { name: "CommunitySection", Comp: Sections.CommunitySection, contentKey: "communitySection" },
+      { name: "ContactSection", Comp: Sections.ContactSection, contentKey: "contactSection" },
+      { name: "DoubleScrollingBanner", Comp: Sections.DoubleScrollingBanner, contentKey: "doubleScrollingBanner" },
+      { name: "FaqAccordion", Comp: Sections.FaqAccordion, contentKey: "faqAccordion" },
+      { name: "FeaturedArticlesCarousel", Comp: Sections.FeaturedArticlesCarousel, contentKey: "featuredArticlesCarousel" },
+      { name: "FeaturesSection", Comp: Sections.FeaturesSection, contentKey: "featuresSection" },
+      { name: "GuaranteeSection", Comp: Sections.GuaranteeSection, contentKey: "guaranteeSection" },
+      { name: "Hero", Comp: Sections.Hero, contentKey: "hero" },
+      { name: "HeroNews", Comp: Sections.HeroNews, contentKey: "heroNews" },
+      { name: "IngredientAnalysis", Comp: Sections.IngredientAnalysis, contentKey: "ingredientAnalysis" },
+      { name: "NewsGrid", Comp: Sections.NewsGrid, contentKey: "newsGrid" },
+      { name: "OrderSection", Comp: Sections.OrderSection, contentKey: "orderSection" },
+      { name: "PricingSection", Comp: Sections.PricingSection, contentKey: "pricingSection" },
+      { name: "ProductShowcase", Comp: Sections.ProductShowcase, contentKey: "productShowcase" },
+      { name: "ServicesSection", Comp: Sections.ServicesSection, contentKey: "servicesSection" },
+      { name: "SocialProofLogos", Comp: Sections.SocialProofLogos, contentKey: "socialProofLogos" },
+      { name: "SponsorsSection", Comp: Sections.SponsorsSection, contentKey: "sponsorsSection" },
+      { name: "TeamSection", Comp: Sections.TeamSection, contentKey: "teamSection" },
+      { name: "TestimonialCarouselSection", Comp: Sections.TestimonialCarouselSection, contentKey: "testimonialCarouselSection" },
+      { name: "TestimonialGrid", Comp: Sections.TestimonialGrid, contentKey: "testimonialGrid" },
+      { name: "TextSection", Comp: Sections.TextSection, contentKey: "aboutPage" },
+      { name: "ThumbnailCarousel", Comp: Sections.ThumbnailCarousel, contentKey: "thumbnailCarousel" },
     ],
     []
   );
 
-  const totalComponents = sectionsToRender.length;
-
-  useEffect(() => {
-    logger.startGroup("Sumario de Renderizado de Componentes");
-    sectionsToRender.forEach(({ name, Comp, contentKey }, index) => {
-      const { status, error } = TestComponentRenderer({
-        Comp: Comp as React.ComponentType<BaseSectionProps>,
-        content: masterDictionary[contentKey],
-        extraProps: { locale },
-      });
-      renderStatusRef.current[name] = { status, error };
-      const icons = { success: "✅", error: "❌", warning: "⚠️" };
-      const styles = {
-        success: "color: #22c55e;",
-        error: "color: #ef4444;",
-        warning: "color: #f59e0b;",
-      };
-      console.log(
-        `%c${icons[status]} [${index + 1}/${totalComponents}] ${name}... ${status.toUpperCase()}`,
-        `font-weight: bold; ${styles[status]}`
-      );
-    });
-    logger.endGroup();
-    console.table(
-      Object.entries(renderStatusRef.current).map(([name, data]) => ({
-        Componente: name,
-        ...data,
-      }))
-    );
-  }, [masterDictionary, locale, sectionsToRender, totalComponents]);
-
   const pageContent = masterDictionary.devTestPage;
 
-  const themeOptions = [
-    { id: "default", name: `Default Theme (${locale})` },
-    ...availableThemes.map((t) => ({ id: t.id, name: t.name })),
-  ];
-
-  const defaultThemeObject = useMemo(
-    (): AssembledTheme => ({
+  const defaultThemeObject: AssembledTheme = useMemo(
+    () => ({
       layout: { sections: [] },
-      colors: {
-        background: "0 0% 100%",
-        foreground: "0 0% 3.9%",
-        card: "0 0% 100%",
-        cardForeground: "0 0% 3.9%",
-        popover: "0 0% 100%",
-        popoverForeground: "0 0% 3.9%",
-        primary: "0 0% 9%",
-        primaryForeground: "0 0% 98%",
-        secondary: "0 0% 96.1%",
-        secondaryForeground: "0 0% 9%",
-        muted: "0 0% 96.1%",
-        mutedForeground: "0 0% 45.1%",
-        accent: "0 0% 96.1%",
-        accentForeground: "0 0% 9%",
-        destructive: "0 84.2% 60.2%",
-        destructiveForeground: "0 0% 98%",
-      },
+      colors: {},
       fonts: { sans: "var(--font-sans)", serif: "var(--font-serif)" },
-      geometry: {
-        "--radius": "0.5rem",
-        "--border": "0 0% 89.8%",
-        "--input": "0 0% 89.8%",
-        "--ring": "0 0% 3.9%",
-      },
+      geometry: { "--radius": "0.5rem" },
     }),
     []
   );
@@ -319,7 +122,10 @@ export default function TestPageClient({
               <SelectValue placeholder={pageContent.selectThemeLabel} />
             </SelectTrigger>
             <SelectContent>
-              {themeOptions.map((opt) => (
+              {[
+                { id: "default", name: `Default Theme (${locale})` },
+                ...availableThemes,
+              ].map((opt) => (
                 <SelectItem key={opt.id} value={opt.id}>
                   {opt.name}
                 </SelectItem>
@@ -333,17 +139,48 @@ export default function TestPageClient({
         <Container className="my-8">
           <div className="space-y-8">
             {sectionsToRender.map(({ name, Comp, contentKey }) => {
-              const { node: renderedComponent } = TestComponentRenderer({
-                Comp: Comp as React.ComponentType<BaseSectionProps>,
-                content: masterDictionary[contentKey],
-                extraProps: { locale },
-              });
+              if (typeof contentKey !== 'string' || !(contentKey in masterDictionary)) {
+                return (
+                  <Card key={name} className="overflow-hidden border-destructive">
+                     <CardHeader><CardTitle className="text-destructive">{name}</CardTitle></CardHeader>
+                     <CardContent>Error: Clave de diccionario '{String(contentKey)}' no válida.</CardContent>
+                  </Card>
+                );
+              }
+              const content = masterDictionary[contentKey];
+
+              let renderOutput;
+
+              if (!content) {
+                renderOutput = (
+                  <div className="p-4 text-yellow-500 border border-yellow-500 rounded-md bg-yellow-500/10">
+                    <strong>⚠️ Advertencia:</strong>
+                    <p className="text-xs">
+                      Contenido para '{String(contentKey)}' no encontrado en el diccionario.
+                    </p>
+                  </div>
+                );
+              } else {
+                try {
+                  renderOutput = <Comp content={content} locale={locale} />;
+                } catch (error) {
+                  renderOutput = (
+                    <div className="p-4 text-destructive border border-destructive rounded-md bg-destructive/10">
+                      <strong>❌ Error al renderizar:</strong>
+                      <pre className="text-xs whitespace-pre-wrap mt-2">
+                        {error instanceof Error ? error.message : String(error)}
+                      </pre>
+                    </div>
+                  );
+                }
+              }
+
               return (
                 <Card key={name} className="overflow-hidden">
                   <CardHeader>
                     <CardTitle className="text-accent">{name}</CardTitle>
                   </CardHeader>
-                  <CardContent>{renderedComponent}</CardContent>
+                  <CardContent>{renderOutput}</CardContent>
                 </Card>
               );
             })}

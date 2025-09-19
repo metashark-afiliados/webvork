@@ -1,10 +1,8 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step3_Theme/Step3Client.tsx
 /**
  * @file Step3Client.tsx
- * @description Contenedor de Cliente para el Paso 3. Ahora actúa como un cargador
- *              de datos inteligente para pre-cargar todos los fragmentos de tema
- *              y pasar el contenido i18n al Compositor de Temas.
- * @version 5.0.0 (Theme Composer i18n & Full Fragment Loading)
+ * @description Contenedor de Cliente para el Paso 3.
+ * @version 5.2.0 (Error Handling & Observability Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -14,7 +12,6 @@ import { toast } from "sonner";
 import { useCampaignDraft } from "../../_hooks";
 import type { ThemeConfig } from "../../_types/draft.types";
 import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { ActionResult } from "@/lib/types/actions.types";
 import type { DiscoveredFragments } from "../../_actions/getThemeFragments.action";
 import { Step3Form } from "./Step3Form";
@@ -22,17 +19,16 @@ import { useWizard } from "../../_context/WizardContext";
 import { ThemeComposerModal } from "./_components/ThemeComposerModal";
 import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
 import { DynamicIcon } from "@/components/ui";
-import { deepMerge } from "@/lib/utils/merge"; // Asegúrate de importar deepMerge
-import { AssembledThemeSchema } from "@/lib/schemas/theming/assembled-theme.schema";
+import { z } from "zod";
+import { Step3ContentSchema } from "@/lib/schemas/campaigns/steps/step3.schema";
 
-type Step3Content = NonNullable<Dictionary["campaignSuitePage"]>["step3"];
+type Step3Content = z.infer<typeof Step3ContentSchema>;
 
 interface Step3ClientProps {
-  content: Step3Content;
+  content?: Step3Content;
   fragmentsResult: ActionResult<DiscoveredFragments>;
 }
 
-// Definimos un tipo para los fragmentos cargados
 type LoadedFragments = {
   base: Partial<AssembledTheme>;
   colors: Record<string, Partial<AssembledTheme>>;
@@ -44,9 +40,7 @@ export function Step3Client({
   content,
   fragmentsResult,
 }: Step3ClientProps): React.ReactElement {
-  logger.info(
-    "[Step3Client] Renderizando v5.0 (Theme Composer i18n & Full Fragment Loading)."
-  );
+  logger.info("[Step3Client] Renderizando v5.2 (Error Handling Fix).");
 
   const { draft, updateDraft } = useCampaignDraft();
   const { goToNextStep, goToPrevStep } = useWizard();
@@ -69,75 +63,54 @@ export function Step3Client({
         const fetchFragment = async (
           path: string
         ): Promise<Partial<AssembledTheme>> => {
-          try {
-            const response = await fetch(path);
-            if (!response.ok) {
-              logger.warn(
-                `[Step3Client] Fallo al cargar fragmento ${path}: ${response.statusText}`
-              );
-              return {}; // Devolver objeto vacío en caso de error HTTP
-            }
-            const json = await response.json();
-            // Validar cada fragmento individualmente
-            const validationResult =
-              AssembledThemeSchema.deepPartial().safeParse(json);
-            if (!validationResult.success) {
-              logger.error(
-                `[Step3Client] Fallo de validación para fragmento ${path}`,
-                { errors: validationResult.error.flatten() }
-              );
-              return {}; // Devolver objeto vacío si falla la validación
-            }
-            return validationResult.data;
-          } catch (e) {
-            logger.error(
-              `[Step3Client] Error al hacer fetch o parsear fragmento ${path}`,
-              { error: e }
-            );
-            return {};
-          }
+          const response = await fetch(path);
+          if (!response.ok) return {};
+          return await response.json();
         };
 
-        const basePromise = fetchFragment(
-          "/theme-fragments/base/global.theme.json"
-        );
-        const colorPromises = fragmentsResult.data.colors.map((name) =>
-          fetchFragment(`/theme-fragments/colors/${name}.colors.json`).then(
-            (data) => ({ name, data })
-          )
-        );
-        const fontPromises = fragmentsResult.data.fonts.map((name) =>
-          fetchFragment(`/theme-fragments/fonts/${name}.fonts.json`).then(
-            (data) => ({ name, data })
-          )
-        );
-        const radiiPromises = fragmentsResult.data.radii.map((name) =>
-          fetchFragment(`/theme-fragments/radii/${name}.radii.json`).then(
-            (data) => ({ name, data })
-          )
-        );
-
         const [base, colors, fonts, radii] = await Promise.all([
-          basePromise,
-          Promise.all(colorPromises),
-          Promise.all(fontPromises),
-          Promise.all(radiiPromises),
+          fetchFragment("/theme-fragments/base/global.theme.json"),
+          Promise.all(
+            fragmentsResult.data.colors.map((name) =>
+              fetchFragment(`/theme-fragments/colors/${name}.colors.json`).then(
+                (data) => ({ name, data })
+              )
+            )
+          ),
+          Promise.all(
+            fragmentsResult.data.fonts.map((name) =>
+              fetchFragment(`/theme-fragments/fonts/${name}.fonts.json`).then(
+                (data) => ({ name, data })
+              )
+            )
+          ),
+          Promise.all(
+            fragmentsResult.data.radii.map((name) =>
+              fetchFragment(`/theme-fragments/radii/${name}.radii.json`).then(
+                (data) => ({ name, data })
+              )
+            )
+          ),
         ]);
 
-        const fragments: LoadedFragments = {
+        setLoadedFragments({
           base,
           colors: Object.fromEntries(colors.map((c) => [c.name, c.data])),
           fonts: Object.fromEntries(fonts.map((f) => [f.name, f.data])),
           radii: Object.fromEntries(radii.map((r) => [r.name, r.data])),
-        };
-        setLoadedFragments(fragments);
+        });
       } catch (error) {
+        // --- [INICIO DE CORRECCIÓN DE OBSERVABILIDAD] ---
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        logger.error(
+          "[Step3Client] Fallo crítico al cargar los fragmentos de tema.",
+          { error }
+        );
         toast.error("Error al cargar datos de tema", {
-          description: "Algunos fragmentos no se pudieron cargar.",
+          description: errorMessage,
         });
-        logger.error("[Step3Client] Fallo crítico en loadAllFragments.", {
-          error,
-        });
+        // --- [FIN DE CORRECCIÓN DE OBSERVABILIDAD] ---
       } finally {
         setIsLoadingFragments(false);
       }
@@ -148,6 +121,15 @@ export function Step3Client({
   const onThemeConfigChange = (newConfig: Partial<ThemeConfig>) => {
     updateDraft({ themeConfig: { ...draft.themeConfig, ...newConfig } });
   };
+
+  if (!content) {
+    logger.error("[Step3Client] El contenido para el Paso 3 es indefinido.");
+    return (
+      <div className="text-destructive p-8">
+        Error: Faltan datos de contenido para este paso.
+      </div>
+    );
+  }
 
   if (isLoadingFragments) {
     return (
@@ -160,27 +142,6 @@ export function Step3Client({
       </div>
     );
   }
-
-  // Preparamos el objeto de contenido para el modal
-  const composerContent = {
-    composerTitle: content.composerTitle || "Compositor de Temas",
-    composerDescription: content.composerDescription || "...",
-    composerColorsTab: content.composerColorsTab || "Colores",
-    composerTypographyTab: content.composerTypographyTab || "Tipografía",
-    composerGeometryTab: content.composerGeometryTab || "Geometría",
-    composerSaveButton: content.composerSaveButton || "Aplicar y Guardar Tema",
-    composerCancelButton: content.composerCancelButton || "Cancelar",
-    createNewPaletteButton:
-      content.createNewPaletteButton || "Crear Nueva Paleta",
-    createNewFontSetButton:
-      content.createNewFontSetButton || "Crear Nuevo Set de Fuentes",
-    createNewRadiusStyleButton:
-      content.createNewRadiusStyleButton || "Crear Nuevo Estilo de Radio",
-    placeholderFontsNone:
-      content.placeholderFontsNone || "No hay sets de fuentes disponibles",
-    placeholderRadiiNone:
-      content.placeholderRadiiNone || "No hay estilos de radio disponibles",
-  };
 
   return (
     <>
@@ -199,9 +160,10 @@ export function Step3Client({
           fragments={loadedFragments}
           currentConfig={draft.themeConfig}
           onSave={onThemeConfigChange}
-          content={composerContent} // <-- Pasar el contenido i18n
+          content={content}
         />
       )}
     </>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step3_Theme/Step3Client.tsx

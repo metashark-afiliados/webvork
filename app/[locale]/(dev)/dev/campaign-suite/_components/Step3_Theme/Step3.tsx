@@ -12,7 +12,7 @@ import { logger } from "@/lib/logging";
 import { Step3Client } from "./Step3Client";
 import { getThemeFragmentsAction } from "../../_actions/getThemeFragments.action";
 import type { StepProps } from "../../_types/step.types";
-import type { Step3ContentSchema } from "../../_schemas/steps/step3.schema";
+import type { Step3ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step3.schema";
 import type { z } from "zod";
 
 type Content = z.infer<typeof Step3ContentSchema>;

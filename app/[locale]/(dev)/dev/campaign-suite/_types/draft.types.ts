@@ -1,37 +1,25 @@
 // app/[locale]/(dev)/dev/campaign-suite/_types/draft.types.ts
 /**
  * @file draft.types.ts
- * @description SSoT para los contratos de tipos del borrador de campaña.
- * @version 2.1.0 (Flexible State Contract Fix)
+ * @description SSoT para los contratos de tipos del borrador de campaña y su estado en Zustand.
+ * @version 3.0.0 (State Contract Synchronization)
  * @author RaZ Podestá - MetaShark Tech
  */
+import type { z } from "zod";
+import type {
+  HeaderConfigSchema,
+  FooterConfigSchema,
+  LayoutConfigSchema,
+  ThemeConfigSchema,
+  ContentDataSchema,
+} from "@/lib/schemas/campaigns/draft.parts.schema";
 import type { Locale } from "@/lib/i18n.config";
 
-export interface HeaderConfig {
-  useHeader: boolean;
-  componentName: string | null;
-  logoPath: string | null;
-}
-
-export interface FooterConfig {
-  useFooter: boolean;
-  componentName: string | null;
-}
-
-export interface LayoutConfigItem {
-  name: string;
-}
-
-export interface ThemeConfig {
-  colorPreset: string | null;
-  fontPreset: string | null;
-  radiusPreset: string | null;
-}
-
-export type ContentData = Record<
-  string,
-  Partial<Record<Locale, Record<string, unknown>>>
->;
+export type HeaderConfig = z.infer<typeof HeaderConfigSchema>;
+export type FooterConfig = z.infer<typeof FooterConfigSchema>;
+export type LayoutConfigItem = z.infer<typeof LayoutConfigSchema>[number];
+export type ThemeConfig = z.infer<typeof ThemeConfigSchema>;
+export type ContentData = z.infer<typeof ContentDataSchema>;
 
 export interface CampaignDraft {
   draftId: string | null;
@@ -47,11 +35,14 @@ export interface CampaignDraft {
   layoutConfig: LayoutConfigItem[];
   themeConfig: ThemeConfig;
   contentData: ContentData;
+  updatedAt: string;
 }
 
 export interface CampaignDraftState {
   draft: CampaignDraft;
   isLoading: boolean;
+  isSyncing: boolean;
+  initializeDraft: () => Promise<void>;
   updateDraft: (data: Partial<Omit<CampaignDraft, "step" | "draftId">>) => void;
   updateSectionContent: (
     sectionName: string,
@@ -61,5 +52,8 @@ export interface CampaignDraftState {
   ) => void;
   setStep: (step: number) => void;
   deleteDraft: () => void;
+  _debouncedSave: (draftToSave: CampaignDraft) => Promise<void>;
+  _updateAndDebounce: (
+    newDraftState: Partial<Omit<CampaignDraft, "draftId" | "step">>
+  ) => void;
 }
-// app/[locale]/(dev)/dev/campaign-suite/_types/draft.types.ts

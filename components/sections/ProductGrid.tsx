@@ -2,7 +2,7 @@
 /**
  * @file ProductGrid.tsx
  * @description Cuadrícula de productos de lujo para la Tienda v2.0.
- * @version 3.0.0 (Luxury Experience)
+ * @version 3.1.0 (Route & CSS Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -54,8 +54,12 @@ const ProductCard = ({
 }) => (
   <TiltCard className="h-full">
     <Link
-      href={routes.storeProduct.path({ locale, slug: product.slug })}
-      className="block group relative rounded-xl border border-border bg-card shadow-subtle h-full flex flex-col transition-all duration-300 hover:shadow-strong hover:-translate-y-1"
+      // --- [INICIO DE CORRECCIÓN DE RUTA] ---
+      href={routes.storeBySlug.path({ locale, slug: product.slug })}
+      // --- [FIN DE CORRECCIÓN DE RUTA] ---
+      // --- [INICIO DE CORRECCIÓN DE CSS] ---
+      className="group relative rounded-xl border border-border bg-card shadow-subtle h-full flex flex-col transition-all duration-300 hover:shadow-strong hover:-translate-y-1"
+      // --- [FIN DE CORRECCIÓN DE CSS] ---
     >
       {product.isBestseller && (
         <div className="absolute top-3 right-3 z-10 bg-accent text-accent-foreground text-xs font-bold uppercase px-2 py-1 rounded-full">
@@ -114,7 +118,7 @@ export function ProductGrid({
   locale,
   content,
 }: ProductGridProps): React.ReactElement {
-  logger.info("[ProductGrid v3.0] Renderizando cuadrícula de lujo...");
+  logger.info("[ProductGrid v3.1] Renderizando cuadrícula de lujo...");
 
   const gridVariants = {
     hidden: { opacity: 0 },

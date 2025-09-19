@@ -1,7 +1,7 @@
 /**
  * @file app/globals.css
  * @description SSoT Holística para el Sistema de Diseño.
- * @version 8.0.0 (Full DCC Theming Support)
+ * @version 7.0.0 (Professional Aesthetic Leveling)
  * @author RaZ Podestá - MetaShark Tech
  */
 
@@ -46,12 +46,6 @@
   --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-strong:
     0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-
-  /* --- [INICIO DE AÑADIDO: Variables CSS para fuentes globales] --- */
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-poppins);
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  /* --- [FIN DE AÑADIDO] --- */
 }
 
 /* ==========================================================================
@@ -83,7 +77,7 @@
 }
 @keyframes collapsible-up {
   from {
-    height: 0;
+    height: var(--radix-collapsible-content-height);
   }
   to {
     height: 0;
@@ -115,10 +109,6 @@
     --input: 20 5.9% 90%;
     --ring: 24.6 95% 53.1%;
     --radius: 0.5rem;
-
-    /* --- [INICIO DE AÑADIDO: Aplicación de fuentes por defecto] --- */
-    font-family: var(--font-sans); /* Por defecto, usamos la sans-serif */
-    /* --- [FIN DE AÑADIDO] --- */
   }
 
   .dark {
@@ -153,9 +143,6 @@
     font-size: 15px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* --- [INICIO DE AÑADIDO: Aplicación de font-family a body si no se hereda de :root] --- */
-    font-family: var(--font-sans);
-    /* --- [FIN DE AÑADIDO] --- */
   }
 
   h1,
@@ -165,9 +152,6 @@
   h5,
   h6 {
     text-wrap: balance;
-    /* --- [INICIO DE AÑADIDO: Aplicar la fuente serif para titulares si está definida] --- */
-    font-family: var(--font-serif, var(--font-sans)); /* Fallback a sans si no hay serif */
-    /* --- [FIN DE AÑADIDO] --- */
   }
 
   h1 {

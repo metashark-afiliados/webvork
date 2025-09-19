@@ -2,9 +2,10 @@
 /**
  * @file NewsGrid.tsx
  * @description Cuadrícula de noticias.
- *              - v4.0.0 (Alias Unification): Rutas de importación estandarizadas.
- *              - v4.1.0 (Resilience): La prop `content` ahora es opcional.
- * @version 4.1.0
+ *              - v5.0.0 (Route Key Fix): Corrige la clave de ruta utilizada para
+ *                enlazar a los artículos individuales, alineándose con la SSoT
+ *                generada en `lib/navigation.ts`.
+ * @version 5.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -14,16 +15,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { routes } from "@/lib/navigation";
+import { routes } from "../../lib/navigation";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { Locale } from "@/lib/i18n.config";
-import type { Article } from "@/lib/schemas/components/news-grid.schema";
+import type { ArticleCardData } from "@/lib/schemas/components/news-grid.schema";
 import { logger } from "@/lib/logging";
 
 interface NewsGridProps {
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   content?: Dictionary["newsGrid"];
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
   locale: Locale;
 }
 
@@ -31,16 +30,14 @@ export function NewsGrid({
   content,
   locale,
 }: NewsGridProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando NewsGrid");
+  logger.info("[Observabilidad] Renderizando NewsGrid v5.0 (Route Key Fix)");
 
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[NewsGrid] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { title, articles } = content;
 
@@ -62,10 +59,13 @@ export function NewsGrid({
           viewport={{ once: true, amount: 0.1 }}
           transition={{ staggerChildren: 0.1 }}
         >
-          {articles.map((article: Article) => (
+          {articles.map((article: ArticleCardData) => (
             <motion.div key={article.title} variants={cardVariants}>
               <Link
-                href={routes.newsArticle.path({ locale, slug: article.slug })}
+                // --- [INICIO DE CORRECCIÓN] ---
+                // Se utiliza la clave correcta 'newsBySlug' en lugar de 'newsArticle'.
+                href={routes.newsBySlug.path({ locale, slug: article.slug })}
+                // --- [FIN DE CORRECCIÓN] ---
                 className="block group"
               >
                 <div className="overflow-hidden rounded-lg shadow-lg border border-muted bg-muted/20 h-full flex flex-col transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">

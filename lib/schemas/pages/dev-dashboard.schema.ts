@@ -2,8 +2,8 @@
 /**
  * @file dev-dashboard.schema.ts
  * @description Esquema de Zod para el contenido i18n de la página del Dashboard de Desarrollo.
- *              v2.2.0 (Theme Switcher i18n): Añade claves para el nuevo `DevThemeSwitcher` global.
- * @version 2.2.0
+ *              v2.3.0 (Suite Style Composer i18n): Añade claves para el nuevo `SuiteStyleComposerModal`.
+ * @version 2.3.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -24,7 +24,6 @@ export const DevDashboardLocaleSchema = z.object({
         branding: DevToolSchema,
         resilienceShowcase: DevToolSchema,
       }),
-      // --- [INICIO DE AÑADIDO: Claves para DevThemeSwitcher] ---
       selectThemeLabel: z.string(),
       selectFontLabel: z.string(),
       selectRadiusLabel: z.string(),
@@ -32,7 +31,23 @@ export const DevDashboardLocaleSchema = z.object({
       colorFilterPlaceholder: z.string(),
       fontFilterPlaceholder: z.string(),
       radiusFilterPlaceholder: z.string(),
-      // --- [FIN DE AÑADIDO] ---
+      customizeButton: z.string(), // <-- NUEVO
+      // Claves para el Compositor de Estilos de Suite
+      composerTitle: z.string(),
+      composerDescription: z.string(),
+      composerColorsTab: z.string(),
+      composerTypographyTab: z.string(),
+      composerGeometryTab: z.string(),
+      composerSaveButton: z.string(),
+      composerCancelButton: z.string(),
+      fontSizeLabel: z.string(),
+      fontWeightLabel: z.string(),
+      lineHeightLabel: z.string(),
+      letterSpacingLabel: z.string(),
+      borderRadiusLabel: z.string(),
+      borderWidthLabel: z.string(),
+      baseSpacingUnitLabel: z.string(),
+      inputHeightLabel: z.string(),
     })
     .optional(),
 });

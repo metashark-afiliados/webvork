@@ -2,22 +2,27 @@
 /**
  * @file useCampaignDraft.ts
  * @description Hook de Zustand para la gestión de estado híbrida.
- * @version 12.1.0 (Definitive Type Guard & Hygiene Fix)
+ *              - v13.0.0 (Definitive State Contract): Sincronizado con el contrato de
+ *                estado definitivo, se añade una guardia de tipo robusta y se mejora
+ *                la lógica de hidratación y la higiene del código.
+ * @version 13.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { StateCreator } from "zustand";
+import { toast } from "sonner";
 import { logger } from "@/lib/logging";
 import { generateDraftId } from "@/lib/utils/draft.utils";
 import { stepsConfig } from "../_config/wizard.config";
 import { initialCampaignDraftState } from "../_config/draft.initial-state";
 import type { CampaignDraft, CampaignDraftState } from "../_types/draft.types";
 import { saveDraftAction, getDraftAction } from "../_actions/draft.actions";
-import { toast } from "sonner";
-// --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-unused-vars] ---
+import {
+  CampaignDraftDataSchema,
+  type CampaignDraftDb,
+} from "@/lib/schemas/campaigns/draft.schema";
 // Se elimina la importación no utilizada de 'Locale'.
-// --- [FIN DE CORRECCIÓN] ---
 
 let debounceTimeout: NodeJS.Timeout;
 const DEBOUNCE_DELAY = 1500;
@@ -38,9 +43,8 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
       if (new Date(dbDraft.updatedAt) >= new Date(localDraft.updatedAt)) {
         logger.info("[useCampaignDraft] Hidratando estado desde MongoDB.");
         draftToLoad = {
-          ...localDraft,
-          ...dbDraft,
-          step: localDraft.step,
+          ...localDraft, // Mantiene el 'step' local
+          ...(dbDraft as Omit<CampaignDraftDb, "userId" | "createdAt">),
           updatedAt: dbDraft.updatedAt,
         };
       } else {
@@ -59,16 +63,12 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
   },
 
   _debouncedSave: async (draftToSave: CampaignDraft) => {
-    // --- [INICIO DE CORRECCIÓN DEFINITIVA TS2345] ---
-    // Esta guarda de tipo asegura que 'draftToSave.draftId' es un 'string'
-    // para el resto del alcance de esta función.
     if (!draftToSave.draftId) {
       logger.warn(
         "[_debouncedSave] Intento de guardado sin draftId. Abortando."
       );
       return;
     }
-    // --- [FIN DE CORRECCIÓN DEFINITIVA TS2345] ---
 
     set({ isSyncing: true });
     logger.info(
@@ -76,10 +76,18 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
     );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { step, ...dataToSave } = draftToSave;
+    const { step, updatedAt, ...dataToSave } = draftToSave;
+    const validation = CampaignDraftDataSchema.safeParse(dataToSave);
 
-    // Ahora 'dataToSave.draftId' es garantizado como 'string', satisfaciendo el contrato.
-    const result = await saveDraftAction(dataToSave);
+    if (!validation.success) {
+      toast.error("Error de datos", {
+        description: "El borrador local tiene un formato inválido.",
+      });
+      set({ isSyncing: false });
+      return;
+    }
+
+    const result = await saveDraftAction(validation.data);
 
     if (result.success) {
       toast.success("Progreso guardado en la nube.");
@@ -146,6 +154,7 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
     logger.warn("[useCampaignDraft] Eliminando borrador de campaña...");
     set({ draft: initialCampaignDraftState, isLoading: false });
     toast.success("Borrador local eliminado.");
+    // Aquí iría la llamada a la acción para eliminar de la DB
   },
 });
 
@@ -158,4 +167,3 @@ export const useCampaignDraft = create<CampaignDraftState>()(
     },
   })
 );
-// app/[locale]/(dev)/dev/campaign-suite/_hooks/useCampaignDraft.ts

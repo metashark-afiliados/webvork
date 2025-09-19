@@ -2,10 +2,7 @@
 /**
  * @file Step1Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 1.
- *              v5.0.0 (Holistic Fix): Corrige la ruta de importación,
- *              se alinea con el contexto de navegación y cambia a una
- *              exportación nombrada para resolver todos los errores.
- * @version 5.0.0
+ * @version 5.1.0 (Sovereign Type Contract & Resilience)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -14,22 +11,28 @@ import React from "react";
 import { useCampaignDraft } from "../../_hooks";
 import type { HeaderConfig, FooterConfig } from "../../_types/draft.types";
 import { logger } from "@/lib/logging";
-// --- [INICIO DE CORRECCIÓN DE RUTA Y ERROR DE LITERAL] ---
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-// --- [FIN DE CORRECCIÓN DE RUTA Y ERROR DE LITERAL] ---
 import { Step1Form } from "./Step1Form";
 import { useWizard } from "../../_context/WizardContext";
+import { Step1ContentSchema } from "@/lib/schemas/campaigns/steps/step1.schema";
+import { z } from "zod";
 
-type Step1Content = NonNullable<Dictionary["campaignSuitePage"]>["step1"];
+type Step1Content = z.infer<typeof Step1ContentSchema>;
 
 interface Step1ClientProps {
-  content: Step1Content;
+  content?: Step1Content;
 }
 
-// --- [INICIO DE CORRECCIÓN DE EXPORTACIÓN] ---
 export function Step1Client({ content }: Step1ClientProps): React.ReactElement {
-  // --- [FIN DE CORRECCIÓN DE EXPORTACIÓN] ---
-  logger.info("Renderizando Step1Client (Contenedor de Lógica)");
+  logger.info("Renderizando Step1Client (Contrato Soberano)");
+
+  if (!content) {
+    logger.error("[Step1Client] El contenido para el Paso 1 es indefinido.");
+    return (
+      <div className="text-destructive p-8">
+        Error: Faltan datos de contenido para este paso.
+      </div>
+    );
+  }
 
   const { draft, updateDraft } = useCampaignDraft();
   const { goToNextStep, goToPrevStep } = useWizard();

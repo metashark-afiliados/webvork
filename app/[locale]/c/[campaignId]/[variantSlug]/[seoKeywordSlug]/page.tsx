@@ -2,21 +2,15 @@
 /**
  * @file page.tsx
  * @description SSoT para el renderizado de páginas de campaña.
- *              - v3.0.0 (Consolidated Data Layer): Refactorizado para consumir
- *                toda la lógica de datos (`getCampaignData` y `resolveCampaignVariant`)
- *                desde la SSoT única en `lib/i18n/campaign.i18n.ts`.
- * @version 3.0.0
+ * @version 4.0.0 (Focus-Aware Contract Sync)
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
 import { notFound } from "next/navigation";
-// --- [INICIO] REFACTORIZACIÓN DE IMPORTACIÓN ---
-// Se importa toda la lógica de datos desde la SSoT consolidada.
 import {
   getCampaignData,
   resolveCampaignVariant,
 } from "@/lib/i18n/campaign.i18n";
-// --- [FIN] REFACTORIZACIÓN DE IMPORTACIÓN ---
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import { SectionRenderer } from "@/components/layout/SectionRenderer";
 import { logger } from "@/lib/logging";
@@ -33,7 +27,6 @@ interface CampaignPageProps {
 
 export async function generateMetadata({ params }: CampaignPageProps) {
   try {
-    // La llamada a `resolveCampaignVariant` ahora es correcta.
     const { variant } = await resolveCampaignVariant(
       params.campaignId,
       params.variantSlug,
@@ -59,13 +52,12 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
   );
 
   try {
-    const { variantId } = await resolveCampaignVariant(
+    const { variantId, variant } = await resolveCampaignVariant(
       campaignId,
       variantSlug,
       true
     );
 
-    // La llamada a `getCampaignData` ahora es correcta.
     const { dictionary, theme } = await getCampaignData(
       campaignId,
       locale,
@@ -74,7 +66,7 @@ export default async function CampaignPage({ params }: CampaignPageProps) {
 
     if (!theme.layout?.sections || theme.layout.sections.length === 0) {
       logger.error(
-        `[CampaignPage] Fallo de renderizado: El tema para la variante "${variantSlug}" no contiene una definición de layout válida.`
+        `[CampaignPage] Fallo de renderizado: El tema para la variante "${variant.name}" no contiene una definición de layout válida.`
       );
       return notFound();
     }

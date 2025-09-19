@@ -1,14 +1,14 @@
 // app/[locale]/(dev)/bavi/_components/AssetCard.tsx
 /**
  * @file AssetCard.tsx
- * @description Componente de presentación puro para visualizar un activo de BAVI en la bóveda.
- * @version 1.0.0
+ * @description Componente de presentación puro para visualizar un activo de BAVI.
+ * @version 3.0.0 (SSoT Contract Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { CldImage } from "next-cloudinary"; // Para renderizar imágenes de Cloudinary
+import { CldImage } from "next-cloudinary";
 import {
   Card,
   CardContent,
@@ -22,7 +22,7 @@ import { Button, DynamicIcon } from "@/components/ui";
 import type { BaviAsset } from "@/lib/schemas/bavi/bavi.manifest.schema";
 import { logger } from "@/lib/logging";
 import type { Locale } from "@/lib/i18n.config";
-import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema"; // Para las opciones SESA
+import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import type { z } from "zod";
 
 type CreatorContent = z.infer<typeof PromptCreatorContentSchema>;
@@ -31,23 +31,30 @@ interface AssetCardProps {
   asset: BaviAsset;
   locale: Locale;
   onViewDetails: (assetId: string) => void;
-  sesaOptions: CreatorContent["sesaOptions"]; // Para traducir las tags
+  onSelectAsset?: (asset: BaviAsset) => void;
+  sesaOptions: CreatorContent["sesaOptions"];
+  selectButtonText?: string;
 }
 
 export function AssetCard({
   asset,
   locale,
   onViewDetails,
+  onSelectAsset,
   sesaOptions,
+  selectButtonText,
 }: AssetCardProps): React.ReactElement {
   logger.trace(
     `[AssetCard] Renderizando tarjeta para activo: ${asset.assetId}`
   );
 
-  const mainVariant = asset.variants[0]; // Asumimos la primera variante es la principal
+  const mainVariant = asset.variants[0];
+  // --- [INICIO DE CORRECCIÓN] ---
+  // Se obtiene la fecha desde la SSoT correcta: el objeto 'asset'.
   const formattedDate = new Date(
-    asset.variants[0].createdAt || new Date()
+    asset.createdAt || new Date()
   ).toLocaleDateString();
+  // --- [FIN DE CORRECCIÓN] ---
 
   const getTagLabel = (category: keyof typeof sesaOptions, value: string) => {
     return (
@@ -74,7 +81,7 @@ export function AssetCard({
               src={mainVariant.publicId}
               alt={asset.metadata?.altText?.[locale] || asset.assetId}
               width={mainVariant.dimensions?.width || 400}
-              height={mainVariant.dimensions?.height || 225} // Ajustar dimensiones para preview
+              height={mainVariant.dimensions?.height || 225}
               crop="fill"
               gravity="auto"
               format="auto"
@@ -121,15 +128,28 @@ export function AssetCard({
             </Badge>
           )}
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onViewDetails(asset.assetId)}
-        >
-          <DynamicIcon name="Eye" className="h-4 w-4 mr-2" />
-          Ver Detalles
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onViewDetails(asset.assetId)}
+          >
+            <DynamicIcon name="Eye" className="h-4 w-4 mr-2" />
+            Ver Detalles
+          </Button>
+          {onSelectAsset && (
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => onSelectAsset(asset)}
+            >
+              <DynamicIcon name="Check" className="h-4 w-4 mr-2" />
+              {selectButtonText || "Seleccionar"}
+            </Button>
+          )}
+        </div>
       </CardFooter>
     </Card>
   );
 }
+// app/[locale]/(dev)/bavi/_components/AssetCard.tsx
