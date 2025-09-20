@@ -2,18 +2,18 @@
 /**
  * @file Step1Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 1.
- * @version 5.1.0 (Sovereign Type Contract & Resilience)
+ * @version 5.2.0 (Rules of Hooks & FSD Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { useCampaignDraft } from "../../_hooks";
+import { useCampaignDraft } from "../../_hooks/use-campaign-draft";
 import type { HeaderConfig, FooterConfig } from "../../_types/draft.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { Step1Form } from "./Step1Form";
 import { useWizard } from "../../_context/WizardContext";
-import { Step1ContentSchema } from "@/lib/schemas/campaigns/steps/step1.schema";
+import { Step1ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step1.schema";
 import { z } from "zod";
 
 type Step1Content = z.infer<typeof Step1ContentSchema>;
@@ -23,7 +23,10 @@ interface Step1ClientProps {
 }
 
 export function Step1Client({ content }: Step1ClientProps): React.ReactElement {
-  logger.info("Renderizando Step1Client (Contrato Soberano)");
+  logger.info("Renderizando Step1Client (Rules of Hooks Fix)");
+
+  const { draft, updateDraft } = useCampaignDraft();
+  const { goToNextStep, goToPrevStep } = useWizard();
 
   if (!content) {
     logger.error("[Step1Client] El contenido para el Paso 1 es indefinido.");
@@ -33,9 +36,6 @@ export function Step1Client({ content }: Step1ClientProps): React.ReactElement {
       </div>
     );
   }
-
-  const { draft, updateDraft } = useCampaignDraft();
-  const { goToNextStep, goToPrevStep } = useWizard();
 
   const handleHeaderConfigChange = (newConfig: Partial<HeaderConfig>) => {
     updateDraft({

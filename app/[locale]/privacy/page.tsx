@@ -7,9 +7,9 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TextSection } from "@/components/sections/TextSection";
 import { DeveloperErrorDisplay } from "@/components/dev";
@@ -20,15 +20,20 @@ interface PrivacyPageProps {
   params: { locale: Locale };
 }
 
-export default async function PrivacyPage({ params: { locale } }: PrivacyPageProps) {
-  logger.info(`[PrivacyPage] Renderizando v2.0 (Elite Compliance) para locale: ${locale}`);
+export default async function PrivacyPage({
+  params: { locale },
+}: PrivacyPageProps) {
+  logger.info(
+    `[PrivacyPage] Renderizando v2.0 (Elite Compliance) para locale: ${locale}`
+  );
 
   const { dictionary, error } = await getDictionary(locale);
   const content = dictionary.privacyPage;
 
   // --- Pilar III: Guardia de Resiliencia Robusta ---
   if (error || !content) {
-    const errorMessage = "Fallo al cargar el contenido i18n para la página de Política de Privacidad.";
+    const errorMessage =
+      "Fallo al cargar el contenido i18n para la página de Política de Privacidad.";
     logger.error(`[PrivacyPage] ${errorMessage}`, { error });
     if (process.env.NODE_ENV === "production") {
       return notFound();
@@ -37,7 +42,9 @@ export default async function PrivacyPage({ params: { locale } }: PrivacyPagePro
       <DeveloperErrorDisplay
         context="PrivacyPage"
         errorMessage={errorMessage}
-        errorDetails={error || "La clave 'privacyPage' falta en el diccionario."}
+        errorDetails={
+          error || "La clave 'privacyPage' falta en el diccionario."
+        }
       />
     );
   }

@@ -13,9 +13,9 @@ import React from "react";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { logger } from "@/lib/logging";
-import type { Product } from "@/lib/schemas/components/product-showcase.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Product } from "@/shared/lib/schemas/components/product-showcase.schema";
 
 interface ProductShowcaseProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

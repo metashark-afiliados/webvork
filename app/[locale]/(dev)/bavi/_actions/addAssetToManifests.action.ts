@@ -2,7 +2,7 @@
 /**
  * @file addAssetToManifests.action.ts
  * @description Server Action atómica para registrar un nuevo activo en los manifiestos de BAVI.
- * @version 2.2.0 (Direct Import Fix)
+ * @version 3.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
@@ -10,16 +10,12 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { UploadApiResponse } from "cloudinary";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
-import type { AssetUploadMetadata } from "@/lib/bavi/upload.schema";
-import { connectToDatabase } from "@/lib/mongodb";
-import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// Se importa la utilidad directamente desde su archivo de origen soberano,
-// eliminando la dependencia frágil del "barrel file".
-import { normalizeKeywords } from "@/lib/search/keyword-normalizer";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
+import type { AssetUploadMetadata } from "@/shared/lib/bavi/upload.schema";
+import { connectToDatabase } from "@/shared/lib/mongodb";
+import type { RaZPromptsEntry } from "@/shared/lib/schemas/raz-prompts/entry.schema";
+import { normalizeKeywords } from "@/shared/lib/search/keyword-normalizer";
 
 const BAVI_MANIFEST_PATH = path.join(
   process.cwd(),
@@ -113,3 +109,4 @@ export async function addAssetToManifestsAction(
     };
   }
 }
+// app/[locale]/(dev)/bavi/_actions/addAssetToManifests.action.ts

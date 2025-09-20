@@ -12,8 +12,8 @@ import { Suspense } from "react";
 import { promises as fs } from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import { logger } from "@/lib/logging";
-import type { Locale } from "@/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import type { Locale } from "@/shared/lib/i18n.config";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { StepClientWrapper } from "@/app/[locale]/(dev)/dev/campaign-suite/_components";
 import {

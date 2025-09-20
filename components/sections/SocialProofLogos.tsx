@@ -16,9 +16,9 @@ import React from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { Container } from "@/components/ui/Container";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { logger } from "@/lib/logging";
-import type { Logo } from "@/lib/schemas/components/social-proof-logos.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Logo } from "@/shared/lib/schemas/components/social-proof-logos.schema";
 
 interface SocialProofLogosProps {
   content?: Dictionary["socialProofLogos"];

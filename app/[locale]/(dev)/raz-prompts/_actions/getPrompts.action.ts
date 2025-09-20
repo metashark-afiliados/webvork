@@ -1,26 +1,22 @@
 // app/[locale]/(dev)/raz-prompts/_actions/getPrompts.action.ts
 /**
  * @file getPrompts.action.ts
- * @description Server Action de élite, robusta y completamente tipada para
- *              obtener una lista paginada y filtrada de prompts.
- * @version 3.0.0 (Definitive SSoT Alignment & Holistic Fix)
+ * @description Server Action de élite para obtener una lista paginada y filtrada de prompts.
+ * @version 4.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
 import { z } from "zod";
 import { type Filter } from "mongodb";
-import { connectToDatabase } from "@/lib/mongodb";
-import { type RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// Se importa el schema y el tipo desde su ÚNICA Fuente de Verdad (SSoT).
+import { connectToDatabase } from "@/shared/lib/mongodb";
+import { type RaZPromptsEntry } from "@/shared/lib/schemas/raz-prompts/entry.schema";
 import {
   RaZPromptsSesaTagsSchema,
   type RaZPromptsSesaTags,
-} from "@/lib/schemas/raz-prompts/atomic.schema";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
-import type { ActionResult } from "@/lib/types/actions.types";
-import { logger } from "@/lib/logging";
+} from "@/shared/lib/schemas/raz-prompts/atomic.schema";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
 
 const GetPromptsInputSchema = z.object({
   page: z.number().int().min(1).default(1),

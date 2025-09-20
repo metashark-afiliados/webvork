@@ -9,9 +9,9 @@
 
 import { promises as fs } from "fs";
 import path from "path";
-import { netTracePrefixToPathMap } from "@/lib/config/theming.config";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
+import { netTracePrefixToPathMap } from "@/shared/lib/config/theming.config";
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 
 export type ThemeFragmentCategory = "colors" | "fonts" | "radii";
 export type DiscoveredFragments = Record<ThemeFragmentCategory, string[]>;

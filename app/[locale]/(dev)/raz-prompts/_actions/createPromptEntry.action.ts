@@ -2,32 +2,24 @@
 /**
  * @file createPromptEntry.action.ts
  * @description Server Action para crear una nueva entrada de prompt en la base de datos.
- *              v1.1.0 (Type Safety & DRY Fix): Se refactoriza el tipo de entrada para
- *              eliminar la redundancia de datos ('aiService'), haciendo que el servidor
- *              sea el único responsable de derivar este valor desde el objeto 'tags'.
- *              Esto resuelve el error TS2344 y fortalece el contrato de la API.
- * @version 1.1.0
+ * @version 2.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
 import { createId } from "@paralleldrive/cuid2";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/shared/lib/mongodb";
 import {
   RaZPromptsEntrySchema,
   type RaZPromptsEntry,
-} from "@/lib/schemas/raz-prompts/entry.schema";
-import type { ActionResult } from "@/lib/types/actions.types";
-import { logger } from "@/lib/logging";
+} from "@/shared/lib/schemas/raz-prompts/entry.schema";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
 
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// El contrato de entrada ahora solo pide los datos fundamentales.
-// Se ha eliminado 'aiService' del Pick, ya que es un dato derivado.
 type CreatePromptInput = Pick<
   RaZPromptsEntry,
   "title" | "versions" | "tags" | "keywords"
 >;
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 export async function createPromptEntryAction(
   input: CreatePromptInput
@@ -36,11 +28,10 @@ export async function createPromptEntryAction(
   try {
     const now = new Date().toISOString();
     const newPromptId = createId();
-    const userId = "raz-podesta"; // Placeholder hasta tener sistema de auth
+    const userId = "raz-podesta"; // Placeholder
 
     const promptDocument: RaZPromptsEntry = {
       ...input,
-      // El servidor deriva 'aiService' del objeto 'tags', que es la SSoT.
       aiService: input.tags.ai,
       promptId: newPromptId,
       userId,

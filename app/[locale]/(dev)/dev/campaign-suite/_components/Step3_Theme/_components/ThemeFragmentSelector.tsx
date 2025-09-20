@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface ThemeFragmentSelectorProps {
   label: string;

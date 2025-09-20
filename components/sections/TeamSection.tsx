@@ -12,9 +12,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { TeamMember } from "@/lib/schemas/components/team-section.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { TeamMember } from "@/shared/lib/schemas/components/team-section.schema";
 
 interface TeamSectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

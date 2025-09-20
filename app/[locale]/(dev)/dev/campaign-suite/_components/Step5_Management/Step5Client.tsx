@@ -2,15 +2,12 @@
 /**
  * @file Step5Client.tsx
  * @description Orquestador de Cliente puro para el Paso 5.
- *              v9.3.0 (Rules of Hooks Fix): Resuelve el error de ESLint
- *              'react-hooks/rules-of-hooks' moviendo todas las llamadas a
- *              hooks al nivel superior del componente, antes del retorno condicional.
- * @version 9.3.0
+ * @version 9.3.0 (Rules of Hooks Fix & FSD Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 import React from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { useWizard } from "../../_context/WizardContext";
 import { useCampaignLifecycle } from "../../_hooks/use-campaign-lifecycle";
 import { useCampaignTemplates } from "../../_hooks/use-campaign-templates";
@@ -19,7 +16,7 @@ import { AlertDialog } from "@/components/ui/AlertDialog";
 import { Step5Form } from "./Step5Form";
 import { DeleteDraftDialog } from "./_components/DeleteDraftDialog";
 import { validateDraftForLaunch } from "../../_utils/draft.validator";
-import { Step5ContentSchema } from "@/lib/schemas/campaigns/steps/step5.schema";
+import { Step5ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step5.schema";
 import { z } from "zod";
 
 type Content = z.infer<typeof Step5ContentSchema>;
@@ -83,3 +80,4 @@ export function Step5Client({ content }: Step5ClientProps): React.ReactElement {
     </AlertDialog>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/Step5Client.tsx

@@ -13,9 +13,9 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { DynamicIcon } from "@/components/ui/DynamicIcon";
-import { useCartTotals } from "@/store/useCartStore";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { useCartTotals } from "@/shared/store/useCartStore";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type CartContent = NonNullable<Dictionary["cart"]>;
 

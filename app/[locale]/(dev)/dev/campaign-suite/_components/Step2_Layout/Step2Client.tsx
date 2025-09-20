@@ -2,19 +2,19 @@
 /**
  * @file Step2Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 2 (Layout).
- * @version 2.1.0 (Sovereign Type Contract & Resilience)
+ * @version 2.2.0 (Rules of Hooks & FSD Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { useCampaignDraft } from "../../_hooks";
+import { useCampaignDraft } from "../../_hooks/use-campaign-draft";
 import type { LayoutConfigItem } from "../../_types/draft.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { Step2Form } from "./Step2Form";
 import { useWizard } from "../../_context/WizardContext";
 import { z } from "zod";
-import { Step2ContentSchema } from "@/lib/schemas/campaigns/steps/step2.schema";
+import { Step2ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step2.schema";
 
 type Step2Content = z.infer<typeof Step2ContentSchema>;
 
@@ -24,10 +24,12 @@ interface Step2ClientProps {
 
 export function Step2Client({ content }: Step2ClientProps): React.ReactElement {
   logger.info(
-    "[Step2Client] Renderizando contenedor de lógica (Contrato Soberano)."
+    "[Step2Client] Renderizando contenedor de lógica (Rules of Hooks Fix)."
   );
 
-  // --- [INICIO] GUARDIA DE RESILIENCIA ---
+  const { draft, updateDraft } = useCampaignDraft();
+  const { goToNextStep, goToPrevStep } = useWizard();
+
   if (!content) {
     logger.error("[Step2Client] El contenido para el Paso 2 es indefinido.");
     return (
@@ -36,10 +38,6 @@ export function Step2Client({ content }: Step2ClientProps): React.ReactElement {
       </div>
     );
   }
-  // --- [FIN] GUARDIA DE RESILIENCIA ---
-
-  const { draft, updateDraft } = useCampaignDraft();
-  const { goToNextStep, goToPrevStep } = useWizard();
 
   const onLayoutChange = (newLayout: LayoutConfigItem[]) => {
     logger.trace("[Step2Client] Layout modificado, actualizando borrador...");

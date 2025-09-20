@@ -14,10 +14,10 @@ import React, { useRef } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { producerConfig } from "@/config/producer.config";
-import { logger } from "@/lib/logging";
+import { producerConfig } from "@/shared/config/producer.config";
+import { logger } from "@/shared/lib/logging";
 // --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
-import { useProducerLogic } from "@/hooks/use-producer-logic";
+import { useProducerLogic } from "@/shared/hooks/use-producer-logic";
 // --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 import { HiddenFormFields } from "@/components/forms/HiddenFormFields";
 import { FormInput } from "@/components/ui/FormInput";

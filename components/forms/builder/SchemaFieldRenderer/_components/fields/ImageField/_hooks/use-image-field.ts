@@ -15,7 +15,7 @@ import { toast } from "sonner";
 import { useCampaignDraft } from "@/app/[locale]/(dev)/dev/campaign-suite/_hooks/use-campaign-draft";
 // --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 import { saveCampaignAssetAction } from "@/app/[locale]/(dev)/dev/campaign-suite/_actions";
-import type { BaviAsset } from "@/lib/schemas/bavi/bavi.manifest.schema";
+import type { BaviAsset } from "@/shared/lib/schemas/bavi/bavi.manifest.schema";
 import type { FieldValues, Path } from "react-hook-form";
 
 export function useImageField<TFieldValues extends FieldValues>(

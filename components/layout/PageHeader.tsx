@@ -12,9 +12,9 @@ import React from "react";
 import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { LightRays } from "@/components/razBits/LightRays/LightRays";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { DeveloperErrorDisplay } from "@/components/dev";
-import type { PageHeaderContentSchema } from "@/lib/schemas/components/page-header.schema";
+import type { PageHeaderContentSchema } from "@/shared/lib/schemas/components/page-header.schema";
 import type { z } from "zod";
 
 // --- SSoT de Tipos ---

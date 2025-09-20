@@ -11,19 +11,19 @@
  */
 import React from "react";
 import { headers } from "next/headers";
-import { getDictionary } from "@/lib/i18n";
-import { type Locale } from "@/lib/i18n.config";
+import { getDictionary } from "@/shared/lib/i18n";
+import { type Locale } from "@/shared/lib/i18n.config";
 import AppProviders from "@/components/layout/AppProviders";
 import DevHeader from "@/components/dev/DevHeader";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { Container } from "@/components/ui/Container";
 import { WizardHeader } from "./dev/campaign-suite/_components/WizardHeader";
 import { getThemeFragmentsAction } from "./dev/campaign-suite/_actions/getThemeFragments.action";
 import { DevThemeSwitcher } from "@/components/dev";
-import { loadEdgeJsonAsset } from "@/lib/i18n/i18n.edge";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+import { loadEdgeJsonAsset } from "@/shared/lib/i18n/i18n.edge";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
 import type { DiscoveredFragments } from "./dev/campaign-suite/_actions/getThemeFragments.action";
-import type { ActionResult } from "@/lib/types/actions.types";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 
 interface DevLayoutProps {
   children: React.ReactNode;

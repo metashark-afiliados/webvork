@@ -11,7 +11,7 @@ import React from "react";
 import { z } from "zod";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { FormField } from "@/components/ui/Form";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 // --- [INICIO DE CORRECCIÓN DE RUTA] ---
 import { FieldControl } from "./_components";
 // --- [FIN DE CORRECCIÓN DE RUTA] ---

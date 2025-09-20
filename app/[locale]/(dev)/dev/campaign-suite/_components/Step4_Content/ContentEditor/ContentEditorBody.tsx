@@ -20,8 +20,8 @@ import {
   TabsTrigger,
 } from "@/components/ui";
 import { SchemaFieldRenderer } from "@/components/forms/builder";
-import { supportedLocales, type Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { supportedLocales, type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 
 // ... (El resto del componente permanece sin cambios)
 interface ContentEditorBodyProps {

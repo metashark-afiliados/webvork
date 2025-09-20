@@ -10,9 +10,9 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import { type Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import { type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import { WizardClientLayout } from "../_components/WizardClientLayout";
 import { DeveloperErrorDisplay } from "@/components/dev";
 import { notFound } from "next/navigation";

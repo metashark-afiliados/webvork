@@ -11,16 +11,16 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { logger } from "@/lib/logging";
-import { routes } from "@/lib/navigation";
-import { type Locale, supportedLocales } from "@/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import { routes } from "@/shared/lib/navigation";
+import { type Locale, supportedLocales } from "@/shared/lib/i18n.config";
 import { Container } from "@/components/ui/Container";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { ToggleTheme } from "@/components/ui/ToggleTheme"; // <-- RUTA CORREGIDA
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 interface DevHeaderProps {
   locale: Locale;

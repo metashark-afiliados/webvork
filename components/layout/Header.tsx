@@ -15,15 +15,15 @@ import Image from "next/image";
 import Link from "next/link";
 import DevToolsDropdown from "@/components/dev/DevToolsDropdown";
 import { Separator } from "@/components/ui/Separator";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { NavLink } from "@/lib/schemas/components/header.schema";
-import { type Locale } from "@/lib/i18n.config"; // No necesitamos `supportedLocales` aquí
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { NavLink } from "@/shared/lib/schemas/components/header.schema";
+import { type Locale } from "@/shared/lib/i18n.config"; // No necesitamos `supportedLocales` aquí
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { CartTrigger } from "./CartTrigger";
 import { CartSheet } from "./CartSheet";
-import { routes } from "@/lib/navigation";
+import { routes } from "@/shared/lib/navigation";
 
 interface HeaderProps {
   content: NonNullable<Dictionary["header"]>;
@@ -51,7 +51,9 @@ export default function Header({
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   if (!content) {
-    logger.warn("[Header] No se proporcionó contenido principal. El header no se renderizará.");
+    logger.warn(
+      "[Header] No se proporcionó contenido principal. El header no se renderizará."
+    );
     return null;
   }
 

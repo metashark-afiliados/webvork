@@ -6,7 +6,7 @@
  * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
 
 export interface AvailableTheme {
   id: string;

@@ -9,14 +9,15 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 // --- [INICIO] REFACTORIZACIÓN DE CONTRATO ---
 interface Geometry {
   name: string;
-  geometry?: { // La propiedad 'geometry' ahora es opcional
+  geometry?: {
+    // La propiedad 'geometry' ahora es opcional
     "--radius"?: string;
   };
 }
@@ -39,7 +40,7 @@ export function GeometrySelector({
   onPreview,
   onCreate,
   emptyPlaceholder,
-  createNewRadiusStyleButton
+  createNewRadiusStyleButton,
 }: GeometrySelectorProps): React.ReactElement {
   logger.trace("[GeometrySelector] Renderizando selector de geometría.");
 

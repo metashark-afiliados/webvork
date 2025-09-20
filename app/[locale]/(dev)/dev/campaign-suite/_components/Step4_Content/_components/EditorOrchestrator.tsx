@@ -8,9 +8,9 @@
 "use client";
 import React from "react";
 import { AnimatePresence } from "framer-motion";
-import { sectionsConfig } from "@/lib/config/sections.config";
+import { sectionsConfig } from "@/shared/lib/config/sections.config";
 import type { CampaignDraft } from "../../../_types/draft.types";
-import type { Locale } from "@/lib/i18n.config";
+import type { Locale } from "@/shared/lib/i18n.config";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 // La importación ahora apunta al módulo hermano a través de su barrel file.
 import { ContentEditor } from "../ContentEditor";

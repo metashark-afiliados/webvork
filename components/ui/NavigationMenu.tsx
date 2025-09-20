@@ -7,8 +7,8 @@ import { cva } from "class-variance-authority";
 // import { ChevronDown } from "lucide-react"; // <-- ELIMINADO: Se usará DynamicIcon
 import { DynamicIcon } from "@/components/ui"; // <-- AÑADIDO: Importación de DynamicIcon
 
-import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logging"; // <-- AÑADIDO: Para observabilidad
+import { cn } from "@/shared/lib/utils";
+import { logger } from "@/shared/lib/logging"; // <-- AÑADIDO: Para observabilidad
 
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,

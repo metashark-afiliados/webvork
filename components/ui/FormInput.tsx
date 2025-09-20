@@ -13,8 +13,8 @@ import React, { forwardRef } from "react";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { DynamicIcon } from "@/components/ui";
-import { type LucideIconName } from "@/config/lucide-icon-names";
-import { logger } from "@/lib/logging";
+import { type LucideIconName } from "@/shared/config/lucide-icon-names";
+import { logger } from "@/shared/lib/logging";
 
 export interface FormInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

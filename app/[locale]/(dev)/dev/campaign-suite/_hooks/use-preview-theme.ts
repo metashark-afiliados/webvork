@@ -1,24 +1,20 @@
-// RUTA: app/[locale]/(dev)/dev/campaign-suite/_hooks/use-preview-theme.ts
-
+// app/[locale]/(dev)/dev/campaign-suite/_hooks/use-preview-theme.ts
 /**
  * @file use-preview-theme.ts
  * @description Hook atómico para ensamblar el tema de la vista previa.
- *              v2.1.0 (Holistic Fix): Resuelve errores de importación (kebab-case)
- *              y de seguridad de tipos (any implícito), alineándose con las
- *              directivas de calidad.
- * @version 2.1.0
+ * @version 3.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useCampaignDraft } from "./use-campaign-draft"; // <-- RUTA CORREGIDA
+import { useCampaignDraft } from "./use-campaign-draft";
 import { usePreviewStore } from "../_context/PreviewContext";
-import { deepMerge } from "@/lib/utils/merge";
-import { logger } from "@/lib/logging";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
-import { AssembledThemeSchema } from "@/lib/schemas/theming/assembled-theme.schema";
-import type { CampaignDraftState } from "../_types/draft.types"; // <-- TIPO IMPORTADO
+import { deepMerge } from "@/shared/lib/utils/merge";
+import { logger } from "@/shared/lib/logging";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import { AssembledThemeSchema } from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import type { CampaignDraftState } from "../_types/draft.types";
 
 interface UsePreviewThemeReturn {
   theme: AssembledTheme | null;
@@ -28,7 +24,7 @@ interface UsePreviewThemeReturn {
 
 export function usePreviewTheme(): UsePreviewThemeReturn {
   const draftThemeConfig = useCampaignDraft(
-    (state: CampaignDraftState) => state.draft.themeConfig // <-- TIPO APLICADO
+    (state: CampaignDraftState) => state.draft.themeConfig
   );
   const previewThemeFromStore = usePreviewStore((state) => state.previewTheme);
 
@@ -102,3 +98,5 @@ export function usePreviewTheme(): UsePreviewThemeReturn {
 
   return { theme, isLoading, error };
 }
+// app/[locale]/(dev)/dev/campaign-suite/_hooks/use-preview-theme.ts
+

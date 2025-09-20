@@ -2,25 +2,25 @@
 /**
  * @file MagicBento.tsx
  * @description Componente orquestador para la sección interactiva MagicBento.
- *              - v2.1.0: Resuelve el error de tipo TS2345 garantizando que el hook
- *                `useBentoGridInteraction` reciba siempre un objeto de configuración
- *                completo y válido, utilizando el schema de Zod para generar los
- *                valores por defecto cuando sea necesario.
- * @version 2.1.0
+ *              v3.0.0 (Naming Convention Fix): Se alinea la importación del
+ *              hook con la convención de nomenclatura kebab-case.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useRef } from "react";
 import { twMerge } from "tailwind-merge";
-import { useBentoGridInteraction } from "./useBentoGridInteraction";
+// --- [INICIO DE CORRECCIÓN DE RUTA] ---
+import { useBentoGridInteraction } from "./use-bento-grid-interaction";
+// --- [FIN DE CORRECCIÓN DE RUTA] ---
 import { BentoCard } from "./BentoCard";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import {
   type BentoCardData,
-  MagicBentoConfigSchema, // <<-- Se importa el schema para la validación/parseo
+  MagicBentoConfigSchema,
 } from "./magic-bento.schema";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface MagicBentoProps {
   content: Dictionary["magicBento"];
@@ -31,21 +31,15 @@ export function MagicBento({
   content,
   className,
 }: MagicBentoProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando orquestador MagicBento");
+  logger.info("[Observabilidad] Renderizando orquestador MagicBento v3.0");
   const gridRef = useRef<HTMLDivElement | null>(null);
 
-  // --- INICIO DE LA CORRECCIÓN ---
-  // Se asegura de que `configForHook` siempre sea un objeto válido.
-  // Si `content.config` no existe, `zod.parse({})` creará un objeto
-  // con todos los valores por defecto definidos en `MagicBentoConfigSchema`.
-  // Esto satisface el contrato del hook `useBentoGridInteraction` y elimina el error de tipo.
   const configForHook = MagicBentoConfigSchema.parse(content?.config || {});
 
   const { initializeCardInteractions } = useBentoGridInteraction(
     gridRef,
     configForHook
   );
-  // --- FIN DE LA CORRECCIÓN ---
 
   if (!content) {
     logger.warn("[MagicBento] No se proporcionó contenido. No se renderizará.");

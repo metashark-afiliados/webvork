@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import type { FieldComponentProps } from "../../_types/field.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { z } from "zod";
 
 interface EnumFieldProps<TFieldValues extends FieldValues>

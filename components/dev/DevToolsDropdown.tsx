@@ -10,9 +10,9 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { logger } from "@/lib/logging";
-import { getCurrentLocaleFromPathname } from "@/lib/i18n.utils";
-import { type Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import { getCurrentLocaleFromPathname } from "@/shared/lib/i18n.utils";
+import { type Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import { generateDevRoutes } from "./utils/route-menu.generator";
 import { DevRouteMenu } from "./DevRouteMenu";
 

@@ -2,21 +2,25 @@
 /**
  * @file page.tsx
  * @description Página de índice para el explorador de sesiones de `nos3`.
- *              Obtiene la lista de sesiones grabadas y las pasa a un componente
- *              de cliente para su renderizado.
- * @version 1.0.0
+ *              v1.1.0 (Module Resolution Fix): Se alinea con la Directiva 021
+ *              utilizando un archivo de barril para una resolución de módulos robusta.
+ * @version 1.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Container, Card, CardContent } from "@/components/ui";
 import { DeveloperErrorDisplay } from "@/components/dev";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { listSessionsAction } from "./_actions/list-sessions.action";
-import { SessionListClient } from "./_components/SessionListClient";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+import { SessionListClient } from "./_components";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 export default async function Nos3ListPage() {
-  logger.info("[Nos3ListPage] Renderizando página de índice de sesiones.");
+  logger.info(
+    "[Nos3ListPage] Renderizando página de índice de sesiones (v1.1)."
+  );
 
   const sessionsResult = await listSessionsAction();
 

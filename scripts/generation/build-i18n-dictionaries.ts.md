@@ -12,8 +12,8 @@
   import _ as fs from "fs/promises";
   import \* as path from "path";
   import chalk from "chalk";
-  import { supportedLocales, type Locale } from "../../lib/i18n.config";
-  import { i18nSchema } from "../../lib/schemas/i18n.schema";
+  import { supportedLocales, type Locale } from "@/shared/lib/i18n.config";
+  import { i18nSchema } from "@/shared/lib/schemas/i18n.schema";
 
 const MESSAGES_BASE_DIR = path.resolve(process.cwd(), "messages");
 const RAZBITS_BASE_DIR = path.resolve(process.cwd(), "components/razBits");

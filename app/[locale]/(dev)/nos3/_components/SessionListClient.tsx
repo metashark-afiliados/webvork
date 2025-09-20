@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/Table";
 import { Button, DynamicIcon } from "@/components/ui";
 import type { SessionMetadata } from "../_actions/list-sessions.action";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface SessionListClientProps {
   sessions: SessionMetadata[];
@@ -39,9 +39,7 @@ export function SessionListClient({
         <h3 className="font-semibold text-lg text-foreground">
           No hay grabaciones
         </h3>
-        <p className="text-sm">
-          Aún no se han grabado sesiones de usuario.
-        </p>
+        <p className="text-sm">Aún no se han grabado sesiones de usuario.</p>
       </div>
     );
   }

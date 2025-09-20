@@ -14,12 +14,12 @@ import React, { useEffect } from "react";
 // --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
 import { ThemeProvider } from "@/components/layout/ThemeProvider"; // Corregido a PascalCase.tsx
 // --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
-import { useProducerLogic } from "@/hooks/use-producer-logic";
-import { useUserPreferences } from "@/hooks/use-user-preferences";
+import { useProducerLogic } from "@/shared/hooks/use-producer-logic";
+import { useUserPreferences } from "@/shared/hooks/use-user-preferences";
 import { CookieConsentBanner } from "./CookieConsentBanner";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { defaultLocale, type Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { defaultLocale, type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 
 interface AppProvidersProps {
   children: React.ReactNode;

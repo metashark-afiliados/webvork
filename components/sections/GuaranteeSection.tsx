@@ -13,9 +13,9 @@ import React from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { Container } from "@/components/ui/Container";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Seal } from "@/lib/schemas/components/guarantee-section.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Seal } from "@/shared/lib/schemas/components/guarantee-section.schema";
 
 interface GuaranteeSectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

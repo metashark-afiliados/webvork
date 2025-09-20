@@ -9,28 +9,28 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
+import { getDictionary } from "@/shared/lib/i18n";
 import {
   getCampaignData,
   resolveCampaignVariant,
-} from "@/lib/i18n/campaign.i18n";
+} from "@/shared/lib/i18n/campaign.i18n";
 import {
   getAllCampaignsAndVariants,
   type CampaignVariantInfo, // <-- TIPO IMPORTADO
-} from "@/lib/dev/campaign-utils"; // <-- RUTA CORREGIDA
-import { loadJsonAsset } from "@/lib/i18n/campaign.data.loader";
+} from "@/shared/lib/dev/campaign-utils"; // <-- RUTA CORREGIDA
+import { loadJsonAsset } from "@/shared/lib/i18n/campaign.data.loader";
 import {
   AssembledThemeSchema,
   type AssembledTheme,
-} from "@/lib/schemas/theming/assembled-theme.schema";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
+} from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
 import TestPageClient from "./_components/TestPageClient";
 import { ZodError } from "zod";
-import { deepMerge } from "@/lib/utils/merge";
-import { parseThemeNetString } from "@/lib/theming/theme-utils"; // <-- RUTA CORREGIDA
-import { netTracePrefixToPathMap } from "@/lib/config/theming.config";
+import { deepMerge } from "@/shared/lib/utils/merge";
+import { parseThemeNetString } from "@/shared/lib/theming/theme-utils"; // <-- RUTA CORREGIDA
+import { netTracePrefixToPathMap } from "@/shared/lib/config/theming.config";
 import type { AvailableTheme } from "./_types/themes.types";
 import { DeveloperErrorDisplay } from "@/components/dev";
 
@@ -68,7 +68,7 @@ export default async function DevTestPage({
     const themePromises = campaignVariants.map(
       // --- [INICIO DE CORRECCIÓN DE TIPO] ---
       async (variantInfo: CampaignVariantInfo) => {
-      // --- [FIN DE CORRECCIÓN DE TIPO] ---
+        // --- [FIN DE CORRECCIÓN DE TIPO] ---
         try {
           const { variant } = await resolveCampaignVariant(
             variantInfo.campaignId,
@@ -107,7 +107,9 @@ export default async function DevTestPage({
             };
           }
         } catch (e) {
-          logger.warn(`No se pudo cargar el tema para ${variantInfo.name}`, { e });
+          logger.warn(`No se pudo cargar el tema para ${variantInfo.name}`, {
+            e,
+          });
         }
         return null;
       }
@@ -130,11 +132,11 @@ export default async function DevTestPage({
       { error: errorMessage }
     );
     return (
-        <DeveloperErrorDisplay
-          context="DevTestPage"
-          errorMessage={errorMessage}
-          errorDetails={validationError}
-        />
+      <DeveloperErrorDisplay
+        context="DevTestPage"
+        errorMessage={errorMessage}
+        errorDetails={validationError}
+      />
     );
   } finally {
     logger.endGroup();

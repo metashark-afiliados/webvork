@@ -2,15 +2,15 @@
 /**
  * @file uploadAsset.action.ts
  * @description Server Action orquestadora para la ingesta completa de activos.
- * @version 4.0.0 (Prompt Image URL Integration)
+ * @version 5.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
 import { v2 as cloudinary, type UploadApiResponse } from "cloudinary";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
-import { assetUploadMetadataSchema } from "@/lib/bavi/upload.schema";
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
+import { assetUploadMetadataSchema } from "@/shared/lib/bavi/upload.schema";
 import { addAssetToManifestsAction } from "./addAssetToManifests.action";
 import { linkPromptToBaviAssetAction } from "../../raz-prompts/_actions";
 
@@ -70,8 +70,8 @@ export async function uploadAssetAction(
       const linkResult = await linkPromptToBaviAssetAction({
         promptId: metadata.promptId,
         baviAssetId: metadata.assetId,
-        baviVariantId: "v1-orig", // Siempre es la primera versión
-        imageUrl: cloudinaryResponse.secure_url, // <-- NUEVO: Pasar la URL de la imagen
+        baviVariantId: "v1-orig",
+        imageUrl: cloudinaryResponse.secure_url,
       });
       if (!linkResult.success) return linkResult;
       logger.traceEvent(traceId, "Vínculo con RaZPrompts completado.");
@@ -89,3 +89,4 @@ export async function uploadAssetAction(
     return { success: false, error: "Fallo el proceso de ingesta del activo." };
   }
 }
+// app/[locale]/(dev)/bavi/_actions/uploadAsset.action.ts

@@ -20,8 +20,8 @@ import { MetadataForm } from "@/app/[locale]/(dev)/bavi/_components/AssetUploade
 import { UploadPreview } from "@/app/[locale]/(dev)/bavi/_components/AssetUploader/_components/UploadPreview";
 import { SesaTagsFormGroup } from "@/app/[locale]/(dev)/raz-prompts/_components/SesaTagsFormGroup";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
-import type { AssetUploadMetadata } from "@/lib/bavi/upload.schema";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { AssetUploadMetadata } from "@/shared/lib/bavi/upload.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type UploaderContent = NonNullable<Dictionary["baviUploader"]>;
 type SesaContent = NonNullable<Dictionary["promptCreator"]>["sesaLabels"] & {

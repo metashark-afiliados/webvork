@@ -1,25 +1,21 @@
-// app/[locale]/(dev)/raz-prompts/_hooks/usePromptVault.ts
+// app/[locale]/(dev)/raz-prompts/_hooks/use-prompt-vault.ts
 /**
- * @file usePromptVault.ts
- * @description Hook "cerebro" para la lógica de la Bóveda de Prompts. Encapsula
- *              el estado, la obtención de datos, el filtrado y la paginación.
- * @version 1.1.0 (Type Safety & Import Fix)
+ * @file use-prompt-vault.ts
+ * @description Hook "cerebro" para la lógica de la Bóveda de Prompts.
+ * @version 2.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import { useState, useEffect, useTransition, useCallback } from "react";
 import { toast } from "sonner";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { getPromptsAction, type GetPromptsInput } from "../_actions";
-import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
-// --- [INICIO DE CORRECCIÓN DE IMPORTACIÓN] ---
-// El tipo `RaZPromptsSesaTags` se importa desde su SSoT en `atomic.schema.ts`.
-import type { RaZPromptsSesaTags } from "@/lib/schemas/raz-prompts/atomic.schema";
-// --- [FIN DE CORRECCIÓN DE IMPORTACIÓN] ---
+import type { RaZPromptsEntry } from "@/shared/lib/schemas/raz-prompts/entry.schema";
+import type { RaZPromptsSesaTags } from "@/shared/lib/schemas/raz-prompts/atomic.schema";
 
 export function usePromptVault() {
-  logger.trace("[Hook:usePromptVault] Inicializando lógica de la bóveda v1.1.");
+  logger.trace("[Hook:usePromptVault] Inicializando lógica de la bóveda v2.0.");
 
   const [prompts, setPrompts] = useState<RaZPromptsEntry[]>([]);
   const [totalPrompts, setTotalPrompts] = useState(0);
@@ -69,10 +65,7 @@ export function usePromptVault() {
 
   const handleFilterChange = useCallback(
     (category: keyof RaZPromptsSesaTags, value: string) => {
-      // --- [INICIO DE CORRECCIÓN DE TIPO] ---
-      // Se añade un tipo explícito al parámetro 'prev' para resolver el error TS7006.
       setActiveFilters((prev: Partial<RaZPromptsSesaTags>) => {
-        // --- [FIN DE CORRECCIÓN DE TIPO] ---
         const newFilters = { ...prev };
         if (value === "all") {
           delete newFilters[category];
@@ -103,4 +96,4 @@ export function usePromptVault() {
     handlePageChange,
   };
 }
-// app/[locale]/(dev)/raz-prompts/_hooks/usePromptVault.ts
+// app/[locale]/(dev)/raz-prompts/_hooks/use-prompt-vault.ts

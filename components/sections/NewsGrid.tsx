@@ -15,11 +15,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { routes } from "../../lib/navigation";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
-import type { ArticleCardData } from "@/lib/schemas/components/news-grid.schema";
-import { logger } from "@/lib/logging";
+import { routes } from "@/shared/lib/navigation";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
+import type { ArticleCardData } from "@/shared/lib/schemas/components/news-grid.schema";
+import { logger } from "@/shared/lib/logging";
 
 interface NewsGridProps {
   content?: Dictionary["newsGrid"];

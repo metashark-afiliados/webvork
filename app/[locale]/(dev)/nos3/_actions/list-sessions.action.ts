@@ -9,8 +9,8 @@
 "use server";
 
 import { list } from "@vercel/blob";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 
 /**
  * @interface SessionMetadata
@@ -35,7 +35,9 @@ export interface SessionMetadata {
 export async function listSessionsAction(): Promise<
   ActionResult<SessionMetadata[]>
 > {
-  logger.info("[nos3-data-layer] Solicitando lista de sesiones desde Vercel Blob...");
+  logger.info(
+    "[nos3-data-layer] Solicitando lista de sesiones desde Vercel Blob..."
+  );
   try {
     const { blobs } = await list({
       prefix: "sessions/",
@@ -61,21 +63,25 @@ export async function listSessionsAction(): Promise<
     }
 
     // Convertimos el mapa en el array de metadatos que necesita el frontend.
-    const sessions: SessionMetadata[] = Array.from(
-      sessionsMap.entries()
-    ).map(([sessionId, startTime]) => ({
-      sessionId,
-      startTime,
-    }));
+    const sessions: SessionMetadata[] = Array.from(sessionsMap.entries()).map(
+      ([sessionId, startTime]) => ({
+        sessionId,
+        startTime,
+      })
+    );
 
     // Ordenamos para mostrar las sesiones más recientes primero.
     sessions.sort((a, b) => b.startTime.getTime() - a.startTime.getTime());
 
-    logger.success(`[nos3-data-layer] Se encontraron ${sessions.length} sesiones únicas.`);
+    logger.success(
+      `[nos3-data-layer] Se encontraron ${sessions.length} sesiones únicas.`
+    );
     return { success: true, data: sessions };
   } catch (error) {
     const errorMessage =
-      error instanceof Error ? error.message : "Error desconocido en Vercel Blob";
+      error instanceof Error
+        ? error.message
+        : "Error desconocido en Vercel Blob";
     logger.error("[nos3-data-layer] Fallo al listar las sesiones.", {
       error: errorMessage,
     });

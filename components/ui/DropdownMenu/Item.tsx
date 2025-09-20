@@ -10,7 +10,7 @@
 import * as React from "react";
 import { twMerge } from "tailwind-merge";
 import { useDropdownMenuContext } from "./Context";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;

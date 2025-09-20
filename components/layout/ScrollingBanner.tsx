@@ -9,7 +9,7 @@
 
 import Marquee from "react-fast-marquee";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface ScrollingBannerProps {
   message: string;

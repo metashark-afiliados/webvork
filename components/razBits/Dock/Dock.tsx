@@ -29,7 +29,7 @@ import React, {
 } from "react";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { DockConfigSchema } from "./dock.schema";
 
 // --- CONTRATOS DE DATOS Y PROPS ---

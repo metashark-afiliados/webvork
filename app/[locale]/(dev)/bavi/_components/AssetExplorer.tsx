@@ -2,19 +2,18 @@
 /**
  * @file AssetExplorer.tsx
  * @description Orquestador de élite para la exploración de activos de BAVI.
- * @version 3.3.0 (Prop Contract Sync): Sincronizado con el contrato
- *              actualizado de AssetExplorerDisplay.
+ * @version 4.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { logger } from "@/lib/logging";
-import type { BaviAsset } from "@/lib/schemas/bavi/bavi.manifest.schema";
-import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { BaviAsset } from "@/shared/lib/schemas/bavi/bavi.manifest.schema";
+import type { PromptCreatorContentSchema } from "@/shared/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import type { z } from "zod";
-import type { Locale } from "@/lib/i18n.config";
-import { useAssetExplorerLogic } from "./useAssetExplorerLogic";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { useAssetExplorerLogic } from "./use-asset-explorer-logic";
 import { AssetExplorerDisplay } from "./AssetExplorerDisplay";
 
 type CreatorContent = z.infer<typeof PromptCreatorContentSchema>;
@@ -46,9 +45,7 @@ export function AssetExplorer({
   sesaOptions,
   onAssetSelect,
 }: AssetExplorerProps): React.ReactElement {
-  logger.info(
-    "[AssetExplorer] Renderizando orquestador (v3.3 - Prop Contract Synced)."
-  );
+  logger.info("[AssetExplorer] Renderizando orquestador (v4.0 - FSD Aligned).");
 
   const {
     assets,

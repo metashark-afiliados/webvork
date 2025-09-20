@@ -2,16 +2,16 @@
 /**
  * @file wizard.config.ts
  * @description SSoT para la configuración del asistente de la SDC.
- * @version 10.0.0 (Holistic Type Alignment): Se alinea la configuración con
- *              la nueva arquitectura de props "envueltas", logrando una
- *              seguridad de tipos completa y resolviendo todos los errores TS2322.
- * @version 10.0.0
+ * @version 10.0.0 (Holistic Type Safety & FSD Alignment): Refactorizado a una
+ *              arquitectura de configuración genérica y con seguridad de tipos de
+ *              extremo a extremo, garantizando que el schema de cada paso coincida
+ *              con las props de su componente.
  * @author RaZ Podestá - MetaShark Tech
  */
 import type { ComponentType } from "react";
 import { z } from "zod";
 import type { StepProps } from "../_types/step.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import {
   Step0,
   Step1,
@@ -27,18 +27,29 @@ import {
   Step3ContentSchema,
   Step4ContentSchema,
   Step5ContentSchema,
-} from "@/lib/schemas/campaigns/steps";
+} from "@/shared/lib/schemas/campaigns/steps";
 
-logger.trace("[wizard.config] Cargando SDC v10.0 (Holistic Type Alignment).");
+logger.trace("[wizard.config] Cargando SDC v10.0 (Holistic Type Safety).");
 
+/**
+ * @interface StepDefinition
+ * @description Contrato de tipo genérico para la configuración de un paso.
+ * @template TContent - Un objeto de Zod que define la forma del contenido i18n del paso.
+ */
 export interface StepDefinition<TContent extends z.ZodRawShape> {
   readonly id: number;
   readonly titleKey: string;
   readonly Component: ComponentType<StepProps<z.infer<z.ZodObject<TContent>>>>;
-  readonly i18nPath: string;
+  readonly i18nPath: string; // Mantenido para la carga de datos en `page.tsx`
   readonly schema: z.ZodObject<TContent>;
 }
 
+/**
+ * @function createStep
+ * @description Función de utilidad (identity function) que proporciona inferencia de
+ *              tipos para asegurar que el schema y el componente de una definición
+ *              de paso estén sincronizados.
+ */
 const createStep = <TContent extends z.ZodRawShape>(
   config: StepDefinition<TContent>
 ): StepDefinition<TContent> => config;
@@ -89,3 +100,4 @@ export const stepsConfig = [
 ] as const;
 
 export type StepConfig = (typeof stepsConfig)[number];
+// app/[locale]/(dev)/dev/campaign-suite/_config/wizard.config.ts

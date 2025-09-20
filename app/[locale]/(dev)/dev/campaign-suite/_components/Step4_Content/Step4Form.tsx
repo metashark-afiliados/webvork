@@ -15,14 +15,14 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { CampaignDraft } from "../../_types/draft.types";
 import { WizardNavigation } from "../../_components/WizardNavigation";
 import { SectionList } from "./_components/SectionList";
 import { EditorOrchestrator } from "./_components/EditorOrchestrator";
-import type { Step4ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step4.schema";
+import type { Step4ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step4.schema";
 import type { z } from "zod";
-import type { Locale } from "@/lib/i18n.config";
+import type { Locale } from "@/shared/lib/i18n.config";
 
 type Content = z.infer<typeof Step4ContentSchema>;
 

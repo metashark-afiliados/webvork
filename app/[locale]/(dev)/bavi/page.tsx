@@ -2,14 +2,12 @@
 /**
  * @file page.tsx
  * @description Página principal de la Central de Operaciones BAVI.
- *              v2.1.0 (SesaContent Prop Drilling Fix): Se alinea con el contrato
- *              de `PageHeader` y `AssetUploader` para una seguridad de tipos completa.
- * @version 2.1.0
+ * @version 3.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
 import { PageHeader } from "@/components/layout/PageHeader";
 import {
   Container,
@@ -20,7 +18,7 @@ import {
   CardContent,
 } from "@/components/ui";
 import { AssetUploader } from "./_components/AssetUploader";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 export default async function BaviHomePage({
   params: { locale },
@@ -28,7 +26,7 @@ export default async function BaviHomePage({
   params: { locale: Locale };
 }) {
   logger.info(
-    "[BaviHomePage] Renderizando la página principal de la BAVI (v2.1)."
+    "[BaviHomePage] Renderizando la página principal de la BAVI (v3.0 - FSD)."
   );
   const { dictionary } = await getDictionary(locale);
   const pageContent = dictionary.baviHomePage;
@@ -42,14 +40,12 @@ export default async function BaviHomePage({
 
   return (
     <>
-      {/* --- [INICIO DE CORRECCIÓN DE CONTRATO] --- */}
       <PageHeader
         content={{
           title: pageContent.title,
           subtitle: pageContent.subtitle,
         }}
       />
-      {/* --- [FIN DE CORRECCIÓN DE CONTRATO] --- */}
       <Container className="py-12 space-y-12">
         <Card>
           <CardHeader>

@@ -12,24 +12,24 @@
 
 import { promises as fs } from "fs";
 import path from "path";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 import {
   BaviManifestSchema,
   type BaviManifest,
   type BaviAsset,
-} from "@/lib/schemas/bavi/bavi.manifest.schema";
+} from "@/shared/lib/schemas/bavi/bavi.manifest.schema";
 import {
   BaviSearchIndexSchema,
   type BaviSearchIndex,
-} from "@/lib/schemas/bavi/bavi.search-index.schema";
+} from "@/shared/lib/schemas/bavi/bavi.search-index.schema";
 import {
   RaZPromptsSesaTagsSchema,
   type RaZPromptsSesaTags,
-} from "@/lib/schemas/raz-prompts/atomic.schema";
+} from "@/shared/lib/schemas/raz-prompts/atomic.schema";
 import { z } from "zod";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA: RUTA DE IMPORTACIÓN] ---
-import { normalizeKeywords } from "@/lib/search/keyword-normalizer";
+import { normalizeKeywords } from "@/shared/lib/search/keyword-normalizer";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA: RUTA DE IMPORTACIÓN] ---
 
 const BAVI_MANIFEST_PATH = path.join(

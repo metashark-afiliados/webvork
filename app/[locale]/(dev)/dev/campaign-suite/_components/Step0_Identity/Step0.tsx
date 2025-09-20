@@ -12,12 +12,12 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { Step0Client } from "./Step0Client";
 import { getBaseCampaignsAction } from "../../_actions";
 import { DynamicIcon } from "@/components/ui";
 import type { StepProps } from "../../_types/step.types";
-import type { Step0ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step0.schema";
+import type { Step0ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step0.schema";
 import type { z } from "zod";
 
 type Content = z.infer<typeof Step0ContentSchema>;

@@ -19,9 +19,9 @@ import {
   TestimonialCard,
   testimonialCardVariants, // Importa las variantes del hijo
 } from "@/components/ui/TestimonialCard";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { logger } from "@/lib/logging";
-import type { Testimonial } from "@/lib/schemas/components/testimonial-grid.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Testimonial } from "@/shared/lib/schemas/components/testimonial-grid.schema";
 
 interface TestimonialGridProps {
   content: Dictionary["testimonialGrid"];

@@ -10,8 +10,8 @@
 
 import React from "react";
 import { type SVGProps } from "react";
-import { type Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import IT from "@/components/icons/flags/IT";
 import ES from "@/components/icons/flags/ES";
 import US from "@/components/icons/flags/US";

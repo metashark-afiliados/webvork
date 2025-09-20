@@ -18,10 +18,10 @@ import {
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import { cn } from "@/lib/utils";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { PricingPlan } from "@/lib/schemas/components/pricing-section.schema";
+import { logger } from "@/shared/lib/logging";
+import { cn } from "@/shared/lib/utils";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { PricingPlan } from "@/shared/lib/schemas/components/pricing-section.schema";
 
 interface PricingSectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

@@ -13,7 +13,7 @@ import React from "react";
 import Image from "next/image";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/RadioGroup";
 import { Label } from "@/components/ui/Label";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import type { GalleryItem } from "../../_config/gallery.config";
 
 interface ComponentGalleryProps {

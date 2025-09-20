@@ -13,9 +13,9 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { LightRays } from "@/components/razBits/LightRays/LightRays";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 
 type NotFoundContent = NonNullable<Dictionary["notFoundPage"]>;
 
@@ -45,9 +45,7 @@ export function NotFoundClient({
   content,
   locale,
 }: NotFoundClientProps): React.ReactElement {
-  logger.info(
-    "[NotFoundClient] Renderizando página 404 de élite (v3.1)."
-  );
+  logger.info("[NotFoundClient] Renderizando página 404 de élite (v3.1).");
 
   return (
     <div className="relative h-screen overflow-hidden">

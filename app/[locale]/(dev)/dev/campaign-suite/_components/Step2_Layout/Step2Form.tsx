@@ -15,12 +15,12 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { LayoutConfigItem } from "../../_types/draft.types";
 import { LayoutBuilder } from "./LayoutBuilder";
 import { WizardNavigation } from "../../_components/WizardNavigation";
 import { z } from "zod";
-import { Step2ContentSchema } from "@/lib/schemas/campaigns/steps/step2.schema";
+import { Step2ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step2.schema";
 
 type Step2Content = z.infer<typeof Step2ContentSchema>;
 

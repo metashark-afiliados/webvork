@@ -15,7 +15,7 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import {
   CampaignSummary,
   ManagementActions,
@@ -23,7 +23,7 @@ import {
 } from "./_components";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 // Se utiliza la ruta absoluta canónica, resolviendo el error TS2307.
-import type { Step5ContentSchema } from "@/lib/schemas/campaigns/steps/step5.schema";
+import type { Step5ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step5.schema";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { z } from "zod";
 import type { ChecklistItem } from "../../_utils/draft.validator";

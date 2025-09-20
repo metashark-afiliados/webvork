@@ -1,26 +1,28 @@
 // RUTA: app/[locale]/(dev)/raz-prompts/_components/PromptCreator.tsx
 /**
  * @file PromptCreator.tsx
- * @description Componente contenedor "smart" para la creación de prompts,
- *              ahora cumpliendo con los estándares de calidad del proyecto
- *              y las directivas de nomenclatura.
- * @version 2.1.0 (Module Resolution Fix)
+ * @description Componente contenedor "smart" para la creación de prompts.
+ *              v3.0.0 (Naming Convention Fix): Se alinea la importación del
+ *              hook con la convención de nomenclatura kebab-case.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
+// --- [INICIO DE CORRECCIÓN DE RUTA] ---
 import { usePromptCreator } from "../_hooks/use-prompt-creator";
+// --- [FIN DE CORRECCIÓN DE RUTA] ---
 import { PromptCreatorForm } from "./PromptCreatorForm";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 interface PromptCreatorProps {
   content: NonNullable<Dictionary["promptCreator"]>;
 }
 
 export function PromptCreator({ content }: PromptCreatorProps) {
-  logger.info("[Observabilidad] Renderizando PromptCreator v2.1");
+  logger.info("[Observabilidad] Renderizando PromptCreator v3.0");
   const { form, onSubmit, isPending } = usePromptCreator();
 
   return (

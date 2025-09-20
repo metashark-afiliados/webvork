@@ -12,10 +12,10 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import chalk from "chalk";
 import hash from "object-hash";
-import { supportedLocales } from "../../lib/i18n.config";
-import { i18nSchema } from "../../lib/schemas/i18n.schema";
-import { discoverAndReadI18nFiles } from "../../lib/dev/i18n-discoverer";
-import { logger } from "../../lib/logging";
+import { supportedLocales } from "@/shared/lib/i18n.config";
+import { i18nSchema } from "@/shared/lib/schemas/i18n.schema";
+import { discoverAndReadI18nFiles } from "@/shared/lib/dev/i18n-discoverer";
+import { logger } from "@/shared/lib/logging";
 
 const OUTPUT_DIR = path.resolve(process.cwd(), "public/locales");
 const CACHE_DIR = path.resolve(process.cwd(), ".i18n-cache");

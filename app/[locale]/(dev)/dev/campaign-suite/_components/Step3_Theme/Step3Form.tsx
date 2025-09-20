@@ -18,10 +18,10 @@ import {
   CardDescription,
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { ThemeConfig } from "../../_types/draft.types";
 import { WizardNavigation } from "../../_components/WizardNavigation";
-import type { Step3ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step3.schema";
+import type { Step3ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step3.schema";
 import type { z } from "zod";
 import { DynamicIcon } from "@/components/ui";
 

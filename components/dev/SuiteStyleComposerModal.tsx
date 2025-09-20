@@ -20,7 +20,7 @@ import {
   TabsTrigger,
   TabsContent,
 } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { useSuiteStyleComposer } from "./SuiteStyleComposer/use-suite-style-composer";
 import type {
   SuiteThemeConfig,

@@ -12,7 +12,7 @@ import type { FieldValues } from "react-hook-form";
 import { Textarea } from "@/components/ui/Textarea";
 // --- [INICIO DE CORRECCIÓN DE RUTA Y CONTRATO] ---
 import type { FieldComponentProps } from "../../_types/field.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface StringFieldProps<TFieldValues extends FieldValues>
   extends FieldComponentProps<TFieldValues> {
@@ -25,7 +25,7 @@ export function StringField<TFieldValues extends FieldValues>({
   fieldName,
   placeholder,
 }: StringFieldProps<TFieldValues>): React.ReactElement {
-// --- [FIN DE CORRECCIÓN DE RUTA Y CONTRATO] ---
+  // --- [FIN DE CORRECCIÓN DE RUTA Y CONTRATO] ---
   logger.trace(`[StringField] Renderizando para: ${String(fieldName)}`);
   return (
     <Textarea

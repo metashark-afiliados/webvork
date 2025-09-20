@@ -23,13 +23,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type {
   LinkColumn,
   Link as LinkType,
   SocialLink,
-} from "@/lib/schemas/components/footer.schema";
+} from "@/shared/lib/schemas/components/footer.schema";
 
 type FooterContent = NonNullable<Dictionary["footer"]>;
 

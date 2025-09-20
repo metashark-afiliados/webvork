@@ -9,7 +9,7 @@
  */
 import { ImageResponse } from "@vercel/og";
 import React from "react";
-import { renderPreviewComponent } from "@/lib/dev/preview-renderer";
+import { renderPreviewComponent } from "@/shared/lib/dev/preview-renderer";
 import { ErrorPreview } from "@/components/dev/ErrorPreview";
 
 export const runtime = "edge";

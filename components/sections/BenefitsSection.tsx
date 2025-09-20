@@ -8,11 +8,11 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 // El tipo `BenefitItem` ahora se importa desde su SSoT.
-import type { BenefitItem } from "@/lib/schemas/components/benefits-section.schema";
+import type { BenefitItem } from "@/shared/lib/schemas/components/benefits-section.schema";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 interface BenefitsSectionProps {

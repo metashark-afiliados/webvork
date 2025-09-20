@@ -2,9 +2,8 @@
 /**
  * @file StepClientWrapper.tsx
  * @description Ensamblador y Renderizador de Pasos.
- *              v12.1.0 (Definitive Generic Type Safety): Alineado con la nueva
- *              arquitectura de configuración genérica.
- * @version 12.1.0
+ * @version 12.1.0 (Definitive Generic Type Safety & FSD): Alineado con la nueva
+ *              arquitectura de configuración genérica y FSD.
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -12,7 +11,7 @@
 import React from "react";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { stepsConfig } from "../_config/wizard.config";
 import type { StepProps } from "../_types/step.types";
 
@@ -37,8 +36,6 @@ export function StepClientWrapper({
     );
   }
 
-  // TypeScript ahora entiende que StepComponent espera el tipo genérico con
-  // la forma correcta, y que `stepContent` coincide con esa forma.
   const StepComponent = stepConfig.Component as React.ComponentType<
     StepProps<object>
   >;

@@ -11,16 +11,16 @@
  */
 import React from "react";
 import { headers } from "next/headers";
-import { getDictionary } from "@/lib/i18n";
+import { getDictionary } from "@/shared/lib/i18n";
 import {
   defaultLocale,
   supportedLocales,
   type Locale,
-} from "@/lib/i18n.config";
+} from "@/shared/lib/i18n.config";
 import AppProviders from "@/components/layout/AppProviders";
 import Header from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { ThemeInjector } from "@/components/layout/ThemeInjector";
 import { DevHomepageHeader } from "@/components/layout/DevHomepageHeader";
 

@@ -18,7 +18,7 @@ import * as React from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { type ThemeProviderProps } from "next-themes/dist/types";
 // --- [INICIO DE CORRECCIÓN DE ERRORES TS2307] ---
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 // --- [FIN DE CORRECCIÓN DE ERRORES TS2307] ---
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {

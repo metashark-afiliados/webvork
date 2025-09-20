@@ -2,13 +2,11 @@
 /**
  * @file index.ts (Barrel File)
  * @description SSoT y fachada pública para el módulo de componentes de UI.
- *              v3.0.0 (Holistic Integrity Restoration): Restaura la integridad del
- *              build exportando explícitamente todos los componentes requeridos,
- *              incluyendo los ecosistemas `DropdownMenu` y `DynamicIcon`.
- * @version 3.0.0
+ *              v4.0.0 (Skeleton Integration): Se añade la exportación para el
+ *              componente Skeleton, restaurando la integridad del build.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
-
 export * from "./Accordion";
 export * from "./AlertDialog";
 export * from "./Alert";
@@ -21,8 +19,8 @@ export * from "./Checkbox";
 export * from "./Collapsible";
 export * from "./Container";
 export * from "./Dialog";
-export * from "./DropdownMenu"; // <-- EXPORTACIÓN RESTAURADA
-export * from "./DynamicIcon"; // <-- EXPORTACIÓN RESTAURADA
+export * from "./DropdownMenu";
+export * from "./DynamicIcon";
 export * from "./FadeIn";
 export * from "./FlagIcon";
 export * from "./Form";
@@ -47,3 +45,5 @@ export * from "./TiltCard";
 export * from "./ToggleTheme";
 export * from "./Tooltip";
 export * from "./ValidationError";
+export * from "./Skeleton";
+// RUTA: components/ui/index.ts

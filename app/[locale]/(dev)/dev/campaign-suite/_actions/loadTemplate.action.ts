@@ -9,12 +9,12 @@
 
 import { promises as fs } from "fs";
 import path from "path";
-import type { ActionResult } from "@/lib/types/actions.types";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 import {
   CampaignTemplateSchema,
   type CampaignTemplate,
-} from "@/lib/schemas/templates/template.schema";
-import { logger } from "@/lib/logging";
+} from "@/shared/lib/schemas/templates/template.schema";
+import { logger } from "@/shared/lib/logging";
 
 export async function loadTemplateAction(
   templateId: string

@@ -2,7 +2,7 @@
 /**
  * @file MetadataForm.tsx
  * @description Componente de presentación puro para el formulario de metadatos de BAVI.
- * @version 3.0.0 (React Hook Form Integration)
+ * @version 4.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -17,8 +17,8 @@ import {
   Textarea,
 } from "@/components/ui";
 import type { Control } from "react-hook-form";
-import type { AssetUploadMetadata } from "@/lib/bavi/upload.schema";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { AssetUploadMetadata } from "@/shared/lib/bavi/upload.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type UploaderContent = NonNullable<Dictionary["baviUploader"]>;
 

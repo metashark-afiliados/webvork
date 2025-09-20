@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { Label } from "@/components/ui/Label";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { GranularInputControl } from "./GranularInputControl";
 import type { LoadedFragments } from "./types";
 

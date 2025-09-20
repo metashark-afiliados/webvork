@@ -8,7 +8,7 @@
  */
 import React from "react";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 /**
  * @function getFallbackProps

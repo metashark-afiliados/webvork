@@ -2,28 +2,28 @@
 /**
  * @file linkPromptToBaviAsset.action.ts
  * @description Server Action para vincular un prompt existente a un activo de la BAVI.
- * @version 2.0.0 (Image URL Integration)
+ * @version 3.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
-import { connectToDatabase } from "@/lib/mongodb";
-import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
-import type { ActionResult } from "@/lib/types/actions.types";
-import { logger } from "@/lib/logging";
+import { connectToDatabase } from "@/shared/lib/mongodb";
+import type { RaZPromptsEntry } from "@/shared/lib/schemas/raz-prompts/entry.schema";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
 
 interface LinkPromptInput {
   promptId: string;
   baviAssetId: string;
   baviVariantId: string;
-  imageUrl?: string; // <-- NUEVO: La URL de la imagen es opcional
+  imageUrl?: string;
 }
 
 export async function linkPromptToBaviAssetAction({
   promptId,
   baviAssetId,
   baviVariantId,
-  imageUrl, // <-- NUEVO
+  imageUrl,
 }: LinkPromptInput): Promise<ActionResult<{ updatedCount: number }>> {
   const traceId = logger.startTrace("linkPromptToBaviAsset");
   try {
@@ -43,7 +43,7 @@ export async function linkPromptToBaviAssetAction({
     };
 
     if (imageUrl) {
-      updateDoc.imageUrl = imageUrl; // Añadir imageUrl si se proporciona
+      updateDoc.imageUrl = imageUrl;
     }
 
     const result = await collection.updateOne(
@@ -73,3 +73,4 @@ export async function linkPromptToBaviAssetAction({
     };
   }
 }
+// app/[locale]/(dev)/raz-prompts/_actions/linkPromptToBaviAsset.action.ts

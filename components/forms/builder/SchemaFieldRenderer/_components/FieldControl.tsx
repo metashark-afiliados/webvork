@@ -2,21 +2,21 @@
 /**
  * @file FieldControl.tsx
  * @description Componente despachador puro.
- *              v3.1.0 (Module Resolution Fix): Corrige la ruta de importación
- *              de `useFieldMetadata` para alinearse con la SSoT de nomenclatura
- *              (kebab-case) y restaurar la integridad del build.
- * @version 3.1.0
+ *              v4.0.0 (Absolute Path Compliance): Se alinea con la Directiva 013
+ *              utilizando rutas de importación absolutas, mejorando la resiliencia
+ *              y mantenibilidad del aparato.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
 import type { FieldValues } from "react-hook-form";
-import { logger } from "@/lib/logging";
-import type { FieldComponentProps } from "../_types/field.types";
-// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
-import { useFieldMetadata } from "../_hooks/use-field-metadata";
-// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
+import { logger } from "@/shared/lib/logging";
+// --- [INICIO DE REFACTORIZACIÓN DE RUTA] ---
+import type { FieldComponentProps } from "@/components/forms/builder/SchemaFieldRenderer/_types/field.types";
+import { useFieldMetadata } from "@/components/forms/builder/SchemaFieldRenderer/_hooks/use-field-metadata";
+// --- [FIN DE REFACTORIZACIÓN DE RUTA] ---
 import { FieldWrapper } from "./FieldWrapper";
 import * as Fields from "./fields";
 

@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/Form";
 import { useFocusStore } from "@/app/[locale]/(dev)/dev/campaign-suite/_context/FocusContext";
-import { logger } from "@/lib/logging";
-import { cn } from "@/lib/utils";
+import { logger } from "@/shared/lib/logging";
+import { cn } from "@/shared/lib/utils";
 // --- [INICIO DE CORRECCIÓN DE RUTA] ---
 import type { FieldMetadata } from "../_types/field.types";
 // --- [FIN DE CORRECCIÓN DE RUTA] ---

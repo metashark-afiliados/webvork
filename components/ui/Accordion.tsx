@@ -16,8 +16,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
-import { logger } from "@/lib/logging";
-import type { FaqItem } from "@/lib/schemas/components/faq-accordion.schema";
+import { logger } from "@/shared/lib/logging";
+import type { FaqItem } from "@/shared/lib/schemas/components/faq-accordion.schema";
 
 interface AccordionItemProps {
   content: FaqItem;

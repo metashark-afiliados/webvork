@@ -176,7 +176,7 @@ function generateNavigationFileContent(routes: RouteInfo[]): string {
  * @version ${new Date().toISOString()}
  * @author Script de Generación Automática de Élite
  */
-import { defaultLocale, type Locale } from "@/lib/i18n.config";
+import { defaultLocale, type Locale } from "@/shared/lib/i18n.config";
 
 export const RouteType = {
   Public: "public",

@@ -2,7 +2,7 @@
 /**
  * @file draft.types.ts
  * @description SSoT para los contratos de tipos del borrador de campaña y su estado en Zustand.
- * @version 3.0.0 (State Contract Synchronization)
+ * @version 4.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 import type { z } from "zod";
@@ -12,8 +12,8 @@ import type {
   LayoutConfigSchema,
   ThemeConfigSchema,
   ContentDataSchema,
-} from "@/lib/schemas/campaigns/draft.parts.schema";
-import type { Locale } from "@/lib/i18n.config";
+} from "@/shared/lib/schemas/campaigns/draft.parts.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
 
 export type HeaderConfig = z.infer<typeof HeaderConfigSchema>;
 export type FooterConfig = z.infer<typeof FooterConfigSchema>;
@@ -57,3 +57,4 @@ export interface CampaignDraftState {
     newDraftState: Partial<Omit<CampaignDraft, "draftId" | "step">>
   ) => void;
 }
+// app/[locale]/(dev)/dev/campaign-suite/_types/draft.types.ts

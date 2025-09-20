@@ -7,8 +7,8 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import type { CampaignDraft } from "../_types/draft.types";
-import { sectionsConfig } from "@/lib/config/sections.config";
-import { defaultLocale } from "@/lib/i18n.config";
+import { sectionsConfig } from "@/shared/lib/config/sections.config";
+import { defaultLocale } from "@/shared/lib/i18n.config";
 
 export interface ChecklistItem {
   id: string;

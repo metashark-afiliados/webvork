@@ -11,8 +11,8 @@
 import * as fs from "fs/promises";
 import * as path from "path";
 import chalk from "chalk";
-import { parseThemeNetString } from "../../lib/theming/theme-utils.ts";
-import { netTracePrefixToPathMap } from "../../lib/config/theming.config.ts";
+import { parseThemeNetString } from "@/shared/lib/theming/theme-utils.ts";
+import { netTracePrefixToPathMap } from "@/shared/lib/config/theming.config.ts";
 
 const CAMPAIGNS_DIR = path.resolve(process.cwd(), "content/campaigns");
 const FRAGMENTS_DIR = path.resolve(

@@ -10,7 +10,7 @@
 import React from "react";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface GranularInputControlProps {
   id: string;

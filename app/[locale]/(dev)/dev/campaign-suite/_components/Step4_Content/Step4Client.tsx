@@ -2,19 +2,19 @@
 /**
  * @file Step4Client.tsx
  * @description Componente Contenedor de Cliente para el Paso 4 (Contenido).
- * @version 3.5.0 (Resilience Guard & Sovereign Contract)
+ * @version 3.6.0 (Rules of Hooks & FSD Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useState } from "react";
-import { useCampaignDraft } from "../../_hooks";
-import { logger } from "@/lib/logging";
+import { useCampaignDraft } from "../../_hooks/use-campaign-draft";
+import { logger } from "@/shared/lib/logging";
 import { Step4Form } from "./Step4Form";
-import type { Locale } from "@/lib/i18n.config";
+import type { Locale } from "@/shared/lib/i18n.config";
 import { useWizard } from "../../_context/WizardContext";
 import { z } from "zod";
-import { Step4ContentSchema } from "@/lib/schemas/campaigns/steps/step4.schema";
+import { Step4ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step4.schema";
 
 type Step4Content = z.infer<typeof Step4ContentSchema>;
 
@@ -23,11 +23,12 @@ interface Step4ClientProps {
 }
 
 export function Step4Client({ content }: Step4ClientProps): React.ReactElement {
-  logger.info(
-    "[Step4Client] Renderizando (Contenedor de Lógica, Contrato Soberano)"
-  );
+  logger.info("[Step4Client] Renderizando contenedor (Rules of Hooks Fix)");
 
-  // --- [INICIO] GUARDIA DE RESILIENCIA ---
+  const { draft, updateSectionContent } = useCampaignDraft();
+  const { goToNextStep, goToPrevStep } = useWizard();
+  const [editingSection, setEditingSection] = useState<string | null>(null);
+
   if (!content) {
     logger.error("[Step4Client] El contenido para el Paso 4 es indefinido.");
     return (
@@ -36,11 +37,6 @@ export function Step4Client({ content }: Step4ClientProps): React.ReactElement {
       </div>
     );
   }
-  // --- [FIN] GUARDIA DE RESILIENCIA ---
-
-  const { draft, updateSectionContent } = useCampaignDraft();
-  const { goToNextStep, goToPrevStep } = useWizard();
-  const [editingSection, setEditingSection] = useState<string | null>(null);
 
   const handleEditSection = (sectionName: string) =>
     setEditingSection(sectionName);

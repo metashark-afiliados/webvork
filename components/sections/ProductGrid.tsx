@@ -11,12 +11,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { routes } from "@/lib/navigation";
+import { routes } from "@/shared/lib/navigation";
 import type { z } from "zod";
-import type { StorePageLocaleSchema } from "@/lib/schemas/pages/store-page.schema";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
-import { cn } from "@/lib/utils";
+import type { StorePageLocaleSchema } from "@/shared/lib/schemas/pages/store-page.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import { cn } from "@/shared/lib/utils";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { DynamicIcon } from "@/components/ui";
 

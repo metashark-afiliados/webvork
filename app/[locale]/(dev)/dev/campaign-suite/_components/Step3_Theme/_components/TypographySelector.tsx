@@ -9,14 +9,15 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 // --- [INICIO] REFACTORIZACIÓN DE CONTRATO ---
 interface Typography {
   name: string;
-  fonts?: { // La propiedad 'fonts' ahora es opcional
+  fonts?: {
+    // La propiedad 'fonts' ahora es opcional
     sans?: string;
     serif?: string;
   };
@@ -105,7 +106,9 @@ export function TypographySelector({
       >
         <DynamicIcon name="Plus" className="h-8 w-8 mb-2" />
         <span className="text-sm font-semibold">
-          {typographies.length === 0 ? "Añadir Nuevo Set" : createNewFontSetButton}
+          {typographies.length === 0
+            ? "Añadir Nuevo Set"
+            : createNewFontSetButton}
         </span>
       </button>
     </div>

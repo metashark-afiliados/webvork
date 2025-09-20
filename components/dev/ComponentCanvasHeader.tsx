@@ -11,7 +11,7 @@
 import React from "react";
 // import { LayoutGrid } from "lucide-react"; // <-- ELIMINADO
 import { DynamicIcon } from "@/components/ui"; // <-- AÑADIDO: Importación de DynamicIcon
-import { logger } from "@/lib/logging"; // Añadido para observabilidad
+import { logger } from "@/shared/lib/logging"; // Añadido para observabilidad
 
 interface ComponentCanvasHeaderProps {
   entryName: string;

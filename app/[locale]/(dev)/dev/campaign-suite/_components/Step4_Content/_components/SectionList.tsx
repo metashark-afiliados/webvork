@@ -10,7 +10,7 @@
 import React from "react";
 import { Button, DynamicIcon } from "@/components/ui";
 import type { LayoutConfigItem } from "../../../_types/draft.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { motion } from "framer-motion";
 
 interface SectionListProps {

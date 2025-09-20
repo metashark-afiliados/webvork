@@ -12,10 +12,10 @@
 
 import React, { forwardRef } from "react";
 import { motion, type Variants } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { Container } from "@/components/ui/Container";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 /**
  * @interface HeroProps

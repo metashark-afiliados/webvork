@@ -16,12 +16,12 @@ import {
   CardDescription,
   CardFooter,
 } from "@/components/ui/Card";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { HeaderConfig, FooterConfig } from "../../_types/draft.types";
 import { WizardNavigation } from "../../_components/WizardNavigation";
 import { galleryConfig } from "../../_config/gallery.config";
 import { StructuralSectionConfig } from "./_components";
-import { Step1ContentSchema } from "@/lib/schemas/campaigns/steps/step1.schema";
+import { Step1ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step1.schema";
 import { z } from "zod";
 
 type Step1Content = z.infer<typeof Step1ContentSchema>;

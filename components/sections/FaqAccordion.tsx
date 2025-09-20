@@ -11,9 +11,9 @@
 import React from "react";
 import { AccordionItem } from "@/components/ui/Accordion";
 import { Container } from "@/components/ui/Container";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { logger } from "@/lib/logging";
-import type { FaqItem } from "@/lib/schemas/components/faq-accordion.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { FaqItem } from "@/shared/lib/schemas/components/faq-accordion.schema";
 
 interface FaqAccordionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

@@ -15,7 +15,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 import { useCampaignDraft } from "./use-campaign-draft"; // <-- RUTA CORREGIDA
 import { saveAsTemplateAction } from "../_actions";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 export function useCampaignTemplates() {
   const { draft } = useCampaignDraft();

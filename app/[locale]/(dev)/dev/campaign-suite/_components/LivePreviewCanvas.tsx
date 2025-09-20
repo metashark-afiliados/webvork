@@ -2,11 +2,7 @@
 /**
  * @file LivePreviewCanvas.tsx
  * @description Lienzo de vista previa en tiempo real (EDVI).
- *              v6.0.0 (Elite Quality Leveling): Refactorizado para cumplir con
- *              los pilares de i18n, theming y observabilidad. Ahora es un
- *              componente de presentación puro que recibe todo su contenido
- *              a través de props.
- * @version 6.0.0
+ * @version 7.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -17,16 +13,15 @@ import { motion } from "framer-motion";
 import { useCampaignDraft } from "../_hooks/use-campaign-draft";
 import { usePreviewTheme } from "../_hooks/use-preview-theme";
 import { useFocusStore } from "../_context/FocusContext";
-import { generateCssVariablesFromTheme } from "@/lib/theming/theme-utils";
+import { generateCssVariablesFromTheme } from "@/shared/lib/theming/theme-utils";
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import { SectionRenderer } from "@/components/layout/SectionRenderer";
 import { buildPreviewDictionary } from "../_utils/preview.utils";
 import { DynamicIcon } from "@/components/ui";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type { CampaignDraftState } from "../_types/draft.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
-// --- [INICIO] REFACTORIZACIÓN: Subcomponente IframeOverlay ahora es temable y data-driven ---
 const IframeOverlay = ({ children }: { children: React.ReactNode }) => (
   <div
     style={{
@@ -38,28 +33,25 @@ const IframeOverlay = ({ children }: { children: React.ReactNode }) => (
       justifyContent: "center",
       padding: "2rem",
       textAlign: "center",
-      backgroundColor: "hsl(var(--overlay))", // <-- THEMED
-      color: "hsl(var(--overlay-foreground))", // <-- THEMED
+      backgroundColor: "hsl(var(--overlay))",
+      color: "hsl(var(--overlay-foreground))",
       fontFamily: "sans-serif",
     }}
   >
     {children}
   </div>
 );
-// --- [FIN] REFACTORIZACIÓN ---
 
-// --- [INICIO] REFACTORIZACIÓN: Contrato de props para i18n ---
 interface LivePreviewCanvasProps {
   content: {
     loadingTheme: string;
     errorLoadingTheme: string;
   };
 }
-// --- [FIN] REFACTORIZACIÓN ---
 
 export function LivePreviewCanvas({ content }: LivePreviewCanvasProps) {
   logger.info(
-    "[LivePreviewCanvas] Renderizando lienzo de vista previa (v6.0 - Elite)."
+    "[LivePreviewCanvas] Renderizando lienzo de vista previa (v7.0 - FSD)."
   );
 
   const draft = useCampaignDraft((state: CampaignDraftState) => state.draft);
@@ -173,3 +165,4 @@ export function LivePreviewCanvas({ content }: LivePreviewCanvasProps) {
     </motion.div>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/LivePreviewCanvas.tsx

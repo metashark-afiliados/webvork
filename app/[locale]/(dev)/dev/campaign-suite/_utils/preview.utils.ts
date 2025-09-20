@@ -8,9 +8,9 @@
 "use client";
 
 import type { ContentData, LayoutConfigItem } from "../_types/draft.types";
-import { sectionsConfig } from "@/lib/config/sections.config";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
+import { sectionsConfig } from "@/shared/lib/config/sections.config";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
 
 /**
  * @function buildPreviewDictionary

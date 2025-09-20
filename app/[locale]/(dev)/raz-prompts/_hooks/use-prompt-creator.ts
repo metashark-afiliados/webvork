@@ -1,11 +1,8 @@
-// app/[locale]/(dev)/raz-prompts/_hooks/usePromptCreator.ts
+// app/[locale]/(dev)/raz-prompts/_hooks/use-prompt-creator.ts
 /**
- * @file usePromptCreator.ts
+ * @file use-prompt-creator.ts
  * @description Hook "cerebro" para la lógica de creación de prompts.
- *              v2.0.0 (Ideogram Parameters Integration): Ahora integra todos los
- *              parámetros de Ideogram.ai y el prompt negativo, alineando el formulario
- *              con el "genoma del prompt" de élite.
- * @version 2.0.0
+ * @version 3.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -19,15 +16,15 @@ import { createPromptEntryAction } from "../_actions";
 import {
   RaZPromptsSesaTagsSchema,
   PromptParametersSchema,
-} from "@/lib/schemas/raz-prompts/atomic.schema";
-import { logger } from "@/lib/logging";
+} from "@/shared/lib/schemas/raz-prompts/atomic.schema";
+import { logger } from "@/shared/lib/logging";
 
 export const CreatePromptFormSchema = z.object({
   title: z.string().min(3, "Il titolo è richiesto."),
   promptText: z.string().min(10, "Il prompt è richiesto."),
-  negativePrompt: z.string().optional(), // <-- NUEVO
+  negativePrompt: z.string().optional(),
   tags: RaZPromptsSesaTagsSchema,
-  parameters: PromptParametersSchema.deepPartial(), // <-- NUEVO: Para permitir valores parciales del formulario
+  parameters: PromptParametersSchema.deepPartial(),
   keywords: z.string().min(1, "Almeno una parola chiave è richiesta."),
 });
 
@@ -41,10 +38,9 @@ export function usePromptCreator() {
     defaultValues: {
       title: "",
       promptText: "",
-      negativePrompt: "", // <-- NUEVO
+      negativePrompt: "",
       tags: { ai: "ideo", sty: "pht", fmt: "16-9", typ: "ui", sbj: "abs" },
       parameters: {
-        // <-- NUEVO: Valores por defecto para los parámetros
         renderingSpeed: "DEFAULT",
         styleType: "REALISTIC",
         aspectRatio: "16x9",
@@ -58,28 +54,16 @@ export function usePromptCreator() {
   const onSubmit = (data: CreatePromptFormData) => {
     logger.startGroup("[usePromptCreator] Tentativo di creazione prompt...");
     startTransition(async () => {
-      // Extraer width y height de 'size' si está presente
-      let finalParameters = data.parameters;
-      if (data.parameters?.size) {
-        const [width, height] = data.parameters.size.split("x").map(Number);
-        // Asumiendo que el backend de Ideogram.ai espera 'width' y 'height' si 'size' se usa.
-        // Para Ideogram, la resolución se gestiona por 'aspect_ratio' y la IA internamente,
-        // pero si tuviéramos un campo 'width' y 'height' explícito en el schema de Ideogram,
-        // los mapearíamos aquí. Por ahora, 'size' es más una referencia de display.
-        // Si el schema de Ideogram requiriera width/height, los añadiríamos a PromptParametersSchema
-        // y haríamos el mapeo aquí.
-      }
-
       const result = await createPromptEntryAction({
         title: data.title,
         versions: [
           {
             version: 1,
             promptText: data.promptText,
-            negativePrompt: data.negativePrompt, // <-- NUEVO
-            parameters: finalParameters as z.infer<
+            negativePrompt: data.negativePrompt,
+            parameters: data.parameters as z.infer<
               typeof PromptParametersSchema
-            >, // Asegurar el tipo
+            >,
             createdAt: new Date().toISOString(),
           },
         ],
@@ -114,3 +98,4 @@ export function usePromptCreator() {
 
   return { form, onSubmit, isPending };
 }
+// app/[locale]/(dev)/raz-prompts/_hooks/use-prompt-creator.ts

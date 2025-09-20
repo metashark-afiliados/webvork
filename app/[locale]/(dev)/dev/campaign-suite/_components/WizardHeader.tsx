@@ -13,7 +13,7 @@ import { ProgressContext } from "../_context/ProgressContext";
 import { useCampaignDraft } from "../_hooks/use-campaign-draft";
 import { ProgressStepper } from "./ProgressStepper";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 const SyncStatusIndicator = () => {
   const isSyncing = useCampaignDraft((state) => state.isSyncing);

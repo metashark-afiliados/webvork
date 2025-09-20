@@ -14,9 +14,9 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Thumbnail } from "@/lib/schemas/components/thumbnail-carousel.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Thumbnail } from "@/shared/lib/schemas/components/thumbnail-carousel.schema";
 
 interface ThumbnailCarouselProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

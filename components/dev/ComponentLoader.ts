@@ -12,12 +12,12 @@ import {
   getComponentByName,
   type ComponentRegistryEntry,
 } from "./ComponentRegistry";
-import { logger } from "@/lib/logging";
-import { getDictionary } from "@/lib/i18n";
-import { getCampaignData } from "@/lib/i18n/campaign.i18n";
+import { logger } from "@/shared/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import { getCampaignData } from "@/shared/lib/i18n/campaign.i18n";
 import { getFallbackProps } from "./utils/component-props";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
 
 interface ComponentLoadResult {
   ComponentToRender: React.ComponentType<Record<string, unknown>>; // Tipo más seguro

@@ -10,11 +10,11 @@ import { notFound } from "next/navigation";
 import {
   getCampaignData,
   resolveCampaignVariant,
-} from "@/lib/i18n/campaign.i18n";
+} from "@/shared/lib/i18n/campaign.i18n";
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import { SectionRenderer } from "@/components/layout/SectionRenderer";
-import { logger } from "@/lib/logging";
-import type { Locale } from "@/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import type { Locale } from "@/shared/lib/i18n.config";
 
 interface CampaignPageProps {
   params: {

@@ -6,7 +6,7 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
-import { supportedLocales } from "@/lib/i18n.config";
+import { supportedLocales } from "@/shared/lib/i18n.config";
 
 export const HeaderConfigSchema = z.object({
   useHeader: z.boolean(),

@@ -14,9 +14,9 @@ import { FunctionComponent, memo } from "react";
 import dynamic from "next/dynamic";
 import { LucideProps } from "lucide-react";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
-import { cn } from "@/lib/utils";
-import { type LucideIconName } from "@/config/lucide-icon-names";
-import { logger } from "@/lib/logging";
+import { cn } from "@/shared/lib/utils";
+import { type LucideIconName } from "@/shared/config/lucide-icon-names";
+import { logger } from "@/shared/lib/logging";
 
 const DYNAMIC_ICON_CONFIG = {
   DEFAULT_SIZE: 24,

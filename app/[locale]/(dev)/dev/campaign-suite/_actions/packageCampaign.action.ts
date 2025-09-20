@@ -2,9 +2,7 @@
 /**
  * @file packageCampaign.action.ts
  * @description Server Action orquestadora para el empaquetado de una campaña.
- *              v4.0.0 (Atomic Map Update): Refactorizado para garantizar la atomicidad
- *              de las operaciones de actualización del mapa de campaña durante el empaquetado.
- * @version 4.0.0
+ * @version 7.1.0 (Elite Compliance Leveling)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
@@ -12,18 +10,16 @@
 import { promises as fs } from "fs";
 import path from "path";
 import os from "os";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 import type { CampaignDraft } from "../_types/draft.types";
-import { runScopedNextBuild } from "@/lib/ssg/programmatic-builder";
-import { packageDirectory } from "@/lib/ssg/packager";
-import { transformDraftToContentObject } from "./_utils/campaignDataTransformer";
+import { runScopedNextBuild } from "@/shared/lib/ssg/programmatic-builder";
+import { packageDirectory } from "@/shared/lib/ssg/packager";
 import {
   getOrCreateNextVariantId,
-  generateCampaignFileNames,
-  updateCampaignMapEntry,
-  type CampaignVariantFileNames,
+  updateCampaignMap,
 } from "./_utils/campaignMapManager";
+import { generateCampaignAssets } from "./_utils/assetGenerator";
 
 interface PackageSuccessPayload {
   message: string;
@@ -33,84 +29,43 @@ interface PackageSuccessPayload {
 export async function packageCampaignAction(
   draft: CampaignDraft
 ): Promise<ActionResult<PackageSuccessPayload>> {
-  if (
-    !draft.draftId ||
-    !draft.baseCampaignId ||
-    !draft.variantName ||
-    !draft.seoKeywords ||
-    !draft.themeConfig
-  ) {
-    const errorMsg =
-      "ID de borrador, de campaña base, nombre de variante o configuración de tema no encontrado.";
-    logger.error(errorMsg, { draft });
-    return { success: false, error: errorMsg };
+  const { draftId, baseCampaignId } = draft;
+  if (!draftId || !baseCampaignId) {
+    return {
+      success: false,
+      error: "Faltan datos fundamentales del borrador.",
+    };
   }
 
-  const traceId = logger.startTrace(`packageCampaign:${draft.draftId}`);
-  logger.startGroup("[Action] Empaquetando Campaña (Atomic Update)...");
+  const traceId = logger.startTrace(`packageCampaign:${draftId}`);
+  logger.startGroup("[Action] Empaquetando Campaña (DRY & Elite)...");
   let tempDir: string | null = null;
 
   try {
-    tempDir = await fs.mkdtemp(
-      path.join(os.tmpdir(), `campaign-${draft.draftId}-`)
-    );
-    logger.traceEvent(traceId, "Directorio temporal creado", { path: tempDir });
-
-    const contentObject = transformDraftToContentObject(draft);
-    const themeObject = {
-      layout: { sections: draft.layoutConfig },
-      themeOverrides: draft.themeConfig.themeOverrides ?? {},
-    };
-
-    const { nextVariantId, campaignMap } = await getOrCreateNextVariantId(
-      path.join(process.cwd(), "content", "campaigns", draft.baseCampaignId)
-    );
-    logger.traceEvent(
-      traceId,
-      "Próximo ID de variante obtenido para empaquetado.",
-      { nextVariantId }
-    );
-
-    const fileNames: CampaignVariantFileNames = generateCampaignFileNames(
-      draft,
-      nextVariantId
-    );
-
-    const tempCampaignDir = path.join(tempDir, draft.baseCampaignId);
-    await fs.mkdir(path.join(tempCampaignDir, "content"), { recursive: true });
-    await fs.mkdir(path.join(tempCampaignDir, "themes"), { recursive: true });
-
-    const tempThemePath = path.join(
-      tempCampaignDir,
-      "themes",
-      fileNames.themeFileName
-    );
-    const tempContentPath = path.join(
-      tempCampaignDir,
+    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), `campaign-${draftId}-`));
+    const tempCampaignDir = path.join(
+      tempDir,
       "content",
-      fileNames.contentFileName
-    );
-    await fs.writeFile(tempThemePath, JSON.stringify(themeObject, null, 2));
-    await fs.writeFile(tempContentPath, JSON.stringify(contentObject, null, 2));
-    logger.traceEvent(
-      traceId,
-      "Activos temporales de tema y contenido escritos."
+      "campaigns",
+      baseCampaignId
     );
 
-    await updateCampaignMapEntry(
-      tempCampaignDir,
-      nextVariantId,
+    const { nextVariantId, campaignMap } =
+      await getOrCreateNextVariantId(tempCampaignDir);
+    const { updatedMap, mapPath } = await generateCampaignAssets(
       draft,
-      fileNames,
-      campaignMap
+      campaignMap,
+      nextVariantId,
+      tempCampaignDir
     );
-    logger.traceEvent(traceId, "campaign.map.json temporal actualizado.");
+    await updateCampaignMap(updatedMap, mapPath);
+    logger.traceEvent(traceId, "Activos temporales generados.");
 
-    await runScopedNextBuild(draft.baseCampaignId, nextVariantId);
+    await runScopedNextBuild(baseCampaignId, nextVariantId, tempDir);
     logger.traceEvent(traceId, "Build estático de Next.js completado.");
 
     const buildOutputDir = path.join(process.cwd(), "out");
-    const zipFileName = `campaign-package-${draft.draftId}.zip`;
+    const zipFileName = `campaign-package-${draftId}.zip`;
     const zipOutputPath = path.join(tempDir, zipFileName);
 
     await packageDirectory(buildOutputDir, zipOutputPath);
@@ -123,15 +78,12 @@ export async function packageCampaignAction(
     logger.endTrace(traceId);
     return {
       success: true,
-      data: {
-        message: "Paquete de campaña generado con éxito.",
-        downloadUrl: dataUrl,
-      },
+      data: { message: "Paquete generado con éxito.", downloadUrl: dataUrl },
     };
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Error desconocido.";
-    logger.error("Fallo crítico durante el empaquetado de la campaña.", {
+    logger.error("Fallo crítico durante el empaquetado.", {
       error: errorMessage,
     });
     logger.endGroup();
@@ -143,7 +95,8 @@ export async function packageCampaignAction(
   } finally {
     if (tempDir) {
       await fs.rm(tempDir, { recursive: true, force: true });
-      logger.traceEvent(traceId, "Directorio temporal eliminado.");
+      logger.traceEvent(traceId, "Directorio temporal completo eliminado.");
     }
   }
 }
+// app/[locale]/(dev)/dev/campaign-suite/_actions/packageCampaign.action.ts

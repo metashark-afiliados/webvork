@@ -10,15 +10,15 @@
  */
 "use server";
 
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 // Se corrige la ruta de importación y se importa el tipo necesario.
 import {
   getAllCampaignsAndVariants,
   type CampaignVariantInfo,
-} from "@/lib/dev/campaign-utils";
+} from "@/shared/lib/dev/campaign-utils";
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
-import type { ActionResult } from "@/lib/types/actions.types";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 
 export async function getBaseCampaignsAction(): Promise<
   ActionResult<string[]>

@@ -19,9 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import type { RaZPromptsSesaTags } from "@/lib/schemas/raz-prompts/atomic.schema";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { RaZPromptsSesaTags } from "@/shared/lib/schemas/raz-prompts/atomic.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type SesaOptions = NonNullable<Dictionary["promptCreator"]>["sesaOptions"];
 type VaultContent = NonNullable<Dictionary["promptVault"]>;

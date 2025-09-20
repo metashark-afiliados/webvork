@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
 import type { ChecklistItem } from "../../../_utils/draft.validator";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 interface LaunchChecklistProps {
   items: ChecklistItem[];

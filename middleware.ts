@@ -12,9 +12,9 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   createPipeline,
   type MiddlewareHandler,
-} from "@/lib/middleware/engine";
-import { i18nHandler, authHandler } from "@/lib/middleware/handlers";
-import { logger } from "./lib/logging";
+} from "@/shared/lib/middleware/engine";
+import { i18nHandler, authHandler } from "@/shared/lib/middleware/handlers";
+import { logger } from "@/shared/lib/logging";
 
 const handlers: MiddlewareHandler[] = [i18nHandler];
 

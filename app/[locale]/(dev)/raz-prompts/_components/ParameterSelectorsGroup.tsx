@@ -26,9 +26,9 @@ import {
 } from "@/components/ui";
 import { FormFieldGroup } from "@/app/[locale]/(dev)/dev/campaign-suite/_components/shared/FormFieldGroup";
 import type { CreatePromptFormData } from "../_hooks/use-prompt-creator";
-import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
+import type { PromptCreatorContentSchema } from "@/shared/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import type { z } from "zod";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 // --- SSoT de Tipos ---
 type Content = z.infer<typeof PromptCreatorContentSchema>;

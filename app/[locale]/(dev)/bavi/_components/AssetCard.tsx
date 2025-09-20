@@ -2,7 +2,7 @@
 /**
  * @file AssetCard.tsx
  * @description Componente de presentación puro para visualizar un activo de BAVI.
- * @version 3.0.0 (SSoT Contract Alignment)
+ * @version 4.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button, DynamicIcon } from "@/components/ui";
-import type { BaviAsset } from "@/lib/schemas/bavi/bavi.manifest.schema";
-import { logger } from "@/lib/logging";
-import type { Locale } from "@/lib/i18n.config";
-import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
+import type { BaviAsset } from "@/shared/lib/schemas/bavi/bavi.manifest.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Locale } from "@/shared/lib/i18n.config";
+import type { PromptCreatorContentSchema } from "@/shared/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import type { z } from "zod";
 
 type CreatorContent = z.infer<typeof PromptCreatorContentSchema>;
@@ -49,12 +49,9 @@ export function AssetCard({
   );
 
   const mainVariant = asset.variants[0];
-  // --- [INICIO DE CORRECCIÓN] ---
-  // Se obtiene la fecha desde la SSoT correcta: el objeto 'asset'.
   const formattedDate = new Date(
     asset.createdAt || new Date()
   ).toLocaleDateString();
-  // --- [FIN DE CORRECCIÓN] ---
 
   const getTagLabel = (category: keyof typeof sesaOptions, value: string) => {
     return (

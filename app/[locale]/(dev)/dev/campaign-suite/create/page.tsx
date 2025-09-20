@@ -2,19 +2,17 @@
 /**
  * @file page.tsx
  * @description Página de entrada única (SPA) para la SDC.
- * @version 10.0.0 (Holistic Type Alignment): Refactorizado para alinear el
- *              flujo de datos con la nueva arquitectura de props "envueltas",
- *              simplificando la lógica y resolviendo el error de tipo TS7053.
+ * @version 11.0.0 (FSD & Type-Safe Config Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React, { Suspense } from "react";
 import { promises as fs } from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
-import { logger } from "@/lib/logging";
-import type { Locale } from "@/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import type { Locale } from "@/shared/lib/i18n.config";
 import { StepClientWrapper } from "../_components";
-import { stepsConfig } from "../_config/wizard.config";
+import { stepsConfig, type StepConfig } from "../_config/wizard.config";
 
 interface CreatePageProps {
   params: { locale: Locale };
@@ -26,7 +24,9 @@ export default async function CreatePage({
   searchParams,
 }: CreatePageProps) {
   const currentStepId = parseInt(searchParams?.step || "0", 10);
-  const stepConfig = stepsConfig.find((s) => s.id === currentStepId);
+  const stepConfig = stepsConfig.find(
+    (s: StepConfig) => s.id === currentStepId
+  );
 
   if (!stepConfig) {
     logger.error(
@@ -58,7 +58,6 @@ export default async function CreatePage({
       throw new Error(`Validación de Zod fallida.`);
     }
 
-    // Se pasa el objeto validado completo, tal como está.
     stepContent = validation.data;
   } catch (e) {
     error = `No se pudo cargar o validar el contenido para el paso ${currentStepId}.`;
@@ -80,3 +79,4 @@ export default async function CreatePage({
     </Suspense>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/create/page.tsx

@@ -12,7 +12,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { useDropdownMenuContext } from "./Context";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface ContentProps {
   children: React.ReactNode;

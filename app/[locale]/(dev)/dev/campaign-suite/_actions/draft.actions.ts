@@ -2,21 +2,20 @@
 /**
  * @file draft.actions.ts
  * @description Server Actions para el ciclo de vida de los borradores de campaña en MongoDB.
- * @version 2.1.0 (Code Hygiene)
+ * @version 3.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { connectToDatabase } from "@/lib/mongodb";
+import { connectToDatabase } from "@/shared/lib/mongodb";
 import {
   CampaignDraftDataSchema,
   type CampaignDraftDb,
-} from "@/lib/schemas/campaigns/draft.schema";
-import type { ActionResult } from "@/lib/types/actions.types";
-import { logger } from "@/lib/logging";
+} from "@/shared/lib/schemas/campaigns/draft.schema";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
 
-// Placeholder para el ID de usuario hasta que se implemente la autenticación
 const MOCK_USER_ID = "user__metashark_dev";
 
 async function getDraftsCollection() {
@@ -25,10 +24,6 @@ async function getDraftsCollection() {
   return db.collection<CampaignDraftDb>("campaign_drafts");
 }
 
-/**
- * @action saveDraftAction
- * @description Guarda (crea o actualiza) un borrador en la base de datos.
- */
 export async function saveDraftAction(
   draftData: Omit<CampaignDraftDb, "createdAt" | "updatedAt" | "userId">
 ): Promise<ActionResult<{ draftId: string; updatedAt: string }>> {
@@ -82,10 +77,6 @@ export async function saveDraftAction(
   }
 }
 
-/**
- * @action getDraftAction
- * @description Obtiene el borrador más reciente para el usuario simulado.
- */
 export async function getDraftAction(): Promise<
   ActionResult<{ draft: CampaignDraftDb | null }>
 > {

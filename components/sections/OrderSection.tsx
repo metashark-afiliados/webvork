@@ -10,8 +10,8 @@ import React from "react";
 import { Container } from "@/components/ui/Container";
 import { OrderForm } from "@/components/forms/OrderForm";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { logger } from "@/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
 
 interface OrderSectionProps {
   content?: Dictionary["orderSection"];

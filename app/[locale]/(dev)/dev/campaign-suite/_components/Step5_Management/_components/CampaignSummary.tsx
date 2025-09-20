@@ -9,7 +9,7 @@
 "use client";
 
 import React from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { CampaignDraft } from "../../../_types/draft.types";
 import {
   Card,

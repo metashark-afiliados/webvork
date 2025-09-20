@@ -8,9 +8,9 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import { NotFoundClient } from "./NotFoundClient";
 import { DeveloperErrorDisplay } from "@/components/dev";
 import { notFound } from "next/navigation";
@@ -19,7 +19,9 @@ interface NotFoundPageProps {
   params: { locale: Locale };
 }
 
-export default async function NotFoundPage({ params: { locale } }: NotFoundPageProps) {
+export default async function NotFoundPage({
+  params: { locale },
+}: NotFoundPageProps) {
   logger.info(
     `[NotFoundPage Shell] Obteniendo contenido para locale: ${locale}`
   );
@@ -27,7 +29,8 @@ export default async function NotFoundPage({ params: { locale } }: NotFoundPageP
   const content = dictionary.notFoundPage;
 
   if (error || !content) {
-    const errorMessage = "Fallo al cargar el contenido i18n para la página 404.";
+    const errorMessage =
+      "Fallo al cargar el contenido i18n para la página 404.";
     logger.error(`[NotFoundPage Shell] ${errorMessage}`, { error });
     if (process.env.NODE_ENV === "production") {
       return notFound();

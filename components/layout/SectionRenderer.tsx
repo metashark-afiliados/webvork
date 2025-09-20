@@ -10,10 +10,13 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
-import { sectionsConfig, type SectionName } from "@/lib/config/sections.config";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
+import {
+  sectionsConfig,
+  type SectionName,
+} from "@/shared/lib/config/sections.config";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
 import { ValidationError } from "@/components/ui/ValidationError";
 import { SectionAnimator } from "./SectionAnimator";
 
@@ -103,7 +106,7 @@ export function SectionRenderer({
         // que se ejecuta justo arriba. Esta validación confirma que `validation.data`
         // (el contenido) tiene la forma exacta que el `Component` espera, según
         // nuestra SSoT en `sections.config.ts`.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         return (
           <Component
             key={`${sectionName}-${index}`}

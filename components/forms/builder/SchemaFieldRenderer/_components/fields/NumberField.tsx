@@ -11,7 +11,7 @@ import React from "react";
 import type { FieldValues } from "react-hook-form";
 import { Input } from "@/components/ui/Input";
 import type { FieldComponentProps } from "../../_types/field.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 export function NumberField<TFieldValues extends FieldValues>({
   field,

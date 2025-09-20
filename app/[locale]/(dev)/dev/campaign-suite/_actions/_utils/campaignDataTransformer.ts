@@ -2,13 +2,13 @@
 /**
  * @file campaignDataTransformer.ts
  * @description Utilidad pura para transformar el borrador de campaña en el objeto de contenido final.
- * @version 1.2.0 (Definitive Path Fix)
+ * @version 2.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 import type { CampaignDraft } from "../../_types/draft.types";
-import { supportedLocales, type Locale } from "@/lib/i18n.config";
-import { sectionsConfig } from "@/lib/config/sections.config";
-import { logger } from "@/lib/logging";
+import { supportedLocales, type Locale } from "@/shared/lib/i18n.config";
+import { sectionsConfig } from "@/shared/lib/config/sections.config";
+import { logger } from "@/shared/lib/logging";
 
 /**
  * @function transformDraftToContentObject

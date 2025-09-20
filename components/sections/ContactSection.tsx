@@ -12,9 +12,9 @@ import React from "react";
 import { Container } from "@/components/ui/Container";
 import { DynamicIcon } from "@/components/ui";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { ContactInfoItem } from "@/lib/schemas/components/contact-section.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { ContactInfoItem } from "@/shared/lib/schemas/components/contact-section.schema";
 
 interface ContactSectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

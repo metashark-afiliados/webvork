@@ -11,16 +11,16 @@ import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { useCampaignDraft } from "../../_hooks";
 import type { ThemeConfig } from "../../_types/draft.types";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 import type { DiscoveredFragments } from "../../_actions/getThemeFragments.action";
 import { Step3Form } from "./Step3Form";
 import { useWizard } from "../../_context/WizardContext";
 import { ThemeComposerModal } from "./_components/ThemeComposerModal";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
 import { DynamicIcon } from "@/components/ui";
 import { z } from "zod";
-import { Step3ContentSchema } from "@/lib/schemas/campaigns/steps/step3.schema";
+import { Step3ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step3.schema";
 
 type Step3Content = z.infer<typeof Step3ContentSchema>;
 

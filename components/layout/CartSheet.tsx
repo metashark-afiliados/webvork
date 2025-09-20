@@ -28,10 +28,10 @@ import {
   useCartStore,
   useCartTotals,
   type CartItem,
-} from "@/store/useCartStore";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
+} from "@/shared/store/useCartStore";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
 
 type CartContent = NonNullable<Dictionary["cart"]>;
 

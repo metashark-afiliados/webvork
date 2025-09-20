@@ -15,8 +15,8 @@
 
 import React from "react";
 import { motion, type Variants } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logging";
+import { cn } from "@/shared/lib/utils";
+import { logger } from "@/shared/lib/logging";
 
 /**
  * @interface ContainerProps

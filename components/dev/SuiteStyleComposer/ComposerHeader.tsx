@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/Dialog";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface ComposerHeaderProps {
   title: string;

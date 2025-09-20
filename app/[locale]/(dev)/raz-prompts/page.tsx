@@ -1,15 +1,14 @@
 // RUTA: app/[locale]/(dev)/raz-prompts/page.tsx
 /**
  * @file page.tsx
- * @description Página principal de élite para la Bóveda de RaZPrompts, con
- *              animación, resiliencia y cumplimiento holístico de la Directiva 026.
- * @version 7.0.0 (Holistic Elite Compliance & MEA/UX)
+ * @description Página principal de élite para la Bóveda de RaZPrompts.
+ * @version 8.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import { PageHeader } from "@/components/layout/PageHeader";
 import {
   Container,
@@ -27,19 +26,20 @@ interface RaZPromptsHomePageProps {
   params: { locale: Locale };
 }
 
-export default async function RaZPromptsHomePage({ params: { locale } }: RaZPromptsHomePageProps) {
-  logger.info("[RaZPromptsHomePage] Renderizando v7.0 (Elite Compliance).");
+export default async function RaZPromptsHomePage({
+  params: { locale },
+}: RaZPromptsHomePageProps) {
+  logger.info("[RaZPromptsHomePage] Renderizando v8.0 (FSD Aligned).");
 
   const { dictionary, error } = await getDictionary(locale);
 
-  // SSoT de contenido para cada aparato
   const pageContent = dictionary.razPromptsHomePage;
   const promptCreatorContent = dictionary.promptCreator;
   const promptVaultContent = dictionary.promptVault;
 
-  // --- Pilar III: Guardia de Resiliencia Robusta ---
   if (error || !pageContent || !promptCreatorContent || !promptVaultContent) {
-    const errorMessage = "Fallo al cargar el contenido i18n para la página principal de RaZPrompts.";
+    const errorMessage =
+      "Fallo al cargar el contenido i18n para la página principal de RaZPrompts.";
     logger.error(`[RaZPromptsHomePage] ${errorMessage}`, { error });
     if (process.env.NODE_ENV === "production") {
       return notFound();
@@ -48,7 +48,10 @@ export default async function RaZPromptsHomePage({ params: { locale } }: RaZProm
       <DeveloperErrorDisplay
         context="RaZPromptsHomePage"
         errorMessage={errorMessage}
-        errorDetails={error || "Una o más claves (razPromptsHomePage, promptCreator, promptVault) faltan en el diccionario."}
+        errorDetails={
+          error ||
+          "Una o más claves (razPromptsHomePage, promptCreator, promptVault) faltan en el diccionario."
+        }
       />
     );
   }
@@ -56,14 +59,16 @@ export default async function RaZPromptsHomePage({ params: { locale } }: RaZProm
   return (
     <>
       <SectionAnimator>
-        {/* Pilar V: Adherencia al Contrato de PageHeader */}
         <PageHeader content={pageContent} />
         <Container className="py-12">
           <Tabs defaultValue="vault">
             <TabsList className="grid w-full grid-cols-2 md:w-[400px] mb-8">
-              {/* Pilar I: Cero Texto Hardcodeado */}
-              <TabsTrigger value="create">{pageContent.createPromptTab}</TabsTrigger>
-              <TabsTrigger value="vault">{pageContent.viewVaultTab}</TabsTrigger>
+              <TabsTrigger value="create">
+                {pageContent.createPromptTab}
+              </TabsTrigger>
+              <TabsTrigger value="vault">
+                {pageContent.viewVaultTab}
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="create">
               <PromptCreator content={promptCreatorContent} />

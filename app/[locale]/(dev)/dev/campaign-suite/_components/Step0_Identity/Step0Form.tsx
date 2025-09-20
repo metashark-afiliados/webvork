@@ -18,10 +18,10 @@ import {
 } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Form } from "@/components/ui/Form";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { Step0Data } from "../../_schemas/step0.schema";
 import { CampaignSelectField, VariantInputField } from "../shared";
-import { Step0ContentSchema } from "@/lib/schemas/campaigns/steps/step0.schema";
+import { Step0ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step0.schema";
 import { z } from "zod";
 
 type Step0Content = z.infer<typeof Step0ContentSchema>;

@@ -11,10 +11,10 @@
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { motion, type Variants } from "framer-motion";
-import { logger } from "@/lib/logging";
-import { routes } from "@/lib/navigation";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Locale } from "@/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import { routes } from "@/shared/lib/navigation";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
 import { FormInput } from "@/components/ui/FormInput";
 import { Button, DynamicIcon } from "@/components/ui";
 import { loginDevAction } from "../_actions/loginDev.action";

@@ -21,10 +21,10 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
 import { FlagIcon } from "@/components/ui/FlagIcon";
-import { type Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import { cn } from "@/lib/utils";
+import { type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { cn } from "@/shared/lib/utils";
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;

@@ -10,7 +10,7 @@
 "use client";
 
 import * as React from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 /**
  * @interface DropdownMenuContextType

@@ -2,25 +2,41 @@
   "it-IT": {
     "campaignSuitePage": {
       "title": "Suite di Progettazione Campagne",
-      "subtitle": "Una procedura guidata per creare, configurare e generare asset di campagna convalidati."
+      "subtitle": "Una procedura guidata per creare, configurare e generare asset di campagna convalidati.",
+      "preview": {
+        "loadingTheme": "Assemblando il tema...",
+        "errorLoadingTheme": "Errore nel caricamento del tema."
+      }
     }
   },
   "es-ES": {
     "campaignSuitePage": {
       "title": "Suite de Diseño de Campañas",
-      "subtitle": "Un asistente guiado para crear, configurar y generar activos de campaña validados."
+      "subtitle": "Un asistente guiado para crear, configurar y generar activos de campaña validados.",
+      "preview": {
+        "loadingTheme": "Ensamblando el tema...",
+        "errorLoadingTheme": "Error al cargar el tema."
+      }
     }
   },
   "en-US": {
     "campaignSuitePage": {
       "title": "Campaign Design Suite",
-      "subtitle": "A guided wizard to create, configure, and generate validated campaign assets."
+      "subtitle": "A guided wizard to create, configure, and generate validated campaign assets.",
+      "preview": {
+        "loadingTheme": "Assembling theme...",
+        "errorLoadingTheme": "Error loading theme."
+      }
     }
   },
   "pt-BR": {
     "campaignSuitePage": {
       "title": "Suite de Design de Campanhas",
-      "subtitle": "Um assistente guiado para criar, configurar e gerar ativos de campanha validados."
+      "subtitle": "Um assistente guiado para criar, configurar e gerar ativos de campanha validados.",
+      "preview": {
+        "loadingTheme": "Montando o tema...",
+        "errorLoadingTheme": "Erro ao carregar o tema."
+      }
     }
   }
 }

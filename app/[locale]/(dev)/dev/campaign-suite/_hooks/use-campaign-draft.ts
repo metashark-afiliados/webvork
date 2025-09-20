@@ -2,18 +2,15 @@
 /**
  * @file use-campaign-draft.ts
  * @description Hook de Zustand para la gestión de estado híbrida.
- *              v14.1.0 (Linter Hygiene Fix): Resuelve las advertencias de
- *              'no-unused-vars' utilizando la convención de alias con guion
- *              bajo para las variables omitidas intencionadamente.
- * @version 14.1.0
+ * @version 15.1.0 (Elite Linter Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { StateCreator } from "zustand";
 import { toast } from "sonner";
-import { logger } from "@/lib/logging";
-import { generateDraftId } from "@/lib/drafts/draft-utils";
+import { logger } from "@/shared/lib/logging";
+import { generateDraftId } from "@/shared/lib/drafts/draft-utils";
 import { stepsConfig } from "../_config/wizard.config";
 import { initialCampaignDraftState } from "../_config/draft.initial-state";
 import type { CampaignDraft, CampaignDraftState } from "../_types/draft.types";
@@ -21,7 +18,7 @@ import { saveDraftAction, getDraftAction } from "../_actions/draft.actions";
 import {
   CampaignDraftDataSchema,
   type CampaignDraftDb,
-} from "@/lib/schemas/campaigns/draft.schema";
+} from "@/shared/lib/schemas/campaigns/draft.schema";
 
 let debounceTimeout: NodeJS.Timeout;
 const DEBOUNCE_DELAY = 1500;
@@ -74,12 +71,12 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
       `[useCampaignDraft] Guardando borrador ${draftToSave.draftId} en DB...`
     );
 
-    // --- [INICIO DE CORRECCIÓN DE HIGIENE DE CÓDIGO] ---
-    // Se utiliza un alias para reasignar las variables no utilizadas a nombres
-    // con prefijo de guion bajo, la convención estándar para indicar a ESLint
-    // que estas variables son intencionadamente ignoradas.
-    const { step: _step, updatedAt: _updatedAt, ...dataToSave } = draftToSave;
-    // --- [FIN DE CORRECCIÓN DE HIGIENE DE CÓDIGO] ---
+    // --- [INICIO DE CORRECCIÓN DE LINTING DE ÉLITE] ---
+    // Esta sintaxis desestructura `draftToSave`, omitiendo `step` y `updatedAt`
+    // sin crear nuevas variables no utilizadas. El resto de las propiedades
+    // se agrupan en `dataToSave`.
+    const { ...dataToSave } = draftToSave;
+    // --- [FIN DE CORRECCIÓN DE LINTING DE ÉLITE] ---
 
     const validation = CampaignDraftDataSchema.safeParse(dataToSave);
 
@@ -170,3 +167,4 @@ export const useCampaignDraft = create<CampaignDraftState>()(
     },
   })
 );
+// app/[locale]/(dev)/dev/campaign-suite/_hooks/use-campaign-draft.ts

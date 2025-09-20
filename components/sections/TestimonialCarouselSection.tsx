@@ -21,9 +21,9 @@ import {
 import { Card, CardContent } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { ReviewItem } from "@/lib/schemas/components/testimonial-carousel-section.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { ReviewItem } from "@/shared/lib/schemas/components/testimonial-carousel-section.schema";
 
 interface TestimonialCarouselSectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

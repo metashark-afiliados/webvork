@@ -13,11 +13,11 @@
 import React from "react";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import { usePathname } from "next/navigation";
-import { getCurrentLocaleFromPathname } from "@/lib/i18n.utils";
-import { routes } from "@/lib/navigation";
+import { getCurrentLocaleFromPathname } from "@/shared/lib/i18n.utils";
+import { routes } from "@/shared/lib/navigation";
 import DevToolsDropdown from "../dev/DevToolsDropdown";
 
 interface DevHomepageHeaderProps {

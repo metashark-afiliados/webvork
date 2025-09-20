@@ -11,7 +11,7 @@ import React from "react";
 import type { FieldValues } from "react-hook-form";
 import { Switch } from "@/components/ui/Switch";
 import type { FieldComponentProps } from "../../_types/field.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 export function BooleanField<TFieldValues extends FieldValues>({
   field,

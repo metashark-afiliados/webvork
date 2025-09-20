@@ -6,12 +6,12 @@
  *              de ruta generadas por el script v8.0+, resolviendo todos los errores 'TypeError'.
  * @author RaZ Podestá - MetaShark Tech
  */
-import { type LucideIconName } from "@/config/lucide-icon-names";
-import { producerConfig } from "@/config/producer.config";
-import { routes } from "@/lib/navigation";
-import { type Locale } from "@/lib/i18n.config";
-import { type Dictionary } from "@/lib/schemas/i18n.schema";
-import { logger } from "@/lib/logging";
+import { type LucideIconName } from "@/shared/config/lucide-icon-names";
+import { producerConfig } from "@/shared/config/producer.config";
+import { routes } from "@/shared/lib/navigation";
+import { type Locale } from "@/shared/lib/i18n.config";
+import { type Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
 
 export interface RouteItem {
   name: string;

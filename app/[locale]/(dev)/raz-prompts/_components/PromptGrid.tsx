@@ -11,9 +11,9 @@
 import React from "react";
 import { DynamicIcon } from "@/components/ui";
 import { PromptCard } from "./PromptCard";
-import { logger } from "@/lib/logging";
-import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { RaZPromptsEntry } from "@/shared/lib/schemas/raz-prompts/entry.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type VaultContent = NonNullable<Dictionary["promptVault"]>;
 type SesaOptions = NonNullable<Dictionary["promptCreator"]>["sesaOptions"];
@@ -66,5 +66,4 @@ export function PromptGrid({
       ))}
     </div>
   );
-  
 }

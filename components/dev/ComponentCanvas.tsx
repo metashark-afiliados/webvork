@@ -7,7 +7,7 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { ComponentCanvasHeader } from "./ComponentCanvasHeader";
 import { ComponentMetadataPanel } from "./ComponentMetadataPanel";
 import { loadComponentAndProps } from "./ComponentLoader";

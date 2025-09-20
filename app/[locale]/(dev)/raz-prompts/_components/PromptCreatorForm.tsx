@@ -33,9 +33,9 @@ import {
 import { SesaTagsFormGroup } from "./SesaTagsFormGroup";
 import { ParameterSelectorsGroup } from "./ParameterSelectorsGroup"; // <-- NUEVA IMPORTACIÓN
 import type { CreatePromptFormData } from "../_hooks/use-prompt-creator";
-import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
+import type { PromptCreatorContentSchema } from "@/shared/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import type { z } from "zod";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 // --- SSoT de Tipos y Animaciones ---
 type Content = z.infer<typeof PromptCreatorContentSchema>;
@@ -204,4 +204,3 @@ export function PromptCreatorForm({
     </Card>
   );
 }
-

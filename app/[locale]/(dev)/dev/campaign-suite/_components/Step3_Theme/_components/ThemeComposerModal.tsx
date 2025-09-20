@@ -23,10 +23,10 @@ import { TypographySelector } from "./TypographySelector";
 import { GeometrySelector } from "./GeometrySelector";
 import { usePreviewStore } from "../../../_context/PreviewContext";
 import type { ThemeConfig } from "../../../_types/draft.types";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
-import { AssembledThemeSchema } from "@/lib/schemas/theming/assembled-theme.schema";
-import { deepMerge } from "@/lib/utils/merge";
-import { logger } from "@/lib/logging";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import { AssembledThemeSchema } from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import { deepMerge } from "@/shared/lib/utils/merge";
+import { logger } from "@/shared/lib/logging";
 import { toast } from "sonner";
 
 type LoadedFragments = {

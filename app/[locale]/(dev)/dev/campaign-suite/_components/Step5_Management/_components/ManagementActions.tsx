@@ -12,7 +12,7 @@
 import React from "react";
 import { Button } from "@/components/ui/Button";
 import { AlertDialogTrigger } from "@/components/ui/AlertDialog";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { SaveAsTemplateDialog } from "./SaveAsTemplateDialog";
 import {
   Tooltip,
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/Tooltip";
 import { FadingLines, DotsWave } from "@/components/ui/Loaders";
 import type { z } from "zod";
-import type { Step5ContentSchema } from "../../../../../../../../lib/schemas/campaigns/steps/step5.schema";
+import type { Step5ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step5.schema";
 
 type Content = z.infer<typeof Step5ContentSchema>;
 

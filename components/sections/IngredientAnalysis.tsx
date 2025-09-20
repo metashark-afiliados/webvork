@@ -9,9 +9,9 @@
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { Ingredient } from "@/lib/schemas/components/ingredient-analysis.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { Ingredient } from "@/shared/lib/schemas/components/ingredient-analysis.schema";
 
 interface IngredientAnalysisProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

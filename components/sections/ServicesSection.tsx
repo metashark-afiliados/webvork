@@ -16,9 +16,9 @@ import {
   CardTitle,
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { ServiceItem } from "@/lib/schemas/components/services-section.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { ServiceItem } from "@/shared/lib/schemas/components/services-section.schema";
 
 interface ServicesSectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

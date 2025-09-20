@@ -8,15 +8,15 @@
  */
 import React from "react";
 import Image from "next/image";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import { Container, Badge } from "@/components/ui";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TextSection } from "@/components/sections/TextSection";
 import { DeveloperErrorDisplay } from "@/components/dev";
 import { SectionAnimator } from "@/components/layout/SectionAnimator";
-import type { NewsArticlePageContent } from "@/lib/schemas/pages/news-article-page.schema";
+import type { NewsArticlePageContent } from "@/shared/lib/schemas/pages/news-article-page.schema";
 import { notFound } from "next/navigation";
 
 interface NewsArticlePageProps {

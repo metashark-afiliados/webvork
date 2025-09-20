@@ -10,7 +10,7 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 /**
  * @component ThemeInjector

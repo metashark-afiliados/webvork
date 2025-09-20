@@ -8,13 +8,13 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
+import { getDictionary } from "@/shared/lib/i18n";
 import { HeroNews } from "@/components/sections/HeroNews";
 import { NewsGrid } from "@/components/sections/NewsGrid";
 import { SocialProofLogos } from "@/components/sections/SocialProofLogos";
 import { CommunitySection } from "@/components/sections/CommunitySection";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 
 interface HomePageProps {
   params: { locale: Locale };

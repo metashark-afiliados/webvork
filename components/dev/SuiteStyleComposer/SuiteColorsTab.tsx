@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/Select";
 import { Label } from "@/components/ui/Label";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { LoadedFragments } from "./types"; // <-- RUTA CORREGIDA A LA SSoT DE TIPOS
 
 interface SuiteColorsTabProps {

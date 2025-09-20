@@ -15,8 +15,8 @@ import React from "react";
 import { type ZodError } from "zod";
 import { motion } from "framer-motion";
 import { DynamicIcon } from "@/components/ui/DynamicIcon";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type ValidationErrorContent = NonNullable<Dictionary["validationError"]>;
 

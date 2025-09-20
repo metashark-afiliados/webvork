@@ -9,8 +9,8 @@
  */
 "use server";
 
-import { getSession } from "@/lib/session";
-import type { ActionResult } from "@/lib/types/actions.types";
+import { getSession } from "@/shared/lib/session";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 // El tipo 'Locale' ya no es necesario aquí.
 
 export async function loginDevAction(

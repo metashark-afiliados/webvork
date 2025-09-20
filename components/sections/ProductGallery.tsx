@@ -10,9 +10,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import type { z } from "zod";
-import type { ProductDetailPageContentSchema } from "@/lib/schemas/pages/product-detail-page.schema";
+import type { ProductDetailPageContentSchema } from "@/shared/lib/schemas/pages/product-detail-page.schema";
 
 type GalleryImage = z.infer<
   typeof ProductDetailPageContentSchema

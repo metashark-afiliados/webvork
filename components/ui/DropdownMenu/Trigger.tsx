@@ -12,7 +12,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { useDropdownMenuContext } from "./Context";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface TriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;

@@ -6,16 +6,16 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui";
 // Crearemos estos componentes a continuación
 import { ProductGallery } from "@/components/sections/ProductGallery";
 import { ProductInfo } from "@/components/sections/ProductInfo";
 import { ProductGrid } from "@/components/sections/ProductGrid";
-import type { ProductDetailPageContentSchema } from "@/lib/schemas/pages/product-detail-page.schema";
+import type { ProductDetailPageContentSchema } from "@/shared/lib/schemas/pages/product-detail-page.schema";
 import type { z } from "zod";
 
 type ProductContent = z.infer<typeof ProductDetailPageContentSchema>;

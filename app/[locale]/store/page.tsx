@@ -8,9 +8,9 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import { Container } from "@/components/ui";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { ProductFilters } from "@/components/sections/ProductFilters";
@@ -19,14 +19,18 @@ import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { CommunitySection } from "@/components/sections/CommunitySection";
 import { DeveloperErrorDisplay } from "@/components/dev";
 import { notFound } from "next/navigation";
-import type { ProductCardData } from "@/lib/schemas/pages/store-page.schema";
+import type { ProductCardData } from "@/shared/lib/schemas/pages/store-page.schema";
 
 interface StorePageProps {
   params: { locale: Locale };
 }
 
-export default async function StorePage({ params: { locale } }: StorePageProps) {
-  logger.info(`[StorePage] Renderizando v3.0 (Elite Compliance) para locale: ${locale}`);
+export default async function StorePage({
+  params: { locale },
+}: StorePageProps) {
+  logger.info(
+    `[StorePage] Renderizando v3.0 (Elite Compliance) para locale: ${locale}`
+  );
 
   const { dictionary, error } = await getDictionary(locale);
   const content = dictionary.storePage;
@@ -35,7 +39,8 @@ export default async function StorePage({ params: { locale } }: StorePageProps) 
 
   // --- Pilar III: Guardia de Resiliencia Robusta ---
   if (error || !content) {
-    const errorMessage = "Fallo al cargar el contenido i18n para la página de la Tienda.";
+    const errorMessage =
+      "Fallo al cargar el contenido i18n para la página de la Tienda.";
     logger.error(`[StorePage] ${errorMessage}`, { error });
     if (process.env.NODE_ENV === "production") {
       return notFound();

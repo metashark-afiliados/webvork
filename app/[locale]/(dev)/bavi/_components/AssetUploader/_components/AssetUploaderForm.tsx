@@ -2,9 +2,7 @@
 /**
  * @file AssetUploaderForm.tsx
  * @description Componente de presentación puro para la UI del AssetUploader.
- * @version 3.1.0 (Type-Safe Child Component): No requiere cambios internos,
- *              pero se actualiza la versión para reflejar la compatibilidad con
- *              el SesaTagsFormGroup refactorizado.
+ * @version 4.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -15,11 +13,9 @@ import type { DropzoneRootProps, DropzoneInputProps } from "react-dropzone";
 import type { UploadApiResponse } from "cloudinary";
 import { Form, Button, DynamicIcon } from "@/components/ui";
 import { AssetDropzone, MetadataForm, UploadPreview } from "./";
-// --- [INICIO DE CORRECCIÓN DE RUTA] ---
 import { SesaTagsFormGroup } from "../../../../raz-prompts/_components/SesaTagsFormGroup";
-// --- [FIN DE CORRECCIÓN DE RUTA] ---
-import type { AssetUploadMetadata } from "@/lib/bavi/upload.schema";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { AssetUploadMetadata } from "@/shared/lib/bavi/upload.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type UploaderContent = NonNullable<Dictionary["baviUploader"]>;
 type SesaContent = NonNullable<Dictionary["promptCreator"]>["sesaLabels"] & {
@@ -66,7 +62,6 @@ export function AssetUploaderForm({
         />
         <div className="space-y-6">
           <MetadataForm control={form.control} content={content} />
-          {/* Esta llamada ahora es 100% segura a nivel de tipos */}
           <SesaTagsFormGroup control={form.control} content={sesaContent} />
           <Button
             type="submit"

@@ -13,12 +13,12 @@ import React from "react";
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type {
   TestimonialItem as Testimonial,
   LogoItem as Logo,
-} from "@/lib/schemas/components/double-scrolling-banner.schema";
+} from "@/shared/lib/schemas/components/double-scrolling-banner.schema";
 
 interface DoubleScrollingBannerProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

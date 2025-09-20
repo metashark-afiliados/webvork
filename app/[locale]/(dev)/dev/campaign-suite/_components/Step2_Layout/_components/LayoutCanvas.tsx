@@ -16,7 +16,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { motion, AnimatePresence } from "framer-motion";
 import type { LayoutConfigItem } from "../../../_types/draft.types";
 import { Button, DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface SortableItemProps {
   id: string;

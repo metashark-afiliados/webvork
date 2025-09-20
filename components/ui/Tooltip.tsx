@@ -13,8 +13,8 @@
 import * as React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logging";
+import { cn } from "@/shared/lib/utils";
+import { logger } from "@/shared/lib/logging";
 
 /**
  * @component TooltipProvider

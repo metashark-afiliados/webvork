@@ -10,12 +10,12 @@
  */
 import React from "react";
 import { Container } from "@/components/ui/Container";
-import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logging";
+import { cn } from "@/shared/lib/utils";
+import { logger } from "@/shared/lib/logging";
 import type {
   ContentBlocks,
   ContentBlock,
-} from "@/lib/schemas/components/content-block.schema"; // <-- [1] IMPORTAR CONTRATO
+} from "@/shared/lib/schemas/components/content-block.schema"; // <-- [1] IMPORTAR CONTRATO
 
 interface TextSectionProps {
   content: ContentBlocks; // <-- [2] PROP PRINCIPAL AHORA ES 'content'

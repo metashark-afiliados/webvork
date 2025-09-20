@@ -9,7 +9,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface ContentEditorFooterProps {
   onClose: () => void;

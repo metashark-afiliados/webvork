@@ -19,9 +19,9 @@ import {
 } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button, DynamicIcon } from "@/components/ui";
-import type { RaZPromptsEntry } from "@/lib/schemas/raz-prompts/entry.schema";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { RaZPromptsEntry } from "@/shared/lib/schemas/raz-prompts/entry.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type SesaOptions = NonNullable<Dictionary["promptCreator"]>["sesaOptions"];
 type VaultContent = NonNullable<Dictionary["promptVault"]>;
@@ -91,8 +91,12 @@ export function PromptCard({
       </CardContent>
       <CardFooter className="flex flex-wrap items-center justify-between pt-0 gap-2">
         <div className="flex flex-wrap gap-1">
-          <Badge variant="secondary">{getTagLabel("sty", prompt.tags.sty)}</Badge>
-          <Badge variant="secondary">{getTagLabel("fmt", prompt.tags.fmt)}</Badge>
+          <Badge variant="secondary">
+            {getTagLabel("sty", prompt.tags.sty)}
+          </Badge>
+          <Badge variant="secondary">
+            {getTagLabel("fmt", prompt.tags.fmt)}
+          </Badge>
         </div>
         <Button
           variant="outline"

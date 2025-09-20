@@ -20,13 +20,13 @@ import {
   DragOverlay,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
-import { sectionsConfig } from "@/lib/config/sections.config";
+import { sectionsConfig } from "@/shared/lib/config/sections.config";
 import type { LayoutConfigItem } from "../../_types/draft.types";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { LayoutCanvas } from "./_components/LayoutCanvas";
 import { SectionLibrary } from "./_components/SectionLibrary";
 import { DynamicIcon } from "@/components/ui";
-import type { Step2ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step2.schema";
+import type { Step2ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step2.schema";
 import type { z } from "zod";
 
 const availableSections = Object.keys(sectionsConfig).map((name) => ({

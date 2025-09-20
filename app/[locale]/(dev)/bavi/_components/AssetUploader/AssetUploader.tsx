@@ -2,22 +2,20 @@
 /**
  * @file AssetUploader.tsx
  * @description Contenedor "smart" para la subida de activos.
- * @version 4.1.0 (SesaContent Contract Fix)
+ * @version 5.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import { useAssetUploader } from "./_hooks/useAssetUploader";
+import { useAssetUploader } from "./_hooks/use-asset-uploader";
 import { AssetUploaderForm } from "./_components/AssetUploaderForm";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 interface AssetUploaderProps {
   content: NonNullable<Dictionary["baviUploader"]>;
-  // --- [INICIO] REFACTORIZACIÓN DE TIPO ---
   sesaLabels: NonNullable<Dictionary["promptCreator"]>["sesaLabels"];
   sesaOptions: NonNullable<Dictionary["promptCreator"]>["sesaOptions"];
-  // --- [FIN] REFACTORIZACIÓN DE TIPO ---
 }
 
 export function AssetUploader({

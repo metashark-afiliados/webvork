@@ -10,11 +10,11 @@
 import React, { useState } from "react";
 import { Button, DynamicIcon, Separator } from "@/components/ui";
 import { TextSection } from "@/components/sections/TextSection";
-import { useCartStore } from "@/store/useCartStore";
+import { useCartStore } from "@/shared/store/useCartStore";
 import type { z } from "zod";
-import type { ProductDetailPageContentSchema } from "@/lib/schemas/pages/product-detail-page.schema";
-import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logging";
+import type { ProductDetailPageContentSchema } from "@/shared/lib/schemas/pages/product-detail-page.schema";
+import { cn } from "@/shared/lib/utils";
+import { logger } from "@/shared/lib/logging";
 
 type ProductContent = z.infer<typeof ProductDetailPageContentSchema>;
 

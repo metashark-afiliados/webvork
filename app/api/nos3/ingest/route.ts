@@ -12,7 +12,7 @@
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { z } from "zod";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 export const runtime = "edge";
 

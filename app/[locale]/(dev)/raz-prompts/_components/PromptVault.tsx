@@ -18,14 +18,14 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 // --- INICIO DE CORRECCIÓN ARQUITECTÓNICA (Pilar V) ---
 import { usePromptVault } from "../_hooks/use-prompt-vault";
 // --- FIN DE CORRECCIÓN ARQUITECTÓNICA ---
 import { PromptGrid } from "./PromptGrid";
 import { VaultFilters } from "./VaultFilters";
 import { VaultPagination } from "./VaultPagination";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 // --- SSoT de Tipos y Animaciones ---
 interface PromptVaultProps {

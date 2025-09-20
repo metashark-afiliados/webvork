@@ -11,7 +11,7 @@
 
 import React from "react";
 import { Tilt } from "react-tilt";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 
 /**
  * @interface TiltCardProps

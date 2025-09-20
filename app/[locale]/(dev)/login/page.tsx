@@ -9,8 +9,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { getDictionary } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n.config";
+import { getDictionary } from "@/shared/lib/i18n";
+import type { Locale } from "@/shared/lib/i18n.config";
 import {
   Card,
   CardContent,
@@ -19,7 +19,7 @@ import {
   CardDescription,
 } from "@/components/ui/Card";
 import { LoginForm } from "./_components/LoginForm";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { notFound } from "next/navigation";
 import { DeveloperErrorDisplay } from "@/components/dev";
 

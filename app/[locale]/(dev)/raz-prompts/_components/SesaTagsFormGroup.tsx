@@ -25,9 +25,9 @@ import {
 import {
   RaZPromptsSesaTagsSchema,
   type RaZPromptsSesaTags,
-} from "@/lib/schemas/raz-prompts/atomic.schema";
-import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
-import { logger } from "@/lib/logging";
+} from "@/shared/lib/schemas/raz-prompts/atomic.schema";
+import type { PromptCreatorContentSchema } from "@/shared/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
+import { logger } from "@/shared/lib/logging";
 import type { z } from "zod";
 
 type SesaContent = Pick<

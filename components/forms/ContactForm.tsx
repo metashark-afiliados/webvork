@@ -36,8 +36,8 @@ import {
 } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
 import { Card, CardContent } from "@/components/ui/Card";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type FormContent = NonNullable<Dictionary["contactSection"]>["form"];
 
@@ -109,7 +109,10 @@ export function ContactForm({ content }: ContactFormProps): React.ReactElement {
             >
               <motion.div
                 initial={{ scale: 0 }}
-                animate={{ scale: 1, transition: { delay: 0.2, type: "spring" } }}
+                animate={{
+                  scale: 1,
+                  transition: { delay: 0.2, type: "spring" },
+                }}
               >
                 <DynamicIcon
                   name="CircleCheck"
@@ -251,14 +254,20 @@ export function ContactForm({ content }: ContactFormProps): React.ReactElement {
                   </motion.div>
 
                   <motion.div variants={fieldVariants}>
-                    <Button type="submit" className="mt-4 w-full" disabled={isSubmitting}>
+                    <Button
+                      type="submit"
+                      className="mt-4 w-full"
+                      disabled={isSubmitting}
+                    >
                       {isSubmitting && (
                         <DynamicIcon
                           name="LoaderCircle"
                           className="mr-2 h-4 w-4 animate-spin"
                         />
                       )}
-                      {isSubmitting ? "Invio in corso..." : content.submitButtonText}
+                      {isSubmitting
+                        ? "Invio in corso..."
+                        : content.submitButtonText}
                     </Button>
                   </motion.div>
                 </form>

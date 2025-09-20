@@ -8,7 +8,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface WizardContextType {
   goToNextStep: () => void;

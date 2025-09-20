@@ -5,7 +5,7 @@
  * @version 1.1.0 (Absolute Path Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 // Se reemplaza la ruta relativa frágil por una ruta absoluta y resiliente,
 // resolviendo la cascada de errores de tipo.

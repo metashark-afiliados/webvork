@@ -13,7 +13,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 // --- INICIO DE CORRECCIÓN ---
 // Se corrige la ruta de importación a PascalCase para cumplir con la convención.
 import { Label } from "@/components/ui/Label";

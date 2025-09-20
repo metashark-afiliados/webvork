@@ -15,8 +15,8 @@ import {
   FormDescription,
   FormMessage,
 } from "@/components/ui/Form";
-import { cn } from "@/lib/utils";
-import { logger } from "@/lib/logging";
+import { cn } from "@/shared/lib/utils";
+import { logger } from "@/shared/lib/logging";
 
 interface FormFieldGroupProps {
   label: string;

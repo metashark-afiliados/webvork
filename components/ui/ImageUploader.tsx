@@ -11,11 +11,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useDropzone, type Accept } from "react-dropzone";
-import { logger } from "@/lib/logging";
-import { cn } from "@/lib/utils";
+import { logger } from "@/shared/lib/logging";
+import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
 import { toast } from "sonner";
-import type { ActionResult } from "@/lib/types/actions.types";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
 
 interface ImageUploaderProps {
   onUpload: (formData: FormData) => Promise<ActionResult<{ path: string }>>;

@@ -10,13 +10,13 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { deepMerge } from "@/lib/utils/merge";
+import { deepMerge } from "@/shared/lib/utils/merge";
 import {
   AssembledThemeSchema,
   type AssembledTheme,
-} from "@/lib/schemas/theming/assembled-theme.schema";
-import { generateCssVariablesFromTheme } from "@/lib/theming/theme-utils";
-import { logger } from "@/lib/logging";
+} from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import { generateCssVariablesFromTheme } from "@/shared/lib/theming/theme-utils";
+import { logger } from "@/shared/lib/logging";
 import type { SuiteThemeConfig, LoadedFragments } from "./types";
 
 const PREVIEW_STYLE_TAG_ID = "dcc-preview-theme-overrides";

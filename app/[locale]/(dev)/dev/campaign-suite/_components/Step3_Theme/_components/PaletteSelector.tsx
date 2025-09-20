@@ -9,13 +9,14 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
 
 // --- [INICIO] REFACTORIZACIÓN DE CONTRATO ---
 interface Palette {
   name: string;
-  colors?: { // La propiedad 'colors' ahora es opcional
+  colors?: {
+    // La propiedad 'colors' ahora es opcional
     primary?: string;
     secondary?: string;
     accent?: string;
@@ -69,11 +70,11 @@ export function PaletteSelector({
             )}
           >
             <div className="h-20 w-full flex overflow-hidden rounded-md">
-              <PaletteSwatch color={colors.primary ?? '0 0% 100%'} />
-              <PaletteSwatch color={colors.secondary ?? '0 0% 100%'} />
-              <PaletteSwatch color={colors.accent ?? '0 0% 100%'} />
-              <PaletteSwatch color={colors.background ?? '0 0% 100%'} />
-              <PaletteSwatch color={colors.foreground ?? '0 0% 0%'} />
+              <PaletteSwatch color={colors.primary ?? "0 0% 100%"} />
+              <PaletteSwatch color={colors.secondary ?? "0 0% 100%"} />
+              <PaletteSwatch color={colors.accent ?? "0 0% 100%"} />
+              <PaletteSwatch color={colors.background ?? "0 0% 100%"} />
+              <PaletteSwatch color={colors.foreground ?? "0 0% 0%"} />
             </div>
             <p className="mt-2 text-center text-sm font-semibold text-foreground">
               {palette.name}

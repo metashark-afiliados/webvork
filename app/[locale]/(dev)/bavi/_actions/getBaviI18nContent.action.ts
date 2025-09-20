@@ -3,37 +3,23 @@
  * @file getBaviI18nContent.action.ts
  * @description Server Action soberana para obtener todo el contenido i18n
  *              necesario para el ecosistema BAVI en el cliente.
- * @version 1.0.0
+ * @version 2.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
-import { getDictionary } from "@/lib/i18n";
-import { type Locale } from "@/lib/i18n.config";
-import { logger } from "@/lib/logging";
-import type { ActionResult } from "@/lib/types/actions.types";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { getDictionary } from "@/shared/lib/i18n";
+import { type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
+import type { ActionResult } from "@/shared/lib/types/actions.types";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
-/**
- * @type BaviI18nContent
- * @description Contrato de datos para el payload de contenido que se enviará al cliente.
- *              Agrupa todo el contenido necesario para el `AssetUploader` y el `AssetSelectorModal`.
- */
 export type BaviI18nContent = {
   baviUploader: NonNullable<Dictionary["baviUploader"]>;
   assetExplorer: NonNullable<Dictionary["assetExplorer"]>;
-  // El PromptCreator es necesario por las etiquetas SESA.
   sesaOptions: NonNullable<Dictionary["promptCreator"]>["sesaOptions"];
 };
 
-/**
- * @function getBaviI18nContentAction
- * @description Obtiene el diccionario para un locale específico y extrae de forma segura
- *              todas las claves de contenido necesarias para los componentes del cliente de BAVI.
- * @param {Locale} locale - El locale para el cual obtener el contenido.
- * @returns {Promise<ActionResult<BaviI18nContent>>} Un objeto con el contenido i18n
- *          ensamblado, o un error si faltan datos críticos.
- */
 export async function getBaviI18nContentAction(
   locale: Locale
 ): Promise<ActionResult<BaviI18nContent>> {
@@ -54,7 +40,6 @@ export async function getBaviI18nContentAction(
     };
   }
 
-  // Se extraen y validan las claves de contenido necesarias.
   const { baviUploader, assetExplorer, promptCreator } = dictionary;
 
   if (!baviUploader || !assetExplorer || !promptCreator?.sesaOptions) {

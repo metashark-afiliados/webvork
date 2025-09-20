@@ -2,7 +2,7 @@
 /**
  * @file AssetSelectorModal.tsx
  * @description Orquestador modal de élite para seleccionar un activo de la BAVI.
- * @version 1.0.0
+ * @version 2.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -16,10 +16,10 @@ import {
   DialogDescription,
 } from "@/components/ui/Dialog";
 import { AssetExplorer } from "./AssetExplorer";
-import { logger } from "@/lib/logging";
-import type { BaviAsset } from "@/lib/schemas/bavi/bavi.manifest.schema";
-import type { Locale } from "@/lib/i18n.config";
-import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { BaviAsset } from "@/shared/lib/schemas/bavi/bavi.manifest.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
+import type { PromptCreatorContentSchema } from "@/shared/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import type { z } from "zod";
 
 type CreatorContent = z.infer<typeof PromptCreatorContentSchema>;
@@ -45,7 +45,7 @@ interface AssetSelectorModalProps {
       previousPageButton: string;
       nextPageButton: string;
       pageInfo: string;
-      selectAssetButton: string; // <-- Clave añadida para el botón de selección
+      selectAssetButton: string;
     };
     sesaOptions: CreatorContent["sesaOptions"];
   };

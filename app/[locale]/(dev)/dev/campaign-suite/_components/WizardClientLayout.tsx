@@ -2,16 +2,14 @@
 /**
  * @file WizardClientLayout.tsx
  * @description Orquestador de cliente principal para la SDC.
- *              v11.1.0 (I18n Prop Drilling): Ahora obtiene y pasa el contenido
- *              i18n necesario al componente LivePreviewCanvas.
- * @version 11.1.0
+ * @version 12.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { stepsConfig } from "../_config/wizard.config";
 import { useCampaignDraft } from "../_hooks/use-campaign-draft";
 import { WizardProvider } from "../_context/WizardContext";
@@ -21,12 +19,8 @@ import {
 } from "../_context/ProgressContext";
 import { validateStep1 } from "./Step1_Structure";
 import { DynamicIcon } from "@/components/ui";
-
-// --- [INICIO] REFACTORIZACIÓN: Se importa el componente LivePreviewCanvas ---
 import { LivePreviewCanvas } from "./LivePreviewCanvas";
-// --- [FIN] REFACTORIZACIÓN ---
 
-// --- [INICIO] REFACTORIZACIÓN: Se define el contrato de props para el layout ---
 interface WizardClientLayoutProps {
   children: React.ReactNode;
   previewContent: {
@@ -34,14 +28,13 @@ interface WizardClientLayoutProps {
     errorLoadingTheme: string;
   };
 }
-// --- [FIN] REFACTORIZACIÓN ---
 
 export function WizardClientLayout({
   children,
-  previewContent, // <-- Se recibe la nueva prop
+  previewContent,
 }: WizardClientLayoutProps): React.ReactElement {
   logger.info(
-    "[WizardClientLayout] Renderizando orquestador (v11.1 - I18n Prop Drilling)."
+    "[WizardClientLayout] Renderizando orquestador (v12.0 - FSD Aligned)."
   );
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -161,12 +154,11 @@ export function WizardClientLayout({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div className="lg:col-span-1">{children}</div>
           <div className="lg:col-span-1 h-[calc(100vh-8rem)] hidden lg:block">
-            {/* --- [INICIO] REFACTORIZACIÓN: Se pasa la prop 'content' --- */}
             <LivePreviewCanvas content={previewContent} />
-            {/* --- [FIN] REFACTORIZACIÓN --- */}
           </div>
         </div>
       </ProgressContext.Provider>
     </WizardProvider>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/WizardClientLayout.tsx

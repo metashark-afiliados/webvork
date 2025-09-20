@@ -7,7 +7,7 @@
  */
 import { useMemo } from "react";
 import { z } from "zod";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import type { FieldMetadata } from "../_types/field.types";
 
 /**

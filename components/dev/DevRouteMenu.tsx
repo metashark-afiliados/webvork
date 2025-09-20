@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { type RouteGroup } from "./utils/route-menu.generator";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 interface DevRouteMenuProps {
   routeGroups: RouteGroup[];

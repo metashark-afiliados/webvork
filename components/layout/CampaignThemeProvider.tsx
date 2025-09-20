@@ -10,9 +10,9 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
-import { generateCssVariablesFromTheme } from "@/lib/theming/theme-utils";
-import { logger } from "@/lib/logging";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import { generateCssVariablesFromTheme } from "@/shared/lib/theming/theme-utils";
+import { logger } from "@/shared/lib/logging";
 
 /**
  * @interface CampaignThemeProviderProps

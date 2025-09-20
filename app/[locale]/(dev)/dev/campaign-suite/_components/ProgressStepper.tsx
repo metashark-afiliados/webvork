@@ -11,8 +11,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { cva, type VariantProps } from "class-variance-authority";
-import { logger } from "@/lib/logging";
-import { cn } from "@/lib/utils";
+import { logger } from "@/shared/lib/logging";
+import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
 import type { ProgressStep } from "../_context/ProgressContext";
 

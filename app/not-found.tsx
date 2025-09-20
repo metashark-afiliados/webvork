@@ -7,9 +7,9 @@
  */
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { getCurrentLocaleFromPathname } from "@/lib/i18n.utils";
-import { logger } from "@/lib/logging";
-import { defaultLocale } from "@/lib/i18n.config";
+import { getCurrentLocaleFromPathname } from "@/shared/lib/i18n.utils";
+import { logger } from "@/shared/lib/logging";
+import { defaultLocale } from "@/shared/lib/i18n.config";
 
 export default function NotFound() {
   const headersList = headers();

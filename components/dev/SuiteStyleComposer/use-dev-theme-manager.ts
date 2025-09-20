@@ -12,13 +12,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useTheme } from "next-themes";
-import { deepMerge } from "@/lib/utils/merge";
+import { deepMerge } from "@/shared/lib/utils/merge";
 import {
   AssembledThemeSchema,
   type AssembledTheme,
-} from "@/lib/schemas/theming/assembled-theme.schema";
-import { logger } from "@/lib/logging";
-import { generateCssVariablesFromTheme } from "@/lib/theming/theme-utils";
+} from "@/shared/lib/schemas/theming/assembled-theme.schema";
+import { logger } from "@/shared/lib/logging";
+import { generateCssVariablesFromTheme } from "@/shared/lib/theming/theme-utils";
 import type { SuiteThemeConfig, LoadedFragments } from "./types";
 
 interface UseDevThemeManagerProps {

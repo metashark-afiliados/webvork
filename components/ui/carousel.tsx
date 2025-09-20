@@ -16,8 +16,8 @@ import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import { cn } from "@/lib/utils";
+import { logger } from "@/shared/lib/logging";
+import { cn } from "@/shared/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import type { VariantProps } from "class-variance-authority";
 

@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useCampaignDraft } from "./use-campaign-draft"; // <-- RUTA CORREGIDA
 import { publishCampaignAction, packageCampaignAction } from "../_actions";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 
 export function useCampaignLifecycle() {
   const { draft, deleteDraft, setStep } = useCampaignDraft();

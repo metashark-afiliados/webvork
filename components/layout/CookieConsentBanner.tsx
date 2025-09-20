@@ -11,11 +11,11 @@
 import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useCookieConsent } from "@/hooks/use-cookie-consent";
+import { useCookieConsent } from "@/shared/hooks/use-cookie-consent";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 // El tipo ahora se infiere del schema corregido y es completo.
 type CookieConsentContent = NonNullable<Dictionary["cookieConsentBanner"]>;

@@ -11,8 +11,8 @@ import React from "react";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 interface CommunitySectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

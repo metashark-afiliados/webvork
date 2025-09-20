@@ -10,9 +10,9 @@
 import React from "react";
 import { Container } from "@/components/ui/Container";
 import { DynamicIcon } from "@/components/ui";
-import { logger } from "@/lib/logging";
-import type { Dictionary } from "@/lib/schemas/i18n.schema";
-import type { FeatureItem } from "@/lib/schemas/components/features-section.schema";
+import { logger } from "@/shared/lib/logging";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import type { FeatureItem } from "@/shared/lib/schemas/components/features-section.schema";
 
 interface FeaturesSectionProps {
   // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---

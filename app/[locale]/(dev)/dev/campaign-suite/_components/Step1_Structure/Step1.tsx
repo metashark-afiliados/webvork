@@ -8,10 +8,10 @@
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { logger } from "@/lib/logging";
+import { logger } from "@/shared/lib/logging";
 import { Step1Client } from "./Step1Client";
 import type { StepProps } from "../../_types/step.types";
-import type { Step1ContentSchema } from "../../../../../../../lib/schemas/campaigns/steps/step1.schema";
+import type { Step1ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step1.schema";
 import type { z } from "zod";
 
 type Content = z.infer<typeof Step1ContentSchema>;

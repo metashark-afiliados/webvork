@@ -8,8 +8,8 @@
  */
 import React from "react";
 import { Palette, Ruler, Text, LayoutGrid } from "lucide-react";
-import { GLOBAL_DESIGN_TOKENS } from "@/config/branding.config";
-import type { AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
+import { GLOBAL_DESIGN_TOKENS } from "@/shared/config/branding.config";
+import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
 
 interface ComponentMetadataPanelProps {
   // --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-explicit-any] ---
