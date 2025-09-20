@@ -1,10 +1,10 @@
-// components/ui/DropdownMenu/Trigger.tsx
+// RUTA: components/ui/DropdownMenu/Trigger.tsx
 /**
  * @file Trigger.tsx
  * @description Componente activador para el DropdownMenu.
  *              Adopta el patrón `Slot` de @radix-ui/react-slot de forma canónica
  *              y segura para máxima flexibilidad y accesibilidad.
- * @version 15.0.0
+ * @version 15.1.0 (Holistic Elite Leveling)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -12,6 +12,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { useDropdownMenuContext } from "./Context";
+import { logger } from "@/lib/logging";
 
 interface TriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
@@ -20,12 +21,12 @@ interface TriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 /**
  * @component Trigger
  * @description Botón o elemento que abre/cierra el menú. Si `asChild` es true,
- *              fusiona sus props con el componente hijo, permitiendo cualquier
- *              componente (como nuestro `Button`) ser el activador.
+ *              fusiona sus props con el componente hijo, permitiendo que cualquier
+ *              componente (como nuestro `Button` de élite) sea el activador.
  */
 export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
   ({ children, asChild = false, ...props }, ref) => {
-    console.log("[Observabilidad] Renderizando DropdownMenu.Trigger");
+    logger.trace("[DropdownMenu.Trigger] Renderizando activador.");
     const { isOpen, setIsOpen } = useDropdownMenuContext();
 
     const Comp = asChild ? Slot : "button";
@@ -46,4 +47,3 @@ export const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
   }
 );
 Trigger.displayName = "DropdownMenuTrigger";
-// components/ui/DropdownMenu/Trigger.tsx

@@ -1,13 +1,11 @@
 // RUTA: components/sections/Hero.tsx
-
 /**
  * @file Hero.tsx
  * @description Componente de presentación para la sección Hero.
- *              v9.0.0 (Orchestrated Animation & Elite Compliance): Refactorizado
- *              para participar en la animación en cascada orquestada por el
- *              componente Container (MEA/UX). El componente en sí mismo es ahora
- *              un `motion.section` que responde a las variantes del padre.
- * @version 9.0.0
+ *              v9.1.0 (Holistic Elite Compliance): Refactorizado a un Componente
+ *              de Cliente que utiliza `forwardRef`. Participa en la animación
+ *              orquestada por `SectionAnimator` y cumple con los 7 Pilares de Calidad.
+ * @version 9.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -19,36 +17,52 @@ import { Container } from "@/components/ui/Container";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
+/**
+ * @interface HeroProps
+ * @description Contrato de props para el componente Hero, incluyendo `isFocused` para
+ *              el modo de edición de la SDC.
+ */
 interface HeroProps {
-  content: Dictionary["hero"];
+  content: NonNullable<Dictionary["hero"]>;
   isFocused?: boolean;
 }
 
-// Variante para la animación del contenedor de la sección, orquestada por el `Container` padre.
+/**
+ * @const sectionVariants
+ * @description Define la animación de entrada para la sección, que será disparada
+ *              en cascada por el `SectionAnimator` padre.
+ */
 const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
-      ease: "easeOut",
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1], // Curva de easing profesional para un efecto suave
     },
   },
 };
 
-// Variantes para la animación interna de las palabras del título.
-const containerVariants: Variants = {
+/**
+ * @const titleContainerVariants
+ * @description Orquesta la animación de las palabras del título.
+ */
+const titleContainerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.08, // Un ligero retraso entre cada palabra
       delayChildren: 0.2,
     },
   },
 };
 
+/**
+ * @const wordVariants
+ * @description Anima cada palabra individualmente con un efecto de resorte.
+ */
 const wordVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -62,23 +76,32 @@ const wordVariants: Variants = {
   },
 };
 
+/**
+ * @const subtitleVariants
+ * @description Anima la entrada del subtítulo después del título.
+ */
 const subtitleVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
-      delay: 0.8,
+      duration: 0.6,
+      ease: "easeOut",
+      delay: 0.6, // Aparece después de que el título ha comenzado a animarse
     },
   },
 };
 
+/**
+ * @component Hero
+ * @description Renderiza la sección de cabecera principal de una página. Utiliza `forwardRef`
+ *              para permitir que el `SectionRenderer` le pase una `ref` para la
+ *              funcionalidad de "Modo Foco".
+ */
 export const Hero = forwardRef<HTMLElement, HeroProps>(
   ({ content, isFocused }, ref) => {
-    logger.info(
-      "[Hero] Renderizando componente v9.0 (Orchestrated Animation)."
-    );
+    logger.info("[Hero] Renderizando v9.1 (Holistic Elite Compliance).");
 
     if (!content) {
       logger.warn("[Hero] No se proporcionó contenido. No se renderizará.");
@@ -91,19 +114,22 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
     return (
       <motion.section
         ref={ref}
-        variants={sectionVariants} // <-- Responde al stagger del Container padre
+        variants={sectionVariants}
         id="hero"
         className={cn(
           "bg-background pt-8 pb-16 text-center overflow-hidden transition-all duration-300 rounded-lg",
+          // Efecto visual para el "Modo Foco" en la SDC
           isFocused &&
             "ring-2 ring-primary ring-offset-4 ring-offset-background"
         )}
+        aria-labelledby="hero-title"
       >
         <Container className="max-w-4xl">
           <motion.h1
+            id="hero-title"
             className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight font-serif text-primary drop-shadow-md"
             aria-label={title}
-            variants={containerVariants} // <-- Orquesta la animación de sus hijos
+            variants={titleContainerVariants}
             initial="hidden"
             animate="visible"
           >

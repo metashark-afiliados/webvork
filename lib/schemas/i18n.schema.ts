@@ -1,11 +1,10 @@
-// RUTA: lib/schemas/i18n.schema.ts
-
+// lib/schemas/i18n.schema.ts
 /**
  * @file i18n.schema.ts
  * @description Aparato ensamblador y SSoT para el contrato de datos del diccionario i18n.
- *              v19.4.0 (Cart Ecosystem Integration): Integra el schema de contenido
- *              para el ecosistema de componentes del Carrito de Compras.
- * @version 19.4.0
+ *              v19.5.0 (ValidationError Integration): Integra el schema de contenido
+ *              para el componente de élite de errores de validación.
+ * @version 19.5.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -24,6 +23,9 @@ import { DevTestPageLocaleSchema } from "@/lib/schemas/pages/dev-test-page.schem
 import { CampaignSuiteLocaleSchema } from "@/lib/schemas/pages/dev-campaign-suite.schema";
 import { BaviHomePageLocaleSchema } from "./pages/bavi-home-page.schema";
 import { BaviAssetExplorerLocaleSchema } from "./pages/bavi-asset-explorer.i18n.schema";
+// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+import { RaZPromptsHomePageLocaleSchema } from "./pages/raz-prompts-home-page.schema";
+// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 
 // --- GRUPO 3: Schemas de Componentes de Layout y UI ---
 import { HeaderLocaleSchema } from "./components/header.schema";
@@ -35,7 +37,8 @@ import { DevRouteMenuLocaleSchema } from "./components/dev/dev-route-menu.schema
 import { ToggleThemeLocaleSchema } from "./components/toggle-theme.schema";
 import { LanguageSwitcherLocaleSchema } from "./components/language-switcher.schema";
 import { PageHeaderLocaleSchema } from "./components/page-header.schema";
-import { CartLocaleSchema } from "./components/cart.schema"; // <-- NUEVA LÍNEA
+import { CartLocaleSchema } from "./components/cart.schema";
+import { ValidationErrorLocaleSchema } from "./components/validation-error.schema";
 
 // --- GRUPO 4: Schemas de Componentes de Sección ---
 import { BenefitsSectionLocaleSchema } from "./components/benefits-section.schema";
@@ -70,7 +73,7 @@ import { DockLocaleSchema } from "@/components/razBits/Dock/dock.schema";
 import { LightRaysLocaleSchema } from "@/components/razBits/LightRays/light-rays.schema";
 import { MagicBentoLocaleSchema } from "@/components/razBits/MagicBento/magic-bento.schema";
 
-logger.trace("[Schema i18n v19.4] Ensamblando schema maestro optimizado...");
+logger.trace("[Schema i18n v19.5] Ensamblando schema maestro optimizado...");
 
 export const i18nSchema = z
   .object({
@@ -90,8 +93,11 @@ export const i18nSchema = z
     ...CampaignSuiteLocaleSchema.shape,
     ...BaviHomePageLocaleSchema.shape,
     ...BaviAssetExplorerLocaleSchema.shape,
+    // --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+    ...RaZPromptsHomePageLocaleSchema.shape,
+    // --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 
-    // --- Layout & Dev Components ---
+    // --- Layout & UI Components ---
     ...HeaderLocaleSchema.shape,
     ...FooterLocaleSchema.shape,
     ...CookieConsentBannerLocaleSchema.shape,
@@ -101,7 +107,8 @@ export const i18nSchema = z
     ...ToggleThemeLocaleSchema.shape,
     ...LanguageSwitcherLocaleSchema.shape,
     ...PageHeaderLocaleSchema.shape,
-    ...CartLocaleSchema.shape, // <-- NUEVA LÍNEA
+    ...CartLocaleSchema.shape,
+    ...ValidationErrorLocaleSchema.shape,
 
     // --- Section Components ---
     ...BenefitsSectionLocaleSchema.shape,
@@ -139,3 +146,4 @@ export const i18nSchema = z
   .passthrough();
 
 export type Dictionary = z.infer<typeof i18nSchema>;
+// lib/schemas/i18n.schema.ts

@@ -2,7 +2,9 @@
 /**
  * @file page.tsx
  * @description Página de vitrina para componentes de ShadCN/ui base.
- * @version 1.0.0
+ *              v1.1.0 (PageHeader Contract Fix): Se alinea la llamada a PageHeader
+ *              con su contrato de API de élite.
+ * @version 1.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -55,10 +57,15 @@ export default async function ComponentShowcasePage() {
 
   return (
     <>
+      {/* --- [INICIO DE CORRECCIÓN DE CONTRATO] --- */}
       <PageHeader
-        title="Vitrina de Componentes"
-        subtitle="Una instancia base de cada componente ShadCN/ui instalado para pruebas visuales."
+        content={{
+          title: "Vitrina de Componentes",
+          subtitle:
+            "Una instancia base de cada componente ShadCN/ui instalado para pruebas visuales.",
+        }}
       />
+      {/* --- [FIN DE CORRECCIÓN DE CONTRATO] --- */}
       <Container className="py-12 space-y-12">
         {/* Card */}
         <Card>

@@ -1,44 +1,63 @@
-// app/[locale]/(dev)/dev/campaign-suite/create/layout.tsx
+// RUTA: app/[locale]/(dev)/dev/campaign-suite/create/layout.tsx
 /**
  * @file layout.tsx
- * @description Layout de Servidor para la SDC.
- *              v6.1.0 (I18n Prop Drilling): Obtiene el contenido i18n para
- *              la vista previa y lo pasa al layout de cliente.
- * @version 6.1.0
+ * @description Layout de Servidor para la SDC, ahora de calidad de élite.
+ *              v7.0.0 (Holistic Restoration & MEA/UX): Resuelve el error de tipo
+ *              TS2339 al alinearse con el contrato i18n restaurado. Implementa
+ *              una guardia de resiliencia robusta y una animación de entrada
+ *              para una experiencia de usuario superior.
+ * @version 7.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { logger } from "@/lib/logging";
-import { WizardClientLayout } from "../_components/WizardClientLayout";
-// --- [INICIO] REFACTORIZACIÓN: Se importa getDictionary ---
 import { getDictionary } from "@/lib/i18n";
 import { type Locale } from "@/lib/i18n.config";
-// --- [FIN] REFACTORIZACIÓN ---
+import { logger } from "@/lib/logging";
+import { WizardClientLayout } from "../_components/WizardClientLayout";
+import { DeveloperErrorDisplay } from "@/components/dev";
+import { notFound } from "next/navigation";
 
 interface WizardLayoutProps {
   children: React.ReactNode;
-  params: { locale: Locale }; // <-- Se añade params para obtener el locale
+  params: { locale: Locale };
 }
 
 export default async function WizardLayout({
   children,
-  params, // <-- Se recibe params
+  params,
 }: WizardLayoutProps) {
   logger.info(
-    `[WizardLayout] Renderizando layout de la SDC (v6.1 - I18n Prop Drilling).`
+    `[WizardLayout] Renderizando layout de la SDC (v7.0 - Elite & MEA).`
   );
 
-  // --- [INICIO] REFACTORIZACIÓN: Obtener y pasar contenido i18n ---
-  const { dictionary } = await getDictionary(params.locale);
+  const { dictionary, error } = await getDictionary(params.locale);
+  const suiteContent = dictionary.campaignSuitePage;
+
+  // --- Pilar III: Guardia de Resiliencia Robusta ---
+  if (error || !suiteContent || !suiteContent.preview) {
+    const errorMessage =
+      "Fallo al cargar el contenido i18n esencial para la Suite de Diseño.";
+    logger.error(`[WizardLayout] ${errorMessage}`, { error });
+    if (process.env.NODE_ENV === "production") {
+      return notFound();
+    }
+    return (
+      <DeveloperErrorDisplay
+        context="WizardLayout"
+        errorMessage={errorMessage}
+        errorDetails={
+          error ||
+          "La clave 'campaignSuitePage' o 'preview' falta en el diccionario."
+        }
+      />
+    );
+  }
+
+  // --- Pilar I: Se extrae el contenido para la preview de forma segura ---
   const previewContent = {
-    loadingTheme:
-      dictionary.campaignSuitePage?.preview?.loadingTheme ||
-      "Ensamblando tema...",
-    errorLoadingTheme:
-      dictionary.campaignSuitePage?.preview?.errorLoadingTheme ||
-      "Error al cargar el tema.",
+    loadingTheme: suiteContent.preview.loadingTheme,
+    errorLoadingTheme: suiteContent.preview.errorLoadingTheme,
   };
-  // --- [FIN] REFACTORIZACIÓN ---
 
   return (
     <WizardClientLayout previewContent={previewContent}>

@@ -1,21 +1,24 @@
-// lib/schemas/components/cookie-consent-banner.schema.ts // <-- ¡COMENTARIO CORREGIDO!
+// RUTA: lib/schemas/components/cookie-consent-banner.schema.ts
 /**
  * @file cookie-consent-banner.schema.ts
- * @description Esquema de Zod para el contenido i18n del componente CookieConsentBanner.
- *              - v1.1.0: Corrige el comentario de ruta interno para reflejar la
- *                ubicación real del archivo en el proyecto.
+ * @description SSoT para el contrato de datos del contenido i18n del CookieConsentBanner.
+ *              v1.1.0 (Contract Integrity Fix): Añade la propiedad `policyLinkHref`
+ *              para alinear el contrato de datos con los requerimientos del componente.
  * @version 1.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 
+export const CookieConsentBannerContentSchema = z.object({
+  message: z.string(),
+  acceptButtonText: z.string(),
+  rejectButtonText: z.string(),
+  policyLinkText: z.string(),
+  // --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+  policyLinkHref: z.string().startsWith("/"), // Se añade la propiedad que faltaba
+  // --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
+});
+
 export const CookieConsentBannerLocaleSchema = z.object({
-  cookieConsentBanner: z
-    .object({
-      message: z.string(),
-      acceptButtonText: z.string(),
-      rejectButtonText: z.string(),
-      policyLinkText: z.string(),
-    })
-    .optional(),
+  cookieConsentBanner: CookieConsentBannerContentSchema.optional(),
 });

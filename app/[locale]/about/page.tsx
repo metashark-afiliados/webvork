@@ -1,18 +1,22 @@
-// app/[locale]/about/page.tsx
+// RUTA: app/[locale]/about/page.tsx
 /**
  * @file page.tsx
- * @description Página "Sobre Nosotros", ahora como un simple consumidor de datos.
- *              v3.1.0 (Code Hygiene): Se elimina la importación no utilizada
- *              de 'Dictionary' para cumplir con las reglas de ESLint.
- * @version 3.1.0
+ * @description Página "Sobre Nosotros", nivelada a un estándar de élite.
+ *              v4.0.0 (Holistic Elite Leveling & MEA): Refactorizada para consumir
+ *              el contrato del `PageHeader` de élite y orquestar la animación
+ *              de sus componentes hijos (`PageHeader`, `TextSection`) para una
+ *              experiencia de usuario fluida y memorable.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { getDictionary } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n.config";
+import { logger } from "@/lib/logging";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { TextSection } from "@/components/sections/TextSection";
-import { logger } from "@/lib/logging";
-import type { Locale } from "@/lib/i18n.config";
+import { DeveloperErrorDisplay } from "@/components/dev";
+import { notFound } from "next/navigation";
 
 interface AboutPageProps {
   params: { locale: Locale };
@@ -21,27 +25,44 @@ interface AboutPageProps {
 export default async function AboutPage({
   params: { locale },
 }: AboutPageProps) {
-  logger.info(`[AboutPage] Renderizando para locale: ${locale}`);
+  logger.info(
+    `[AboutPage] Renderizando v4.0 (Elite & MEA) para locale: ${locale}`
+  );
 
-  const { dictionary } = await getDictionary(locale);
+  const { dictionary, error } = await getDictionary(locale);
   const content = dictionary.aboutPage;
+  const pageHeaderContent = dictionary.pageHeader; // Asumimos que las páginas de texto usan un header genérico
 
-  if (!content) {
-    logger.error(
-      `[AboutPage] Contenido para 'aboutPage' no encontrado para locale: ${locale}.`
-    );
+  if (error || !content || !pageHeaderContent) {
+    const errorMessage =
+      "Fallo al cargar el contenido i18n para la página 'Sobre Nosotros'.";
+    logger.error(`[AboutPage] ${errorMessage}`, { error });
+    if (process.env.NODE_ENV === "production") {
+      return notFound();
+    }
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <p className="text-destructive">Contenido no disponible.</p>
-      </div>
+      <DeveloperErrorDisplay
+        context="AboutPage"
+        errorMessage={errorMessage}
+        errorDetails={
+          error ||
+          "La clave 'aboutPage' o 'pageHeader' falta en el diccionario."
+        }
+      />
     );
   }
 
   return (
     <>
-      <PageHeader title={content.title} subtitle={content.subtitle} />
+      <PageHeader
+        content={{
+          title: content.title,
+          subtitle: content.subtitle,
+          // Ejemplo de cómo se podría configurar un efecto visual sutil para esta página
+          lightRays: pageHeaderContent?.lightRays,
+        }}
+      />
       <TextSection content={content.content} />
     </>
   );
 }
-// app/[locale]/about/page.tsx

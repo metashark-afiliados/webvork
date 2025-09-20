@@ -1,11 +1,11 @@
-// components/forms/OrderForm.tsx
+// RUTA: components/forms/OrderForm.tsx
 /**
  * @file OrderForm.tsx
  * @description Formulario de pedido final, refactorizado para replicar 100%
  *              la funcionalidad de sumisión del productor (Webvork). Utiliza
  *              validación de cliente para una UX de élite, pero realiza un
  *              envío POST tradicional al endpoint del afiliado.
- * @version 6.0.0 (Webvork Clone & Elite UX)
+ * @version 6.1.0 (Module Resolution Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -16,7 +16,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { producerConfig } from "@/config/producer.config";
 import { logger } from "@/lib/logging";
-import { useProducerLogic } from "@/hooks/useProducerLogic";
+// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+import { useProducerLogic } from "@/hooks/use-producer-logic";
+// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 import { HiddenFormFields } from "@/components/forms/HiddenFormFields";
 import { FormInput } from "@/components/ui/FormInput";
 import { Button, DynamicIcon } from "@/components/ui";
@@ -47,7 +49,9 @@ interface OrderFormProps {
 // --- Componente de Élite ---
 
 export function OrderForm({ content }: OrderFormProps): React.ReactElement {
-  logger.info("[Observabilidad] Renderizando OrderForm v6.0 (Webvork Clone)");
+  logger.info(
+    "[Observabilidad] Renderizando OrderForm v6.1 (Module Resolution Fix)"
+  );
   const formRef = useRef<HTMLFormElement>(null);
 
   // Activa la lógica de tracking diferido de Webvork (UTMs, GUID, etc.)
@@ -74,13 +78,11 @@ export function OrderForm({ content }: OrderFormProps): React.ReactElement {
   return (
     <form
       ref={formRef}
-      // El `onSubmit` de react-hook-form actúa como un guardián.
-      // Solo si tiene éxito, se ejecutará la acción nativa del formulario.
       onSubmit={handleSubmit(onSubmit)}
-      action={producerConfig.ACTION_URL} // <-- Endpoint del productor
+      action={producerConfig.ACTION_URL}
       method="POST"
-      className="space-y-4 wv_order-form" // `wv_order-form` es crucial para el script de Webvork
-      noValidate // Deshabilita la validación nativa del navegador en favor de la nuestra
+      className="space-y-4 wv_order-form"
+      noValidate
     >
       <FormInput
         id="name"
@@ -104,10 +106,6 @@ export function OrderForm({ content }: OrderFormProps): React.ReactElement {
         autoComplete="tel"
       />
 
-      {/*
-        Componente atómico que renderiza todos los campos ocultos
-        requeridos por el sistema de tracking de Webvork.
-      */}
       <HiddenFormFields />
 
       <Button
@@ -130,4 +128,3 @@ export function OrderForm({ content }: OrderFormProps): React.ReactElement {
     </form>
   );
 }
-// components/forms/OrderForm.tsx

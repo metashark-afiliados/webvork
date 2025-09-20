@@ -4,7 +4,8 @@
       "message": "Utilizziamo i cookie per migliorare la tua esperienza.",
       "acceptButtonText": "Accetta",
       "rejectButtonText": "Rifiuta",
-      "policyLinkText": "Leggi la nostra politica sui cookie"
+      "policyLinkText": "Leggi la nostra politica sui cookie",
+      "policyLinkHref": "/it-IT/cookies"
     }
   },
   "es-ES": {
@@ -12,7 +13,8 @@
       "message": "Usamos cookies para mejorar tu experiencia.",
       "acceptButtonText": "Aceptar",
       "rejectButtonText": "Rechazar",
-      "policyLinkText": "Lee nuestra política de cookies"
+      "policyLinkText": "Lee nuestra política de cookies",
+      "policyLinkHref": "/es-ES/cookies"
     }
   },
   "en-US": {
@@ -20,7 +22,8 @@
       "message": "We use cookies to enhance your experience.",
       "acceptButtonText": "Accept",
       "rejectButtonText": "Decline",
-      "policyLinkText": "Read our cookie policy"
+      "policyLinkText": "Read our cookie policy",
+      "policyLinkHref": "/en-US/cookies"
     }
   },
   "pt-BR": {
@@ -28,7 +31,8 @@
       "message": "Usamos cookies para melhorar sua experiência.",
       "acceptButtonText": "Aceitar",
       "rejectButtonText": "Recusar",
-      "policyLinkText": "Leia nossa política de cookies"
+      "policyLinkText": "Leia nossa política de cookies",
+      "policyLinkHref": "/pt-BR/cookies"
     }
   }
 }

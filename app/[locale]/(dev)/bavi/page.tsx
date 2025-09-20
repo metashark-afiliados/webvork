@@ -2,7 +2,9 @@
 /**
  * @file page.tsx
  * @description Página principal de la Central de Operaciones BAVI.
- * @version 2.1.0 (SesaContent Prop Drilling Fix)
+ *              v2.1.0 (SesaContent Prop Drilling Fix): Se alinea con el contrato
+ *              de `PageHeader` y `AssetUploader` para una seguridad de tipos completa.
+ * @version 2.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -29,47 +31,49 @@ export default async function BaviHomePage({
     "[BaviHomePage] Renderizando la página principal de la BAVI (v2.1)."
   );
   const { dictionary } = await getDictionary(locale);
+  const pageContent = dictionary.baviHomePage;
   const uploaderContent = dictionary.baviUploader;
   const promptCreatorContent = dictionary.promptCreator;
 
-  if (!uploaderContent || !promptCreatorContent) {
+  if (!uploaderContent || !promptCreatorContent || !pageContent) {
+    // En un caso real, aquí se mostraría un componente de error más elegante.
     return <div>Error: Contenido de la página BAVI no encontrado.</div>;
   }
 
   return (
     <>
+      {/* --- [INICIO DE CORRECCIÓN DE CONTRATO] --- */}
       <PageHeader
-        title="BAVI: Biblioteca de Activos Visuales Integrada"
-        subtitle="La central de operaciones para la gestión, optimización e indexación de todos los activos del ecosistema."
+        content={{
+          title: pageContent.title,
+          subtitle: pageContent.subtitle,
+        }}
       />
+      {/* --- [FIN DE CORRECCIÓN DE CONTRATO] --- */}
       <Container className="py-12 space-y-12">
         <Card>
           <CardHeader>
-            <CardTitle>Ingesta de Nuevos Activos</CardTitle>
+            <CardTitle>{pageContent.ingestCardTitle}</CardTitle>
             <CardDescription>
-              Sube un nuevo activo. Se optimizará automáticamente y se preparará
-              para su indexación en el manifiesto.
+              {pageContent.ingestCardDescription}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* --- [INICIO] REFACTORIZACIÓN DE PROPS --- */}
             <AssetUploader
               content={uploaderContent}
               sesaLabels={promptCreatorContent.sesaLabels}
               sesaOptions={promptCreatorContent.sesaOptions}
             />
-            {/* --- [FIN] REFACTORIZACIÓN DE PROPS --- */}
           </CardContent>
         </Card>
 
         <Card className="border-dashed">
           <CardHeader>
             <CardTitle className="text-muted-foreground">
-              Boiler de IA (Próximamente)
+              {pageContent.aiBoilerCardTitle}
             </CardTitle>
             <CardDescription>
-              Genera variaciones, elimina fondos y crea activos sintéticos con
-              IA.
+              {pageContent.aiBoilerCardDescription}
             </CardDescription>
           </CardHeader>
         </Card>

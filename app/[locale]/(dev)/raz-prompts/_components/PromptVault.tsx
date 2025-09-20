@@ -1,14 +1,16 @@
-// app/[locale]/(dev)/raz-prompts/_components/PromptVault.tsx
+// RUTA: app/[locale]/(dev)/raz-prompts/_components/PromptVault.tsx
 /**
  * @file PromptVault.tsx
- * @description Orquestador de la Bóveda de Prompts. Consume el hook de lógica
- *              y delega la presentación a componentes atómicos.
- * @version 3.1.0 (Prop Drilling Fix)
+ * @description Orquestador de élite para la Bóveda de Prompts. Cumple con los 5
+ *              Pilares de Calidad, con animación de entrada y adherencia estricta
+ *              a la arquitectura de nomenclatura y contratos de datos.
+ * @version 4.0.0 (Holistic Elite Compliance & MEA/UX)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
+import { motion, type Variants } from "framer-motion";
 import {
   Card,
   CardHeader,
@@ -17,33 +19,53 @@ import {
   CardContent,
 } from "@/components/ui";
 import { logger } from "@/lib/logging";
-import { usePromptVault } from "../_hooks/usePromptVault";
+// --- INICIO DE CORRECCIÓN ARQUITECTÓNICA (Pilar V) ---
+import { usePromptVault } from "../_hooks/use-prompt-vault";
+// --- FIN DE CORRECCIÓN ARQUITECTÓNICA ---
 import { PromptGrid } from "./PromptGrid";
 import { VaultFilters } from "./VaultFilters";
 import { VaultPagination } from "./VaultPagination";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
+// --- SSoT de Tipos y Animaciones ---
 interface PromptVaultProps {
   content: NonNullable<Dictionary["promptCreator"]>;
   vaultContent: NonNullable<Dictionary["promptVault"]>;
 }
 
+const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+// --- Componente de Élite ---
 export function PromptVault({
   content,
   vaultContent,
 }: PromptVaultProps): React.ReactElement {
-  logger.info(
-    "[Observabilidad] Renderizando orquestador PromptVault v3.1 (Prop Drilling Fix)"
-  );
+  logger.info("[PromptVault] Renderizando orquestador de élite v4.0.");
 
   const hookState = usePromptVault();
 
   const onViewPromptDetails = (promptId: string) => {
-    logger.info(`[PromptVault] Ver detalles del prompt: ${promptId}`);
+    logger.info(`[PromptVault] Acción: Ver detalles del prompt: ${promptId}`);
+    // Lógica futura para mostrar un modal con detalles del prompt.
   };
 
   return (
-    <div className="space-y-8">
+    <motion.div
+      variants={sectionVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-8"
+    >
       <Card>
         <CardHeader>
           <CardTitle>{vaultContent.title}</CardTitle>
@@ -63,10 +85,8 @@ export function PromptVault({
             isLoading={hookState.isPending && hookState.prompts.length === 0}
             onViewDetails={onViewPromptDetails}
             content={vaultContent}
-            // --- [INICIO DE CORRECCIÓN] ---
-            // Se pasa la prop 'sesaOptions' que faltaba, cumpliendo con el contrato.
+            // Pilar I: Se asegura el cumplimiento del contrato del componente hijo.
             sesaOptions={content.sesaOptions}
-            // --- [FIN DE CORRECCIÓN] ---
           />
           <VaultPagination
             currentPage={hookState.currentPage}
@@ -77,7 +97,6 @@ export function PromptVault({
           />
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
-// app/[locale]/(dev)/raz-prompts/_components/PromptVault.tsx

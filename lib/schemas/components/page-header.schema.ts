@@ -1,5 +1,4 @@
 // RUTA: lib/schemas/components/page-header.schema.ts
-
 /**
  * @file page-header.schema.ts
  * @description SSoT para el contrato de datos del contenido i18n del componente

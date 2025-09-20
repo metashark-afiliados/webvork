@@ -1,14 +1,12 @@
 // RUTA: components/ui/Button.tsx
-
 /**
  * @file Button.tsx
  * @description Componente de UI atómico y polimórfico de élite.
- *              v10.0.0 (Holistic Elite Leveling & MEA): Refactorizado para
- *              cumplir con todos los pilares de calidad. Implementa una
- *              micro-interacción MEA/UX con `framer-motion` (`whileTap`) que
- *              proporciona retroalimentación táctil en cada clic, mejorando
- *              la experiencia de usuario en toda la aplicación.
- * @version 10.0.0
+ *              v10.4.0 (Definitive Architecture): Re-arquitecturado con un HOC
+ *              explícito para la animación, resolviendo conflictos de tipo
+ *              irreconciliables entre HTML props y Motion props, y garantizando
+ *              la máxima robustez y compatibilidad con `asChild`.
+ * @version 10.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -58,13 +56,12 @@ export interface ButtonProps
   href?: string;
 }
 
+// --- Componente Núcleo de Lógica y Estilo (Sin Animación) ---
 const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, href, ...props }, ref) => {
-    logger.trace("[Button] Renderizando v10.0 (Elite & MEA).");
+    const Comp = asChild ? Slot : "button";
 
-    const Comp = asChild || href ? Slot : "button";
-
-    const buttonContent = (
+    const component = (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
@@ -75,23 +72,32 @@ const ButtonComponent = React.forwardRef<HTMLButtonElement, ButtonProps>(
     if (href) {
       return (
         <Link href={href} passHref legacyBehavior>
-          {buttonContent}
+          {component}
         </Link>
       );
     }
 
-    return buttonContent;
+    return component;
   }
 );
 ButtonComponent.displayName = "ButtonComponent";
 
-// HOC (High-Order Component) que envuelve el botón con la lógica de animación
+// --- HOC de Animación y Exportación Pública ---
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (props, ref) => (
-    <motion.div whileTap={{ scale: 0.97, opacity: 0.9 }}>
-      <ButtonComponent {...props} ref={ref} />
-    </motion.div>
-  )
+  (props, ref) => {
+    logger.trace("[Button] Renderizando v10.4 (Definitive Architecture).");
+
+    // El wrapper de motion se aplica externamente.
+    // Pasamos todas las props al ButtonComponent, que sabe cómo manejarlas.
+    return (
+      <motion.div
+        whileTap={{ scale: 0.97, opacity: 0.9 }}
+        className={props.asChild ? undefined : "inline-flex"}
+      >
+        <ButtonComponent {...props} ref={ref} />
+      </motion.div>
+    );
+  }
 );
 Button.displayName = "Button";
 

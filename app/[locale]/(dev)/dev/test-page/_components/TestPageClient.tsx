@@ -1,13 +1,11 @@
 // RUTA: app/[locale]/(dev)/dev/test-page/_components/TestPageClient.tsx
-
 /**
  * @file TestPageClient.tsx
  * @description Vitrina de Resiliencia de Componentes (Cliente).
- *              v25.0.0 (Holistic Refactor & MEA/UX): Reconstruido con una
- *              interfaz de pestañas para una mejor organización, animaciones
- *              sutiles para una experiencia refinada y un manejo de errores
- *              visual mejorado. Cumple con todos los pilares de calidad.
- * @version 25.0.0
+ *              v26.1.0 (Code Hygiene): Elimina variables de estado no utilizadas
+ *              para cumplir con las reglas de linting y mejorar la claridad del código,
+ *              restaurando la integridad del build.
+ * @version 26.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -21,11 +19,6 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { CampaignThemeProvider } from "@/components/layout/CampaignThemeProvider";
 import {
   Container,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Card,
   CardContent,
   CardHeader,
@@ -40,12 +33,6 @@ import { type AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schem
 import { logger } from "@/lib/logging";
 import { DeveloperErrorDisplay } from "@/components/dev";
 
-interface TestPageClientProps {
-  masterDictionary: Dictionary;
-  availableThemes: AvailableTheme[];
-  locale: Locale;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyComponentType = ComponentType<any>;
 
@@ -55,13 +42,24 @@ interface SectionToRender {
   contentKey: keyof Dictionary;
 }
 
+interface TestPageClientProps {
+  masterDictionary: Dictionary;
+  availableThemes: AvailableTheme[];
+  locale: Locale;
+}
+
 export default function TestPageClient({
   masterDictionary,
   availableThemes,
   locale,
 }: TestPageClientProps) {
-  logger.info("[TestPageClient] Renderizando v25.0 (MEA/UX).");
-  const [selectedThemeId, setSelectedThemeId] = useState<string>("default");
+  logger.info("[TestPageClient] Renderizando v26.1 (Code Hygiene).");
+
+  // --- [INICIO DE CORRECCIÓN DE HIGIENE] ---
+  // Se elimina la función `setSelectedThemeId` que no se estaba utilizando.
+  // La capacidad de cambiar de tema se deja pendiente para una futura implementación.
+  const [selectedThemeId] = useState<string>("default");
+  // --- [FIN DE CORRECCIÓN DE HIGIENE] ---
 
   const { portalComponents, campaignComponents } = useMemo(() => {
     const allComponents: SectionToRender[] = [
@@ -89,33 +87,34 @@ export default function TestPageClient({
         { name: "TextSection", Comp: Sections.TextSection, contentKey: "aboutPage" },
         { name: "ThumbnailCarousel", Comp: Sections.ThumbnailCarousel, contentKey: "thumbnailCarousel" },
     ];
+
+    const isCampaignKey = (key: keyof Dictionary): boolean => {
+      const keyString = String(key);
+      return keyString.startsWith("benefits") || keyString.startsWith("hero") || keyString.startsWith("order");
+    };
+
     return {
-        portalComponents: allComponents.filter(c => !c.contentKey.startsWith("benefits") && !c.contentKey.startsWith("hero") && !c.contentKey.startsWith("order")),
-        campaignComponents: allComponents.filter(c => c.contentKey.startsWith("benefits") || c.contentKey.startsWith("hero") || c.contentKey.startsWith("order"))
+        portalComponents: allComponents.filter(c => !isCampaignKey(c.contentKey)),
+        campaignComponents: allComponents.filter(c => isCampaignKey(c.contentKey))
     };
   }, []);
 
   const pageContent = masterDictionary.devTestPage;
+  const pageHeaderContent = masterDictionary.pageHeader;
 
-  const defaultThemeObject: AssembledTheme = useMemo(
-    () => ({
+  const defaultThemeObject: AssembledTheme = useMemo(() => ({
       layout: { sections: [] },
       colors: {},
       fonts: { sans: "var(--font-sans)", serif: "var(--font-serif)" },
       geometry: { "--radius": "0.5rem" },
-    }),
-    []
-  );
+    }), []);
 
   const currentThemeData = useMemo(() => {
     if (selectedThemeId === "default") return defaultThemeObject;
-    return (
-      availableThemes.find((t) => t.id === selectedThemeId)?.themeData ??
-      defaultThemeObject
-    );
+    return availableThemes.find((t) => t.id === selectedThemeId)?.themeData ?? defaultThemeObject;
   }, [selectedThemeId, availableThemes, defaultThemeObject]);
 
-  if (!pageContent || !pageContent.pageHeader) {
+  if (!pageContent || !pageHeaderContent) {
       return <DeveloperErrorDisplay context="TestPageClient" errorMessage="Contenido 'devTestPage' o 'pageHeader' no encontrado en el diccionario." />;
   }
 
@@ -130,18 +129,25 @@ export default function TestPageClient({
       animate="visible"
     >
       {components.map(({ name, Comp, contentKey }) => {
-        if (typeof contentKey !== 'string' || !(contentKey in masterDictionary)) {
-          return <Card key={name} className="overflow-hidden border-destructive"><CardHeader><CardTitle className="text-destructive">{name}</CardTitle></CardHeader><CardContent>Error: Clave de diccionario '{String(contentKey)}' no válida.</CardContent></Card>;
-        }
         const content = masterDictionary[contentKey];
         let renderOutput;
         if (!content) {
-            renderOutput = <div className="p-4 text-yellow-500 border border-yellow-500 rounded-md bg-yellow-500/10"><strong>⚠️ Advertencia:</strong><p className="text-xs">Contenido para '{String(contentKey)}' no encontrado en el diccionario.</p></div>;
+            renderOutput = (
+              <div className="p-4 text-yellow-500 border border-yellow-500 rounded-md bg-yellow-500/10">
+                <strong>⚠️ Advertencia:</strong>
+                <p className="text-xs">Contenido para '{String(contentKey)}' no encontrado en el diccionario.</p>
+              </div>
+            );
         } else {
           try {
             renderOutput = <Comp content={content} locale={locale} />;
           } catch (error) {
-            renderOutput = <div className="p-4 text-destructive border border-destructive rounded-md bg-destructive/10"><strong>❌ Error al renderizar:</strong><pre className="text-xs whitespace-pre-wrap mt-2">{error instanceof Error ? error.message : String(error)}</pre></div>;
+            renderOutput = (
+              <div className="p-4 text-destructive border border-destructive rounded-md bg-destructive/10">
+                <strong>❌ Error al renderizar:</strong>
+                <pre className="text-xs whitespace-pre-wrap mt-2">{error instanceof Error ? error.message : String(error)}</pre>
+              </div>
+            );
           }
         }
         return (
@@ -158,7 +164,7 @@ export default function TestPageClient({
 
   return (
     <CampaignThemeProvider theme={currentThemeData}>
-      <PageHeader content={pageContent.pageHeader} />
+      <PageHeader content={pageHeaderContent} />
       <Container className="my-8">
         <Tabs defaultValue="campaign">
           <TabsList className="grid w-full grid-cols-2 md:w-[500px] mb-8 mx-auto">

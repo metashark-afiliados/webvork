@@ -1,20 +1,17 @@
-// lib/schemas/components/news-grid.schema.ts
+// RUTA: lib/schemas/components/news-grid.schema.ts
 /**
  * @file news-grid.schema.ts
  * @description SSoT para el contrato de datos de un artículo en una cuadrícula.
- * @version 2.0.0 (Data-Driven & Resilient)
+ *              v3.0.0 (Data-Driven & Resilient): Se añade la propiedad `subtitle`
+ *              para soportar el encabezado de página data-driven.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/lib/logging";
 
-logger.trace("[Schema] Definiendo contrato para [NewsGrid]");
+logger.trace("[Schema] Definiendo contrato para [NewsGrid] v3.0");
 
-/**
- * @const ArticleCardSchema
- * @description Valida la estructura de los datos necesarios para renderizar
- *              una tarjeta de artículo en una cuadrícula o carrusel.
- */
 export const ArticleCardSchema = z.object({
   slug: z
     .string()
@@ -32,20 +29,14 @@ export const ArticleCardSchema = z.object({
 
 export type ArticleCardData = z.infer<typeof ArticleCardSchema>;
 
-/**
- * @const NewsGridContentSchema
- * @description La SSoT para la ESTRUCTURA del contenido de la sección.
- */
 export const NewsGridContentSchema = z.object({
   title: z.string(),
+  // --- [INICIO DE MEJORA ACUMULATIVA] ---
+  subtitle: z.string(),
+  // --- [FIN DE MEJORA ACUMULATIVA] ---
   articles: z.array(ArticleCardSchema),
 });
 
-/**
- * @const NewsGridLocaleSchema
- * @description Valida la clave de nivel superior para un locale específico.
- */
 export const NewsGridLocaleSchema = z.object({
   newsGrid: NewsGridContentSchema.optional(),
 });
-// lib/schemas/components/news-grid.schema.ts

@@ -1,11 +1,11 @@
 // RUTA: components/layout/Header.tsx
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal. Orquesta la
- *              navegación, los controles de UI y el acceso al carrito.
- *              v25.0.0 (Holistic Elite Compliance): Versión final auditada para
- *              cumplir con los 6 Pilares de Calidad, incluyendo A11Y y MEA/UX.
- * @version 25.0.0
+ * @description Componente de cabecera principal del portal.
+ *              v25.2.0 (Props Contract Fix): Corrige la interfaz de props
+ *              para aceptar `supportedLocales`, resolviendo un error de tipo
+ *              crítico TS2322 y restaurando la integridad del build.
+ * @version 25.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/Separator";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import type { NavLink } from "@/lib/schemas/components/header.schema";
-import { type Locale, supportedLocales } from "@/lib/i18n.config";
+import { type Locale } from "@/lib/i18n.config"; // No necesitamos `supportedLocales` aquí
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { CartTrigger } from "./CartTrigger";
@@ -30,8 +30,11 @@ interface HeaderProps {
   devDictionary?: Dictionary["devRouteMenu"];
   toggleThemeContent: NonNullable<Dictionary["toggleTheme"]>;
   languageSwitcherContent: NonNullable<Dictionary["languageSwitcher"]>;
-  cartContent: NonNullable<Dictionary["cart"]>;
+  cartContent?: Dictionary["cart"];
   currentLocale: Locale;
+  // --- [INICIO DE CORRECCIÓN DE CONTRATO] ---
+  supportedLocales: readonly string[]; // Prop añadida para cumplir el contrato
+  // --- [FIN DE CORRECCIÓN DE CONTRATO] ---
 }
 
 export default function Header({
@@ -41,15 +44,14 @@ export default function Header({
   languageSwitcherContent,
   cartContent,
   currentLocale,
+  supportedLocales, // <-- Prop ahora aceptada
 }: HeaderProps): React.ReactElement | null {
-  logger.info("[Header] Renderizando v25.0 (Holistic Elite Compliance)");
+  logger.info("[Header] Renderizando v25.2 (Props Contract Fix)");
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   if (!content) {
-    logger.warn(
-      "[Header] No se proporcionó contenido. El header no se renderizará."
-    );
+    logger.warn("[Header] No se proporcionó contenido principal. El header no se renderizará.");
     return null;
   }
 
@@ -61,11 +63,11 @@ export default function Header({
         <Link
           href={routes.home.path({ locale: currentLocale })}
           className="mr-6 flex items-center"
-          aria-label={logoAlt} // Pilar 6: ARIA label descriptivo para el enlace del logo.
+          aria-label={logoAlt}
         >
           <Image
             src={logoUrl}
-            alt={logoAlt} // Pilar 6: Texto alternativo para la imagen.
+            alt={logoAlt}
             width={150}
             height={28}
             className="h-7 w-auto"
@@ -74,7 +76,7 @@ export default function Header({
         </Link>
         <nav
           className="hidden md:flex md:items-center md:gap-6 text-sm font-medium"
-          aria-label="Navegación Principal" // Pilar 6: ARIA label para la navegación.
+          aria-label="Navegación Principal"
         >
           {navLinks.map((route: NavLink) => (
             <Link
@@ -94,23 +96,29 @@ export default function Header({
             supportedLocales={supportedLocales}
             content={languageSwitcherContent}
           />
-          <Separator orientation="vertical" className="h-6 mx-2" />
-          <CartTrigger
-            onClick={() => setIsCartOpen(true)}
-            content={cartContent}
-          />
+          {cartContent && (
+            <>
+              <Separator orientation="vertical" className="h-6 mx-2" />
+              <CartTrigger
+                onClick={() => setIsCartOpen(true)}
+                content={cartContent}
+              />
+            </>
+          )}
           {process.env.NODE_ENV === "development" && devDictionary && (
             <DevToolsDropdown dictionary={devDictionary} />
           )}
         </div>
       </header>
 
-      <CartSheet
-        isOpen={isCartOpen}
-        onOpenChange={setIsCartOpen}
-        content={cartContent}
-        locale={currentLocale}
-      />
+      {cartContent && (
+        <CartSheet
+          isOpen={isCartOpen}
+          onOpenChange={setIsCartOpen}
+          content={cartContent}
+          locale={currentLocale}
+        />
+      )}
     </>
   );
 }

@@ -1,12 +1,12 @@
 // RUTA: components/layout/LanguageSwitcher.tsx
-
 /**
  * @file LanguageSwitcher.tsx
  * @description Componente de UI de élite para cambiar el idioma del portal.
- *              v5.1.0 (Linter Hygiene Fix): Resuelve errores de ESLint eliminando
- *              importaciones no utilizadas y corrigiendo el array de dependencias
- *              del hook `useCallback`, garantizando la máxima calidad de código.
- * @version 5.1.0
+ *              v5.2.0 (Code Hygiene & Props Sovereignty): Resuelve el error de
+ *              variable no utilizada al consumir la prop `supportedLocales` en
+ *              lugar de la constante importada, haciendo el componente más puro
+ *              y desacoplado.
+ * @version 5.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -21,23 +21,23 @@ import {
 } from "@/components/ui/DropdownMenu";
 import { Button } from "@/components/ui/Button";
 import { FlagIcon } from "@/components/ui/FlagIcon";
-import { type Locale, supportedLocales } from "@/lib/i18n.config";
+import { type Locale } from "@/lib/i18n.config";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { cn } from "@/lib/utils";
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;
-  supportedLocales: readonly string[];
+  supportedLocales: readonly string[]; // Esta prop ahora será la SSoT para este componente
   content: NonNullable<Dictionary["languageSwitcher"]>;
 }
 
 export function LanguageSwitcher({
   currentLocale,
-  supportedLocales,
+  supportedLocales, // Se consumirá esta prop
   content,
 }: LanguageSwitcherProps): React.ReactElement {
-  logger.info("[LanguageSwitcher] Renderizando v5.1 (Linter Hygiene Fix).");
+  logger.info("[LanguageSwitcher] Renderizando v5.2 (Props Sovereignty).");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -45,6 +45,7 @@ export function LanguageSwitcher({
   const handleLanguageChange = useCallback(
     (newLocale: string) => {
       const segments = pathname.split("/");
+      // La lógica ahora utiliza la prop `supportedLocales`
       const localeIndex = segments.findIndex((segment) =>
         supportedLocales.includes(segment as Locale)
       );
@@ -63,7 +64,7 @@ export function LanguageSwitcher({
 
       router.push(newUrl);
     },
-    [pathname, searchParams, router, supportedLocales] // <-- DEPENDENCIA CORREGIDA
+    [pathname, searchParams, router, supportedLocales]
   );
 
   return (
@@ -82,6 +83,7 @@ export function LanguageSwitcher({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        {/* El mapeo ahora utiliza la prop `supportedLocales` */}
         {supportedLocales.map((locale) => (
           <DropdownMenuItem
             key={locale}

@@ -1,16 +1,17 @@
-// app/[locale]/(dev)/raz-prompts/_components/PromptCreator.tsx
+// RUTA: app/[locale]/(dev)/raz-prompts/_components/PromptCreator.tsx
 /**
  * @file PromptCreator.tsx
  * @description Componente contenedor "smart" para la creación de prompts,
- *              ahora cumpliendo con los estándares de calidad del proyecto.
- * @version 2.0.0
+ *              ahora cumpliendo con los estándares de calidad del proyecto
+ *              y las directivas de nomenclatura.
+ * @version 2.1.0 (Module Resolution Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
 import { logger } from "@/lib/logging";
-import { usePromptCreator } from "../_hooks/usePromptCreator";
+import { usePromptCreator } from "../_hooks/use-prompt-creator";
 import { PromptCreatorForm } from "./PromptCreatorForm";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
@@ -19,7 +20,7 @@ interface PromptCreatorProps {
 }
 
 export function PromptCreator({ content }: PromptCreatorProps) {
-  logger.info("[Observabilidad] Renderizando PromptCreator v2.0");
+  logger.info("[Observabilidad] Renderizando PromptCreator v2.1");
   const { form, onSubmit, isPending } = usePromptCreator();
 
   return (
@@ -31,4 +32,3 @@ export function PromptCreator({ content }: PromptCreatorProps) {
     />
   );
 }
-// app/[locale]/(dev)/raz-prompts/_components/PromptCreator.tsx

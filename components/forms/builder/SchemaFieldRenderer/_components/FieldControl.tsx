@@ -1,8 +1,11 @@
-// components/forms/builder/SchemaFieldRenderer/_components/FieldControl.tsx
+// RUTA: components/forms/builder/SchemaFieldRenderer/_components/FieldControl.tsx
 /**
  * @file FieldControl.tsx
- * @description Componente despachador puro. Ahora soporta la delegación a ImageField.
- * @version 3.0.0 (ImageField Delegation)
+ * @description Componente despachador puro.
+ *              v3.1.0 (Module Resolution Fix): Corrige la ruta de importación
+ *              de `useFieldMetadata` para alinearse con la SSoT de nomenclatura
+ *              (kebab-case) y restaurar la integridad del build.
+ * @version 3.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -11,7 +14,9 @@ import React from "react";
 import type { FieldValues } from "react-hook-form";
 import { logger } from "@/lib/logging";
 import type { FieldComponentProps } from "../_types/field.types";
-import { useFieldMetadata } from "../_hooks/useFieldMetadata";
+// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+import { useFieldMetadata } from "../_hooks/use-field-metadata";
+// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 import { FieldWrapper } from "./FieldWrapper";
 import * as Fields from "./fields";
 
@@ -43,10 +48,8 @@ export function FieldControl<TFieldValues extends FieldValues>({
         return (
           <Fields.EnumField {...props} placeholder={metadata.placeholder} />
         );
-      // --- [INICIO DE NUEVA LÓGICA DE DESPACHO] ---
       case "image":
         return <Fields.ImageField {...props} />;
-      // --- [FIN DE NUEVA LÓGICA DE DESPACHO] ---
       case "input":
       default:
         return (
@@ -65,4 +68,3 @@ export function FieldControl<TFieldValues extends FieldValues>({
     </FieldWrapper>
   );
 }
-// components/forms/builder/SchemaFieldRenderer/_components/FieldControl.tsx

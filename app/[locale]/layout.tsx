@@ -1,11 +1,12 @@
 // RUTA: app/[locale]/layout.tsx
-
 /**
  * @file layout.tsx
  * @description Layout Localizado. SSoT para la estructura principal del portal.
- *              v6.3.0 (Footer Sync): Se alinea con el nuevo contrato de Footer,
- *              asumiendo la responsabilidad de la carga de su contenido.
- * @version 6.3.0
+ *              v6.4.0 (Critical Resilience Fix): Implementa una guardia de
+ *              renderizado robusta para el Header, previniendo TypeErrors fatales
+ *              si alguna de sus dependencias de contenido i18n (incluyendo el
+ *              carrito) no se carga correctamente.
+ * @version 6.4.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -38,7 +39,7 @@ export default async function LocaleLayout({
   const pathname = headers().get("x-next-pathname") || "";
 
   logger.info(
-    `[Observabilidad][ARQUITECTURA-LOCALE] Renderizando LocaleLayout v6.3 para locale: [${safeLocale}] en ruta: [${pathname}]`
+    `[Observabilidad][ARQUITECTURA-LOCALE] Renderizando LocaleLayout v6.4 para locale: [${safeLocale}] en ruta: [${pathname}]`
   );
 
   const { dictionary, error } = await getDictionary(safeLocale);
@@ -46,6 +47,16 @@ export default async function LocaleLayout({
     logger.error(
       `[LocaleLayout] No se pudo cargar el diccionario para [${safeLocale}].`,
       { error }
+    );
+    // Renderiza un fallback mínimo si el diccionario falla.
+    return (
+      <html lang={safeLocale}>
+        <body>
+          <div style={{ color: "hsl(var(--destructive))", padding: "20px" }}>
+            Error crítico al cargar el contenido del sitio.
+          </div>
+        </body>
+      </html>
     );
   }
 
@@ -56,6 +67,7 @@ export default async function LocaleLayout({
   const footerContent = dictionary?.footer;
   const toggleThemeContent = dictionary?.toggleTheme;
   const languageSwitcherContent = dictionary?.languageSwitcher;
+  const cartContent = dictionary?.cart;
 
   const isHomePage = pathname === `/${safeLocale}` || pathname === "/";
   const showDevHomepageHeader =
@@ -63,6 +75,12 @@ export default async function LocaleLayout({
     isHomePage &&
     devHomepageHeaderContent &&
     devRouteMenuContent;
+
+  const canRenderHeader =
+    headerContent &&
+    toggleThemeContent &&
+    languageSwitcherContent &&
+    cartContent;
 
   return (
     <>
@@ -76,19 +94,27 @@ export default async function LocaleLayout({
             dictionary={devHomepageHeaderContent}
             devRouteMenuDictionary={devRouteMenuContent}
           />
+        ) : canRenderHeader ? (
+          <Header
+            content={headerContent}
+            toggleThemeContent={toggleThemeContent}
+            languageSwitcherContent={languageSwitcherContent}
+            cartContent={cartContent}
+            currentLocale={safeLocale}
+            supportedLocales={supportedLocales}
+            devDictionary={devRouteMenuContent}
+          />
         ) : (
-          headerContent &&
-          toggleThemeContent &&
-          languageSwitcherContent && (
-            <Header
-              content={headerContent}
-              toggleThemeContent={toggleThemeContent}
-              languageSwitcherContent={languageSwitcherContent}
-              currentLocale={safeLocale}
-              supportedLocales={supportedLocales}
-              devDictionary={devRouteMenuContent}
-            />
-          )
+          // --- [INICIO DE CORRECCIÓN DE BUG TS2322] ---
+          // La llamada al logger se realiza, y LUEGO se retorna `null`.
+          // Esto satisface el contrato de tipo `ReactNode` del componente.
+          (() => {
+            logger.warn(
+              "[LocaleLayout] Faltan datos de i18n para renderizar el Header principal."
+            );
+            return null;
+          })()
+          // --- [FIN DE CORRECCIÓN DE BUG TS2322] ---
         )}
         <main>{children}</main>
         {footerContent && <Footer content={footerContent} />}

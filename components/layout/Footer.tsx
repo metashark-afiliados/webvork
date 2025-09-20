@@ -1,16 +1,18 @@
 // RUTA: components/layout/Footer.tsx
-
 /**
  * @file Footer.tsx
  * @description Componente de pie de página principal del portal.
- *              v6.0.0 (Holistic Elite Leveling & MEA): Refactorizado a un componente
- *              de presentación puro, 100% data-driven, y se implementa una mejora
- *              MEA/UX con tooltips en los iconos de redes sociales.
- * @version 6.0.0
+ *              v6.1.0 (MEA/UX Animation): Se inyecta una animación de entrada
+ *              sutil con Framer Motion para una experiencia de usuario de élite
+ *              al final de la página.
+ * @version 6.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
+"use client"; // Se requiere "use client" para el hook de animación y los tooltips
+
 import React from "react";
 import Link from "next/link";
+import { motion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { DynamicIcon } from "@/components/ui/DynamicIcon";
@@ -35,8 +37,26 @@ interface FooterProps {
   content: FooterContent;
 }
 
+/**
+ * @const footerVariants
+ * @description Define la animación de entrada para la sección del footer.
+ */
+const footerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1], // Curva de easing profesional
+    },
+  },
+};
+
 export function Footer({ content }: FooterProps): React.ReactElement | null {
-  logger.info("[Footer] Renderizando componente de élite (v6.0 - MEA/UX).");
+  logger.info(
+    "[Footer] Renderizando componente de élite (v6.1 - MEA/UX Animation)."
+  );
 
   if (!content) {
     logger.warn(
@@ -55,7 +75,13 @@ export function Footer({ content }: FooterProps): React.ReactElement | null {
   } = content;
 
   return (
-    <footer className="bg-muted/40 text-muted-foreground pt-16 pb-8 mt-24">
+    <motion.footer
+      className="bg-muted/40 text-muted-foreground pt-16 pb-8 mt-24"
+      variants={footerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }} // La animación se dispara cuando el 20% del footer es visible
+    >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
           <div className="lg:col-span-1">
@@ -132,6 +158,6 @@ export function Footer({ content }: FooterProps): React.ReactElement | null {
           </div>
         </div>
       </Container>
-    </footer>
+    </motion.footer>
   );
 }

@@ -1,14 +1,17 @@
-// app/[locale]/(dev)/raz-prompts/_components/PromptCreatorForm.tsx
+// RUTA: app/[locale]/(dev)/raz-prompts/_components/PromptCreatorForm.tsx
 /**
  * @file PromptCreatorForm.tsx
- * @description Orquestador de presentación puro para el formulario de creación de prompts.
- * @version 2.1.0 (Parsing Error Fix & UI Coherence)
+ * @description Orquestador de presentación puro y de élite para el formulario
+ *              de creación de prompts. Compone aparatos atómicos para una
+ *              arquitectura soberana y de responsabilidad única.
+ * @version 4.0.0 (Atomic Architecture & MEA/UX)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { motion, type Variants } from "framer-motion";
 import {
   Form,
   FormField,
@@ -21,24 +24,20 @@ import {
   Textarea,
   Button,
   DynamicIcon,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription, // <-- Importaciones añadidas
+  CardDescription,
 } from "@/components/ui";
-import { FormFieldGroup } from "@/app/[locale]/(dev)/dev/campaign-suite/_components/shared/FormFieldGroup";
 import { SesaTagsFormGroup } from "./SesaTagsFormGroup";
-import type { CreatePromptFormData } from "../_hooks/usePromptCreator";
+import { ParameterSelectorsGroup } from "./ParameterSelectorsGroup"; // <-- NUEVA IMPORTACIÓN
+import type { CreatePromptFormData } from "../_hooks/use-prompt-creator";
 import type { PromptCreatorContentSchema } from "@/lib/schemas/raz-prompts/prompt-creator.i18n.schema";
 import type { z } from "zod";
 import { logger } from "@/lib/logging";
 
+// --- SSoT de Tipos y Animaciones ---
 type Content = z.infer<typeof PromptCreatorContentSchema>;
 
 interface PromptCreatorFormProps {
@@ -48,6 +47,17 @@ interface PromptCreatorFormProps {
   content: Content;
 }
 
+const formContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.07 } },
+};
+
+const fieldVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } },
+};
+
+// --- Componente de Élite ---
 export function PromptCreatorForm({
   form,
   onSubmit,
@@ -55,253 +65,127 @@ export function PromptCreatorForm({
   content,
 }: PromptCreatorFormProps) {
   logger.trace(
-    "[PromptCreatorForm] Renderizando formulario de presentación puro (v2.1)."
+    "[PromptCreatorForm] Renderizando orquestador de formulario v4.0."
   );
   return (
     <Card>
-      {" "}
-      {/* Envuelve el formulario en una tarjeta para coherencia visual */}
       <CardHeader>
-        <CardTitle>{content.titleLabel}</CardTitle>{" "}
-        {/* Usar una etiqueta de título del i18n */}
-        <CardDescription>{content.keywordsDescription}</CardDescription>{" "}
-        {/* Una descripción coherente */}
+        <CardTitle>{content.titleLabel}</CardTitle>
+        <CardDescription>{content.keywordsDescription}</CardDescription>
       </CardHeader>
       <CardContent>
-        {" "}
-        {/* Contenido de la tarjeta */}
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.titleLabel}</FormLabel>
-                  <FormControl>
-                    <Input placeholder={content.titlePlaceholder} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <motion.form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8"
+            variants={formContainerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={fieldVariants}>
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{content.titleLabel}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={content.titlePlaceholder}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </motion.div>
 
-            <FormField
-              control={form.control}
-              name="promptText"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.promptTextLabel}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={content.promptTextPlaceholder}
-                      className="min-h-[150px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <motion.div variants={fieldVariants}>
+              <FormField
+                control={form.control}
+                name="promptText"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{content.promptTextLabel}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder={content.promptTextPlaceholder}
+                        className="min-h-[150px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </motion.div>
 
-            <FormField
-              control={form.control}
-              name="negativePrompt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.negativePromptLabel}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder={content.negativePromptPlaceholder}
-                      className="min-h-[100px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <motion.div variants={fieldVariants}>
+              <FormField
+                control={form.control}
+                name="negativePrompt"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{content.negativePromptLabel}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder={content.negativePromptPlaceholder}
+                        className="min-h-[100px]"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </motion.div>
 
-            <SesaTagsFormGroup
-              control={form.control}
-              content={{ ...content.sesaLabels, options: content.sesaOptions }}
-            />
+            <motion.div variants={fieldVariants}>
+              <SesaTagsFormGroup
+                control={form.control}
+                content={{
+                  ...content.sesaLabels,
+                  options: content.sesaOptions,
+                }}
+              />
+            </motion.div>
 
-            <FormFieldGroup
-              label={content.parametersGroupLabel}
-              className="space-y-4"
+            {/* --- INICIO DE REFACTORIZACIÓN ARQUITECTÓNICA --- */}
+            <motion.div variants={fieldVariants}>
+              <ParameterSelectorsGroup
+                control={form.control}
+                content={content}
+              />
+            </motion.div>
+            {/* --- FIN DE REFACTORIZACIÓN ARQUITECTÓNICA --- */}
+
+            <motion.div variants={fieldVariants}>
+              <FormField
+                control={form.control}
+                name="keywords"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{content.keywordsLabel}</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={content.keywordsPlaceholder}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {content.keywordsDescription}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </motion.div>
+
+            <motion.div
+              variants={fieldVariants}
+              className="flex justify-end pt-4 border-t"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Rendering Speed */}
-                <FormField
-                  control={form.control}
-                  name="parameters.renderingSpeed"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{content.renderingSpeedLabel}</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder={content.renderingSpeedPlaceholder}
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {content.renderingSpeedOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* Style Type */}
-                <FormField
-                  control={form.control}
-                  name="parameters.styleType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{content.styleTypeLabel}</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder={content.styleTypePlaceholder}
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {content.styleTypeOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* Aspect Ratio */}
-                <FormField
-                  control={form.control}
-                  name="parameters.aspectRatio"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{content.aspectRatioLabel}</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder={content.aspectRatioPlaceholder}
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {content.aspectRatioOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* Num Images */}
-                <FormField
-                  control={form.control}
-                  name="parameters.numImages"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{content.numImagesLabel}</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder={content.numImagesPlaceholder}
-                          {...field}
-                          value={field.value ?? ""}
-                          onChange={(e) =>
-                            field.onChange(
-                              e.target.value === ""
-                                ? undefined
-                                : Number(e.target.value)
-                            )
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                {/* Size */}
-                <FormField
-                  control={form.control}
-                  name="parameters.size"
-                  render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                      <FormLabel>{content.sizeLabel}</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue
-                              placeholder={content.sizePlaceholder}
-                            />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {content.sizeOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </FormFieldGroup>
-
-            <FormField
-              control={form.control}
-              name="keywords"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{content.keywordsLabel}</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder={content.keywordsPlaceholder}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    {content.keywordsDescription}
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex justify-end pt-4 border-t">
               <Button type="submit" disabled={isPending} size="lg">
                 {isPending && (
                   <DynamicIcon
@@ -313,10 +197,11 @@ export function PromptCreatorForm({
                   ? content.submitButtonLoadingText
                   : content.submitButtonText}
               </Button>
-            </div>
-          </form>
+            </motion.div>
+          </motion.form>
         </Form>
       </CardContent>
     </Card>
   );
 }
+

@@ -1,4 +1,17 @@
 {
+  "it-IT": {
+    "devLoginPage": {
+      "title": "Benvenuto, Dev Creator",
+      "subtitle": "Accedi al centro di comando per progettare e simulare le campagne.",
+      "usernameLabel": "Utente",
+      "usernamePlaceholder": "nome.utente",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "buttonText": "Continua",
+      "buttonLoadingText": "Verifica in corso...",
+      "footerHtml": "Continuando, accedi alla suite di sviluppo interna. <br> Contatta l'<a href='#' class='underline hover:text-primary'>architetto</a> per le credenziali di produzione."
+    }
+  },
   "es-ES": {
     "devLoginPage": {
       "title": "Bienvenido, Dev Creator",
@@ -8,6 +21,7 @@
       "passwordLabel": "Contraseña",
       "passwordPlaceholder": "••••••••",
       "buttonText": "Continuar",
+      "buttonLoadingText": "Verificando...",
       "footerHtml": "Al continuar, accedes a la suite de desarrollo interno. <br> Contacta al <a href='#' class='underline hover:text-primary'>arquitecto</a> para obtener credenciales de producción."
     }
   },
@@ -20,19 +34,8 @@
       "passwordLabel": "Password",
       "passwordPlaceholder": "••••••••",
       "buttonText": "Continue",
+      "buttonLoadingText": "Verifying...",
       "footerHtml": "By continuing, you access the internal development suite. <br> Contact the <a href='#' class='underline hover:text-primary'>architect</a> for production credentials."
-    }
-  },
-  "it-IT": {
-    "devLoginPage": {
-      "title": "Benvenuto, Dev Creator",
-      "subtitle": "Accedi al centro di comando per progettare e simulare le campagne.",
-      "usernameLabel": "Utente",
-      "usernamePlaceholder": "nome.utente",
-      "passwordLabel": "Password",
-      "passwordPlaceholder": "••••••••",
-      "buttonText": "Continua",
-      "footerHtml": "Continuando, accedi alla suite di sviluppo interna. <br> Contatta l'<a href='#' class='underline hover:text-primary'>architetto</a> per le credenziali di produzione."
     }
   },
   "pt-BR": {
@@ -44,6 +47,7 @@
       "passwordLabel": "Senha",
       "passwordPlaceholder": "••••••••",
       "buttonText": "Continuar",
+      "buttonLoadingText": "Verificando...",
       "footerHtml": "Ao continuar, você acessa a suíte de desenvolvimento interno. <br> Contate o <a href='#' class='underline hover:text-primary'>arquiteto</a> para credenciais de produção."
     }
   }

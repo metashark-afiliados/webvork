@@ -1,154 +1,93 @@
-// RUTA: app/[locale]/(dev)/dev/page.tsx
-
+// app/[locale]/(dev)/dev/page.tsx
 /**
  * @file page.tsx
- * @description Dashboard principal del DCC.
- *              v7.0.0 (Elite Component Sync): Se alinea con el nuevo contrato
- *              del componente PageHeader de élite, pasando el objeto de contenido
- *              completo para el renderizado data-driven.
- * @version 7.0.0
+ * @description Página de entrada única (SPA) para la SDC.
+ *              v12.1.0 (Definitive Generic Type Safety): Alineado con la nueva
+ *              arquitectura de configuración genérica.
+ * @version 12.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { getDictionary } from "@/lib/i18n";
-import { routes } from "@/lib/navigation";
+import { Suspense } from "react";
+import { promises as fs } from "fs";
+import path from "path";
+import { notFound } from "next/navigation";
 import { logger } from "@/lib/logging";
 import type { Locale } from "@/lib/i18n.config";
-import { PageHeader } from "@/components/layout/PageHeader";
-import { Container, DynamicIcon } from "@/components/ui";
-import { TiltCard } from "@/components/ui/TiltCard";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+import { StepClientWrapper } from "@/app/[locale]/(dev)/dev/campaign-suite/_components";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
-import { type LucideIconName } from "@/config/lucide-icon-names";
+  stepsConfig,
+  type StepConfig, // Se importa el tipo para seguridad
+} from "@/app/[locale]/(dev)/dev/campaign-suite/_config/wizard.config";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
-interface DevToolCardProps {
-  title: string;
-  description: string;
-  href: string;
-  icon: LucideIconName;
-  isFeatured?: boolean;
-  buttonLabel: string;
-  featuredButtonLabel: string;
+interface CreatePageProps {
+  params: { locale: Locale };
+  searchParams: { step?: string };
 }
 
-const DevToolCard = ({
-  title,
-  description,
-  href,
-  icon,
-  isFeatured = false,
-  buttonLabel,
-  featuredButtonLabel,
-}: DevToolCardProps) => {
-  logger.trace(`[Observabilidad] Renderizando DevToolCard: ${title}`);
-  return (
-    <TiltCard className="h-full">
-      <Card
-        className={`transition-all duration-300 h-full flex flex-col ${
-          isFeatured
-            ? "border-primary/50 ring-2 ring-primary/20"
-            : "border-border"
-        }`}
-      >
-        <CardHeader>
-          <div className="flex items-center gap-4">
-            <DynamicIcon
-              name={icon}
-              className={`h-8 w-8 ${
-                isFeatured ? "text-primary" : "text-muted-foreground"
-              }`}
-            />
-            <CardTitle className="text-xl">{title}</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="flex-grow flex flex-col">
-          <CardDescription className="flex-grow">{description}</CardDescription>
-          <Button
-            href={href}
-            variant={isFeatured ? "default" : "secondary"}
-            className="mt-6"
-          >
-            {isFeatured ? featuredButtonLabel : buttonLabel}
-          </Button>
-        </CardContent>
-      </Card>
-    </TiltCard>
-  );
-};
-
-export default async function DevDashboardPage({
+export default async function CreatePage({
   params: { locale },
-}: {
-  params: { locale: Locale };
-}) {
-  logger.info(
-    `[Observabilidad] Renderizando DevDashboardPage v7.0 para locale: ${locale}`
-  );
-  const { dictionary } = await getDictionary(locale);
-  const content = dictionary.devDashboardPage;
+  searchParams,
+}: CreatePageProps) {
+  const currentStepId = parseInt(searchParams?.step || "0", 10);
 
-  if (!content || !content.pageHeader) {
+  // --- [INICIO DE CORRECCIÓN DE TIPO] ---
+  const stepConfig = stepsConfig.find(
+    (s: StepConfig) => s.id === currentStepId
+  );
+  // --- [FIN DE CORRECCIÓN DE TIPO] ---
+
+  if (!stepConfig) {
     logger.error(
-      `[DevDashboardPage] Contenido 'devDashboardPage' o 'pageHeader' no encontrado para locale: '${locale}'.`
+      `[CreatePage] Configuración no encontrada para el paso ${currentStepId}. Redirigiendo a 404.`
     );
+    return notFound();
+  }
+
+  logger.info(
+    `[CreatePage] Renderizando. Locale: [${locale}], Paso: [${currentStepId}]`
+  );
+
+  let stepContent: object | null = null;
+  let error: string | null = null;
+  try {
+    const i18nFilePath = path.join(process.cwd(), stepConfig.i18nPath);
+    const fileContent = await fs.readFile(i18nFilePath, "utf-8");
+    const i18nData = JSON.parse(fileContent);
+    const contentForLocale = i18nData[locale];
+
+    if (!contentForLocale) {
+      throw new Error(`Contenido para locale '${locale}' no encontrado.`);
+    }
+
+    const validation = stepConfig.schema.safeParse(contentForLocale);
+
+    if (!validation.success) {
+      console.error(validation.error.flatten().fieldErrors);
+      throw new Error(`Validación de Zod fallida.`);
+    }
+
+    stepContent = validation.data;
+  } catch (e) {
+    error = `No se pudo cargar o validar el contenido para el paso ${currentStepId}.`;
+    logger.error(`[CreatePage] ${error}`, { error: e });
+  }
+
+  if (error || !stepContent) {
     return (
-      <Container className="py-24 text-center">
-        <h1 className="text-2xl font-bold text-destructive">
-          Error de Contenido
-        </h1>
-        <p>El contenido para el dashboard de desarrollo no pudo ser cargado.</p>
-      </Container>
+      <div className="text-destructive p-8 text-center">
+        <h2 className="font-bold text-lg">Error al Cargar el Paso</h2>
+        <p className="text-sm">{error}</p>
+      </div>
     );
   }
 
   return (
-    <>
-      <PageHeader content={content.pageHeader} />
-      <Container className="py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-3">
-            <DevToolCard
-              title="Suite de Diseño de Campañas"
-              description="Un asistente paso a paso para crear, configurar y generar todos los activos de una nueva variante de campaña, sin tocar el código."
-              href={routes.devCampaignSuiteCreate.path({ locale })}
-              icon="WandSparkles"
-              isFeatured={true}
-              buttonLabel="Abrir"
-              featuredButtonLabel="Iniciar"
-            />
-          </div>
-          <DevToolCard
-            title="Vitrina de Resiliencia"
-            description="Renderiza todos los componentes para verificar la estabilidad y compatibilidad de los datos."
-            href={routes.devTestPage.path({ locale })}
-            icon="ShieldCheck"
-            buttonLabel="Abrir"
-            featuredButtonLabel="Iniciar"
-          />
-          <DevToolCard
-            title="BAVI"
-            description="Biblioteca de Activos Visuales Integrada."
-            href={routes.bavi.path({ locale })}
-            icon="LibraryBig"
-            buttonLabel="Abrir"
-            featuredButtonLabel="Iniciar"
-          />
-          <DevToolCard
-            title="RaZPrompts"
-            description="Bóveda de Conocimiento Generativo."
-            href={routes.razPrompts.path({ locale })}
-            icon="BrainCircuit"
-            buttonLabel="Abrir"
-            featuredButtonLabel="Iniciar"
-          />
-        </div>
-      </Container>
-    </>
+    <Suspense fallback={<div>Cargando asistente...</div>}>
+      <StepClientWrapper stepContent={stepContent} />
+    </Suspense>
   );
 }
+// app/[locale]/(dev)/dev/page.tsx

@@ -1,11 +1,11 @@
-// lib/i18n/campaign.i18n.ts
+// RUTA: lib/i18n/campaign.i18n.ts
 /**
  * @file campaign.i18n.ts
  * @description Aparato Orquestador Soberano para la obtención de datos de campaña.
- *              v15.1.0 (Definitive Type Assertion): Resuelve la cascada de errores
- *              de tipo mediante aserciones de tipo explícitas tras el Promise.all,
- *              eliminando la ambigüedad para el compilador de TypeScript.
- * @version 15.1.0
+ *              v15.2.0 (Holistic Integrity Restoration): Restaura la integridad del
+ *              build corrigiendo rutas de importación, eliminando dependencias no
+ *              utilizadas y alineándose con la SSoT de nomenclatura (kebab-case).
+ * @version 15.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
@@ -18,8 +18,8 @@ import { getDictionary as getGlobalDictionary } from "@/lib/i18n";
 import { loadJsonAsset } from "./campaign.data.loader";
 import { processCampaignData } from "./campaign.data.processor";
 import { deepMerge } from "@/lib/utils/merge";
-import { parseThemeNetString } from "@/lib/utils/theme.utils";
-import { netTracePrefixToPathMap } from "@/lib/config/theming.config.ts";
+import { parseThemeNetString } from "@/lib/theming/theme-utils";
+import { netTracePrefixToPathMap } from "@/lib/config/theming.config";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 import { type AssembledTheme } from "@/lib/schemas/theming/assembled-theme.schema";
 import {
@@ -30,6 +30,16 @@ import {
 import { logger } from "@/lib/logging";
 import { ZodError } from "zod";
 
+/**
+ * @function resolveCampaignVariant
+ * @description Resuelve y valida una variante de campaña específica a partir de
+ *              su ID o slug, leyendo el manifiesto `campaign.map.json`.
+ * @param {string} campaignId - El ID de la campaña.
+ * @param {string} identifier - El ID o el slug de la variante.
+ * @param {boolean} [bySlug=false] - Si es true, busca por `variantSlug` en lugar de por ID.
+ * @returns {Promise<{ variantId: string; variant: CampaignVariantMap }>} El ID y el objeto de la variante encontrada.
+ * @throws {Error} Si el mapa de campaña no se encuentra, es inválido, o la variante no existe.
+ */
 export async function resolveCampaignVariant(
   campaignId: string,
   identifier: string,
@@ -74,11 +84,25 @@ export async function resolveCampaignVariant(
   }
 }
 
+/**
+ * @type CampaignData
+ * @description Contrato de datos para el objeto de retorno final, conteniendo
+ *              el diccionario fusionado y el tema ensamblado.
+ */
 export type CampaignData = {
   dictionary: Dictionary;
   theme: AssembledTheme;
 };
 
+/**
+ * @function getCampaignData
+ * @description Orquesta el proceso completo de carga, ensamblaje y validación de
+ *              todos los datos (contenido y tema) para una variante de campaña específica.
+ * @param {string} campaignId - El ID de la campaña.
+ * @param {string} locale - El código de locale (ej. "es-ES").
+ * @param {string} variantId - El ID de la variante.
+ * @returns {Promise<CampaignData>} Los datos completos y validados de la campaña.
+ */
 export const getCampaignData = async (
   campaignId: string,
   locale: string,
@@ -162,12 +186,12 @@ export const getCampaignData = async (
     );
 
     logger.success(
-      `[Orquestador v15.1] Datos para Campaña ${campaignId} / Variante "${variant.name}" ensamblados con éxito.`
+      `[Orquestador v15.2] Datos para Campaña ${campaignId} / Variante "${variant.name}" ensamblados con éxito.`
     );
     return processedData;
   } catch (error) {
     logger.error(
-      `[Orquestador v15.1] Fallo crítico en el ensamblaje de datos de campaña.`,
+      `[Orquestador v15.2] Fallo crítico en el ensamblaje de datos de campaña.`,
       { error }
     );
     throw error;
@@ -175,4 +199,3 @@ export const getCampaignData = async (
     logger.endTrace(traceId);
   }
 };
-// lib/i18n/campaign.i18n.ts

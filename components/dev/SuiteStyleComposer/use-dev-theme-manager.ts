@@ -1,13 +1,11 @@
 // RUTA: components/dev/SuiteStyleComposer/use-dev-theme-manager.ts
 /**
  * @file use-dev-theme-manager.ts
- * @description Hook "cerebro" y soberano para la gestión del tema del DCC.
- *              v3.0.0 (Architectural Decoupling & Elite Leveling): Refactorizado a
- *              un estándar de élite. Se elimina la dependencia del store
- *              `usePreviewStore`. Este hook ahora es soberano y únicamente
- *              responsable de leer/escribir la configuración del tema del DCC
- *              en localStorage y aplicarla al DOM mediante variables CSS.
- * @version 3.0.0
+ * @description Hook "cerebro" para la gestión del tema del DCC.
+ *              v3.1.0 (Code Hygiene): Resuelve advertencias de linting
+ *              al utilizar 'const' para variables no reasignadas, mejorando
+ *              la calidad y previsibilidad del código.
+ * @version 3.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -23,18 +21,10 @@ import { logger } from "@/lib/logging";
 import { generateCssVariablesFromTheme } from "@/lib/theming/theme-utils";
 import type { SuiteThemeConfig, LoadedFragments } from "./types";
 
-/**
- * @interface UseDevThemeManagerProps
- * @description Contrato de props para el hook.
- */
 interface UseDevThemeManagerProps {
   allThemeFragments: LoadedFragments;
 }
 
-/**
- * @const defaultSuiteConfig
- * @description La SSoT para el estado inicial y de fallback de la configuración del tema del DCC.
- */
 const defaultSuiteConfig: SuiteThemeConfig = {
   colorPreset: "default-dcc",
   fontPreset: "minimalist-sans",
@@ -44,21 +34,16 @@ const defaultSuiteConfig: SuiteThemeConfig = {
   granularGeometry: {},
 };
 
-/**
- * @function useDevThemeManager
- * @description Hook de élite que gestiona el ciclo de vida completo del tema del DCC.
- */
 export function useDevThemeManager({
   allThemeFragments,
 }: UseDevThemeManagerProps) {
   logger.info(
-    "[useDevThemeManager] Inicializando hook de gestión de tema DCC (v3.0 - Decoupled)."
+    "[useDevThemeManager] Inicializando hook de gestión de tema DCC (v3.1)."
   );
   const { theme: systemTheme } = useTheme();
 
   const [currentSuiteConfig, setCurrentSuiteConfig] =
     useState<SuiteThemeConfig>(() => {
-      // Hidratación segura del estado desde localStorage, solo en el cliente.
       if (typeof window === "undefined") {
         return defaultSuiteConfig;
       }
@@ -68,8 +53,6 @@ export function useDevThemeManager({
         );
         if (savedConfigString) {
           const savedConfig = JSON.parse(savedConfigString);
-          // La fusión profunda garantiza que el estado sea resiliente a
-          // configuraciones antiguas o incompletas en localStorage.
           return deepMerge(defaultSuiteConfig, savedConfig);
         }
       } catch (e) {
@@ -82,10 +65,6 @@ export function useDevThemeManager({
       return defaultSuiteConfig;
     });
 
-  /**
-   * @function applyThemeToDocument
-   * @description Función pura que ensambla el tema final y lo inyecta en el DOM.
-   */
   const applyThemeToDocument = useCallback(
     (config: SuiteThemeConfig) => {
       const {
@@ -108,12 +87,11 @@ export function useDevThemeManager({
         ? (allThemeFragments.radii[radiusPreset] ?? {})
         : {};
 
-      let finalTheme: Partial<AssembledTheme> = deepMerge(
+      const finalTheme: Partial<AssembledTheme> = deepMerge(
         deepMerge(baseFragment, colorFragment),
         deepMerge(fontFragment, radiusFragment)
       );
 
-      // Aplica anulaciones granulares si existen
       if (granularColors)
         finalTheme.colors = deepMerge(finalTheme.colors || {}, granularColors);
       if (granularFonts)
@@ -124,7 +102,6 @@ export function useDevThemeManager({
           granularGeometry
         );
 
-      // Aplica la paleta oscura si el tema del sistema es 'dark'
       if (systemTheme === "dark" && finalTheme.colors?.dark) {
         finalTheme.colors = deepMerge(
           finalTheme.colors,
@@ -155,12 +132,10 @@ export function useDevThemeManager({
     [allThemeFragments, systemTheme]
   );
 
-  // Efecto para aplicar el tema al DOM cuando la configuración cambia.
   useEffect(() => {
     applyThemeToDocument(currentSuiteConfig);
   }, [currentSuiteConfig, applyThemeToDocument]);
 
-  // Efecto para persistir la configuración en localStorage cuando cambia.
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem(

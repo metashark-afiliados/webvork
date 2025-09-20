@@ -1,8 +1,11 @@
-// components/ui/index.ts
+// RUTA: components/ui/index.ts
 /**
  * @file index.ts (Barrel File)
  * @description SSoT y fachada pública para el módulo de componentes de UI.
- * @version 2.9.0 (Slider Integration)
+ *              v3.0.0 (Holistic Integrity Restoration): Restaura la integridad del
+ *              build exportando explícitamente todos los componentes requeridos,
+ *              incluyendo los ecosistemas `DropdownMenu` y `DynamicIcon`.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 
@@ -18,8 +21,10 @@ export * from "./Checkbox";
 export * from "./Collapsible";
 export * from "./Container";
 export * from "./Dialog";
-export * from "./DynamicIcon";
+export * from "./DropdownMenu"; // <-- EXPORTACIÓN RESTAURADA
+export * from "./DynamicIcon"; // <-- EXPORTACIÓN RESTAURADA
 export * from "./FadeIn";
+export * from "./FlagIcon";
 export * from "./Form";
 export * from "./FormInput";
 export * from "./ImageUploader";
@@ -32,11 +37,13 @@ export * from "./ScrollArea";
 export * from "./Select";
 export * from "./Separator";
 export * from "./Sheet";
-export * from "./Slider"; // <-- NUEVA EXPORTACIÓN
+export * from "./Slider";
 export * from "./Switch";
 export * from "./Table";
 export * from "./Tabs";
 export * from "./TestimonialCard";
 export * from "./Textarea";
+export * from "./TiltCard";
+export * from "./ToggleTheme";
+export * from "./Tooltip";
 export * from "./ValidationError";
-export * from "./DropdownMenu";

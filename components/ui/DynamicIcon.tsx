@@ -1,9 +1,10 @@
-// components/ui/DynamicIcon.tsx
+// RUTA: components/ui/DynamicIcon.tsx
 /**
  * @file DynamicIcon.tsx
  * @description SSoT para el renderizado dinámico de iconos de lucide-react.
- *              v18.0.0: Cambia a una exportación nombrada para resolver una
- *              cascada de errores de importación en toda la aplicación.
+ *              v18.0.0 (Holistic Restoration & Build Stability): Refactorizado para
+ *              usar una exportación nombrada y una implementación de `next/dynamic`
+ *              más robusta para resolver errores `ChunkLoadError` recurrentes.
  * @version 18.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
@@ -18,14 +19,18 @@ import { type LucideIconName } from "@/config/lucide-icon-names";
 import { logger } from "@/lib/logging";
 
 const DYNAMIC_ICON_CONFIG = {
-  // ... (contenido sin cambios)
   DEFAULT_SIZE: 24,
   DEFAULT_PROPS: { strokeWidth: 2, "aria-hidden": true, focusable: false },
-  FALLBACK_ICON_NAME: "HelpCircle",
+  FALLBACK_ICON_NAME: "HelpCircle", // Un fallback seguro
 };
 
+/**
+ * @function pascalToKebab
+ * @description Convierte una cadena PascalCase a kebab-case para la búsqueda en el manifiesto.
+ * @param {string} str - La cadena en PascalCase.
+ * @returns {string} La cadena en kebab-case.
+ */
 const pascalToKebab = (str: string): string => {
-  // ... (contenido sin cambios)
   return str
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
     .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
@@ -41,16 +46,18 @@ const DynamicIconComponent: FunctionComponent<DynamicIconProps> = ({
   className,
   ...props
 }) => {
-  // ... (lógica interna sin cambios)
   const kebabCaseName = pascalToKebab(name);
   const fallbackKebabCaseName = pascalToKebab(
     DYNAMIC_ICON_CONFIG.FALLBACK_ICON_NAME
   );
+
+  // Determina qué icono cargar, con un fallback seguro
   const iconToLoad = (
     Object.keys(dynamicIconImports).includes(kebabCaseName)
       ? kebabCaseName
       : fallbackKebabCaseName
   ) as keyof typeof dynamicIconImports;
+
   if (
     iconToLoad === fallbackKebabCaseName &&
     kebabCaseName !== fallbackKebabCaseName
@@ -59,6 +66,8 @@ const DynamicIconComponent: FunctionComponent<DynamicIconProps> = ({
       `[DynamicIcon] Icono "${name}" no encontrado. Usando fallback.`
     );
   }
+
+  // Carga dinámica del componente de icono
   const LucideIcon = dynamic(dynamicIconImports[iconToLoad], {
     loading: () => (
       <div
@@ -70,6 +79,7 @@ const DynamicIconComponent: FunctionComponent<DynamicIconProps> = ({
       />
     ),
   });
+
   return (
     <LucideIcon
       {...DYNAMIC_ICON_CONFIG.DEFAULT_PROPS}
@@ -80,9 +90,7 @@ const DynamicIconComponent: FunctionComponent<DynamicIconProps> = ({
 };
 
 // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// Se utiliza una exportación nombrada explícita y memoizada.
+// Se utiliza una exportación nombrada explícita y memoizada para mejorar la
+// estabilidad de la resolución de módulos y el rendimiento.
 export const DynamicIcon = memo(DynamicIconComponent);
-// Se elimina la exportación por defecto.
 // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
-
-// components/ui/DynamicIcon.tsx

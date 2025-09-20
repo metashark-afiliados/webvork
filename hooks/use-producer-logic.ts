@@ -2,11 +2,10 @@
 /**
  * @file use-producer-logic.ts
  * @description Hook Soberano Orquestador para toda la lógica del productor.
- *              v5.0.0 (nos3 System Integration): Integra la activación del nuevo
- *              sistema de inteligencia comportamental `nos3`, posicionando a este
- *              orquestador como el punto de entrada único para toda la lógica
- *              de tracking de la aplicación.
- * @version 5.0.0
+ *              v5.1.0 (Holistic Integrity Restoration): Restaura la integridad
+ *              del build corrigiendo la ruta de importación del colector `nos3`
+ *              para alinearse con la SSoT de nomenclatura (kebab-case).
+ * @version 5.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -20,7 +19,9 @@ import { useYandexMetrika } from "./tracking/use-yandex-metrika";
 import { useGoogleAnalytics } from "./tracking/use-google-analytics";
 import { useTrufflePixel } from "./tracking/use-truffle-pixel";
 import { useWebvorkGuid } from "./tracking/use-webvork-guid";
-import { useNos3Tracker } from "./tracking/use-nos3-tracker"; // <-- NUEVO APARATO INTEGRADO
+// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+import { useNos3Tracker } from "./tracking/use-nos3-tracker";
+// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 
 const ORCHESTRATOR_STYLE =
   "color: #8b5cf6; font-weight: bold; border: 1px solid #8b5cf6; padding: 2px 4px; border-radius: 4px;";
@@ -29,7 +30,6 @@ export function useProducerLogic(): void {
   const { status: consentStatus } = useCookieConsent();
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // Efecto para detectar la primera interacción del usuario de forma pasiva.
   useEffect(() => {
     if (hasInteracted) return;
 
@@ -47,33 +47,26 @@ export function useProducerLogic(): void {
       "keydown",
       "scroll",
     ];
-
-    const addListeners = () => {
+    const addListeners = () =>
       eventListeners.forEach((event) =>
         window.addEventListener(event, handleInteraction, {
           once: true,
           passive: true,
         })
       );
-    };
-
-    const removeListeners = () => {
+    const removeListeners = () =>
       eventListeners.forEach((event) =>
         window.removeEventListener(event, handleInteraction)
       );
-    };
 
     addListeners();
-
     return () => removeListeners();
   }, [hasInteracted]);
 
-  // SSoT para la decisión de inicializar CUALQUIER script de tracking.
   const canInitializeTracking =
     producerConfig.TRACKING_ENABLED && consentStatus === "accepted";
   const shouldInitialize = canInitializeTracking && hasInteracted;
 
-  // Logging de estado para máxima observabilidad.
   useEffect(() => {
     if (!producerConfig.TRACKING_ENABLED) {
       logger.warn(
@@ -81,7 +74,6 @@ export function useProducerLogic(): void {
       );
       return;
     }
-
     if (consentStatus === "rejected") {
       logger.info(
         "[useProducerLogic] Tracking deshabilitado por preferencia del usuario."
@@ -95,12 +87,10 @@ export function useProducerLogic(): void {
   }, [consentStatus, hasInteracted]);
 
   // --- Invocación de los hooks de tracking atómicos ---
-  // Cada hook es responsable de su propia lógica, pero su activación
-  // es controlada soberanamente por este orquestador.
   useUtmTracker(shouldInitialize);
   useYandexMetrika(shouldInitialize);
   useGoogleAnalytics(shouldInitialize);
   useTrufflePixel(shouldInitialize);
   useWebvorkGuid(shouldInitialize);
-  useNos3Tracker(shouldInitialize); // <-- NUEVO APARATO ACTIVADO
+  useNos3Tracker(shouldInitialize);
 }

@@ -1,0 +1,35 @@
+
+{
+  "it-IT": {
+    "campaignSuitePage": {
+      "preview": {
+        "loadingTheme": "Ensamblando il tema...",
+        "errorLoadingTheme": "Errore nel caricamento del tema."
+      }
+    }
+  },
+  "es-ES": {
+    "campaignSuitePage": {
+      "preview": {
+        "loadingTheme": "Ensamblando el tema...",
+        "errorLoadingTheme": "Error al cargar el tema."
+      }
+    }
+  },
+  "en-US": {
+    "campaignSuitePage": {
+      "preview": {
+        "loadingTheme": "Assembling theme...",
+        "errorLoadingTheme": "Error loading theme."
+      }
+    }
+  },
+  "pt-BR": {
+    "campaignSuitePage": {
+      "preview": {
+        "loadingTheme": "Montando o tema...",
+        "errorLoadingTheme": "Erro ao carregar o tema."
+      }
+    }
+  }
+}

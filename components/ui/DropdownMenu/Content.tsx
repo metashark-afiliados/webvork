@@ -1,9 +1,9 @@
-// components/ui/DropdownMenu/Content.tsx
+// RUTA: components/ui/DropdownMenu/Content.tsx
 /**
  * @file Content.tsx
  * @description Panel de contenido animado y accesible para el DropdownMenu.
- *              Gestiona su visibilidad y el cierre automático.
- * @version 5.0.0
+ *              Gestiona su visibilidad, animación MEA/UX y el cierre automático.
+ * @version 5.1.0 (Holistic Elite Leveling)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -12,6 +12,7 @@ import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import { useDropdownMenuContext } from "./Context";
+import { logger } from "@/lib/logging";
 
 interface ContentProps {
   children: React.ReactNode;
@@ -19,14 +20,9 @@ interface ContentProps {
   align?: "start" | "end";
 }
 
-/**
- * @component Content
- * @description El contenedor que aparece cuando el menú está abierto. Incluye
- *              animaciones y lógica para cerrarse al hacer clic fuera o presionar Escape.
- */
 export const Content = React.forwardRef<HTMLDivElement, ContentProps>(
   ({ children, className, align = "end" }, ref) => {
-    console.log("[Observabilidad] Renderizando DropdownMenu.Content");
+    logger.trace("[DropdownMenu.Content] Renderizando panel de contenido.");
     const { isOpen, setIsOpen } = useDropdownMenuContext();
     const internalRef = React.useRef<HTMLDivElement>(null);
 
@@ -66,7 +62,7 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
             transition={{ duration: 0.1, ease: "easeOut" }}
             className={twMerge(
-              "absolute z-50 mt-2 w-56 rounded-md bg-background shadow-lg ring-1 ring-white/10 focus:outline-none",
+              "absolute z-50 mt-2 w-56 rounded-md bg-popover text-popover-foreground shadow-lg ring-1 ring-border focus:outline-none",
               align === "end"
                 ? "right-0 origin-top-right"
                 : "left-0 origin-top-left",
@@ -85,4 +81,3 @@ export const Content = React.forwardRef<HTMLDivElement, ContentProps>(
   }
 );
 Content.displayName = "DropdownMenuContent";
-// components/ui/DropdownMenu/Content.tsx

@@ -1,10 +1,9 @@
-// app/[locale]/(dev)/login/page.tsx
+// RUTA: app/[locale]/(dev)/login/page.tsx
 /**
  * @file page.tsx
- * @description Página de login para el Developer Command Center (DCC).
- *              v2.2.0 (Code Hygiene): Se elimina la importación no utilizada
- *              de 'Dictionary' para cumplir con las reglas de ESLint.
- * @version 2.2.0
+ * @description Página de login para el Developer Command Center (DCC). Orquesta
+ *              la carga de datos i18n y la composición de la UI con animaciones de élite.
+ * @version 3.0.0 (Holistic Elite Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -21,11 +20,14 @@ import {
 } from "@/components/ui/Card";
 import { LoginForm } from "./_components/LoginForm";
 import { logger } from "@/lib/logging";
+import { notFound } from "next/navigation";
+import { DeveloperErrorDisplay } from "@/components/dev";
 
 interface DevLoginPageProps {
   params: { locale: Locale };
 }
 
+// SSoT para las imágenes de fondo.
 const backgroundImages = [
   "/img/dev/login/bg-1.png",
   "/img/dev/login/bg-2.png",
@@ -38,26 +40,30 @@ export default async function DevLoginPage({
   params: { locale },
 }: DevLoginPageProps) {
   logger.info(
-    `[DevLoginPage] Renderizando la página de login para locale: ${locale}`
+    `[DevLoginPage] Renderizando v3.0 (Elite Compliance) para locale: ${locale}`
   );
 
-  const { dictionary } = await getDictionary(locale);
+  const { dictionary, error } = await getDictionary(locale);
   const content = dictionary.devLoginPage;
+  const headerContent = dictionary.header; // Para el alt text del logo
 
-  if (!content) {
-    logger.error(
-      `[DevLoginPage] Contenido 'devLoginPage' no encontrado para locale: '${locale}'.`
-    );
+  // --- Pilar III: Guardia de Resiliencia Robusta ---
+  if (error || !content || !headerContent) {
+    const errorMessage =
+      "Fallo al cargar el contenido i18n para la página de Login del DCC.";
+    logger.error(`[DevLoginPage] ${errorMessage}`, { error });
+    if (process.env.NODE_ENV === "production") {
+      return notFound();
+    }
     return (
-      <div className="flex items-center justify-center min-h-screen text-center text-destructive p-8">
-        <div>
-          <h2 className="text-2xl font-bold">Error de Contenido</h2>
-          <p>
-            El contenido para la página de login de desarrollo no se encontró en
-            el diccionario.
-          </p>
-        </div>
-      </div>
+      <DeveloperErrorDisplay
+        context="DevLoginPage"
+        errorMessage={errorMessage}
+        errorDetails={
+          error ||
+          "Las claves 'devLoginPage' o 'header' faltan en el diccionario."
+        }
+      />
     );
   }
 
@@ -69,8 +75,8 @@ export default async function DevLoginPage({
       <header className="absolute top-0 left-0 w-full p-6 z-20">
         <Link href={`/${locale}`}>
           <Image
-            src="/img/layout/header/globalfitwell-logo-v2.svg"
-            alt="Global Fitwell Logo"
+            src={headerContent.logoUrl}
+            alt={headerContent.logoAlt} // Pilar I: Cero Texto Hardcodeado
             width={150}
             height={28}
             className="h-7 w-auto"
@@ -92,6 +98,11 @@ export default async function DevLoginPage({
       </div>
 
       <main className="relative z-10 flex w-full max-w-md flex-col items-center">
+        {/*
+          Este componente es un Server Component. La animación de entrada es
+          manejada por su hijo Client Component <LoginForm />, lo cual es la
+          arquitectura correcta para MEA/UX.
+        */}
         <Card className="w-full bg-background/50 backdrop-blur-lg border-white/10 shadow-2xl">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-primary">
@@ -107,4 +118,3 @@ export default async function DevLoginPage({
     </div>
   );
 }
-// app/[locale]/(dev)/login/page.tsx

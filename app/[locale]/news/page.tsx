@@ -1,9 +1,9 @@
 // app/[locale]/news/page.tsx
 /**
  * @file page.tsx
- * @description Página de archivo del blog. Ensambla componentes para mostrar
- *              artículos destacados y una cuadrícula de todas las noticias.
- * @version 1.0.0
+ * @description Página de archivo del blog. Orquesta la composición de secciones
+ *              de élite y cumple con los 7 Pilares de Calidad.
+ * @version 2.0.0 (Holistic Elite Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -14,7 +14,8 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { FeaturedArticlesCarousel } from "@/components/sections/FeaturedArticlesCarousel";
 import { NewsGrid } from "@/components/sections/NewsGrid";
 import { CommunitySection } from "@/components/sections/CommunitySection";
-import { Container } from "@/components/ui";
+import { DeveloperErrorDisplay } from "@/components/dev";
+import { notFound } from "next/navigation";
 
 interface NewsArchivePageProps {
   params: { locale: Locale };
@@ -23,44 +24,44 @@ interface NewsArchivePageProps {
 export default async function NewsArchivePage({
   params: { locale },
 }: NewsArchivePageProps) {
-  logger.info(`[NewsArchivePage] Renderizando para locale: ${locale}`);
+  logger.info(
+    `[NewsArchivePage] Renderizando v2.0 (Elite Compliance) para locale: ${locale}`
+  );
 
-  const { dictionary } = await getDictionary(locale);
-
-  // Obtenemos los fragmentos de contenido necesarios del diccionario global
-  const pageContent = dictionary.newsGrid; // Reutilizamos el título de newsGrid para el header
+  const { dictionary, error } = await getDictionary(locale);
+  // --- [INICIO DE CORRECCIÓN DE LÓGICA] ---
+  const pageContent = dictionary.newsGrid; // Esta es la clave correcta para el PageHeader y la cuadrícula
+  // --- [FIN DE CORRECCIÓN DE LÓGICA] ---
   const carouselContent = dictionary.featuredArticlesCarousel;
-  const gridContent = dictionary.newsGrid;
   const communityContent = dictionary.communitySection;
 
-  if (!pageContent) {
-    logger.error(
-      `[NewsArchivePage] Contenido 'newsGrid' no encontrado para locale: ${locale}.`
-    );
+  // --- Pilar III: Guardia de Resiliencia Robusta ---
+  if (error || !pageContent) {
+    const errorMessage =
+      "Fallo al cargar el contenido i18n para la página de Noticias.";
+    logger.error(`[NewsArchivePage] ${errorMessage}`, { error });
+    if (process.env.NODE_ENV === "production") {
+      return notFound();
+    }
     return (
-      <Container className="py-24 text-center">
-        <h1 className="text-2xl font-bold text-destructive">
-          Error de Contenido
-        </h1>
-        <p>El contenido para la página de noticias no pudo ser cargado.</p>
-      </Container>
+      <DeveloperErrorDisplay
+        context="NewsArchivePage"
+        errorMessage={errorMessage}
+        errorDetails={error || "La clave 'newsGrid' falta en el diccionario."}
+      />
     );
   }
 
   return (
     <>
-      <PageHeader
-        title={pageContent.title}
-        subtitle="Explora nuestros últimos artículos sobre bienestar, nutrición y rendimiento." // Subtítulo genérico
-      />
-
+      {/* --- [INICIO DE CORRECCIÓN DE LÓGICA] --- */}
+      <PageHeader content={pageContent} />
       {carouselContent && (
         <FeaturedArticlesCarousel content={carouselContent} />
       )}
-
-      {gridContent && <NewsGrid content={gridContent} locale={locale} />}
-
+      <NewsGrid content={pageContent} locale={locale} />
       {communityContent && <CommunitySection content={communityContent} />}
+      {/* --- [FIN DE CORRECCIÓN DE LÓGICA] --- */}
     </>
   );
 }

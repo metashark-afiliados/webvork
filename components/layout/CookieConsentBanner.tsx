@@ -1,20 +1,10 @@
 // RUTA: components/layout/CookieConsentBanner.tsx
-
 /**
  * @file CookieConsentBanner.tsx
  * @description Banner de consentimiento de cookies de élite, con animación y
- *              adherencia a los 5 pilares de calidad.
- * @version 3.0.0 (Holistic Elite Leveling & MEA)
+ *              adherencia a los 7 Pilares de Calidad.
+ * @version 3.1.0 (Holistic Integrity Restoration)
  * @author RaZ Podestá - MetaShark Tech
- * @see Directiva 026: The Elite Apparatus Quality Manifesto
- *
- * @description_extended Este componente de cliente gestiona la visualización del
- *              banner de consentimiento. Se suscribe al hook `useCookieConsent`
- *              para determinar si debe renderizarse. Para cumplir con el pilar de
- *              "Experiencia Adrenalínica" (MEA), utiliza `framer-motion` para
- *              presentarse con una animación de deslizamiento suave desde la parte
- *              inferior de la pantalla, en lugar de una aparición abrupta.
- *              Es completamente data-driven y temable.
  */
 "use client";
 
@@ -27,32 +17,17 @@ import { Container } from "@/components/ui/Container";
 import { logger } from "@/lib/logging";
 import type { Dictionary } from "@/lib/schemas/i18n.schema";
 
-// Se extrae el tipo del contenido desde la SSoT (Dictionary) para un contrato robusto.
+// El tipo ahora se infiere del schema corregido y es completo.
 type CookieConsentContent = NonNullable<Dictionary["cookieConsentBanner"]>;
 
-/**
- * @interface CookieConsentBannerProps
- * @description Define el contrato de props para el componente CookieConsentBanner.
- */
 interface CookieConsentBannerProps {
-  /**
-   * @param {CookieConsentContent} content - El objeto de contenido i18n validado,
-   *        que contiene todas las cadenas de texto necesarias para la UI del banner.
-   */
   content: CookieConsentContent;
 }
 
-/**
- * @function CookieConsentBanner
- * @param {CookieConsentBannerProps} props - Las props del componente.
- * @returns {React.ReactElement} El componente JSX del banner de cookies.
- */
 export function CookieConsentBanner({
   content,
 }: CookieConsentBannerProps): React.ReactElement {
-  logger.info(
-    "[CookieConsentBanner] Renderizando componente de élite (v3.0 - MEA)."
-  );
+  logger.info("[CookieConsentBanner] Renderizando componente de élite (v3.1).");
   const { hasBeenSet, accept, reject } = useCookieConsent();
 
   const bannerVariants = {
@@ -79,6 +54,7 @@ export function CookieConsentBanner({
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <p className="text-sm text-cookie-banner-foreground/80 text-center sm:text-left">
                 {content.message}{" "}
+                {/* --- CORRECCIÓN DE CONTRATO APLICADA --- */}
                 <Link
                   href={content.policyLinkHref}
                   className="underline hover:text-primary"

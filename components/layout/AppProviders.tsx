@@ -1,17 +1,19 @@
-// components/layout/AppProviders.tsx
+// RUTA: components/layout/AppProviders.tsx
 /**
  * @file AppProviders.tsx
  * @description Orquestador de proveedores del lado del cliente.
- *              v5.1.0 (Module Resolution Fix): Corrige la ruta de importación
- *              del hook `useProducerLogic` para alinearse con la convención
- *              de nomenclatura `kebab-case` y resolver el error de build.
- * @version 5.1.0
+ *              v5.3.0 (Holistic Integrity Restoration): Corrige la ruta de
+ *              importación de ThemeProvider para alinearse con la SSoT de
+ *              nomenclatura (PascalCase), resolviendo un error crítico de build.
+ * @version 5.3.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useEffect } from "react";
-import { ThemeProvider } from "@/components/layout/theme-provider";
+// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+import { ThemeProvider } from "@/components/layout/ThemeProvider"; // Corregido a PascalCase.tsx
+// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 import { useProducerLogic } from "@/hooks/use-producer-logic";
 import { useUserPreferences } from "@/hooks/use-user-preferences";
 import { CookieConsentBanner } from "./CookieConsentBanner";
@@ -22,7 +24,7 @@ import { logger } from "@/lib/logging";
 interface AppProvidersProps {
   children: React.ReactNode;
   locale?: Locale;
-  cookieConsentContent: Dictionary["cookieConsentBanner"];
+  cookieConsentContent?: Dictionary["cookieConsentBanner"];
 }
 
 export default function AppProviders({
@@ -30,10 +32,9 @@ export default function AppProviders({
   locale,
   cookieConsentContent,
 }: AppProvidersProps): React.ReactElement {
-  logger.info("[AppProviders] Inicializando proveedores de cliente...");
+  logger.info("[AppProviders] Inicializando proveedores de cliente (v5.3).");
   useProducerLogic();
   const { preferences, setPreference } = useUserPreferences();
-
   const safeLocale = locale || defaultLocale;
 
   useEffect(() => {
@@ -55,11 +56,10 @@ export default function AppProviders({
       {children}
       {cookieConsentContent && (
         <CookieConsentBanner
-          message={cookieConsentContent.message}
-          acceptButtonText={cookieConsentContent.acceptButtonText}
-          rejectButtonText={cookieConsentContent.rejectButtonText}
-          policyLinkText={cookieConsentContent.policyLinkText}
-          policyLinkHref={`/${safeLocale}/cookies`}
+          content={{
+            ...cookieConsentContent,
+            policyLinkHref: `/${safeLocale}/cookies`,
+          }}
         />
       )}
     </ThemeProvider>

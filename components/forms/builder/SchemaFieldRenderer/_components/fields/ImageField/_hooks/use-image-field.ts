@@ -1,15 +1,19 @@
-// components/forms/builder/SchemaFieldRenderer/_components/fields/ImageField/_hooks/useImageField.ts
+// RUTA: components/forms/builder/SchemaFieldRenderer/_components/fields/ImageField/_hooks/use-image-field.ts
 /**
- * @file useImageField.ts
+ * @file use-image-field.ts
  * @description Hook "cerebro" puro para la lógica de acciones del ImageField.
- * @version 3.0.0 (Elite Logic Provider)
+ *              v3.2.0 (Module Resolution Fix): Corrige la ruta de importación
+ *              de `useCampaignDraft` para alinearse con la SSoT de nomenclatura.
+ * @version 3.2.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
-import { useCampaignDraft } from "@/app/[locale]/(dev)/dev/campaign-suite/_hooks/useCampaignDraft";
+// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
+import { useCampaignDraft } from "@/app/[locale]/(dev)/dev/campaign-suite/_hooks/use-campaign-draft";
+// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 import { saveCampaignAssetAction } from "@/app/[locale]/(dev)/dev/campaign-suite/_actions";
 import type { BaviAsset } from "@/lib/schemas/bavi/bavi.manifest.schema";
 import type { FieldValues, Path } from "react-hook-form";
@@ -77,4 +81,3 @@ export function useImageField<TFieldValues extends FieldValues>(
     handleAssetSelected,
   };
 }
-// components/forms/builder/SchemaFieldRenderer/_components/fields/ImageField/_hooks/useImageField.ts
