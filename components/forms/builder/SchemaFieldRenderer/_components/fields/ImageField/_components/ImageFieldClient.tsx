@@ -18,13 +18,15 @@ import { getCurrentLocaleFromPathname } from "@/lib/i18n.utils";
 import { AssetSelectorModal } from "@/app/[locale]/(dev)/bavi/_components";
 import { useImageField } from "../_hooks/use-image-field";
 import { ImagePreview, ImageFieldActions } from "./";
-import type { FieldComponentProps } from "../../../_types/field.types";
+// --- [INICIO DE CORRECCIÓN DE RUTA Y CONTRATO] ---
+import type { FieldComponentProps } from "../../../../_types/field.types";
 import type { BaviI18nContent } from "../ImageField";
 
 interface ImageFieldClientProps<TFieldValues extends FieldValues>
   extends FieldComponentProps<TFieldValues> {
   i18nContent: BaviI18nContent;
 }
+// --- [FIN DE CORRECCIÓN DE RUTA Y CONTRATO] ---
 
 export function ImageFieldClient<TFieldValues extends FieldValues>({
   field,

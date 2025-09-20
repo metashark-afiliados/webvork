@@ -13,7 +13,8 @@
       "previousPageButton": "Precedente",
       "nextPageButton": "Successivo",
       "pageInfo": "Pagina {{currentPage}} di {{totalPages}}",
-      "viewDetailsButton": "Vedi Dettagli"
+      "viewDetailsButton": "Vedi Dettagli",
+      "selectAssetButton": "Seleziona"
     }
   },
   "es-ES": {
@@ -30,7 +31,8 @@
       "previousPageButton": "Anterior",
       "nextPageButton": "Siguiente",
       "pageInfo": "Página {{currentPage}} de {{totalPages}}",
-      "viewDetailsButton": "Ver Detalles"
+      "viewDetailsButton": "Ver Detalles",
+      "selectAssetButton": "Seleccionar"
     }
   },
   "en-US": {
@@ -47,7 +49,8 @@
       "previousPageButton": "Previous",
       "nextPageButton": "Next",
       "pageInfo": "Page {{currentPage}} of {{totalPages}}",
-      "viewDetailsButton": "View Details"
+      "viewDetailsButton": "View Details",
+      "selectAssetButton": "Select"
     }
   },
   "pt-BR": {
@@ -64,7 +67,8 @@
       "previousPageButton": "Anterior",
       "nextPageButton": "Próximo",
       "pageInfo": "Página {{currentPage}} de {{totalPages}}",
-      "viewDetailsButton": "Ver Detalhes"
+      "viewDetailsButton": "Ver Detalhes",
+      "selectAssetButton": "Selecionar"
     }
   }
 }

@@ -2,18 +2,21 @@
 /**
  * @file use-nos3-tracker.ts
  * @description Hook soberano y orquestador para el colector de `nos3`.
- *              v1.1.0 (Holistic Integrity & Type Safety): Resuelve errores de
- *              linting y de tipo. Define explícitamente el tipo de evento de
- *              `rrweb` y asegura que todas las variables declaradas se utilicen,
- *              restaurando la integridad del build.
- * @version 1.1.0
+ *              v2.0.0 (Official Types): Refactorizado para usar el tipo oficial
+ *              `eventWithTime` de `@rrweb/types`, garantizando la máxima
+ *              compatibilidad y seguridad de tipos.
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { record, type eventWithTime } from "rrweb"; // Importamos el tipo de evento
+import { record } from "rrweb";
+// --- [INICIO DE REFACTORIZACIÓN ARQUITECTÓNICA] ---
+// Se importa el tipo oficial desde su propio paquete.
+import type { eventWithTime } from "@rrweb/types";
+// --- [FIN DE REFACTORIZACIÓN ARQUITECTÓNICA] ---
 import { createId } from "@paralleldrive/cuid2";
 import { logger } from "@/lib/logging";
 
@@ -21,12 +24,10 @@ const SESSION_STORAGE_KEY = "nos3_session_id";
 const BATCH_INTERVAL_MS = 15000;
 const MAX_EVENTS_PER_BATCH = 100;
 
-// Usamos el tipo exportado por rrweb para eliminar el 'any' implícito.
-type RrwebEvent = eventWithTime;
-
 export function useNos3Tracker(enabled: boolean): void {
   const isRecording = useRef(false);
-  const eventsBuffer = useRef<RrwebEvent[]>([]);
+  // El buffer ahora utiliza el tipo oficial.
+  const eventsBuffer = useRef<eventWithTime[]>([]);
   const pathname = usePathname();
 
   const getOrCreateSessionId = useCallback((): string => {
@@ -39,7 +40,6 @@ export function useNos3Tracker(enabled: boolean): void {
       }
       return sessionId;
     } catch (error) {
-      // La variable 'error' ahora se usa en el log.
       logger.warn(
         "[nos3-colector] sessionStorage no está disponible. Usando ID efímero.",
         { error }
@@ -90,7 +90,6 @@ export function useNos3Tracker(enabled: boolean): void {
           );
         }
       } catch (error) {
-        // La variable 'error' ahora se usa en el log.
         logger.error("[nos3-colector] Fallo al enviar lote de eventos.", {
           error,
         });
@@ -112,9 +111,8 @@ export function useNos3Tracker(enabled: boolean): void {
 
     const intervalId = setInterval(flushEvents, BATCH_INTERVAL_MS);
 
-    // Se usa el tipo explícito `RrwebEvent` para el parámetro del callback.
     const stopRecording = record({
-      emit(event: RrwebEvent) {
+      emit(event: eventWithTime) { // Ahora se usa el tipo oficial directamente.
         eventsBuffer.current.push(event);
         if (eventsBuffer.current.length >= MAX_EVENTS_PER_BATCH) {
           flushEvents();
