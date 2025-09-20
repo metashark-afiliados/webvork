@@ -47,6 +47,8 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@rrweb/types": "2.0.0-alpha.18",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.57.4",
     "@types/object-hash": "^3.0.6",
     "@vercel/blob": "^2.0.0",
     "@vercel/og": "^0.8.5",

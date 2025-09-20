@@ -1,27 +1,17 @@
-// lib/schemas/pages/store-page.schema.ts
+// RUTA: shared/lib/schemas/pages/store-page.schema.ts
 /**
-@file store-page.schema.ts
-@description SSoT para el contrato de datos de la Tienda v2.0 (Stripe-Ready).
-@version 2.3.0 (Type Export Fix)
-@author RaZ Podestá - MetaShark Tech
-*/
+ * @file store-page.schema.ts
+ * @description SSoT para el contrato de datos de la Tienda v3.0 (Data by Reference).
+ *              Ahora define qué productos mostrar por referencia (ID), en lugar
+ *              de contener los datos completos del producto.
+ * @version 3.0.0
+ * @author RaZ Podestá - MetaShark Tech
+ */
 import { z } from "zod";
-export const ProductCardSchema = z.object({
-  id: z.string().min(1, "El ID de producto es obligatorio."),
-  stripePriceId: z.string().startsWith("price_").optional(),
-  name: z.string(),
-  category: z.string(),
-  price: z.number(),
-  imageUrl: z.string().startsWith("/"),
-  slug: z.string().min(1),
-  tags: z.array(z.string()),
-  inventory: z.number().int().min(0),
-  rating: z.number().min(0).max(5).optional(),
-  isBestseller: z.boolean().optional(),
-});
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-export type ProductCardData = z.infer<typeof ProductCardSchema>;
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
+
+// Se elimina la definición de ProductCardSchema. La SSoT para la entidad
+// Producto es ahora 'shared/lib/schemas/entities/product.schema.ts'.
+
 export const StorePageLocaleSchema = z.object({
   storePage: z
     .object({
@@ -30,6 +20,7 @@ export const StorePageLocaleSchema = z.object({
       filters: z.object({
         searchLabel: z.string(),
         searchPlaceholder: z.string(),
+        categoryTitle: z.string(),
         priceTitle: z.string(),
         tagsTitle: z.string(),
         stockTitle: z.string(),
@@ -38,8 +29,11 @@ export const StorePageLocaleSchema = z.object({
       bestsellerLabel: z.string(),
       addToCartButton: z.string(),
       viewDetailsButton: z.string(),
-      products: z.array(ProductCardSchema),
+      // --- CAMBIO ARQUITECTÓNICO CLAVE ---
+      // El contrato ahora es un array de IDs de producto.
+      products: z.array(
+        z.string().min(1, "El ID del producto no puede estar vacío.")
+      ),
     })
     .optional(),
 });
-// lib/schemas/pages/store-page.schema.ts

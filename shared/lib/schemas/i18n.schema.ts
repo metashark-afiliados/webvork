@@ -1,10 +1,8 @@
-// lib/schemas/i18n.schema.ts
+// RUTA: shared/lib/schemas/i18n.schema.ts
 /**
  * @file i18n.schema.ts
- * @description Aparato ensamblador y SSoT para el contrato de datos del diccionario i18n.
- *              v19.5.0 (ValidationError Integration): Integra el schema de contenido
- *              para el componente de élite de errores de validación.
- * @version 19.5.0
+ * @description Aparato ensamblador y SSoT para el contrato del diccionario i18n.
+ * @version 20.1.0 (Holistic Schema Integrity - Suite Composer Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -23,9 +21,7 @@ import { DevTestPageLocaleSchema } from "@/shared/lib/schemas/pages/dev-test-pag
 import { CampaignSuiteLocaleSchema } from "@/shared/lib/schemas/pages/dev-campaign-suite.schema";
 import { BaviHomePageLocaleSchema } from "./pages/bavi-home-page.schema";
 import { BaviAssetExplorerLocaleSchema } from "./pages/bavi-asset-explorer.i18n.schema";
-// --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
 import { RaZPromptsHomePageLocaleSchema } from "./pages/raz-prompts-home-page.schema";
-// --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
 
 // --- GRUPO 3: Schemas de Componentes de Layout y UI ---
 import { HeaderLocaleSchema } from "./components/header.schema";
@@ -39,6 +35,9 @@ import { LanguageSwitcherLocaleSchema } from "./components/language-switcher.sch
 import { PageHeaderLocaleSchema } from "./components/page-header.schema";
 import { CartLocaleSchema } from "./components/cart.schema";
 import { ValidationErrorLocaleSchema } from "./components/validation-error.schema";
+// --- INICIO DE CORRECCIÓN ---
+import { SuiteStyleComposerLocaleSchema } from "./components/dev/suite-style-composer.schema";
+// --- FIN DE CORRECCIÓN ---
 
 // --- GRUPO 4: Schemas de Componentes de Sección ---
 import { BenefitsSectionLocaleSchema } from "./components/benefits-section.schema";
@@ -73,11 +72,10 @@ import { DockLocaleSchema } from "@/components/razBits/Dock/dock.schema";
 import { LightRaysLocaleSchema } from "@/components/razBits/LightRays/light-rays.schema";
 import { MagicBentoLocaleSchema } from "@/components/razBits/MagicBento/magic-bento.schema";
 
-logger.trace("[Schema i18n v19.5] Ensamblando schema maestro optimizado...");
+logger.trace("[Schema i18n v20.1] Ensamblando schema maestro optimizado...");
 
 export const i18nSchema = z
   .object({
-    // --- Global & Portal Pages ---
     ...GlobalsLocaleSchema.shape,
     ...StorePageLocaleSchema.shape,
     ...NotFoundPageLocaleSchema.shape,
@@ -85,19 +83,13 @@ export const i18nSchema = z
     privacyPage: TextPageContentSchema.optional(),
     termsPage: TextPageContentSchema.optional(),
     cookiesPage: TextPageContentSchema.optional(),
-
-    // --- Dev Command Center Pages ---
     ...DevDashboardLocaleSchema.shape,
     ...DevLoginPageLocaleSchema.shape,
     ...DevTestPageLocaleSchema.shape,
     ...CampaignSuiteLocaleSchema.shape,
     ...BaviHomePageLocaleSchema.shape,
     ...BaviAssetExplorerLocaleSchema.shape,
-    // --- [INICIO DE CORRECCIÓN DE INTEGRIDAD] ---
     ...RaZPromptsHomePageLocaleSchema.shape,
-    // --- [FIN DE CORRECCIÓN DE INTEGRIDAD] ---
-
-    // --- Layout & UI Components ---
     ...HeaderLocaleSchema.shape,
     ...FooterLocaleSchema.shape,
     ...CookieConsentBannerLocaleSchema.shape,
@@ -109,8 +101,9 @@ export const i18nSchema = z
     ...PageHeaderLocaleSchema.shape,
     ...CartLocaleSchema.shape,
     ...ValidationErrorLocaleSchema.shape,
-
-    // --- Section Components ---
+    // --- INICIO DE CORRECCIÓN ---
+    ...SuiteStyleComposerLocaleSchema.shape,
+    // --- FIN DE CORRECCIÓN ---
     ...BenefitsSectionLocaleSchema.shape,
     ...CommunitySectionLocaleSchema.shape,
     ...ContactSectionLocaleSchema.shape,
@@ -134,8 +127,6 @@ export const i18nSchema = z
     ...TestimonialCarouselSectionLocaleSchema.shape,
     ...TestimonialGridLocaleSchema.shape,
     ...ThumbnailCarouselLocaleSchema.shape,
-
-    // --- Additional Ecosystems ---
     ...BaviUploaderLocaleSchema.shape,
     ...PromptCreatorLocaleSchema.shape,
     ...PromptVaultLocaleSchema.shape,
@@ -146,4 +137,3 @@ export const i18nSchema = z
   .passthrough();
 
 export type Dictionary = z.infer<typeof i18nSchema>;
-// lib/schemas/i18n.schema.ts

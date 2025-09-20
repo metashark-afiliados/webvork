@@ -1,4 +1,4 @@
-// lib/schemas/components/benefits-section.schema.ts
+// RUTA: shared/lib/schemas/components/benefits-section.schema.ts
 /**
  * @file benefits-section.schema.ts
  * @description SSoT para el contrato de datos y UI del componente BenefitsSection.
@@ -24,11 +24,7 @@ const BenefitItemSchema = z.object({
     ),
 });
 
-// --- [INICIO DE REFACTORIZACIÓN ARQUITECTÓNICA] ---
-// Se exporta el tipo inferido para que los componentes consumidores puedan
-// importarlo directamente, estableciendo este archivo como la SSoT.
 export type BenefitItem = z.infer<typeof BenefitItemSchema>;
-// --- [FIN DE REFACTORIZACIÓN ARQUITECTÓNICA] ---
 
 export const BenefitsSectionContentSchema = z.object({
   eyebrow: z.string().describe("ui:label:Texto Introductorio (Eyebrow)"),
@@ -42,4 +38,3 @@ export const BenefitsSectionContentSchema = z.object({
 export const BenefitsSectionLocaleSchema = z.object({
   benefitsSection: BenefitsSectionContentSchema.optional(),
 });
-// lib/schemas/components/benefits-section.schema.ts

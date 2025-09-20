@@ -1,10 +1,9 @@
-// lib/schemas/components/featured-articles-carousel.schema.ts
+// RUTA: shared/lib/schemas/components/featured-articles-carousel.schema.ts
 /**
  * @file featured-articles-carousel.schema.ts
- * @description Esquema de Zod para el contenido i18n del FeaturedArticlesCarousel.
- *              - v2.0.0 (Architectural Fix): Desacopla el schema de contenido del schema
- *                de locale para resolver errores de tipo en los consumidores.
- * @version 2.0.0
+ * @description SSoT para el contrato de datos del contenido i18n del
+ *              componente FeaturedArticlesCarousel.
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -53,11 +52,3 @@ export const FeaturedArticlesCarouselContentSchema = z.object({
 export const FeaturedArticlesCarouselLocaleSchema = z.object({
   featuredArticlesCarousel: FeaturedArticlesCarouselContentSchema.optional(),
 });
-
-export const FeaturedArticlesCarouselI18nSchema = z.object({
-  "it-IT": FeaturedArticlesCarouselLocaleSchema,
-  "es-ES": FeaturedArticlesCarouselLocaleSchema,
-  "en-US": FeaturedArticlesCarouselLocaleSchema,
-  "pt-BR": FeaturedArticlesCarouselLocaleSchema,
-});
-// lib/schemas/components/featured-articles-carousel.schema.ts

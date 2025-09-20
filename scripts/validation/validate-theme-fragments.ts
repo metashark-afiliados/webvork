@@ -1,36 +1,40 @@
 // scripts/validation/validate-theme-fragments.ts
 /**
  * @file validate-theme-fragments.ts
- * @description Script de validación que actúa como un guardián de calidad.
- *              v1.1.0 (Linter Hygiene & Observability): Resuelve la advertencia
- *              'no-unused-vars' y mejora el logging de errores al incluir
- *              detalles del error de parsing en la salida de la consola.
- * @version 1.1.0
+ * @description Guardián de Integridad de Temas. Audita los `campaign.map.json`
+ *              y reporta cualquier inconsistencia o desviación de la SSoT.
+ * @version 2.0.0 (Normalization Engine)
  * @author RaZ Podestá - MetaShark Tech
  */
-import * as fs from "fs/promises";
+import { promises as fs } from "fs";
 import * as path from "path";
 import chalk from "chalk";
-import { parseThemeNetString } from "@/shared/lib/theming/theme-utils.ts";
-import { netTracePrefixToPathMap } from "@/shared/lib/config/theming.config.ts";
+import { parseThemeNetString } from "@/shared/lib/theming/theme-utils";
+import { netTracePrefixToPathMap } from "@/shared/lib/config/theming.config";
+import { logger } from "@/shared/lib/logging";
 
 const CAMPAIGNS_DIR = path.resolve(process.cwd(), "content/campaigns");
-const FRAGMENTS_DIR = path.resolve(
-  process.cwd(),
-  "content/theme-fragments"
-);
+const FRAGMENTS_DIR = path.resolve(process.cwd(), "content/theme-fragments");
 
-async function validateFragments() {
-  console.log(
-    chalk.blue.bold("🚀 Iniciando validación de fragmentos de tema...")
+async function validateAllCampaignThemes() {
+  logger.startGroup(
+    "🛡️  Iniciando Guardián de Integridad de Temas (v2.0 - Normalization Engine)..."
   );
-  let errorsFound = 0;
+  let totalErrors = 0;
 
   try {
     const campaignDirs = await fs.readdir(CAMPAIGNS_DIR);
 
     for (const campaignId of campaignDirs) {
-      const mapPath = path.join(CAMPAIGNS_DIR, campaignId, "campaign.map.json");
+      const campaignPath = path.join(CAMPAIGNS_DIR, campaignId);
+      const campaignStat = await fs.stat(campaignPath);
+      if (!campaignStat.isDirectory()) continue;
+
+      console.log(
+        chalk.cyan(`\n🔎 Auditando Campaña: ${chalk.bold(campaignId)}`)
+      );
+
+      const mapPath = path.join(campaignPath, "campaign.map.json");
       try {
         const mapContent = await fs.readFile(mapPath, "utf-8");
         const campaignMap = JSON.parse(mapContent);
@@ -40,12 +44,22 @@ async function validateFragments() {
           if (!variant.theme) continue;
 
           const themePlan = parseThemeNetString(variant.theme);
+          const requiredPrefixes = ["cp", "ft", "rd"];
+          let variantErrors = 0;
 
-          for (const prefix in themePlan) {
-            const dir = netTracePrefixToPathMap[prefix];
-            if (!dir) continue;
-
+          // 1. Validar existencia de fragmentos
+          for (const prefix of requiredPrefixes) {
             const name = themePlan[prefix];
+            if (!name) {
+              logger.error(
+                `[Guardián] ¡Anomalía! Falta el prefijo '${prefix}' en el trazo NET.`,
+                { Campaña: campaignId, Variante: variant.name }
+              );
+              variantErrors++;
+              continue;
+            }
+
+            const dir = netTracePrefixToPathMap[prefix];
             const fragmentPath = path.join(
               FRAGMENTS_DIR,
               dir,
@@ -55,64 +69,63 @@ async function validateFragments() {
             try {
               await fs.access(fragmentPath);
             } catch {
-              console.error(
-                chalk.red.bold(`  🔥 ERROR: Fragmento no encontrado!`)
-              );
-              console.error(
-                chalk.red(
-                  `    - Mapa de Campaña: ${path.relative(process.cwd(), mapPath)}`
-                )
-              );
-              console.error(
-                chalk.red(
-                  `    - Variante: "${variant.name}" (ID: ${variantId})`
-                )
-              );
-              console.error(chalk.red(`    - Trazo NET: "${prefix}-${name}"`));
-              console.error(
-                chalk.red(
-                  `    - Ruta esperada: ${path.relative(process.cwd(), fragmentPath)}\n`
-                )
-              );
-              errorsFound++;
+              logger.error(`[Guardián] ¡Fragmento no encontrado!`, {
+                Campaña: campaignId,
+                Variante: variant.name,
+                "Trazo NET": variant.theme,
+                "Fragmento Faltante": `${prefix}-${name}`,
+                "Ruta Esperada": path.relative(process.cwd(), fragmentPath),
+              });
+              variantErrors++;
             }
           }
+
+          // 2. Proponer normalización (si no hay errores de existencia)
+          if (variantErrors === 0) {
+            const normalizedNet = requiredPrefixes
+              .map((p) => `${p}-${themePlan[p]}`)
+              .join(".");
+            if (variant.theme !== normalizedNet) {
+              console.log(
+                chalk.yellow(
+                  `   - [NORMALIZACIÓN SUGERIDA] Variante: "${variant.name}"`
+                )
+              );
+              console.log(chalk.red(`     - Actual:  "${variant.theme}"`));
+              console.log(chalk.green(`     - Sugerido: "${normalizedNet}"\n`));
+            }
+          }
+          totalErrors += variantErrors;
         }
       } catch (e) {
-        // --- [INICIO DE CORRECCIÓN DE LINTING Y OBSERVABILIDAD] ---
-        // La variable 'e' ahora se utiliza para proporcionar más contexto en el log,
-        // resolviendo la advertencia de ESLint y mejorando la depuración.
         const errorMessage = e instanceof Error ? e.message : String(e);
-        console.warn(
-          chalk.yellow(
-            `  ⚠️  Advertencia: No se pudo procesar ${mapPath}. Causa: ${errorMessage}`
-          )
+        logger.warn(
+          `No se pudo procesar ${path.relative(process.cwd(), mapPath)}. Causa: ${errorMessage}`
         );
-        // --- [FIN DE CORRECCIÓN DE LINTING Y OBSERVABILIDAD] ---
       }
     }
 
-    if (errorsFound > 0) {
+    logger.endGroup();
+
+    if (totalErrors > 0) {
       console.error(
         chalk.red.bold(
-          `\n❌ Validación fallida. Se encontraron ${errorsFound} fragmentos de tema faltantes.`
+          `\n❌ Auditoría fallida. Se encontraron ${totalErrors} errores críticos de congruencia.`
         )
       );
       process.exit(1);
     } else {
       console.log(
         chalk.green.bold(
-          "\n✅ Validación completada. Todos los fragmentos de tema referenciados existen."
+          "\n✅ Auditoría completada. Todos los temas son congruentes y están normalizados."
         )
       );
     }
   } catch (error) {
-    console.error(
-      chalk.red.bold("\n❌ Error crítico durante la validación:"),
-      error
-    );
+    logger.error("Error fatal durante la validación de temas:", { error });
     process.exit(1);
   }
 }
 
-validateFragments();
+validateAllCampaignThemes();
+// scripts/validation/validate-theme-fragments.ts

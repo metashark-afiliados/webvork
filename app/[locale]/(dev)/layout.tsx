@@ -1,23 +1,22 @@
 // RUTA: app/[locale]/(dev)/layout.tsx
-
 /**
  * @file layout.tsx
- * @description Layout raíz para el DCC.
- *              v7.4.0 (LanguageSwitcher Sync): Obtiene y pasa el contenido i18n
- *              para el nuevo componente de élite LanguageSwitcher y robustece
- *              la guardia de resiliencia de carga de datos.
- * @version 7.4.0
+ * @description Layout raíz para el DCC, con una arquitectura de datos
+ *              atómica, resiliente y con tipado corregido.
+ * @version 8.2.0 (Holistic Elite Compliance & Data Access Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 import { getDictionary } from "@/shared/lib/i18n";
 import { type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import AppProviders from "@/components/layout/AppProviders";
 import DevHeader from "@/components/dev/DevHeader";
-import { logger } from "@/shared/lib/logging";
 import { Container } from "@/components/ui/Container";
 import { WizardHeader } from "./dev/campaign-suite/_components/WizardHeader";
+import { DeveloperErrorDisplay } from "@/components/dev";
 import { getThemeFragmentsAction } from "./dev/campaign-suite/_actions/getThemeFragments.action";
 import { DevThemeSwitcher } from "@/components/dev";
 import { loadEdgeJsonAsset } from "@/shared/lib/i18n/i18n.edge";
@@ -35,33 +34,43 @@ export default async function DevLayout({
   params: { locale },
 }: DevLayoutProps) {
   logger.info(
-    `[DevLayout] Renderizando layout raíz del DCC v7.4 para locale: [${locale}]`
+    `[DevLayout] Renderizando layout raíz del DCC v8.2 para locale: [${locale}]`
   );
 
   const { dictionary, error } = await getDictionary(locale);
-  const pathname = headers().get("x-next-pathname") || "";
-  const isCampaignSuite = pathname.includes("/dev/campaign-suite/create");
 
   if (
     error ||
     !dictionary.devHeader ||
     !dictionary.devRouteMenu ||
     !dictionary.devDashboardPage ||
+    !dictionary.suiteStyleComposer ||
     !dictionary.cookieConsentBanner ||
     !dictionary.toggleTheme ||
-    !dictionary.languageSwitcher // <-- NUEVA GUARDIA
+    !dictionary.languageSwitcher ||
+    !dictionary.cart
   ) {
-    logger.error(`[DevLayout] Diccionario esencial no cargado.`, { error });
+    const errorMessage =
+      "Diccionario esencial para el DCC no cargado o incompleto.";
+    logger.error(`[DevLayout] ${errorMessage}`, { error });
+    if (process.env.NODE_ENV === "production") {
+      return notFound();
+    }
     return (
       <html lang={locale}>
         <body>
-          <div style={{ color: "hsl(var(--destructive))", padding: "20px" }}>
-            Error crítico al cargar el diccionario para el DCC.
-          </div>
+          <DeveloperErrorDisplay
+            context="DevLayout"
+            errorMessage={errorMessage}
+            errorDetails={error}
+          />
         </body>
       </html>
     );
   }
+
+  const pathname = headers().get("x-next-pathname") || "";
+  const isCampaignSuite = pathname.includes("/dev/campaign-suite/create");
 
   const fragmentsResult: ActionResult<DiscoveredFragments> =
     await getThemeFragmentsAction();
@@ -136,32 +145,10 @@ export default async function DevLayout({
     });
   }
 
-  const dccContent = dictionary.devDashboardPage;
-  const devSwitcherContent = {
-    customizeButton: dccContent.customizeButton,
-    composerTitle: dccContent.composerTitle,
-    composerDescription: dccContent.composerDescription,
-    composerColorsTab: dccContent.composerColorsTab,
-    composerTypographyTab: dccContent.composerTypographyTab,
-    composerGeometryTab: dccContent.composerGeometryTab,
-    composerSaveButton: dccContent.composerSaveButton,
-    composerCancelButton: dccContent.composerCancelButton,
-    selectThemeLabel: dccContent.selectThemeLabel,
-    selectFontLabel: dccContent.selectFontLabel,
-    selectRadiusLabel: dccContent.selectRadiusLabel,
-    defaultPresetName: dccContent.defaultPresetName,
-    colorFilterPlaceholder: dccContent.colorFilterPlaceholder,
-    fontFilterPlaceholder: dccContent.fontFilterPlaceholder,
-    radiusFilterPlaceholder: dccContent.radiusFilterPlaceholder,
-    fontSizeLabel: dccContent.fontSizeLabel,
-    fontWeightLabel: dccContent.fontWeightLabel,
-    lineHeightLabel: dccContent.lineHeightLabel,
-    letterSpacingLabel: dccContent.letterSpacingLabel,
-    borderRadiusLabel: dccContent.borderRadiusLabel,
-    borderWidthLabel: dccContent.borderWidthLabel,
-    baseSpacingUnitLabel: dccContent.baseSpacingUnitLabel,
-    inputHeightLabel: dccContent.inputHeightLabel,
-  };
+  // --- CORRECCIÓN ARQUITECTÓNICA ---
+  // Se extrae el contenido del compositor desde su propia clave soberana en
+  // la raíz del diccionario, alineándose con la nueva estructura de datos.
+  const devSwitcherContent = dictionary.suiteStyleComposer;
 
   return (
     <AppProviders
@@ -180,7 +167,7 @@ export default async function DevLayout({
         content={dictionary.devHeader}
         devMenuContent={dictionary.devRouteMenu}
         toggleThemeContent={dictionary.toggleTheme}
-        languageSwitcherContent={dictionary.languageSwitcher} // <-- NUEVO PASO DE PROP
+        languageSwitcherContent={dictionary.languageSwitcher}
       />
       <main className="py-8 md:py-12">
         <Container>{children}</Container>

@@ -1,14 +1,14 @@
-// components/sections/ProductInfo.tsx
+// RUTA: components/sections/ProductInfo.tsx
 /**
  * @file ProductInfo.tsx
  * @description Panel de información y acciones para la página de detalle de producto.
- * @version 1.0.0
+ * @version 2.1.0 (Holistic Elite Compliance & Full i18n)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useState } from "react";
-import { Button, DynamicIcon, Separator } from "@/components/ui";
+import { Button, DynamicIcon, Separator, Input, Label } from "@/components/ui";
 import { TextSection } from "@/components/sections/TextSection";
 import { useCartStore } from "@/shared/store/useCartStore";
 import type { z } from "zod";
@@ -41,9 +41,16 @@ const StarRating = ({ rating }: { rating: number }) => (
 );
 
 export function ProductInfo({ content }: ProductInfoProps) {
+  logger.info("[ProductInfo] Renderizando v2.1 (Full i18n).");
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCartStore();
-  const { productData, description, addToCartButton, quantityLabel } = content;
+  const {
+    productData,
+    description,
+    addToCartButton,
+    quantityLabel,
+    stockStatus,
+  } = content;
 
   const handleAddToCart = () => {
     logger.info(
@@ -52,11 +59,13 @@ export function ProductInfo({ content }: ProductInfoProps) {
     addItem(productData, quantity);
   };
 
+  const stockAvailable = productData.inventory.available > 0;
+
   return (
     <div className="flex flex-col gap-6">
       <div>
         <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-          {productData.category}
+          {productData.categorization.primary}
         </p>
         <h1 className="text-4xl lg:text-5xl font-bold text-foreground">
           {productData.name}
@@ -66,8 +75,9 @@ export function ProductInfo({ content }: ProductInfoProps) {
           {productData.rating && <StarRating rating={productData.rating} />}
           <span className="text-3xl font-bold text-primary">
             {new Intl.NumberFormat("it-IT", {
+              // Locale debería ser una prop en el futuro
               style: "currency",
-              currency: "EUR",
+              currency: productData.currency,
             }).format(productData.price)}
           </span>
         </div>
@@ -76,7 +86,7 @@ export function ProductInfo({ content }: ProductInfoProps) {
       <TextSection
         content={description}
         spacing="compact"
-        prose={false}
+        prose={true}
         className="py-0 text-muted-foreground"
       />
 
@@ -93,6 +103,7 @@ export function ProductInfo({ content }: ProductInfoProps) {
               size="icon"
               className="h-9 w-9"
               onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              disabled={!stockAvailable}
             >
               <DynamicIcon name="Minus" className="h-4 w-4" />
             </Button>
@@ -104,12 +115,14 @@ export function ProductInfo({ content }: ProductInfoProps) {
                 setQuantity(Math.max(1, parseInt(e.target.value) || 1))
               }
               className="h-9 w-16 text-center mx-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              disabled={!stockAvailable}
             />
             <Button
               variant="outline"
               size="icon"
               className="h-9 w-9"
               onClick={() => setQuantity((q) => q + 1)}
+              disabled={!stockAvailable}
             >
               <DynamicIcon name="Plus" className="h-4 w-4" />
             </Button>
@@ -120,6 +133,7 @@ export function ProductInfo({ content }: ProductInfoProps) {
           onClick={handleAddToCart}
           size="lg"
           className="w-full sm:w-auto flex-1"
+          disabled={!stockAvailable}
         >
           <DynamicIcon name="ShoppingCart" className="mr-2 h-5 w-5" />
           {addToCartButton}
@@ -127,47 +141,17 @@ export function ProductInfo({ content }: ProductInfoProps) {
       </div>
 
       <div className="text-sm text-center">
-        {productData.inventory > 0 ? (
+        {stockAvailable ? (
           <p className="text-green-600">
-            Disponibile ({productData.inventory} in magazzino)
+            {stockStatus.available.replace(
+              "{{count}}",
+              String(productData.inventory.available)
+            )}
           </p>
         ) : (
-          <p className="text-destructive">Attualmente non disponibile</p>
+          <p className="text-destructive">{stockStatus.unavailable}</p>
         )}
       </div>
     </div>
   );
 }
-
-// Pequeños componentes de UI que faltaban, añadidos aquí por completitud.
-const Label = React.forwardRef<
-  HTMLLabelElement,
-  React.LabelHTMLAttributes<HTMLLabelElement>
->(({ className, ...props }, ref) => (
-  <label
-    ref={ref}
-    className={cn(
-      "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-      className
-    )}
-    {...props}
-  />
-));
-Label.displayName = "Label";
-
-const Input = React.forwardRef<
-  HTMLInputElement,
-  React.InputHTMLAttributes<HTMLInputElement>
->(({ className, type, ...props }, ref) => (
-  <input
-    type={type}
-    className={cn(
-      "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
-      className
-    )}
-    ref={ref}
-    {...props}
-  />
-));
-Input.displayName = "Input";
-// components/sections/ProductInfo.tsx

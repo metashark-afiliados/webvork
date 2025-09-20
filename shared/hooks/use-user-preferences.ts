@@ -1,34 +1,25 @@
-// hooks/useUserPreferences.ts
+// RUTA: shared/hooks/use-user-preferences.ts
 /**
- * @file useUserPreferences.ts
+ * @file use-user-preferences.ts
  * @description Hook Soberano para la gestión de preferencias de usuario persistentes.
- *              - v2.0.0: Refactorizado para ser "SSR-safe". La inicialización
- *                del estado se retrasa a un `useEffect` para garantizar que
- *                `localStorage` solo se acceda en el lado del cliente.
- * @version 2.0.0
+ *              Es "SSR-safe", garantizando que localStorage solo se acceda en el cliente.
+ * @version 1.2.0 (Elite Linter Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { z } from "zod";
 import { logger } from "@/shared/lib/logging";
-import { supportedLocales, type Locale } from "@/shared/lib/i18n.config";
+import {
+  UserPreferencesSchema,
+  type UserPreferences,
+} from "@/shared/lib/schemas/entities/user-preferences.schema";
 
 const PREFERENCES_STORAGE_KEY = "user-preferences";
 
-const UserPreferencesSchema = z.object({
-  locale: z.enum(supportedLocales).optional(),
-  theme: z.enum(["light", "dark"]).optional(),
-});
-
-type UserPreferences = z.infer<typeof UserPreferencesSchema>;
-
 export const useUserPreferences = () => {
-  // [1] INICIALIZACIÓN SEGURA: Se inicializa con un estado vacío en el servidor.
   const [preferences, setPreferences] = useState<UserPreferences>({});
 
-  // [2] HIDRATACIÓN DEL LADO DEL CLIENTE: Este `useEffect` solo se ejecuta en el navegador.
   useEffect(() => {
     try {
       const storedItem = localStorage.getItem(PREFERENCES_STORAGE_KEY);
@@ -41,6 +32,10 @@ export const useUserPreferences = () => {
             "Preferencias de usuario cargadas desde localStorage.",
             validation.data
           );
+        } else {
+          logger.warn("Datos de preferencias en localStorage son inválidos.", {
+            errors: validation.error,
+          });
         }
       }
     } catch (error) {
@@ -48,14 +43,13 @@ export const useUserPreferences = () => {
         error,
       });
     }
-  }, []); // Se ejecuta solo una vez, al montar el componente en el cliente.
+  }, []);
 
   const setPreference = useCallback(
     <K extends keyof UserPreferences>(key: K, value: UserPreferences[K]) => {
       setPreferences((prev) => {
         const newPrefs = { ...prev, [key]: value };
         try {
-          // La escritura también se encapsula aquí para mayor seguridad.
           localStorage.setItem(
             PREFERENCES_STORAGE_KEY,
             JSON.stringify(newPrefs)

@@ -1,4 +1,4 @@
-// RUTA: lib/schemas/components/validation-error.schema.ts
+// RUTA: shared/lib/schemas/components/validation-error.schema.ts
 /**
  * @file validation-error.schema.ts
  * @description SSoT para el contrato de datos del contenido i18n del

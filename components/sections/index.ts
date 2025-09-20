@@ -4,7 +4,7 @@
  * @description Fachada pública para el módulo de componentes de sección.
  *              Exporta todos los componentes de sección para permitir importaciones
  *              limpias y centralizadas.
- * @version 1.0.0
+ * @version 2.1.0 (Architectural Classification Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 
@@ -23,12 +23,11 @@ export * from "./NewsGrid";
 export * from "./OrderSection";
 export * from "./PricingSection";
 export * from "./ProductShowcase";
-export * from "./SocialProofLogos";
-export * from "./TestimonialGrid";
-export * from "./ThumbnailCarousel";
-// Faltaban estos dos en la versión anterior del TestPageClient
 export * from "./ServicesSection";
+export * from "./SocialProofLogos";
 export * from "./SponsorsSection";
 export * from "./TeamSection";
 export * from "./TestimonialCarouselSection";
+export * from "./TestimonialGrid";
 export * from "./TextSection";
+export * from "./ThumbnailCarousel";

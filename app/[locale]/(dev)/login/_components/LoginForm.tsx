@@ -2,25 +2,45 @@
 /**
  * @file LoginForm.tsx
  * @description Componente de cliente de élite para el formulario de login del DCC,
- *              con animación de entrada y cumplimiento holístico de la Directiva 026.
- * @version 8.0.0 (Holistic Elite Leveling & MEA/UX)
+ *              integrado con Supabase a través de Server Actions.
+ * @version 2.0.0 (Elite & Functional)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion, type Variants } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/Card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/Form";
+import { Input } from "@/components/ui/Input";
+import { Button, DynamicIcon } from "@/components/ui";
 import { logger } from "@/shared/lib/logging";
 import { routes } from "@/shared/lib/navigation";
-import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type { Locale } from "@/shared/lib/i18n.config";
-import { FormInput } from "@/components/ui/FormInput";
-import { Button, DynamicIcon } from "@/components/ui";
-import { loginDevAction } from "../_actions/loginDev.action";
-import { toast } from "sonner";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
+import {
+  LoginSchema,
+  type LoginFormData,
+} from "@/shared/lib/schemas/auth/login.schema";
+import { loginWithPasswordAction } from "@/shared/lib/actions/auth.actions";
 
-// --- SSoT de Tipos y Animaciones ---
 type LoginFormContent = NonNullable<Dictionary["devLoginPage"]>;
 
 interface LoginFormProps {
@@ -28,88 +48,108 @@ interface LoginFormProps {
   locale: Locale;
 }
 
-const formContainerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-};
-
-const formItemVariants: Variants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } },
-};
-
-// --- Componente de Élite ---
 export function LoginForm({ content, locale }: LoginFormProps) {
-  logger.info("[LoginForm] Renderizando v8.0 (Elite & MEA).");
+  logger.info("[LoginForm] Renderizando formulario de login con Supabase.");
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async (formData: FormData) => {
-    logger.trace("[LoginForm] Intento de login iniciado.");
-    setError(null);
+  const form = useForm<LoginFormData>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: LoginFormData) => {
     startTransition(async () => {
-      const result = await loginDevAction(formData);
+      const result = await loginWithPasswordAction(data);
+
       if (result.success) {
-        logger.success("[LoginForm] Autenticación exitosa. Redirigiendo...", {
-          result,
-        });
         toast.success("Login exitoso. Redirigiendo al DCC...");
         router.push(routes.devDashboard.path({ locale }));
       } else {
-        logger.error("[LoginForm] Fallo de autenticación.", {
-          error: result.error,
-        });
         toast.error("Error de Login", { description: result.error });
-        setError(result.error);
+        form.setError("root", { message: result.error });
       }
     });
   };
 
   return (
-    <motion.div
-      variants={formContainerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <form action={handleLogin} className="space-y-6">
-        <motion.div variants={formItemVariants}>
-          <FormInput
-            id="password"
-            label={content.passwordLabel}
-            icon="Lock"
-            placeholder={content.passwordPlaceholder}
-            type="password"
-            name="password"
-            error={error ?? undefined}
-            required
-            autoComplete="current-password"
-          />
-        </motion.div>
-        <motion.div variants={formItemVariants}>
-          <Button
-            type="submit"
-            size="lg"
-            variant="default"
-            className="w-full !mt-8"
-            disabled={isPending}
-          >
-            {isPending && (
-              <DynamicIcon
-                name="LoaderCircle"
-                className="mr-2 h-4 w-4 animate-spin"
-              />
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-2xl">{content.title}</CardTitle>
+        <CardDescription>{content.subtitle}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{content.emailLabel}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder={content.emailPlaceholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center">
+                    <FormLabel>{content.passwordLabel}</FormLabel>
+                    <Link
+                      href="#"
+                      className="ml-auto inline-block text-sm underline"
+                    >
+                      {content.forgotPasswordLink}
+                    </Link>
+                  </div>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder={content.passwordPlaceholder}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {form.formState.errors.root && (
+              <p className="text-sm font-medium text-destructive">
+                {form.formState.errors.root.message}
+              </p>
             )}
-            {/* Pilar I: Cero Texto Hardcodeado */}
-            {isPending ? content.buttonLoadingText : content.buttonText}
-          </Button>
-        </motion.div>
-        <motion.p
-          variants={formItemVariants}
-          className="text-xs text-muted-foreground text-center pt-4"
-          dangerouslySetInnerHTML={{ __html: content.footerHtml }}
-        />
-      </form>
-    </motion.div>
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending && (
+                <DynamicIcon
+                  name="LoaderCircle"
+                  className="mr-2 h-4 w-4 animate-spin"
+                />
+              )}
+              {isPending ? content.buttonLoadingText : content.buttonText}
+            </Button>
+          </form>
+        </Form>
+        <div className="mt-4 text-center text-sm">
+          {content.signUpPrompt}{" "}
+          <Link href="#" className="underline">
+            {content.signUpLink}
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
+

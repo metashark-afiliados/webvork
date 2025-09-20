@@ -1,54 +1,66 @@
 {
   "it-IT": {
     "devLoginPage": {
-      "title": "Benvenuto, Dev Creator",
-      "subtitle": "Accedi al centro di comando per progettare e simulare le campagne.",
-      "usernameLabel": "Utente",
-      "usernamePlaceholder": "nome.utente",
+      "title": "Accesso DCC",
+      "subtitle": "Inserisci le tue credenziali per accedere alla suite di sviluppo.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "tu@esempio.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "••••••••",
-      "buttonText": "Continua",
-      "buttonLoadingText": "Verifica in corso...",
-      "footerHtml": "Continuando, accedi alla suite di sviluppo interna. <br> Contatta l'<a href='#' class='underline hover:text-primary'>architetto</a> per le credenziali di produzione."
+      "forgotPasswordLink": "Password dimenticata?",
+      "buttonText": "Accedi",
+      "buttonLoadingText": "Accesso in corso...",
+      "signUpPrompt": "Non hai un account?",
+      "signUpLink": "Registrati",
+      "footerHtml": "Questa è un'area di accesso riservata per sviluppatori e amministratori."
     }
   },
   "es-ES": {
     "devLoginPage": {
-      "title": "Bienvenido, Dev Creator",
-      "subtitle": "Accede al centro de comando para diseñar y simular campañas.",
-      "usernameLabel": "Usuario",
-      "usernamePlaceholder": "nombre.usuario",
+      "title": "Acceso al DCC",
+      "subtitle": "Introduce tus credenciales para acceder a la suite de desarrollo.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "tu@ejemplo.com",
       "passwordLabel": "Contraseña",
       "passwordPlaceholder": "••••••••",
-      "buttonText": "Continuar",
-      "buttonLoadingText": "Verificando...",
-      "footerHtml": "Al continuar, accedes a la suite de desarrollo interno. <br> Contacta al <a href='#' class='underline hover:text-primary'>arquitecto</a> para obtener credenciales de producción."
+      "forgotPasswordLink": "¿Olvidaste tu contraseña?",
+      "buttonText": "Iniciar Sesión",
+      "buttonLoadingText": "Iniciando sesión...",
+      "signUpPrompt": "¿No tienes una cuenta?",
+      "signUpLink": "Regístrate",
+      "footerHtml": "Esta es una zona de acceso restringido para desarrolladores y administradores."
     }
   },
   "en-US": {
     "devLoginPage": {
-      "title": "Welcome, Dev Creator",
-      "subtitle": "Access the command center to design and simulate campaigns.",
-      "usernameLabel": "Username",
-      "usernamePlaceholder": "user.name",
+      "title": "DCC Access",
+      "subtitle": "Enter your credentials to access the development suite.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
       "passwordLabel": "Password",
       "passwordPlaceholder": "••••••••",
-      "buttonText": "Continue",
-      "buttonLoadingText": "Verifying...",
-      "footerHtml": "By continuing, you access the internal development suite. <br> Contact the <a href='#' class='underline hover:text-primary'>architect</a> for production credentials."
+      "forgotPasswordLink": "Forgot your password?",
+      "buttonText": "Sign In",
+      "buttonLoadingText": "Signing in...",
+      "signUpPrompt": "Don't have an account?",
+      "signUpLink": "Sign Up",
+      "footerHtml": "This is a restricted access area for developers and administrators."
     }
   },
   "pt-BR": {
     "devLoginPage": {
-      "title": "Bem-vindo, Dev Creator",
-      "subtitle": "Acesse o centro de comando para projetar e simular campanhas.",
-      "usernameLabel": "Usuário",
-      "usernamePlaceholder": "nome.usuario",
+      "title": "Acesso ao DCC",
+      "subtitle": "Insira suas credenciais para acessar a suíte de desenvolvimento.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "voce@exemplo.com",
       "passwordLabel": "Senha",
       "passwordPlaceholder": "••••••••",
-      "buttonText": "Continuar",
-      "buttonLoadingText": "Verificando...",
-      "footerHtml": "Ao continuar, você acessa a suíte de desenvolvimento interno. <br> Contate o <a href='#' class='underline hover:text-primary'>arquiteto</a> para credenciais de produção."
+      "forgotPasswordLink": "Esqueceu sua senha?",
+      "buttonText": "Entrar",
+      "buttonLoadingText": "Entrando...",
+      "signUpPrompt": "Não tem uma conta?",
+      "signUpLink": "Cadastre-se",
+      "footerHtml": "Esta é uma área de acesso restrito para desenvolvedores e administradores."
     }
   }
 }

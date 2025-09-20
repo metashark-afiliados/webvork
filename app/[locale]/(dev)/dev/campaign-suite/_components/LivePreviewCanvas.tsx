@@ -1,8 +1,9 @@
-// app/[locale]/(dev)/dev/campaign-suite/_components/LivePreviewCanvas.tsx
+// RUTA: app/[locale]/(dev)/dev/campaign-suite/_components/LivePreviewCanvas.tsx
 /**
  * @file LivePreviewCanvas.tsx
- * @description Lienzo de vista previa en tiempo real (EDVI).
- * @version 7.0.0 (FSD Architecture Alignment)
+ * @description Lienzo de vista previa en tiempo real (EDVI) con "Modo Enfoque"
+ *              sincronizado.
+ * @version 8.0.0 (Focus Mode Implemented)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -50,19 +51,19 @@ interface LivePreviewCanvasProps {
 }
 
 export function LivePreviewCanvas({ content }: LivePreviewCanvasProps) {
-  logger.info(
-    "[LivePreviewCanvas] Renderizando lienzo de vista previa (v7.0 - FSD)."
-  );
+  logger.info("[LivePreviewCanvas] Renderizando v8.0 (Focus Mode).");
 
   const draft = useCampaignDraft((state: CampaignDraftState) => state.draft);
   const { theme, isLoading, error } = usePreviewTheme();
   const [iframeBody, setIframeBody] = useState<HTMLElement | null>(null);
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const focusedSection = useFocusStore((state) => state.focusedSection);
   const sectionRefs = useRef<Record<string, HTMLElement>>({});
 
+  // --- EFECTO DE SCROLL SINCRONIZADO ---
   useEffect(() => {
     if (focusedSection && sectionRefs.current[focusedSection]) {
+      logger.trace(`[LivePreviewCanvas] Enfocando sección: ${focusedSection}`);
       sectionRefs.current[focusedSection].scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -165,4 +166,3 @@ export function LivePreviewCanvas({ content }: LivePreviewCanvasProps) {
     </motion.div>
   );
 }
-// app/[locale]/(dev)/dev/campaign-suite/_components/LivePreviewCanvas.tsx

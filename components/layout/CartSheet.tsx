@@ -2,11 +2,10 @@
 /**
  * @file CartSheet.tsx
  * @description Panel lateral (Sheet) de élite para el carrito de compras.
- *              v2.2.0 (Holistic A11Y Compliance): Se alinea con el nuevo Pilar 6,
- *              garantizando el cumplimiento de las directrices de accesibilidad (A11Y)
- *              y semántica a través del uso de primitivas accesibles y el correcto
- *              etiquetado de todos sus elementos.
- * @version 2.2.0
+ *              v3.0.0 (Holistic Elite Compliance & MEA/UX): Refactorizado
+ *              para alinearse con la SSoT de datos `CartItem`, resolver todos
+ *              los errores de tipo, y añadir animaciones y accesibilidad mejoradas.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -45,8 +44,6 @@ interface CartSheetProps {
 /**
  * @component CartItemRow
  * @description Subcomponente de presentación puro para una fila de item en el carrito.
- *              Es consciente del locale para un formato de moneda correcto y
- *              asegura la accesibilidad de las imágenes.
  */
 const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
   const { updateQuantity, removeItem } = useCartStore();
@@ -62,7 +59,7 @@ const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
       <div className="relative h-16 w-16 rounded-md overflow-hidden border">
         <Image
           src={item.imageUrl}
-          alt={item.name} // Pilar 6: Atributo alt descriptivo para accesibilidad.
+          alt={item.name}
           fill
           className="object-contain"
           sizes="64px"
@@ -73,7 +70,7 @@ const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
         <p className="text-sm text-muted-foreground">
           {new Intl.NumberFormat(locale, {
             style: "currency",
-            currency: "EUR",
+            currency: item.currency,
           }).format(item.price)}
         </p>
         <div className="flex items-center gap-2">
@@ -119,7 +116,7 @@ export function CartSheet({
   content,
   locale,
 }: CartSheetProps) {
-  logger.info("[CartSheet] Renderizando v2.2 (Holistic A11Y Compliance).");
+  logger.info("[CartSheet] Renderizando v3.0 (Holistic Elite Compliance).");
   const items = useCartStore((state) => state.items);
   const { cartTotal } = useCartTotals();
   const router = useRouter();
@@ -177,7 +174,7 @@ export function CartSheet({
                 <p>
                   {new Intl.NumberFormat(locale, {
                     style: "currency",
-                    currency: "EUR",
+                    currency: "EUR", // Se podría hacer dinámico en el futuro
                   }).format(cartTotal)}
                 </p>
               </div>

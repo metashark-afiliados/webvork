@@ -1,8 +1,9 @@
-// components/forms/builder/SchemaFieldRenderer/_components/FieldWrapper.tsx
+// RUTA: components/forms/builder/SchemaFieldRenderer/_components/FieldWrapper.tsx
 /**
  * @file FieldWrapper.tsx
  * @description Componente de envoltura de alto orden para campos de formulario.
- * @version 1.1.0 (Absolute Path Fix)
+ *              Ahora integra el `FocusContext` para habilitar el "Modo Enfoque".
+ * @version 2.0.0 (Focus Mode Integration)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,9 +19,7 @@ import {
 import { useFocusStore } from "@/app/[locale]/(dev)/dev/campaign-suite/_context/FocusContext";
 import { logger } from "@/shared/lib/logging";
 import { cn } from "@/shared/lib/utils";
-// --- [INICIO DE CORRECCIÓN DE RUTA] ---
 import type { FieldMetadata } from "../_types/field.types";
-// --- [FIN DE CORRECCIÓN DE RUTA] ---
 
 interface FieldWrapperProps {
   children: React.ReactNode;
@@ -60,4 +59,3 @@ export function FieldWrapper({
     </FormItem>
   );
 }
-// components/forms/builder/SchemaFieldRenderer/_components/FieldWrapper.tsx

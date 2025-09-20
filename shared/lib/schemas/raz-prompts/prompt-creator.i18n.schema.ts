@@ -1,8 +1,9 @@
-// lib/schemas/raz-prompts/prompt-creator.i18n.schema.ts
+// RUTA: shared/lib/schemas/raz-prompts/prompt-creator.i18n.schema.ts
 /**
  * @file prompt-creator.i18n.schema.ts
- * @description SSoT para el contrato de datos del contenido i18n del componente PromptCreator.
- * @version 2.0.0 (Ideogram Parameters i18n)
+ * @description SSoT para el contrato de datos del contenido i18n del
+ *              componente PromptCreator.
+ * @version 3.0.0 (SESA Taxonomy Decoupling)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -17,10 +18,10 @@ export const PromptCreatorContentSchema = z.object({
   titlePlaceholder: z.string(),
   promptTextLabel: z.string(),
   promptTextPlaceholder: z.string(),
-  negativePromptLabel: z.string(), // <-- NUEVO
-  negativePromptPlaceholder: z.string(), // <-- NUEVO
+  negativePromptLabel: z.string(),
+  negativePromptPlaceholder: z.string(),
   tagsGroupLabel: z.string(),
-  parametersGroupLabel: z.string(), // <-- NUEVO
+  parametersGroupLabel: z.string(),
   keywordsLabel: z.string(),
   keywordsPlaceholder: z.string(),
   keywordsDescription: z.string(),
@@ -33,6 +34,9 @@ export const PromptCreatorContentSchema = z.object({
     typ: z.string(),
     sbj: z.string(),
   }),
+  // --- CAMBIO ARQUITECTÓNICO CLAVE ---
+  // El schema ya no define las opciones SESA. Solo valida que es un
+  // objeto que contendrá arrays de opciones cargadas dinámicamente.
   sesaOptions: z.object({
     ai: z.array(SesaOptionSchema),
     sty: z.array(SesaOptionSchema),
@@ -40,21 +44,20 @@ export const PromptCreatorContentSchema = z.object({
     typ: z.array(SesaOptionSchema),
     sbj: z.array(SesaOptionSchema),
   }),
-  // Nuevas etiquetas y opciones para los parámetros de Ideogram.ai
-  renderingSpeedLabel: z.string(), // <-- NUEVO
-  renderingSpeedPlaceholder: z.string(), // <-- NUEVO
-  renderingSpeedOptions: z.array(SesaOptionSchema), // <-- NUEVO
-  styleTypeLabel: z.string(), // <-- NUEVO
-  styleTypePlaceholder: z.string(), // <-- NUEVO
-  styleTypeOptions: z.array(SesaOptionSchema), // <-- NUEVO
-  aspectRatioLabel: z.string(), // <-- NUEVO
-  aspectRatioPlaceholder: z.string(), // <-- NUEVO
-  aspectRatioOptions: z.array(SesaOptionSchema), // <-- NUEVO
-  numImagesLabel: z.string(), // <-- NUEVO
-  numImagesPlaceholder: z.string(), // <-- NUEVO
-  sizeLabel: z.string(), // <-- NUEVO
-  sizePlaceholder: z.string(), // <-- NUEVO
-  sizeOptions: z.array(SesaOptionSchema), // <-- NUEVO
+  renderingSpeedLabel: z.string(),
+  renderingSpeedPlaceholder: z.string(),
+  renderingSpeedOptions: z.array(SesaOptionSchema),
+  styleTypeLabel: z.string(),
+  styleTypePlaceholder: z.string(),
+  styleTypeOptions: z.array(SesaOptionSchema),
+  aspectRatioLabel: z.string(),
+  aspectRatioPlaceholder: z.string(),
+  aspectRatioOptions: z.array(SesaOptionSchema),
+  numImagesLabel: z.string(),
+  numImagesPlaceholder: z.string(),
+  sizeLabel: z.string(),
+  sizePlaceholder: z.string(),
+  sizeOptions: z.array(SesaOptionSchema),
 });
 
 export const PromptCreatorLocaleSchema = z.object({

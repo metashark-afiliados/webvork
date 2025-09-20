@@ -1,12 +1,9 @@
 // RUTA: app/[locale]/layout.tsx
 /**
  * @file layout.tsx
- * @description Layout Localizado. SSoT para la estructura principal del portal.
- *              v6.4.0 (Critical Resilience Fix): Implementa una guardia de
- *              renderizado robusta para el Header, previniendo TypeErrors fatales
- *              si alguna de sus dependencias de contenido i18n (incluyendo el
- *              carrito) no se carga correctamente.
- * @version 6.4.0
+ * @description Layout Localizado. SSoT para la estructura del portal, ahora
+ *              con una capa de resiliencia de élite para el manejo de errores.
+ * @version 7.0.0 (Resilience Layer & Holistic Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -17,12 +14,13 @@ import {
   supportedLocales,
   type Locale,
 } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 import AppProviders from "@/components/layout/AppProviders";
 import Header from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { logger } from "@/shared/lib/logging";
 import { ThemeInjector } from "@/components/layout/ThemeInjector";
 import { DevHomepageHeader } from "@/components/layout/DevHomepageHeader";
+import { DeveloperErrorDisplay } from "@/components/dev";
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -36,29 +34,44 @@ export default async function LocaleLayout({
   const safeLocale = supportedLocales.includes(params.locale as Locale)
     ? params.locale!
     : defaultLocale;
-  const pathname = headers().get("x-next-pathname") || "";
 
-  logger.info(
-    `[Observabilidad][ARQUITECTURA-LOCALE] Renderizando LocaleLayout v6.4 para locale: [${safeLocale}] en ruta: [${pathname}]`
-  );
+  logger.info(`[LocaleLayout] Renderizando v7.0 para locale: [${safeLocale}]`);
 
   const { dictionary, error } = await getDictionary(safeLocale);
+
+  // --- CAPA DE RESILIENCIA ---
   if (error) {
-    logger.error(
-      `[LocaleLayout] No se pudo cargar el diccionario para [${safeLocale}].`,
-      { error }
-    );
-    // Renderiza un fallback mínimo si el diccionario falla.
+    const errorMessage = `No se pudo cargar el diccionario para [${safeLocale}].`;
+    logger.error(`[LocaleLayout] ${errorMessage}`, { error });
+
+    // En producción, muestra un fallback mínimo en lugar de una página rota.
+    if (process.env.NODE_ENV === "production") {
+      return (
+        <html lang={safeLocale}>
+          <body>
+            <div style={{ color: "hsl(var(--destructive))", padding: "20px" }}>
+              Error crítico al cargar el contenido del sitio.
+            </div>
+          </body>
+        </html>
+      );
+    }
+
+    // En desarrollo, muestra el error detallado para facilitar la depuración.
     return (
       <html lang={safeLocale}>
         <body>
-          <div style={{ color: "hsl(var(--destructive))", padding: "20px" }}>
-            Error crítico al cargar el contenido del sitio.
-          </div>
+          <DeveloperErrorDisplay
+            context="LocaleLayout"
+            errorMessage={errorMessage}
+            errorDetails={error}
+          />
         </body>
       </html>
     );
   }
+
+  const pathname = headers().get("x-next-pathname") || "";
 
   const headerContent = dictionary?.header;
   const devHomepageHeaderContent = dictionary?.devHomepageHeader;
@@ -105,16 +118,12 @@ export default async function LocaleLayout({
             devDictionary={devRouteMenuContent}
           />
         ) : (
-          // --- [INICIO DE CORRECCIÓN DE BUG TS2322] ---
-          // La llamada al logger se realiza, y LUEGO se retorna `null`.
-          // Esto satisface el contrato de tipo `ReactNode` del componente.
           (() => {
             logger.warn(
               "[LocaleLayout] Faltan datos de i18n para renderizar el Header principal."
             );
             return null;
           })()
-          // --- [FIN DE CORRECCIÓN DE BUG TS2322] ---
         )}
         <main>{children}</main>
         {footerContent && <Footer content={footerContent} />}

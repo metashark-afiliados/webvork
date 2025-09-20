@@ -4,14 +4,23 @@
       "productData": {
         "id": "prod_kband_pro",
         "name": "KineticBand Pro",
-        "category": "Prestazione",
-        "price": 89.99,
-        "imageUrl": "/img/products/kineticband.png",
         "slug": "kineticband-pro",
-        "tags": ["recupero", "forza"],
-        "inventory": 15,
-        "rating": 4.8,
-        "isBestseller": true
+        "price": 89.99,
+        "currency": "EUR",
+        "isBestseller": true,
+        "imageUrl": "/img/products/kineticband.jpg",
+        "inventory": { "total": 20, "available": 15, "reserved": 0 },
+        "logistics": { "deliveryTime": "2-4 giorni lavorativi" },
+        "producerInfo": {
+          "name": "Webvork",
+          "checkoutUrl": "https://it4.curcumacomplex.com/order.php"
+        },
+        "categorization": {
+          "primary": "Prestazione",
+          "secondary": ["recupero", "forza"]
+        },
+        "targetProfile": { "userType": "Atleti", "ageRange": "18-45" },
+        "rating": 4.8
       },
       "galleryImages": [
         {
@@ -32,7 +41,11 @@
       ],
       "addToCartButton": "Aggiungi al Carrello",
       "quantityLabel": "Quantità",
-      "relatedProductsTitle": "Potrebbe Piacerti Anche"
+      "relatedProductsTitle": "Potrebbe Piacerti Anche",
+      "stockStatus": {
+        "available": "Disponibile ({{count}} in magazzino)",
+        "unavailable": "Attualmente non disponibile"
+      }
     }
   },
   "es-ES": {
@@ -40,14 +53,23 @@
       "productData": {
         "id": "prod_kband_pro",
         "name": "KineticBand Pro",
-        "category": "Rendimiento",
-        "price": 89.99,
-        "imageUrl": "/img/products/kineticband.png",
         "slug": "kineticband-pro",
-        "tags": ["recuperacion", "fuerza"],
-        "inventory": 15,
-        "rating": 4.8,
-        "isBestseller": true
+        "price": 89.99,
+        "currency": "EUR",
+        "isBestseller": true,
+        "imageUrl": "/img/products/kineticband.jpg",
+        "inventory": { "total": 20, "available": 15, "reserved": 0 },
+        "logistics": { "deliveryTime": "2-4 días hábiles" },
+        "producerInfo": {
+          "name": "Webvork",
+          "checkoutUrl": "https://it4.curcumacomplex.com/order.php"
+        },
+        "categorization": {
+          "primary": "Rendimiento",
+          "secondary": ["recuperacion", "fuerza"]
+        },
+        "targetProfile": { "userType": "Atletas", "ageRange": "18-45" },
+        "rating": 4.8
       },
       "galleryImages": [
         {
@@ -68,7 +90,11 @@
       ],
       "addToCartButton": "Añadir al Carrito",
       "quantityLabel": "Cantidad",
-      "relatedProductsTitle": "También te podría gustar"
+      "relatedProductsTitle": "También te podría gustar",
+      "stockStatus": {
+        "available": "Disponible ({{count}} en almacén)",
+        "unavailable": "Actualmente no disponible"
+      }
     }
   },
   "en-US": {
@@ -76,14 +102,23 @@
       "productData": {
         "id": "prod_kband_pro",
         "name": "KineticBand Pro",
-        "category": "Performance",
-        "price": 89.99,
-        "imageUrl": "/img/products/kineticband.png",
         "slug": "kineticband-pro",
-        "tags": ["recovery", "strength"],
-        "inventory": 15,
-        "rating": 4.8,
-        "isBestseller": true
+        "price": 89.99,
+        "currency": "USD",
+        "isBestseller": true,
+        "imageUrl": "/img/products/kineticband.jpg",
+        "inventory": { "total": 20, "available": 15, "reserved": 0 },
+        "logistics": { "deliveryTime": "2-4 business days" },
+        "producerInfo": {
+          "name": "Webvork",
+          "checkoutUrl": "https://it4.curcumacomplex.com/order.php"
+        },
+        "categorization": {
+          "primary": "Performance",
+          "secondary": ["recovery", "strength"]
+        },
+        "targetProfile": { "userType": "Athletes", "ageRange": "18-45" },
+        "rating": 4.8
       },
       "galleryImages": [
         {
@@ -104,7 +139,11 @@
       ],
       "addToCartButton": "Add to Cart",
       "quantityLabel": "Quantity",
-      "relatedProductsTitle": "You Might Also Like"
+      "relatedProductsTitle": "You Might Also Like",
+      "stockStatus": {
+        "available": "Available ({{count}} in stock)",
+        "unavailable": "Currently unavailable"
+      }
     }
   },
   "pt-BR": {
@@ -112,14 +151,23 @@
       "productData": {
         "id": "prod_kband_pro",
         "name": "KineticBand Pro",
-        "category": "Desempenho",
-        "price": 450,
-        "imageUrl": "/img/products/kineticband.png",
         "slug": "kineticband-pro",
-        "tags": ["recuperacao", "forca"],
-        "inventory": 15,
-        "rating": 4.8,
-        "isBestseller": true
+        "price": 450,
+        "currency": "BRL",
+        "isBestseller": true,
+        "imageUrl": "/img/products/kineticband.jpg",
+        "inventory": { "total": 20, "available": 15, "reserved": 0 },
+        "logistics": { "deliveryTime": "2-4 dias úteis" },
+        "producerInfo": {
+          "name": "Webvork",
+          "checkoutUrl": "https://it4.curcumacomplex.com/order.php"
+        },
+        "categorization": {
+          "primary": "Desempenho",
+          "secondary": ["recuperacao", "forca"]
+        },
+        "targetProfile": { "userType": "Atletas", "ageRange": "18-45" },
+        "rating": 4.8
       },
       "galleryImages": [
         {
@@ -134,13 +182,17 @@
       "description": [
         {
           "type": "p",
-          "text": "A KineticBand Pro é projetada para atletas de elite que buscam maximizar seu potencial. Feita com materiais duráveis e um design ergonômico, oferece resistência progressiva para melhorar a força, velocidade e agilidade."
+          "text": "A KineticBand Pro é projetada para atletas de elite que buscam maximizar seu potencial. Feita com materiais duráveis e um design ergonômômico, oferece resistência progressiva para melhorar a força, velocidade e agilidade."
         },
         { "type": "h2", "text": "Principais Características" }
       ],
       "addToCartButton": "Adicionar ao Carrinho",
       "quantityLabel": "Quantidade",
-      "relatedProductsTitle": "Você Também Pode Gostar"
+      "relatedProductsTitle": "Você Também Pode Gostar",
+      "stockStatus": {
+        "available": "Disponível ({{count}} em estoque)",
+        "unavailable": "Atualmente indisponível"
+      }
     }
   }
 }

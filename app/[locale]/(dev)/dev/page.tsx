@@ -1,93 +1,114 @@
 // app/[locale]/(dev)/dev/page.tsx
 /**
  * @file page.tsx
- * @description Página de entrada única (SPA) para la SDC.
- *              v12.1.0 (Definitive Generic Type Safety): Alineado con la nueva
- *              arquitectura de configuración genérica.
- * @version 12.1.0
+ * @description Página principal del Developer Command Center (DCC), que actúa como
+ *              un portal a las herramientas de desarrollo de élite.
+ * @version 4.0.0 (Holistic Path & Type Correction)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { Suspense } from "react";
-import { promises as fs } from "fs";
-import path from "path";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getDictionary } from "@/shared/lib/i18n";
+import { type Locale } from "@/shared/lib/i18n.config";
 import { logger } from "@/shared/lib/logging";
-import type { Locale } from "@/shared/lib/i18n.config";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-import { StepClientWrapper } from "@/app/[locale]/(dev)/dev/campaign-suite/_components";
+import { routes } from "@/shared/lib/navigation"; // <-- RUTA CORREGIDA
+import { PageHeader } from "@/components/layout/PageHeader";
+import { DeveloperErrorDisplay } from "@/components/dev";
 import {
-  stepsConfig,
-  type StepConfig, // Se importa el tipo para seguridad
-} from "@/app/[locale]/(dev)/dev/campaign-suite/_config/wizard.config";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
+  Container,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  DynamicIcon,
+} from "@/components/ui";
+import { type LucideIconName } from "@/shared/config/lucide-icon-names";
+import { type Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
-interface CreatePageProps {
-  params: { locale: Locale };
-  searchParams: { step?: string };
+interface DevTool {
+  key: keyof NonNullable<NonNullable<Dictionary["devDashboardPage"]>["tools"]>;
+  href: string;
+  icon: LucideIconName;
 }
 
-export default async function CreatePage({
+interface DevDashboardPageProps {
+  params: { locale: Locale };
+}
+
+export default async function DevDashboardPage({
   params: { locale },
-  searchParams,
-}: CreatePageProps) {
-  const currentStepId = parseInt(searchParams?.step || "0", 10);
+}: DevDashboardPageProps) {
+  logger.info(`[DevDashboardPage] Renderizando v4.0 para locale: ${locale}`);
 
-  // --- [INICIO DE CORRECCIÓN DE TIPO] ---
-  const stepConfig = stepsConfig.find(
-    (s: StepConfig) => s.id === currentStepId
-  );
-  // --- [FIN DE CORRECCIÓN DE TIPO] ---
+  const { dictionary, error } = await getDictionary(locale);
+  const content = dictionary.devDashboardPage;
 
-  if (!stepConfig) {
-    logger.error(
-      `[CreatePage] Configuración no encontrada para el paso ${currentStepId}. Redirigiendo a 404.`
-    );
-    return notFound();
-  }
-
-  logger.info(
-    `[CreatePage] Renderizando. Locale: [${locale}], Paso: [${currentStepId}]`
-  );
-
-  let stepContent: object | null = null;
-  let error: string | null = null;
-  try {
-    const i18nFilePath = path.join(process.cwd(), stepConfig.i18nPath);
-    const fileContent = await fs.readFile(i18nFilePath, "utf-8");
-    const i18nData = JSON.parse(fileContent);
-    const contentForLocale = i18nData[locale];
-
-    if (!contentForLocale) {
-      throw new Error(`Contenido para locale '${locale}' no encontrado.`);
+  if (error || !content) {
+    const errorMessage = "Fallo al cargar el contenido i18n para el DCC.";
+    logger.error(`[DevDashboardPage] ${errorMessage}`, { error });
+    if (process.env.NODE_ENV === "production") {
+      return notFound();
     }
-
-    const validation = stepConfig.schema.safeParse(contentForLocale);
-
-    if (!validation.success) {
-      console.error(validation.error.flatten().fieldErrors);
-      throw new Error(`Validación de Zod fallida.`);
-    }
-
-    stepContent = validation.data;
-  } catch (e) {
-    error = `No se pudo cargar o validar el contenido para el paso ${currentStepId}.`;
-    logger.error(`[CreatePage] ${error}`, { error: e });
-  }
-
-  if (error || !stepContent) {
     return (
-      <div className="text-destructive p-8 text-center">
-        <h2 className="font-bold text-lg">Error al Cargar el Paso</h2>
-        <p className="text-sm">{error}</p>
-      </div>
+      <DeveloperErrorDisplay
+        context="DevDashboardPage"
+        errorMessage={errorMessage}
+        errorDetails={
+          error || "La clave 'devDashboardPage' falta en el diccionario."
+        }
+      />
     );
   }
+
+  const tools: DevTool[] = [
+    {
+      key: "campaignDesignSuite",
+      href: routes.devCampaignSuiteCreate.path({ locale }),
+      icon: "LayoutTemplate",
+    },
+    {
+      key: "bavi",
+      href: routes.bavi.path({ locale }),
+      icon: "LibraryBig",
+    },
+    {
+      key: "razPrompts",
+      href: routes.razPrompts.path({ locale }),
+      icon: "BrainCircuit",
+    },
+    {
+      key: "resilienceShowcase",
+      href: routes.devTestPage.path({ locale }),
+      icon: "ShieldCheck",
+    },
+  ];
 
   return (
-    <Suspense fallback={<div>Cargando asistente...</div>}>
-      <StepClientWrapper stepContent={stepContent} />
-    </Suspense>
+    <>
+      <PageHeader content={content.pageHeader} />
+      <Container className="py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tools.map((tool) => (
+            <Link href={tool.href} key={tool.key} className="group">
+              <Card className="h-full transition-all duration-300 group-hover:border-primary group-hover:shadow-lg group-hover:-translate-y-1">
+                <CardHeader className="flex-row items-center gap-4">
+                  <DynamicIcon
+                    name={tool.icon}
+                    className="h-8 w-8 text-primary"
+                  />
+                  <div>
+                    <CardTitle>{content.tools[tool.key].name}</CardTitle>
+                    <CardDescription className="mt-1">
+                      {content.tools[tool.key].description}
+                    </CardDescription>
+                  </div>
+                </CardHeader>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      </Container>
+    </>
   );
 }
-// app/[locale]/(dev)/dev/page.tsx

@@ -3,10 +3,7 @@
  * @file ValidationError.tsx
  * @description Componente de UI de élite, exclusivo para desarrollo, que muestra
  *              errores de validación de Zod de forma clara e internacionalizada.
- *              v2.0.0 (Holistic Elite Leveling & MEA): Refactorizado para ser
- *              100% data-driven, con una UI mejorada para la DX y animación de
- *              entrada para una experiencia adrenalínica.
- * @version 2.0.0
+ * @version 2.0.0 (Holistic Elite Leveling & MEA)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client"; // Necesario para el <details> interactivo

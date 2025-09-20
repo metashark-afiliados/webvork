@@ -14,46 +14,23 @@
         }
       },
       "tools": {
-        "componentCanvas": {
-          "name": "Component Canvas",
-          "description": "Visualizza e testa i componenti dell'interfaccia utente in isolamento con dati di mock."
+        "campaignDesignSuite": {
+          "name": "Suite di Progettazione",
+          "description": "Crea, configura e genera asset di campagna validati."
         },
-        "campaignSimulator": {
-          "name": "Simulatore di Campagne",
-          "description": "Visualizza in anteprima le varianti di campagna attive leggendo direttamente dai manifesti di dati."
+        "bavi": {
+          "name": "BAVI - Biblioteca Asset",
+          "description": "Gestisci, indicizza e servi tutti gli asset visivi dell'ecosistema."
         },
-        "branding": {
-          "name": "Guida di Stile",
-          "description": "Riferimento visivo per tutti i token di design del sistema (colori, tipografia, ecc.)."
+        "razPrompts": {
+          "name": "RaZPrompts - Bóveda",
+          "description": "Il genoma dei tuoi asset. Crea, cataloga e versiona i tuoi prompt."
         },
         "resilienceShowcase": {
           "name": "Vetrina di Resilienza",
-          "description": "Renderizza tutti i componenti per verificare la stabilità e la compatibilità dei dati."
+          "description": "Renderizza tutti i componenti per verificare la stabilità e la compatibilità."
         }
-      },
-      "selectThemeLabel": "Seleziona Tema Colore",
-      "selectFontLabel": "Seleziona Tipografia",
-      "selectRadiusLabel": "Seleziona Geometria",
-      "defaultPresetName": "Predefinito",
-      "colorFilterPlaceholder": "Scegli colore...",
-      "fontFilterPlaceholder": "Scegli font...",
-      "radiusFilterPlaceholder": "Scegli raggio...",
-      "customizeButton": "Personalizza Stili",
-      "composerTitle": "Compositore di Stili della Suite",
-      "composerDescription": "Regola finemente i token di design della suite in tempo reale.",
-      "composerColorsTab": "Colori",
-      "composerTypographyTab": "Tipografia",
-      "composerGeometryTab": "Geometria",
-      "composerSaveButton": "Applica e Salva",
-      "composerCancelButton": "Annulla",
-      "fontSizeLabel": "Dimensione Carattere",
-      "fontWeightLabel": "Peso Carattere",
-      "lineHeightLabel": "Altezza Linea",
-      "letterSpacingLabel": "Spaziatura Lettere",
-      "borderRadiusLabel": "Raggio Bordo",
-      "borderWidthLabel": "Larghezza Bordo",
-      "baseSpacingUnitLabel": "Unità Spaziatura Base",
-      "inputHeightLabel": "Altezza Input"
+      }
     }
   },
   "es-ES": {
@@ -71,46 +48,23 @@
         }
       },
       "tools": {
-        "componentCanvas": {
-          "name": "Lienzo de Componentes",
-          "description": "Visualiza y prueba componentes de UI de forma aislada con datos de mock."
+        "campaignDesignSuite": {
+          "name": "Suite de Diseño",
+          "description": "Crea, configura y genera activos de campaña validados."
         },
-        "campaignSimulator": {
-          "name": "Simulador de Campañas",
-          "description": "Previsualiza variantes de campaña activas leyendo directamente desde los manifiestos de datos."
+        "bavi": {
+          "name": "BAVI - Biblioteca de Activos",
+          "description": "Gestiona, indexa y sirve todos los activos visuales del ecosistema."
         },
-        "branding": {
-          "name": "Guía de Estilo",
-          "description": "Referencia visual para todos los tokens de diseño del sistema (colores, tipografía, etc.)."
+        "razPrompts": {
+          "name": "RaZPrompts - Bóveda",
+          "description": "El genoma de tus activos. Crea, cataloga y versiona tus prompts."
         },
         "resilienceShowcase": {
           "name": "Vitrina de Resiliencia",
-          "description": "Renderiza todos los componentes para verificar la estabilidad y compatibilidad de los datos."
+          "description": "Renderiza todos los componentes para verificar la estabilidad y compatibilidad."
         }
-      },
-      "selectThemeLabel": "Seleccionar Tema Color",
-      "selectFontLabel": "Seleccionar Tipografía",
-      "selectRadiusLabel": "Seleccionar Geometría",
-      "defaultPresetName": "Por Defecto",
-      "colorFilterPlaceholder": "Elige color...",
-      "fontFilterPlaceholder": "Elige fuente...",
-      "radiusFilterPlaceholder": "Elige radio...",
-      "customizeButton": "Personalizar Estilos",
-      "composerTitle": "Compositor de Estilos de Suite",
-      "composerDescription": "Ajusta finamente los tokens de diseño de la suite en tiempo real.",
-      "composerColorsTab": "Colores",
-      "composerTypographyTab": "Tipografía",
-      "composerGeometryTab": "Geometría",
-      "composerSaveButton": "Aplicar y Guardar",
-      "composerCancelButton": "Cancelar",
-      "fontSizeLabel": "Tamaño de Fuente",
-      "fontWeightLabel": "Grosor de Fuente",
-      "lineHeightLabel": "Altura de Línea",
-      "letterSpacingLabel": "Espaciado de Letras",
-      "borderRadiusLabel": "Radio de Borde",
-      "borderWidthLabel": "Grosor de Borde",
-      "baseSpacingUnitLabel": "Unidad de Espaciado Base",
-      "inputHeightLabel": "Altura de Inputs"
+      }
     }
   },
   "en-US": {
@@ -128,46 +82,23 @@
         }
       },
       "tools": {
-        "componentCanvas": {
-          "name": "Component Canvas",
-          "description": "Visualize and test UI components in isolation with mock data."
+        "campaignDesignSuite": {
+          "name": "Design Suite",
+          "description": "Create, configure, and generate validated campaign assets."
         },
-        "campaignSimulator": {
-          "name": "Campaign Simulator",
-          "description": "Preview active campaign variants by reading directly from data manifests."
+        "bavi": {
+          "name": "BAVI - Asset Library",
+          "description": "Manage, index, and serve all visual assets of the ecosystem."
         },
-        "branding": {
-          "name": "Style Guide",
-          "description": "Visual reference for all system design tokens (colors, typography, etc.)."
+        "razPrompts": {
+          "name": "RaZPrompts - Vault",
+          "description": "The genome of your assets. Create, catalog, and version your prompts."
         },
         "resilienceShowcase": {
           "name": "Resilience Showcase",
           "description": "Renders all components to verify stability and data compatibility."
         }
-      },
-      "selectThemeLabel": "Select Color Theme",
-      "selectFontLabel": "Select Typography",
-      "selectRadiusLabel": "Select Geometry",
-      "defaultPresetName": "Default",
-      "colorFilterPlaceholder": "Choose color...",
-      "fontFilterPlaceholder": "Choose font...",
-      "radiusFilterPlaceholder": "Choose radius...",
-      "customizeButton": "Customize Styles",
-      "composerTitle": "Suite Style Composer",
-      "composerDescription": "Finely adjust the suite's design tokens in real-time.",
-      "composerColorsTab": "Colors",
-      "composerTypographyTab": "Typography",
-      "composerGeometryTab": "Geometry",
-      "composerSaveButton": "Apply & Save",
-      "composerCancelButton": "Cancel",
-      "fontSizeLabel": "Font Size",
-      "fontWeightLabel": "Font Weight",
-      "lineHeightLabel": "Line Height",
-      "letterSpacingLabel": "Letter Spacing",
-      "borderRadiusLabel": "Border Radius",
-      "borderWidthLabel": "Border Width",
-      "baseSpacingUnitLabel": "Base Spacing Unit",
-      "inputHeightLabel": "Input Height"
+      }
     }
   },
   "pt-BR": {
@@ -185,46 +116,23 @@
         }
       },
       "tools": {
-        "componentCanvas": {
-          "name": "Canvas de Componentes",
-          "description": "Visualize e teste componentes de UI isoladamente com dados mock."
+        "campaignDesignSuite": {
+          "name": "Suite de Design",
+          "description": "Crie, configure e gere ativos de campanha validados."
         },
-        "campaignSimulator": {
-          "name": "Simulador de Campanhas",
-          "description": "Pré-visualize variantes de campanha ativas lendo diretamente dos manifestos de dados."
+        "bavi": {
+          "name": "BAVI - Biblioteca de Ativos",
+          "description": "Gerencie, indexe e sirva todos os ativos visuais do ecossistema."
         },
-        "branding": {
-          "name": "Guia de Estilo",
-          "description": "Referência visual para todos os tokens de design do sistema (cores, tipografia, etc.)."
+        "razPrompts": {
+          "name": "RaZPrompts - Cofre",
+          "description": "O genoma dos seus ativos. Crie, catalogue e versione seus prompts."
         },
         "resilienceShowcase": {
           "name": "Vitrine de Resiliência",
           "description": "Renderiza todos os componentes para verificar a estabilidade e a compatibilidade dos dados."
         }
-      },
-      "selectThemeLabel": "Selecionar Tema de Cor",
-      "selectFontLabel": "Selecionar Tipografia",
-      "selectRadiusLabel": "Selecionar Geometria",
-      "defaultPresetName": "Padrão",
-      "colorFilterPlaceholder": "Escolha cor...",
-      "fontFilterPlaceholder": "Escolha fonte...",
-      "radiusFilterPlaceholder": "Escolha raio...",
-      "customizeButton": "Personalizar Estilos",
-      "composerTitle": "Compositor de Estilos da Suite",
-      "composerDescription": "Ajuste finamente os tokens de design da suite em tempo real.",
-      "composerColorsTab": "Cores",
-      "composerTypographyTab": "Tipografia",
-      "composerGeometryTab": "Geometria",
-      "composerSaveButton": "Aplicar e Salvar",
-      "composerCancelButton": "Cancelar",
-      "fontSizeLabel": "Tamanho da Fonte",
-      "fontWeightLabel": "Peso da Fonte",
-      "lineHeightLabel": "Altura da Linha",
-      "letterSpacingLabel": "Espaçamento entre Letras",
-      "borderRadiusLabel": "Raio da Borda",
-      "borderWidthLabel": "Largura da Borda",
-      "baseSpacingUnitLabel": "Unidade de Espaçamento Base",
-      "inputHeightLabel": "Altura dos Inputs"
+      }
     }
   }
 }

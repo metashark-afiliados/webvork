@@ -1,11 +1,8 @@
-// components/razBits/MagicBento/useBentoGridInteraction.ts
+// components/razBits/MagicBento/use-bento-grid-interaction.ts
 /**
- * @file useBentoGridInteraction.ts
+ * @file use-bento-grid-interaction.ts
  * @description Hook de lógica para el componente MagicBento.
- *              - v1.2.0: Resuelve la advertencia de linting `react-hooks/exhaustive-deps`
- *                eliminando la dependencia innecesaria de `config` del hook `useCallback`,
- *                lo que optimiza la memoización y previene re-renderizados innecesarios.
- * @version 1.2.0
+ * @version 1.3.0 (Linter Hygiene & FSD)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -17,14 +14,6 @@ import type { z } from "zod";
 import type { MagicBentoConfigSchema } from "./magic-bento.schema";
 
 type BentoConfig = z.infer<typeof MagicBentoConfigSchema>;
-
-const getThemeRgbColor = (colorName: string): string => {
-  if (typeof window === "undefined") return "132, 0, 255";
-  const rgbStr = getComputedStyle(document.documentElement)
-    .getPropertyValue(`--${colorName}-rgb`)
-    .trim();
-  return rgbStr || "132, 0, 255";
-};
 
 export const useBentoGridInteraction = (
   gridRef: React.RefObject<HTMLDivElement | null>,
@@ -49,20 +38,14 @@ export const useBentoGridInteraction = (
 
     logger.trace("[Bento] Inicializando Spotlight Effect");
     const spotlight = document.createElement("div");
-    // Se asume que los estilos están definidos en otra parte o son irrelevantes para esta refactorización.
     spotlight.style.cssText = `
-      position: fixed;
-      left: 0;
-      top: 0;
+      position: fixed; left: 0; top: 0;
       width: ${config.spotlightRadius! * 2}px;
       height: ${config.spotlightRadius! * 2}px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(var(--primary-rgb), 0.08), transparent 60%);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 50;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
+      pointer-events: none; transform: translate(-50%, -50%);
+      z-index: 50; opacity: 0; transition: opacity 0.3s ease-in-out;
     `;
     document.body.appendChild(spotlight);
 
@@ -100,17 +83,11 @@ export const useBentoGridInteraction = (
   const initializeCardInteractions = useCallback(
     (node: HTMLDivElement | null) => {
       if (!node || shouldDisableAnimations) return;
-
-      // ... Lógica de listeners de mousemove y mouseleave ...
-      // La lógica interna no depende de `config`, por lo tanto
-      // no es necesario que sea una dependencia del useCallback.
+      // Lógica de listeners de mousemove y mouseleave
     },
-    // --- INICIO DE LA CORRECCIÓN ---
-    // Se elimina `config` del array de dependencias.
     [shouldDisableAnimations]
-    // --- FIN DE LA CORRECCIÓN ---
   );
 
   return { initializeCardInteractions };
 };
-// components/razBits/MagicBento/useBentoGridInteraction.ts
+// components/razBits/MagicBento/use-bento-grid-interaction.ts

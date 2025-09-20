@@ -1,8 +1,8 @@
-// components/sections/ProductGrid.tsx
+// RUTA: components/sections/ProductGrid.tsx
 /**
  * @file ProductGrid.tsx
  * @description Cuadrícula de productos de lujo para la Tienda v2.0.
- * @version 3.1.0 (Route & CSS Fix)
+ * @version 4.0.0 (Holistic Elite Compliance & SSoT Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -12,18 +12,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { routes } from "@/shared/lib/navigation";
-import type { z } from "zod";
-import type { StorePageLocaleSchema } from "@/shared/lib/schemas/pages/store-page.schema";
 import type { Locale } from "@/shared/lib/i18n.config";
 import { logger } from "@/shared/lib/logging";
 import { cn } from "@/shared/lib/utils";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { DynamicIcon } from "@/components/ui";
+import type { Product } from "@/shared/lib/schemas/entities/product.schema";
+import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
-type StorePageContent = NonNullable<
-  z.infer<typeof StorePageLocaleSchema>["storePage"]
->;
-type ProductCardData = StorePageContent["products"][number];
+type StorePageContent = NonNullable<Dictionary["storePage"]>;
 
 const StarRating = ({ rating }: { rating: number }) => (
   <div className="flex items-center gap-0.5">
@@ -48,18 +45,14 @@ const ProductCard = ({
   locale,
   content,
 }: {
-  product: ProductCardData;
+  product: Product;
   locale: Locale;
   content: StorePageContent;
 }) => (
   <TiltCard className="h-full">
     <Link
-      // --- [INICIO DE CORRECCIÓN DE RUTA] ---
       href={routes.storeBySlug.path({ locale, slug: product.slug })}
-      // --- [FIN DE CORRECCIÓN DE RUTA] ---
-      // --- [INICIO DE CORRECCIÓN DE CSS] ---
       className="group relative rounded-xl border border-border bg-card shadow-subtle h-full flex flex-col transition-all duration-300 hover:shadow-strong hover:-translate-y-1"
-      // --- [FIN DE CORRECCIÓN DE CSS] ---
     >
       {product.isBestseller && (
         <div className="absolute top-3 right-3 z-10 bg-accent text-accent-foreground text-xs font-bold uppercase px-2 py-1 rounded-full">
@@ -69,7 +62,7 @@ const ProductCard = ({
       <div className="relative w-full aspect-square overflow-hidden rounded-t-xl">
         <Image
           src={product.imageUrl}
-          alt={product.name}
+          alt={product.name} // Suponiendo que el nombre es un buen alt text. Idealmente, vendría del catálogo.
           fill
           className="object-contain p-4 transition-transform duration-500 ease-in-out group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -77,7 +70,7 @@ const ProductCard = ({
       </div>
       <div className="p-4 flex-grow flex flex-col text-center border-t border-border">
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">
-          {product.category}
+          {product.categorization.primary}
         </p>
         <h3 className="text-md font-bold text-foreground flex-grow">
           {product.name}
@@ -90,7 +83,7 @@ const ProductCard = ({
         <p className="mt-2 text-xl font-semibold text-primary">
           {new Intl.NumberFormat(locale, {
             style: "currency",
-            currency: "EUR",
+            currency: product.currency,
           }).format(product.price)}
         </p>
       </div>
@@ -108,7 +101,7 @@ const ProductCard = ({
 );
 
 interface ProductGridProps {
-  products: ProductCardData[];
+  products: Product[];
   locale: Locale;
   content: StorePageContent;
 }
@@ -118,7 +111,7 @@ export function ProductGrid({
   locale,
   content,
 }: ProductGridProps): React.ReactElement {
-  logger.info("[ProductGrid v3.1] Renderizando cuadrícula de lujo...");
+  logger.info("[ProductGrid v4.0] Renderizando cuadrícula de lujo...");
 
   const gridVariants = {
     hidden: { opacity: 0 },
@@ -150,4 +143,3 @@ export function ProductGrid({
     </motion.main>
   );
 }
-// components/sections/ProductGrid.tsx

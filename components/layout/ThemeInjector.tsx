@@ -2,14 +2,9 @@
 /**
  * @file ThemeInjector.tsx
  * @description Componente de servidor atómico para inyectar variables de tema.
- *              - v3.0.0 (Coherence Fix): Se elimina la lógica de generación de estilos.
- *                Según la arquitectura de Theming v3.0, el tema global es estático
- *                y se carga desde globals.css. Este componente queda como un placeholder
- *                arquitectónico para futuras capacidades de theming global dinámico.
- * @version 3.0.0
+ * @version 3.1.0 (Code Hygiene & FSD)
  * @author RaZ Podestá - MetaShark Tech
  */
-import React from "react";
 import { logger } from "@/shared/lib/logging";
 
 /**

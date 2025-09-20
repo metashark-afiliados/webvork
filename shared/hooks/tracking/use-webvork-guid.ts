@@ -1,18 +1,29 @@
-// src/hooks/tracking/useWebvorkGuid.ts
+// RUTA: shared/hooks/tracking/use-webvork-guid.ts
 /**
- * @file useWebvorkGuid.ts
+ * @file use-webvork-guid.ts
  * @description Hook Atómico de Efecto para obtener el GUID de Webvork.
- *              Diseñado para ser activado una sola vez por un hook orquestador.
- * @version 3.0.0
+ * @version 3.1.0 (Linter Hygiene & FSD)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { producerConfig } from "@/shared/config/producer.config";
 import { logger } from "@/shared/lib/logging";
 
-// --- Helper Puro ---
+// --- [INICIO DE REFACTORIZACIÓN DE SEGURIDAD DE TIPOS] ---
+// 1. Definimos el tipo de nuestra función de callback.
+type JsonpCallback = () => void;
+
+// 2. Extendemos la interfaz global Window para que TypeScript sea consciente
+//    de que podemos adjuntar dinámicamente nuestra función de callback.
+declare global {
+  interface Window {
+    [key: string]: JsonpCallback | unknown;
+  }
+}
+// --- [FIN DE REFACTORIZACIÓN DE SEGURIDAD DE TIPOS] ---
+
 const setCookie = (name: string, value: string, days: number = 30): void => {
   let expires = "";
   if (days) {
@@ -23,17 +34,10 @@ const setCookie = (name: string, value: string, days: number = 30): void => {
   document.cookie = `${name}=${value || ""}${expires}; path=/`;
 };
 
-/**
- * @function useWebvorkGuid
- * @description Gestiona la obtención del GUID de Webvork mediante JSONP.
- *              Se ejecuta una sola vez cuando el parámetro 'enabled' pasa a ser true.
- * @param {boolean} enabled - El interruptor de activación proporcionado por el orquestador.
- */
 export function useWebvorkGuid(enabled: boolean): void {
   const hasExecuted = useRef(false);
 
   useEffect(() => {
-    // Guarda de seguridad: Solo se ejecuta si está habilitado y no se ha ejecutado antes.
     if (!enabled || hasExecuted.current) {
       return;
     }
@@ -42,7 +46,6 @@ export function useWebvorkGuid(enabled: boolean): void {
 
     const { LANDING_ID, OFFER_ID } = producerConfig;
 
-    // Guarda de seguridad: Verifica que la configuración necesaria esté presente.
     if (!LANDING_ID || !OFFER_ID) {
       logger.warn(
         "LANDING_ID o OFFER_ID no configurados. Abortando llamada de GUID."
@@ -56,7 +59,8 @@ export function useWebvorkGuid(enabled: boolean): void {
     const callbackName = "jsonp_callback_" + Math.round(100000 * Math.random());
     const scriptTagId = `script_${callbackName}`;
 
-    (window as any)[callbackName] = () => {
+    // 3. Asignamos la función al window object sin necesidad de `as any`.
+    window[callbackName] = () => {
       logger.startGroup("Callback: Webvork GUID Recibido");
       try {
         const guidFromHtml = document.documentElement.getAttribute("data-guid");
@@ -73,7 +77,8 @@ export function useWebvorkGuid(enabled: boolean): void {
       } catch (error) {
         logger.error("Error procesando callback de GUID.", { error });
       } finally {
-        delete (window as any)[callbackName];
+        // 4. Eliminamos la propiedad de forma segura.
+        delete window[callbackName];
         const scriptElement = document.getElementById(scriptTagId);
         scriptElement?.remove();
         logger.endGroup();
@@ -86,9 +91,7 @@ export function useWebvorkGuid(enabled: boolean): void {
     scriptTag.src = trackerUrl;
     document.body.appendChild(scriptTag);
 
-    // Marcamos como ejecutado para prevenir futuras ejecuciones.
     hasExecuted.current = true;
     logger.endGroup();
-  }, [enabled]); // La única dependencia es el interruptor de activación.
+  }, [enabled]);
 }
-// src/hooks/tracking/useWebvorkGuid.ts

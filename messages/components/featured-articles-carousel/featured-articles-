@@ -3,33 +3,33 @@
   "it-IT": {
     "featuredArticlesCarousel": {
       "eyebrow": "In Evidenza",
-      "title": "Articoli Selezionati per Te",
+      "title": "Approfondimenti dal Nostro Team",
       "articles": [
         {
-          "slug": "5-supercibi",
-          "title": "5 Superfood da Aggiungere alla Tua Dieta",
+          "slug": "guida-allenamento-funzionale",
+          "category": "Fitness",
+          "title": "Allenamento Funzionale: La Guida Definitiva",
+          "imageUrl": "/img/sections/news-grid/functional-training.jpg",
+          "imageAlt": "Una persona che esegue uno squat con kettlebell in una palestra luminosa.",
+          "author": "Team Global Fitwell",
+          "readTime": 8
+        },
+        {
+          "slug": "5-supercibi-dieta",
           "category": "Nutrizione",
-          "imageUrl": "/img/news/superfoods.jpg",
-          "imageAlt": "Una ciotola di superfood colorati",
-          "author": "Dott.ssa G. Rossi",
+          "title": "5 Superfood da Aggiungere alla Tua Dieta",
+          "imageUrl": "/img/sections/news-grid/superfoods.jpg",
+          "imageAlt": "Una ciotola colorata di superfood.",
+          "author": "Dott.ssa Sofia Rossi",
           "readTime": 5
         },
         {
-          "slug": "guida-allenamento-funzionale",
-          "title": "Allenamento Funzionale: Guida per Principianti",
-          "category": "Fitness",
-          "imageUrl": "/img/news/functional-training.jpg",
-          "imageAlt": "Persona che esegue un esercizio di allenamento funzionale",
-          "author": "Marco Bianchi",
-          "readTime": 7
-        },
-        {
           "slug": "mindfulness-riduzione-stress",
-          "title": "Mindfulness e Riduzione dello Stress",
           "category": "Benessere Mentale",
-          "imageUrl": "/img/news/mindfulness.jpg",
-          "imageAlt": "Persona che medita pacificamente all'aperto",
-          "author": "Sofia Verdi",
+          "title": "Mindfulness e Riduzione dello Stress",
+          "imageUrl": "/img/sections/news-grid/mindfulness.jpg",
+          "imageAlt": "Una persona che medita serenamente.",
+          "author": "Team Global Fitwell",
           "readTime": 6
         }
       ]
@@ -38,33 +38,33 @@
   "es-ES": {
     "featuredArticlesCarousel": {
       "eyebrow": "Destacados",
-      "title": "Artículos Seleccionados para Ti",
+      "title": "Análisis Profundos de Nuestro Equipo",
       "articles": [
         {
-          "slug": "5-superalimentos",
-          "title": "5 Superalimentos que Deberías Añadir a Tu Dieta",
+          "slug": "guida-entrenamiento-funcional",
+          "category": "Fitness",
+          "title": "Entrenamiento Funcional: La Guía Definitiva",
+          "imageUrl": "/img/sections/news-grid/functional-training.jpg",
+          "imageAlt": "Una persona realizando una sentadilla goblet con una pesa rusa.",
+          "author": "Equipo Global Fitwell",
+          "readTime": 8
+        },
+        {
+          "slug": "5-superalimentos-dieta",
           "category": "Nutrición",
-          "imageUrl": "/img/news/superfoods.jpg",
-          "imageAlt": "Un bol de coloridos superalimentos",
-          "author": "Dra. G. Rossi",
+          "title": "5 Superalimentos que Deberías Incluir en Tu Dieta",
+          "imageUrl": "/img/sections/news-grid/superfoods.jpg",
+          "imageAlt": "Un bol colorido de superalimentos.",
+          "author": "Dra. Sofía Rossi",
           "readTime": 5
         },
         {
-          "slug": "guia-entrenamiento-funcional",
-          "title": "Entrenamiento Funcional: Guía para Principiantes",
-          "category": "Fitness",
-          "imageUrl": "/img/news/functional-training.jpg",
-          "imageAlt": "Persona realizando un ejercicio de entrenamiento funcional",
-          "author": "Marco Bianchi",
-          "readTime": 7
-        },
-        {
           "slug": "mindfulness-reduccion-estres",
-          "title": "Mindfulness y Reducción del Estrés",
           "category": "Bienestar Mental",
-          "imageUrl": "/img/news/mindfulness.jpg",
-          "imageAlt": "Persona meditando pacíficamente al aire libre",
-          "author": "Sofía Verdi",
+          "title": "Mindfulness y Reducción del Estrés",
+          "imageUrl": "/img/sections/news-grid/mindfulness.jpg",
+          "imageAlt": "Una persona meditando serenamente.",
+          "author": "Equipo Global Fitwell",
           "readTime": 6
         }
       ]
@@ -73,33 +73,33 @@
   "en-US": {
     "featuredArticlesCarousel": {
       "eyebrow": "Featured",
-      "title": "Articles Selected for You",
+      "title": "In-depth Insights from Our Team",
       "articles": [
         {
-          "slug": "5-superfoods",
-          "title": "5 Superfoods You Should Add to Your Diet",
+          "slug": "functional-training-guide",
+          "category": "Fitness",
+          "title": "Functional Training: The Ultimate Guide",
+          "imageUrl": "/img/sections/news-grid/functional-training.jpg",
+          "imageAlt": "A person performing a goblet squat with a kettlebell.",
+          "author": "Global Fitwell Team",
+          "readTime": 8
+        },
+        {
+          "slug": "5-superfoods-diet",
           "category": "Nutrition",
-          "imageUrl": "/img/news/superfoods.jpg",
-          "imageAlt": "A bowl of colorful superfoods",
-          "author": "Dr. G. Rossi",
+          "title": "5 Superfoods You Should Add to Your Diet",
+          "imageUrl": "/img/sections/news-grid/superfoods.jpg",
+          "imageAlt": "A colorful bowl of superfoods.",
+          "author": "Dr. Sophia Rossi",
           "readTime": 5
         },
         {
-          "slug": "functional-training-guide",
-          "title": "Functional Training: A Beginner's Guide",
-          "category": "Fitness",
-          "imageUrl": "/img/news/functional-training.jpg",
-          "imageAlt": "Person performing a functional training exercise",
-          "author": "Marco Bianchi",
-          "readTime": 7
-        },
-        {
           "slug": "mindfulness-stress-reduction",
-          "title": "Mindfulness and Stress Reduction",
           "category": "Mental Wellness",
-          "imageUrl": "/img/news/mindfulness.jpg",
-          "imageAlt": "Person meditating peacefully outdoors",
-          "author": "Sofia Verdi",
+          "title": "Mindfulness and Stress Reduction",
+          "imageUrl": "/img/sections/news-grid/mindfulness.jpg",
+          "imageAlt": "A person meditating serenely.",
+          "author": "Global Fitwell Team",
           "readTime": 6
         }
       ]
@@ -108,33 +108,33 @@
   "pt-BR": {
     "featuredArticlesCarousel": {
       "eyebrow": "Destaques",
-      "title": "Artigos Selecionados para Você",
+      "title": "Análises Aprofundadas da Nossa Equipe",
       "articles": [
         {
-          "slug": "5-superalimentos",
-          "title": "5 Superalimentos que Você Deve Adicionar à Sua Dieta",
+          "slug": "guia-treinamento-funcional",
+          "category": "Fitness",
+          "title": "Treinamento Funcional: O Guia Definitivo",
+          "imageUrl": "/img/sections/news-grid/functional-training.jpg",
+          "imageAlt": "Uma pessoa realizando um agachamento goblet com um kettlebell.",
+          "author": "Equipe Global Fitwell",
+          "readTime": 8
+        },
+        {
+          "slug": "5-superalimentos-dieta",
           "category": "Nutrição",
-          "imageUrl": "/img/news/superfoods.jpg",
-          "imageAlt": "Uma tigela de superalimentos coloridos",
-          "author": "Dra. G. Rossi",
+          "title": "5 Superalimentos que Você Deve Adicionar à Sua Dieta",
+          "imageUrl": "/img/sections/news-grid/superfoods.jpg",
+          "imageAlt": "Uma tigela colorida de superalimentos.",
+          "author": "Dra. Sofia Rossi",
           "readTime": 5
         },
         {
-          "slug": "guia-treinamento-funcional",
-          "title": "Treinamento Funcional: Guia para Iniciantes",
-          "category": "Fitness",
-          "imageUrl": "/img/news/functional-training.jpg",
-          "imageAlt": "Pessoa realizando um exercício de treinamento funcional",
-          "author": "Marco Bianchi",
-          "readTime": 7
-        },
-        {
           "slug": "mindfulness-reducao-estresse",
+          "category": "Bem-estar Mental",
           "title": "Mindfulness e Redução de Estresse",
-          "category": "Bem-Estar Mental",
-          "imageUrl": "/img/news/mindfulness.jpg",
-          "imageAlt": "Pessoa meditando pacificamente ao ar livre",
-          "author": "Sofia Verdi",
+          "imageUrl": "/img/sections/news-grid/mindfulness.jpg",
+          "imageAlt": "Uma pessoa meditando serenamente.",
+          "author": "Equipe Global Fitwell",
           "readTime": 6
         }
       ]

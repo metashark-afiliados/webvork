@@ -3,11 +3,11 @@
  * @file draft.validator.ts
  * @description SSoT para la lógica de validación de un borrador de campaña
  *              antes de su publicación. Es una función pura y sin efectos secundarios.
- * @version 1.0.0
+ * @version 1.1.0 (Linter Hygiene Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import type { CampaignDraft } from "../_types/draft.types";
-import { sectionsConfig } from "@/shared/lib/config/sections.config";
+// import { sectionsConfig } from "@/shared/lib/config/sections.config"; // <-- ELIMINADO
 import { defaultLocale } from "@/shared/lib/i18n.config";
 
 export interface ChecklistItem {
@@ -63,7 +63,7 @@ export function validateDraftForLaunch(draft: CampaignDraft): ChecklistItem[] {
   });
 
   // Regla 4: Contenido del Locale Principal Relleno
-  let isContentComplete = isLayoutComplete; // Si no hay layout, el contenido se considera completo.
+  let isContentComplete = isLayoutComplete;
   if (isLayoutComplete) {
     for (const section of draft.layoutConfig) {
       const sectionContent = draft.contentData[section.name]?.[defaultLocale];

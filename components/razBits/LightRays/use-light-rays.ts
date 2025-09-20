@@ -1,9 +1,9 @@
-// src/components/razBits/LightRays/useLightRays.ts
+// RUTA: components/razBits/LightRays/use-light-rays.ts
 /**
- * @file useLightRays.ts
+ * @file use-light-rays.ts
  * @description Hook de React para renderizar un efecto de rayos de luz volumétricos
- *              usando WebGL (ogl). Versión definitiva con tipado robusto y lógica completa.
- * @version 2.1.0
+ *              usando WebGL (ogl).
+ * @version 3.0.0 (Functional Restoration & Elite Leveling)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -36,6 +36,7 @@ const getCssVariableHsl = (varName: string): [number, number, number] => {
   );
   return [h, s, l];
 };
+
 const hslToRgb = (
   h: number,
   s: number,
@@ -61,6 +62,7 @@ const hslToRgb = (
   }
   return [r, g, b];
 };
+
 const getAnchorAndDir = (origin: RaysOrigin, w: number, h: number) => {
   const outside = 0.2;
   switch (origin) {
@@ -85,7 +87,7 @@ const getAnchorAndDir = (origin: RaysOrigin, w: number, h: number) => {
 
 export const useLightRays = (
   containerRef: React.RefObject<HTMLDivElement | null>,
-  config: Partial<LightRaysConfig> = {}
+  config: LightRaysConfig
 ) => {
   const animationFrameId = useRef<number | null>(null);
   const mousePos = useRef({ x: 0.5, y: 0.5 });
@@ -97,14 +99,13 @@ export const useLightRays = (
 
     let renderer: Renderer | null = null;
     let mesh: Mesh | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let uniforms: any = null;
     let isVisible = false;
 
     const loop = (t: number) => {
       if (!renderer || !mesh || !uniforms || !isVisible) return;
-
       uniforms.iTime.value = t * 0.001;
-
       if (config.followMouse) {
         const smoothing = 0.92;
         smoothMousePos.current.x =
@@ -118,14 +119,11 @@ export const useLightRays = (
           smoothMousePos.current.y,
         ];
       }
-
       try {
         renderer.render({ scene: mesh });
         animationFrameId.current = requestAnimationFrame(loop);
       } catch (e) {
-        logger.warn("Error en el bucle de renderizado de WebGL.", {
-          error: e,
-        });
+        logger.warn("Error en el bucle de renderizado de WebGL.", { error: e });
       }
     };
 
@@ -135,11 +133,13 @@ export const useLightRays = (
       const w = container.clientWidth * renderer.dpr;
       const h = container.clientHeight * renderer.dpr;
       uniforms.iResolution.value = [w, h];
+      // --- INICIO DE REFACTORIZACIÓN DE RESILIENCIA ---
       const { anchor, dir } = getAnchorAndDir(
-        config.raysOrigin ?? "top-center",
+        config.raysOrigin || "top-center",
         w,
         h
       );
+      // --- FIN DE REFACTORIZACIÓN DE RESILIENCIA ---
       uniforms.rayPos.value = anchor;
       uniforms.rayDir.value = dir;
     };
@@ -155,7 +155,8 @@ export const useLightRays = (
       gl.canvas.style.height = "100%";
       container.appendChild(gl.canvas);
 
-      const hslColor = getCssVariableHsl(config.raysColor ?? "primary");
+      // --- INICIO DE REFACTORIZACIÓN DE RESILIENCIA ---
+      const hslColor = getCssVariableHsl(config.raysColor || "primary");
       const rgbColor = hslToRgb(hslColor[0], hslColor[1], hslColor[2]);
 
       uniforms = {
@@ -167,7 +168,7 @@ export const useLightRays = (
         raysSpeed: { value: config.raysSpeed ?? 1.5 },
         lightSpread: { value: config.lightSpread ?? 0.8 },
         rayLength: { value: config.rayLength ?? 1.2 },
-        pulsating: { value: (config.pulsating ?? false) ? 1.0 : 0.0 },
+        pulsating: { value: config.pulsating ? 1.0 : 0.0 },
         fadeDistance: { value: config.fadeDistance ?? 1.0 },
         saturation: { value: config.saturation ?? 1.0 },
         mousePos: { value: [0.5, 0.5] },
@@ -175,6 +176,7 @@ export const useLightRays = (
         noiseAmount: { value: config.noiseAmount ?? 0.1 },
         distortion: { value: config.distortion ?? 0.05 },
       };
+      // --- FIN DE REFACTORIZACIÓN DE RESILIENCIA ---
 
       const geometry = new Triangle(gl);
       const program = new Program(gl, {
@@ -244,9 +246,7 @@ export const useLightRays = (
             container.removeChild(gl.canvas);
           }
         } catch (e) {
-          logger.warn("Error durante la limpieza de WebGL.", {
-            error: e,
-          });
+          logger.warn("Error durante la limpieza de WebGL.", { error: e });
         }
       }
       logger.info("Recursos de WebGL liberados.");
@@ -254,4 +254,3 @@ export const useLightRays = (
     };
   }, [containerRef, config]);
 };
-// src/components/razBits/LightRays/useLightRays.ts

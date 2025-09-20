@@ -1,12 +1,8 @@
-// RUTA: lib/schemas/pages/dev-dashboard.schema.ts
-
+// RUTA: shared/lib/schemas/pages/dev-dashboard.schema.ts
 /**
  * @file dev-dashboard.schema.ts
- * @description Esquema de Zod para el contenido i18n de la página del Dashboard de Desarrollo.
- *              v3.0.0 (PageHeader Integration): Integra el schema de contenido
- *              para el componente PageHeader de élite, permitiendo una cabecera
- *              completamente data-driven y con efectos visuales MEA.
- * @version 3.0.0
+ * @description SSoT para el contrato de datos del DCC Dashboard.
+ * @version 5.0.0 (Atomic Composition & Elite Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -20,34 +16,14 @@ const DevToolSchema = z.object({
 export const DevDashboardContentSchema = z.object({
   pageHeader: PageHeaderContentSchema,
   tools: z.object({
-    componentCanvas: DevToolSchema,
-    campaignSimulator: DevToolSchema,
-    branding: DevToolSchema,
+    campaignDesignSuite: DevToolSchema,
+    bavi: DevToolSchema,
+    razPrompts: DevToolSchema,
     resilienceShowcase: DevToolSchema,
   }),
-  selectThemeLabel: z.string(),
-  selectFontLabel: z.string(),
-  selectRadiusLabel: z.string(),
-  defaultPresetName: z.string(),
-  colorFilterPlaceholder: z.string(),
-  fontFilterPlaceholder: z.string(),
-  radiusFilterPlaceholder: z.string(),
-  customizeButton: z.string(),
-  composerTitle: z.string(),
-  composerDescription: z.string(),
-  composerColorsTab: z.string(),
-  composerTypographyTab: z.string(),
-  composerGeometryTab: z.string(),
-  composerSaveButton: z.string(),
-  composerCancelButton: z.string(),
-  fontSizeLabel: z.string(),
-  fontWeightLabel: z.string(),
-  lineHeightLabel: z.string(),
-  letterSpacingLabel: z.string(),
-  borderRadiusLabel: z.string(),
-  borderWidthLabel: z.string(),
-  baseSpacingUnitLabel: z.string(),
-  inputHeightLabel: z.string(),
+  // La propiedad 'suiteStyleComposer' ha sido eliminada. Su contrato
+  // ahora es gestionado por su propio schema soberano y ensamblado
+  // en el i18n.schema.ts maestro.
 });
 
 export const DevDashboardLocaleSchema = z.object({
