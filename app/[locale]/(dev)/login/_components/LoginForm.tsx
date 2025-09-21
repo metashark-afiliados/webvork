@@ -152,4 +152,3 @@ export function LoginForm({ content, locale }: LoginFormProps) {
     </Card>
   );
 }
-

@@ -4,15 +4,13 @@
  * @description SSoT para la configuración de secciones. Define el mapeo entre
  *              un nombre de sección, su componente React, su clave de diccionario
  *              i18n y su contrato de datos (schema de Zod).
- * @version 19.0.0 (Holistic Completion & Hygiene Fix)
+ * @version 22.0.0 (Definitive Path & Type Resolution)
  * @author RaZ Podestá - MetaShark Tech
  */
-import { type ComponentType, type RefAttributes } from "react";
 import { z } from "zod";
-import { logger } from "@/shared/lib/logging";
 import * as Sections from "@/components/sections";
 
-// Importación de TODOS los schemas de contenido de sección desde su SSoT
+// --- INICIO DE CORRECCIÓN DE RUTAS DE IMPORTACIÓN ---
 import { BenefitsSectionContentSchema } from "@/shared/lib/schemas/components/benefits-section.schema";
 import { CommunitySectionContentSchema } from "@/shared/lib/schemas/components/community-section.schema";
 import { ContactSectionContentSchema } from "@/shared/lib/schemas/components/contact-section.schema";
@@ -28,9 +26,6 @@ import { NewsGridContentSchema } from "@/shared/lib/schemas/components/news-grid
 import { OrderSectionContentSchema } from "@/shared/lib/schemas/components/order-section.schema";
 import { PricingSectionContentSchema } from "@/shared/lib/schemas/components/pricing-section.schema";
 import { ProductShowcaseContentSchema } from "@/shared/lib/schemas/components/product-showcase.schema";
-// --- [INICIO DE CORRECCIÓN DE HIGIENE] ---
-// Se elimina la importación no utilizada de 'ScrollingBannerContentSchema'.
-// --- [FIN DE CORRECCIÓN DE HIGIENE] ---
 import { ServicesSectionContentSchema } from "@/shared/lib/schemas/components/services-section.schema";
 import { SocialProofLogosContentSchema } from "@/shared/lib/schemas/components/social-proof-logos.schema";
 import { SponsorsSectionContentSchema } from "@/shared/lib/schemas/components/sponsors-section.schema";
@@ -39,139 +34,124 @@ import { TestimonialCarouselSectionContentSchema } from "@/shared/lib/schemas/co
 import { TestimonialGridContentSchema } from "@/shared/lib/schemas/components/testimonial-grid.schema";
 import { TextPageContentSchema } from "@/shared/lib/schemas/pages/text-page.schema";
 import { ThumbnailCarouselContentSchema } from "@/shared/lib/schemas/components/thumbnail-carousel.schema";
-
-logger.trace(
-  "[sections.config] Módulo de configuración de secciones (v19.0) cargado."
-);
-
-interface SectionConfigEntry<P> {
-  component: ComponentType<P & RefAttributes<HTMLElement>>;
-  dictionaryKey: string;
-  schema: z.ZodObject<z.ZodRawShape>;
-}
-
-function createSectionConfig<P>(
-  config: SectionConfigEntry<P>
-): SectionConfigEntry<P> {
-  return config;
-}
+// --- FIN DE CORRECCIÓN DE RUTAS DE IMPORTACIÓN ---
 
 export const sectionsConfig = {
-  BenefitsSection: createSectionConfig({
+  BenefitsSection: {
     component: Sections.BenefitsSection,
     dictionaryKey: "benefitsSection",
     schema: BenefitsSectionContentSchema,
-  }),
-  CommunitySection: createSectionConfig({
+  },
+  CommunitySection: {
     component: Sections.CommunitySection,
     dictionaryKey: "communitySection",
     schema: CommunitySectionContentSchema,
-  }),
-  ContactSection: createSectionConfig({
+  },
+  ContactSection: {
     component: Sections.ContactSection,
     dictionaryKey: "contactSection",
     schema: ContactSectionContentSchema,
-  }),
-  DoubleScrollingBanner: createSectionConfig({
+  },
+  DoubleScrollingBanner: {
     component: Sections.DoubleScrollingBanner,
     dictionaryKey: "doubleScrollingBanner",
     schema: DoubleScrollingBannerContentSchema,
-  }),
-  FaqAccordion: createSectionConfig({
+  },
+  FaqAccordion: {
     component: Sections.FaqAccordion,
     dictionaryKey: "faqAccordion",
     schema: FaqAccordionContentSchema,
-  }),
-  FeaturedArticlesCarousel: createSectionConfig({
+  },
+  FeaturedArticlesCarousel: {
     component: Sections.FeaturedArticlesCarousel,
     dictionaryKey: "featuredArticlesCarousel",
     schema: FeaturedArticlesCarouselContentSchema,
-  }),
-  FeaturesSection: createSectionConfig({
+  },
+  FeaturesSection: {
     component: Sections.FeaturesSection,
     dictionaryKey: "featuresSection",
     schema: FeaturesSectionContentSchema,
-  }),
-  GuaranteeSection: createSectionConfig({
+  },
+  GuaranteeSection: {
     component: Sections.GuaranteeSection,
     dictionaryKey: "guaranteeSection",
     schema: GuaranteeSectionContentSchema,
-  }),
-  Hero: createSectionConfig({
+  },
+  Hero: {
     component: Sections.Hero,
     dictionaryKey: "hero",
     schema: HeroContentSchema,
-  }),
-  HeroNews: createSectionConfig({
+  },
+  HeroNews: {
     component: Sections.HeroNews,
     dictionaryKey: "heroNews",
     schema: HeroNewsContentSchema,
-  }),
-  IngredientAnalysis: createSectionConfig({
+  },
+  IngredientAnalysis: {
     component: Sections.IngredientAnalysis,
     dictionaryKey: "ingredientAnalysis",
     schema: IngredientAnalysisContentSchema,
-  }),
-  NewsGrid: createSectionConfig({
+  },
+  NewsGrid: {
     component: Sections.NewsGrid,
     dictionaryKey: "newsGrid",
     schema: NewsGridContentSchema,
-  }),
-  OrderSection: createSectionConfig({
+  },
+  OrderSection: {
     component: Sections.OrderSection,
     dictionaryKey: "orderSection",
     schema: OrderSectionContentSchema,
-  }),
-  PricingSection: createSectionConfig({
+  },
+  PricingSection: {
     component: Sections.PricingSection,
     dictionaryKey: "pricingSection",
     schema: PricingSectionContentSchema,
-  }),
-  ProductShowcase: createSectionConfig({
+  },
+  ProductShowcase: {
     component: Sections.ProductShowcase,
     dictionaryKey: "productShowcase",
     schema: ProductShowcaseContentSchema,
-  }),
-  ServicesSection: createSectionConfig({
+  },
+  ServicesSection: {
     component: Sections.ServicesSection,
     dictionaryKey: "servicesSection",
     schema: ServicesSectionContentSchema,
-  }),
-  SocialProofLogos: createSectionConfig({
+  },
+  SocialProofLogos: {
     component: Sections.SocialProofLogos,
     dictionaryKey: "socialProofLogos",
     schema: SocialProofLogosContentSchema,
-  }),
-  SponsorsSection: createSectionConfig({
+  },
+  SponsorsSection: {
     component: Sections.SponsorsSection,
     dictionaryKey: "sponsorsSection",
     schema: SponsorsSectionContentSchema,
-  }),
-  TeamSection: createSectionConfig({
+  },
+  TeamSection: {
     component: Sections.TeamSection,
     dictionaryKey: "teamSection",
     schema: TeamSectionContentSchema,
-  }),
-  TestimonialCarouselSection: createSectionConfig({
+  },
+  TestimonialCarouselSection: {
     component: Sections.TestimonialCarouselSection,
     dictionaryKey: "testimonialCarouselSection",
     schema: TestimonialCarouselSectionContentSchema,
-  }),
-  TestimonialGrid: createSectionConfig({
+  },
+  TestimonialGrid: {
     component: Sections.TestimonialGrid,
     dictionaryKey: "testimonialGrid",
     schema: TestimonialGridContentSchema,
-  }),
-  TextSection: createSectionConfig({
+  },
+  TextSection: {
     component: Sections.TextSection,
-    dictionaryKey: "aboutPage",
-    schema: TextPageContentSchema,
-  }),
-  ThumbnailCarousel: createSectionConfig({
+    dictionaryKey: "aboutPage", // Clave genérica representativa
+    schema: z.object({ content: TextPageContentSchema.shape.content }),
+  },
+  ThumbnailCarousel: {
     component: Sections.ThumbnailCarousel,
     dictionaryKey: "thumbnailCarousel",
     schema: ThumbnailCarouselContentSchema,
-  }),
+  },
 } as const;
 
 export type SectionName = keyof typeof sectionsConfig;

@@ -11,7 +11,10 @@ import { revalidatePath } from "next/cache";
 import { logger } from "@/shared/lib/logging";
 import { createClient } from "@/shared/lib/supabase/server";
 import type { ActionResult } from "@/shared/lib/types/actions.types";
-import { LoginSchema, type LoginFormData } from "@/shared/lib/schemas/auth/login.schema";
+import {
+  LoginSchema,
+  type LoginFormData,
+} from "@/shared/lib/schemas/auth/login.schema";
 
 /**
  * @function loginWithPasswordAction

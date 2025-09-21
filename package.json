@@ -85,7 +85,9 @@
   "devDependencies": {
     "@eslint/js": "^9.35.0",
     "@next/eslint-plugin-next": "^15.5.3",
+    "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/postcss": "^4.1.13",
+    "@tailwindcss/typography": "^0.5.18",
     "@types/archiver": "^6.0.3",
     "@types/negotiator": "^0.6.4",
     "@types/node": "^20",
@@ -103,6 +105,7 @@
     "object-hash": "^3.0.0",
     "postcss": "^8",
     "prettier": "^3.6.2",
+    "server-only": "^0.0.1",
     "tailwindcss": "^4.1.13",
     "tsx": "^4.20.5",
     "typescript": "^5",

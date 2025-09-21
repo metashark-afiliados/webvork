@@ -2,13 +2,13 @@
 /**
  * @file useCartStore.ts
  * @description Store de Zustand y SSoT para la gestión del estado del carrito de compras.
- *              Implementa la lógica para añadir, eliminar y actualizar productos,
- *              y persiste el estado en localStorage para una experiencia de usuario robusta.
- * @version 2.0.0 (Elite Compliance & SSoT Alignment)
+ *              v3.0.0 (DEPRECATION & ADAPTER): Este store ha sido refactorizado a un
+ *              adaptador sobre el nuevo sistema de Contexto y Server Actions.
+ *              Su uso está obsoleto y está destinado a ser eliminado.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
 import { toast } from "sonner";
 import { logger } from "@/shared/lib/logging";
 import type { Product } from "@/shared/lib/schemas/entities/product.schema";
@@ -16,7 +16,7 @@ import type { Product } from "@/shared/lib/schemas/entities/product.schema";
 /**
  * @interface CartItem
  * @description Define la estructura de un item dentro del carrito.
- *              Extiende la entidad soberana 'Product' con la cantidad seleccionada.
+ *              Se mantiene por retrocompatibilidad durante la transición.
  */
 export interface CartItem extends Product {
   quantity: number;
@@ -24,8 +24,7 @@ export interface CartItem extends Product {
 
 /**
  * @interface CartState
- * @description Define el contrato completo del store del carrito, incluyendo
- *              el estado y las acciones.
+ * @description Define el contrato completo del store del carrito obsoleto.
  */
 interface CartState {
   items: CartItem[];
@@ -35,79 +34,48 @@ interface CartState {
   clearCart: () => void;
 }
 
-export const useCartStore = create<CartState>()(
-  persist(
-    (set, get) => ({
-      items: [],
-      addItem: (product, quantity = 1) => {
-        logger.trace(`[useCartStore] Acción: addItem`, { product, quantity });
-        const currentItems = get().items;
-        const existingItem = currentItems.find(
-          (item) => item.id === product.id
-        );
-
-        if (existingItem) {
-          const updatedItems = currentItems.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
-          );
-          set({ items: updatedItems });
-          toast.success(`"${product.name}" actualizado en el carrito.`);
-        } else {
-          const newItem: CartItem = { ...product, quantity };
-          set({ items: [...currentItems, newItem] });
-          toast.success(`"${product.name}" añadido al carrito.`);
-        }
-      },
-      removeItem: (productId) => {
-        logger.trace(`[useCartStore] Acción: removeItem`, { productId });
-        const updatedItems = get().items.filter(
-          (item) => item.id !== productId
-        );
-        set({ items: updatedItems });
-        toast.info("Producto eliminado del carrito.");
-      },
-      updateQuantity: (productId, quantity) => {
-        logger.trace(`[useCartStore] Acción: updateQuantity`, {
-          productId,
-          quantity,
-        });
-        if (quantity <= 0) {
-          get().removeItem(productId);
-          return;
-        }
-        const updatedItems = get().items.map((item) =>
-          item.id === productId ? { ...item, quantity } : item
-        );
-        set({ items: updatedItems });
-      },
-      clearCart: () => {
-        logger.warn(`[useCartStore] Acción: clearCart. Carrito vaciado.`);
-        set({ items: [] });
-        toast.warning("El carrito ha sido vaciado.");
-      },
-    }),
-    {
-      name: "cart-storage",
-      storage: createJSONStorage(() => localStorage),
-    }
-  )
-);
+/**
+ * @const useCartStore
+ * @description Hook de Zustand obsoleto. Las acciones ahora solo registran una
+ *              advertencia para facilitar la depuración y la migración final.
+ */
+export const useCartStore = create<CartState>(() => ({
+  items: [],
+  addItem: () => {
+    logger.warn(
+      "[useCartStore] DEPRECATED: La acción 'addItem' fue llamada. La lógica ha sido movida a 'cart.actions.ts'."
+    );
+    toast.warning("Funcionalidad obsoleta", {
+      description: "addItem ya no debe ser usado desde useCartStore.",
+    });
+  },
+  removeItem: () => {
+    logger.warn(
+      "[useCartStore] DEPRECATED: La acción 'removeItem' fue llamada."
+    );
+  },
+  updateQuantity: () => {
+    logger.warn(
+      "[useCartStore] DEPRECATED: La acción 'updateQuantity' fue llamada."
+    );
+  },
+  clearCart: () => {
+    logger.warn(
+      "[useCartStore] DEPRECATED: La acción 'clearCart' fue llamada."
+    );
+  },
+}));
 
 /**
  * @function useCartTotals
- * @description Hook selector para obtener valores calculados del estado del carrito.
- * @returns {{ cartCount: number, cartTotal: number }} El número total de items y el precio total.
+ * @description Hook selector obsoleto. La lógica ahora reside en el servidor
+ *              y es gestionada por el nuevo `useCart` hook. Devuelve valores
+ *              por defecto para prevenir que la UI se rompa durante la transición.
+ * @returns {{ cartCount: number, cartTotal: number }}
  */
 export const useCartTotals = () => {
-  const items = useCartStore((state) => state.items);
-
-  const cartCount = items.reduce((total, item) => total + item.quantity, 0);
-  const cartTotal = items.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
+  logger.warn(
+    "[useCartStore] DEPRECATED: El hook 'useCartTotals' fue llamado. La lógica de totales ahora está en el servidor."
   );
-
-  return { cartCount, cartTotal };
+  return { cartCount: 0, cartTotal: 0 };
 };

@@ -20,7 +20,37 @@
           "secondary": ["recupero", "forza"]
         },
         "targetProfile": { "userType": "Atleti", "ageRange": "18-45" },
-        "rating": 4.8
+        "rating": 4.8,
+        "options": [
+          {
+            "id": "opt_size_kband",
+            "name": "Taglia",
+            "values": ["S", "M", "L"]
+          }
+        ],
+        "variants": [
+          {
+            "id": "var_kband_s",
+            "title": "S",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Taglia", "value": "S" }],
+            "price": { "amount": "89.99", "currencyCode": "EUR" }
+          },
+          {
+            "id": "var_kband_m",
+            "title": "M",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Taglia", "value": "M" }],
+            "price": { "amount": "89.99", "currencyCode": "EUR" }
+          },
+          {
+            "id": "var_kband_l",
+            "title": "L",
+            "availableForSale": false,
+            "selectedOptions": [{ "name": "Taglia", "value": "L" }],
+            "price": { "amount": "89.99", "currencyCode": "EUR" }
+          }
+        ]
       },
       {
         "id": "prod_vp_filter",
@@ -66,6 +96,72 @@
           "ageRange": "18+"
         },
         "rating": 4.9
+      },
+      {
+        "id": "prod_rg_mat",
+        "name": "ReviveGrip Yoga Mat",
+        "slug": "revivegrip-yoga-mat",
+        "price": 75.0,
+        "currency": "EUR",
+        "isBestseller": false,
+        "imageUrl": "/img/products/revivegrip-mat.jpg",
+        "inventory": { "total": 50, "available": 45 },
+        "logistics": { "deliveryTime": "2-4 giorni lavorativi" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/revivegrip"
+        },
+        "categorization": {
+          "primary": "Fitness",
+          "secondary": ["yoga", "flessibilità"]
+        },
+        "targetProfile": { "userType": "Yogis", "ageRange": "Tutte le età" },
+        "rating": 4.7
+      },
+      {
+        "id": "prod_eg_blend",
+        "name": "Energetic Greens",
+        "slug": "energetic-greens",
+        "price": 55.5,
+        "currency": "EUR",
+        "isBestseller": true,
+        "imageUrl": "/img/products/energetic-greens.jpg",
+        "inventory": { "total": 100, "available": 80 },
+        "logistics": { "deliveryTime": "1-3 giorni lavorativi" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/energetic-greens"
+        },
+        "categorization": {
+          "primary": "Nutrizione",
+          "secondary": ["superfood", "detox"]
+        },
+        "targetProfile": {
+          "userType": "Appassionati di Salute",
+          "ageRange": "25+"
+        },
+        "rating": 4.9
+      },
+      {
+        "id": "prod_ha_bottle",
+        "name": "HydroActive Bottle",
+        "slug": "hydroactive-bottle",
+        "price": 35.0,
+        "currency": "EUR",
+        "isBestseller": false,
+        "imageUrl": "/img/products/hydroactive-bottle.jpg",
+        "inventory": { "total": 200, "available": 150 },
+        "logistics": { "deliveryTime": "1-3 giorni lavorativi" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/hydroactive"
+        },
+        "categorization": {
+          "primary": "Accessori",
+          "secondary": ["idratazione", "sostenibilità"]
+        },
+        "targetProfile": { "userType": "Tutti", "ageRange": "Tutte le età" },
+        "rating": 4.6
       }
     ]
   },
@@ -90,7 +186,37 @@
           "secondary": ["recuperación", "fuerza"]
         },
         "targetProfile": { "userType": "Atletas", "ageRange": "18-45" },
-        "rating": 4.8
+        "rating": 4.8,
+        "options": [
+          {
+            "id": "opt_size_kband",
+            "name": "Talla",
+            "values": ["S", "M", "L"]
+          }
+        ],
+        "variants": [
+          {
+            "id": "var_kband_s",
+            "title": "S",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Talla", "value": "S" }],
+            "price": { "amount": "89.99", "currencyCode": "EUR" }
+          },
+          {
+            "id": "var_kband_m",
+            "title": "M",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Talla", "value": "M" }],
+            "price": { "amount": "89.99", "currencyCode": "EUR" }
+          },
+          {
+            "id": "var_kband_l",
+            "title": "L",
+            "availableForSale": false,
+            "selectedOptions": [{ "name": "Talla", "value": "L" }],
+            "price": { "amount": "89.99", "currencyCode": "EUR" }
+          }
+        ]
       },
       {
         "id": "prod_vp_filter",
@@ -139,6 +265,78 @@
           "ageRange": "18+"
         },
         "rating": 4.9
+      },
+      {
+        "id": "prod_rg_mat",
+        "name": "Esterilla ReviveGrip Yoga",
+        "slug": "revivegrip-yoga-mat",
+        "price": 75.0,
+        "currency": "EUR",
+        "isBestseller": false,
+        "imageUrl": "/img/products/revivegrip-mat.jpg",
+        "inventory": { "total": 50, "available": 45 },
+        "logistics": { "deliveryTime": "2-4 días hábiles" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/revivegrip"
+        },
+        "categorization": {
+          "primary": "Fitness",
+          "secondary": ["yoga", "flexibilidad"]
+        },
+        "targetProfile": {
+          "userType": "Yoguis",
+          "ageRange": "Todas las edades"
+        },
+        "rating": 4.7
+      },
+      {
+        "id": "prod_eg_blend",
+        "name": "Verdes Energéticos",
+        "slug": "energetic-greens",
+        "price": 55.5,
+        "currency": "EUR",
+        "isBestseller": true,
+        "imageUrl": "/img/products/energetic-greens.jpg",
+        "inventory": { "total": 100, "available": 80 },
+        "logistics": { "deliveryTime": "1-3 días hábiles" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/energetic-greens"
+        },
+        "categorization": {
+          "primary": "Nutrición",
+          "secondary": ["superalimento", "detox"]
+        },
+        "targetProfile": {
+          "userType": "Entusiastas de la Salud",
+          "ageRange": "25+"
+        },
+        "rating": 4.9
+      },
+      {
+        "id": "prod_ha_bottle",
+        "name": "Botella HydroActive",
+        "slug": "hydroactive-bottle",
+        "price": 35.0,
+        "currency": "EUR",
+        "isBestseller": false,
+        "imageUrl": "/img/products/hydroactive-bottle.jpg",
+        "inventory": { "total": 200, "available": 150 },
+        "logistics": { "deliveryTime": "1-3 días hábiles" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/hydroactive"
+        },
+        "categorization": {
+          "primary": "Accesorios",
+          "secondary": ["hidratación", "sostenibilidad"]
+        },
+        "targetProfile": {
+          "userType": "Todos",
+          "ageRange": "Todas las edades"
+        },
+        "rating": 4.6
       }
     ]
   },
@@ -163,7 +361,37 @@
           "secondary": ["recovery", "strength"]
         },
         "targetProfile": { "userType": "Athletes", "ageRange": "18-45" },
-        "rating": 4.8
+        "rating": 4.8,
+        "options": [
+          {
+            "id": "opt_size_kband",
+            "name": "Size",
+            "values": ["S", "M", "L"]
+          }
+        ],
+        "variants": [
+          {
+            "id": "var_kband_s",
+            "title": "S",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Size", "value": "S" }],
+            "price": { "amount": "99.99", "currencyCode": "USD" }
+          },
+          {
+            "id": "var_kband_m",
+            "title": "M",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Size", "value": "M" }],
+            "price": { "amount": "99.99", "currencyCode": "USD" }
+          },
+          {
+            "id": "var_kband_l",
+            "title": "L",
+            "availableForSale": false,
+            "selectedOptions": [{ "name": "Size", "value": "L" }],
+            "price": { "amount": "99.99", "currencyCode": "USD" }
+          }
+        ]
       },
       {
         "id": "prod_vp_filter",
@@ -209,6 +437,72 @@
           "ageRange": "18+"
         },
         "rating": 4.9
+      },
+      {
+        "id": "prod_rg_mat",
+        "name": "ReviveGrip Yoga Mat",
+        "slug": "revivegrip-yoga-mat",
+        "price": 85.0,
+        "currency": "USD",
+        "isBestseller": false,
+        "imageUrl": "/img/products/revivegrip-mat.jpg",
+        "inventory": { "total": 50, "available": 45 },
+        "logistics": { "deliveryTime": "2-4 business days" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/revivegrip"
+        },
+        "categorization": {
+          "primary": "Fitness",
+          "secondary": ["yoga", "flexibility"]
+        },
+        "targetProfile": { "userType": "Yogis", "ageRange": "All ages" },
+        "rating": 4.7
+      },
+      {
+        "id": "prod_eg_blend",
+        "name": "Energetic Greens",
+        "slug": "energetic-greens",
+        "price": 65.5,
+        "currency": "USD",
+        "isBestseller": true,
+        "imageUrl": "/img/products/energetic-greens.jpg",
+        "inventory": { "total": 100, "available": 80 },
+        "logistics": { "deliveryTime": "1-3 business days" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/energetic-greens"
+        },
+        "categorization": {
+          "primary": "Nutrition",
+          "secondary": ["superfood", "detox"]
+        },
+        "targetProfile": {
+          "userType": "Health Enthusiasts",
+          "ageRange": "25+"
+        },
+        "rating": 4.9
+      },
+      {
+        "id": "prod_ha_bottle",
+        "name": "HydroActive Bottle",
+        "slug": "hydroactive-bottle",
+        "price": 40.0,
+        "currency": "USD",
+        "isBestseller": false,
+        "imageUrl": "/img/products/hydroactive-bottle.jpg",
+        "inventory": { "total": 200, "available": 150 },
+        "logistics": { "deliveryTime": "1-3 business days" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/hydroactive"
+        },
+        "categorization": {
+          "primary": "Accessories",
+          "secondary": ["hydration", "sustainability"]
+        },
+        "targetProfile": { "userType": "Everyone", "ageRange": "All ages" },
+        "rating": 4.6
       }
     ]
   },
@@ -233,7 +527,37 @@
           "secondary": ["recuperação", "força"]
         },
         "targetProfile": { "userType": "Atletas", "ageRange": "18-45" },
-        "rating": 4.8
+        "rating": 4.8,
+        "options": [
+          {
+            "id": "opt_size_kband",
+            "name": "Tamanho",
+            "values": ["P", "M", "G"]
+          }
+        ],
+        "variants": [
+          {
+            "id": "var_kband_s",
+            "title": "P",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Tamanho", "value": "P" }],
+            "price": { "amount": "499.90", "currencyCode": "BRL" }
+          },
+          {
+            "id": "var_kband_m",
+            "title": "M",
+            "availableForSale": true,
+            "selectedOptions": [{ "name": "Tamanho", "value": "M" }],
+            "price": { "amount": "499.90", "currencyCode": "BRL" }
+          },
+          {
+            "id": "var_kband_l",
+            "title": "G",
+            "availableForSale": false,
+            "selectedOptions": [{ "name": "Tamanho", "value": "G" }],
+            "price": { "amount": "499.90", "currencyCode": "BRL" }
+          }
+        ]
       },
       {
         "id": "prod_vp_filter",
@@ -279,6 +603,72 @@
           "ageRange": "18+"
         },
         "rating": 4.9
+      },
+      {
+        "id": "prod_rg_mat",
+        "name": "Tapete de Yoga ReviveGrip",
+        "slug": "revivegrip-yoga-mat",
+        "price": 420.0,
+        "currency": "BRL",
+        "isBestseller": false,
+        "imageUrl": "/img/products/revivegrip-mat.jpg",
+        "inventory": { "total": 50, "available": 45 },
+        "logistics": { "deliveryTime": "2-4 dias úteis" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/revivegrip"
+        },
+        "categorization": {
+          "primary": "Fitness",
+          "secondary": ["yoga", "flexibilidade"]
+        },
+        "targetProfile": { "userType": "Yogis", "ageRange": "Todas as idades" },
+        "rating": 4.7
+      },
+      {
+        "id": "prod_eg_blend",
+        "name": "Verdes Energéticos",
+        "slug": "energetic-greens",
+        "price": 310.0,
+        "currency": "BRL",
+        "isBestseller": true,
+        "imageUrl": "/img/products/energetic-greens.jpg",
+        "inventory": { "total": 100, "available": 80 },
+        "logistics": { "deliveryTime": "1-3 dias úteis" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/energetic-greens"
+        },
+        "categorization": {
+          "primary": "Nutrição",
+          "secondary": ["superalimento", "detox"]
+        },
+        "targetProfile": {
+          "userType": "Entusiastas da Saúde",
+          "ageRange": "25+"
+        },
+        "rating": 4.9
+      },
+      {
+        "id": "prod_ha_bottle",
+        "name": "Garrafa HydroActive",
+        "slug": "hydroactive-bottle",
+        "price": 199.0,
+        "currency": "BRL",
+        "isBestseller": false,
+        "imageUrl": "/img/products/hydroactive-bottle.jpg",
+        "inventory": { "total": 200, "available": 150 },
+        "logistics": { "deliveryTime": "1-3 dias úteis" },
+        "producerInfo": {
+          "name": "Global Fitwell",
+          "checkoutUrl": "https://checkout.globalfitwell.com/hydroactive"
+        },
+        "categorization": {
+          "primary": "Acessórios",
+          "secondary": ["hidratação", "sustentabilidade"]
+        },
+        "targetProfile": { "userType": "Todos", "ageRange": "Todas as idades" },
+        "rating": 4.6
       }
     ]
   }

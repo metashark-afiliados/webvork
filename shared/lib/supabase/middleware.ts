@@ -2,17 +2,17 @@
 /**
  * @file middleware.ts
  * @description SSoT para la lógica de middleware de gestión de sesión de Supabase.
- * @version 2.1.0 (Elite Type Safety & Code Hygiene)
+ * @version 2.2.0 (Elite Code Hygiene)
  * @author nextjs-with-supabase (original), RaZ Podestá - MetaShark Tech (naturalización)
  */
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { logger } from "@/shared/lib/logging";
 
 export async function updateSession(
   request: NextRequest
 ): Promise<NextResponse> {
-  let supabaseResponse = NextResponse.next({
+  const supabaseResponse = NextResponse.next({
     request,
   });
 
@@ -27,31 +27,10 @@ export async function updateSession(
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(
-            ({
-              name,
-              value,
-              options,
-            }: {
-              name: string;
-              value: string;
-              options: CookieOptions;
-            }) => request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({
-            request,
+          cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
+            supabaseResponse.cookies.set(name, value, options);
           });
-          cookiesToSet.forEach(
-            ({
-              name,
-              value,
-              options,
-            }: {
-              name: string;
-              value: string;
-              options: CookieOptions;
-            }) => supabaseResponse.cookies.set(name, value, options)
-          );
         },
       },
     }

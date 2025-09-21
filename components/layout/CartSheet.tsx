@@ -41,10 +41,6 @@ interface CartSheetProps {
   locale: Locale;
 }
 
-/**
- * @component CartItemRow
- * @description Subcomponente de presentación puro para una fila de item en el carrito.
- */
 const CartItemRow = ({ item, locale }: { item: CartItem; locale: Locale }) => {
   const { updateQuantity, removeItem } = useCartStore();
   return (
@@ -174,7 +170,7 @@ export function CartSheet({
                 <p>
                   {new Intl.NumberFormat(locale, {
                     style: "currency",
-                    currency: "EUR", // Se podría hacer dinámico en el futuro
+                    currency: "EUR",
                   }).format(cartTotal)}
                 </p>
               </div>

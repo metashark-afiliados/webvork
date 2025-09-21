@@ -2,9 +2,10 @@
 /**
  * @file SectionRenderer.tsx
  * @description Motor de renderizado de élite del lado del servidor.
- *              Implementa validación de contratos en tiempo de ejecución con Zod
- *              para garantizar la máxima resiliencia y seguridad de tipos.
- * @version 12.0.0 (Focus-Aware & Elite Compliance)
+ *              v14.0.0 (Definitive Type Safety): Erradica el uso de 'any',
+ *              reemplazándolo con una aserción de tipo genérica pero segura que
+ *              cumple con los estándares de 'no-explicit-any' y la higiene de código.
+ * @version 14.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
@@ -17,6 +18,22 @@ import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type { Locale } from "@/shared/lib/i18n.config";
 import { ValidationError } from "@/components/ui/ValidationError";
 import { SectionAnimator } from "./SectionAnimator";
+
+// --- [INICIO DE REFACTORIZACIÓN DE ÉLITE: TIPADO SEGURO] ---
+/**
+ * @type GenericSectionComponent
+ * @description Define un contrato de tipo genérico para cualquier componente de sección
+ *              que pueda ser renderizado dinámicamente. Es un componente forwardRef
+ *              que acepta un conjunto mínimo de props requeridas.
+ */
+type GenericSectionComponent = React.ForwardRefExoticComponent<
+  {
+    content: Record<string, unknown>; // Validado por Zod en tiempo de ejecución
+    locale: Locale;
+    isFocused?: boolean;
+  } & React.RefAttributes<HTMLElement>
+>;
+// --- [FIN DE REFACTORIZACIÓN DE ÉLITE: TIPADO SEGURO] ---
 
 interface SectionRendererProps {
   sections: { name?: string | undefined }[];
@@ -33,7 +50,9 @@ export function SectionRenderer({
   focusedSection = null,
   sectionRefs,
 }: SectionRendererProps): React.ReactElement {
-  logger.info("[SectionRenderer v12.0] Ensamblando página (Focus-Aware)...");
+  logger.info(
+    "[SectionRenderer v14.0] Ensamblando página (Definitive Type Safety)..."
+  );
 
   const renderSection = (section: { name: string }, index: number) => {
     const sectionName = section.name as SectionName;
@@ -46,14 +65,11 @@ export function SectionRenderer({
       return null;
     }
 
-    const { component: Component, dictionaryKey, schema } = config;
+    const { component, dictionaryKey, schema } = config;
     const contentData = dictionary[dictionaryKey as keyof Dictionary];
-
-    // --- NÚCLEO DE LA SOLUCIÓN ARQUITECTÓNICA: VALIDACIÓN EN TIEMPO DE EJECUCIÓN ---
     const validation = schema.safeParse(contentData);
 
     if (!validation.success) {
-      // En desarrollo, muestra un error detallado. En producción, falla silenciosamente.
       if (
         process.env.NODE_ENV === "development" &&
         dictionary.validationError
@@ -73,7 +89,11 @@ export function SectionRenderer({
       return null;
     }
 
-    // Si la validación pasa, `validation.data` tiene el tipo correcto y seguro.
+    // --- [INICIO DE REFACTORIZACIÓN DE ÉLITE: TIPADO SEGURO] ---
+    // Se realiza un cast al tipo genérico seguro en lugar de 'any'.
+    const Component = component as GenericSectionComponent;
+    // --- [FIN DE REFACTORIZACIÓN DE ÉLITE: TIPADO SEGURO] ---
+
     const componentProps = {
       content: validation.data,
       locale: locale,
@@ -90,6 +110,7 @@ export function SectionRenderer({
     logger.trace(
       `[SectionRenderer] Renderizando sección #${index + 1}: ${sectionName}`
     );
+
     return <Component key={`${sectionName}-${index}`} {...componentProps} />;
   };
 

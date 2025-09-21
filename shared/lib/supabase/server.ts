@@ -2,7 +2,7 @@
 /**
  * @file server.ts
  * @description SSoT para la creación del cliente de Supabase en el lado del servidor.
- * @version 2.1.0 (SSR-Aware & Elite Compliance)
+ * @version 2.2.0 (Elite Error Handling & Observability)
  * @author nextjs-with-supabase (original), RaZ Podestá - MetaShark Tech (naturalización)
  */
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
@@ -27,14 +27,27 @@ export function createClient() {
           try {
             cookieStore.set({ name, value, ...options });
           } catch (error) {
-            // Ignorar errores en Server Components como se recomienda.
+            // --- [INICIO DE REFACTORIZACIÓN DE ÉLITE] ---
+            // En Server Components, esta operación fallará. Se captura y se registra
+            // a nivel de 'trace' para observabilidad sin contaminar los logs principales.
+            logger.trace(
+              "[Supabase Server Client] Error esperado al intentar SET cookie en un Server Component. La operación se ignora de forma segura.",
+              { error: (error as Error).message }
+            );
+            // --- [FIN DE REFACTORIZACIÓN DE ÉLITE] ---
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: "", ...options });
           } catch (error) {
-            // Ignorar errores en Server Components.
+            // --- [INICIO DE REFACTORIZACIÓN DE ÉLITE] ---
+            // Misma lógica que en 'set'.
+            logger.trace(
+              "[Supabase Server Client] Error esperado al intentar REMOVE cookie en un Server Component. La operación se ignora de forma segura.",
+              { error: (error as Error).message }
+            );
+            // --- [FIN DE REFACTORIZACIÓN DE ÉLITE] ---
           }
         },
       },

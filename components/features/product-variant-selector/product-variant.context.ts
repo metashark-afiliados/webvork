@@ -10,7 +10,10 @@
 
 import { createContext, useContext } from "react";
 import { logger } from "@/shared/lib/logging";
-import type { ProductOption, ProductVariant } from "@/shared/lib/schemas/entities/product.schema";
+import type {
+  ProductOption,
+  ProductVariant,
+} from "@/shared/lib/schemas/entities/product.schema";
 
 export interface VariantContextState {
   selectedOptions: URLSearchParams;

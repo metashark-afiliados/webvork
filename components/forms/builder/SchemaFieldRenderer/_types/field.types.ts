@@ -16,7 +16,14 @@ export interface FieldMetadata {
   label: string;
   placeholder?: string;
   description?: string;
-  controlType: "input" | "textarea" | "switch" | "select" | "image" | "array" | "color";
+  controlType:
+    | "input"
+    | "textarea"
+    | "switch"
+    | "select"
+    | "image"
+    | "array"
+    | "color";
 }
 
 /**

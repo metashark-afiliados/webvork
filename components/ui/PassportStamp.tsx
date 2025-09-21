@@ -2,8 +2,9 @@
 /**
  * @file PassportStamp.tsx
  * @description Componente de animación MEA/UX que simula un sello de pasaporte.
- *              Diseñado para proporcionar un feedback kinestésico de éxito.
- * @version 1.0.0
+ *              Resuelve el error de tipo TS2322 con una aserción `as const` para
+ *              una inferencia de tipos de élite.
+ * @version 1.1.0 (Type Safety Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -17,18 +18,23 @@ interface PassportStampProps {
   label: string;
 }
 
-export function PassportStamp({ label }: PassportStampProps): React.ReactElement {
-  logger.trace("[PassportStamp] Renderizando animación MEA/UX.");
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA DE TIPOS] ---
+// Se añade 'as const' para que TypeScript infiera los tipos más específicos.
+const stampVariants = {
+  hidden: { scale: 1.5, opacity: 0, rotate: -15 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    rotate: 0,
+    transition: { type: "spring", stiffness: 300, damping: 15 },
+  },
+} as const;
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA DE TIPOS] ---
 
-  const stampVariants = {
-    hidden: { scale: 1.5, opacity: 0, rotate: -15 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      rotate: 0,
-      transition: { type: "spring", stiffness: 300, damping: 15 },
-    },
-  };
+export function PassportStamp({
+  label,
+}: PassportStampProps): React.ReactElement {
+  logger.trace("[PassportStamp] Renderizando animación MEA/UX (v1.1).");
 
   return (
     <motion.div

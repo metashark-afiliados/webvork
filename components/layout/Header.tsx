@@ -1,11 +1,9 @@
 // RUTA: components/layout/Header.tsx
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal.
- *              v25.2.0 (Props Contract Fix): Corrige la interfaz de props
- *              para aceptar `supportedLocales`, resolviendo un error de tipo
- *              crítico TS2322 y restaurando la integridad del build.
- * @version 25.2.0
+ * @description Componente de cabecera principal del portal, ahora como un
+ *              orquestador de cliente para la lógica del carrito.
+ * @version 26.0.0 (Client-Side Cart Orchestration)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,7 +16,7 @@ import { Separator } from "@/components/ui/Separator";
 import { logger } from "@/shared/lib/logging";
 import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type { NavLink } from "@/shared/lib/schemas/components/header.schema";
-import { type Locale } from "@/shared/lib/i18n.config"; // No necesitamos `supportedLocales` aquí
+import { type Locale } from "@/shared/lib/i18n.config";
 import { ToggleTheme } from "@/components/ui/ToggleTheme";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { CartTrigger } from "./CartTrigger";
@@ -32,9 +30,7 @@ interface HeaderProps {
   languageSwitcherContent: NonNullable<Dictionary["languageSwitcher"]>;
   cartContent?: Dictionary["cart"];
   currentLocale: Locale;
-  // --- [INICIO DE CORRECCIÓN DE CONTRATO] ---
-  supportedLocales: readonly string[]; // Prop añadida para cumplir el contrato
-  // --- [FIN DE CORRECCIÓN DE CONTRATO] ---
+  supportedLocales: readonly string[];
 }
 
 export default function Header({
@@ -44,9 +40,9 @@ export default function Header({
   languageSwitcherContent,
   cartContent,
   currentLocale,
-  supportedLocales, // <-- Prop ahora aceptada
+  supportedLocales,
 }: HeaderProps): React.ReactElement | null {
-  logger.info("[Header] Renderizando v25.2 (Props Contract Fix)");
+  logger.info("[Header] Renderizando v26.0 (Client-Side Cart Orchestration)");
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 

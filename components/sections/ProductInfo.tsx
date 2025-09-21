@@ -2,15 +2,23 @@
 /**
  * @file ProductInfo.tsx
  * @description Panel de información y acciones para la página de detalle de producto.
- * @version 2.1.0 (Holistic Elite Compliance & Full i18n)
+ *              v4.0.0 (URL-Driven Variant Selection): Implementa una gestión de
+ *              variantes de élite, donde la URL es la SSoT para el estado de la
+ *              selección, utilizando un sistema de Proveedor de Contexto y Server
+ *              Actions para una experiencia robusta y sin estado local frágil.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useActionState } from "react-dom";
 import { Button, DynamicIcon, Separator, Input, Label } from "@/components/ui";
 import { TextSection } from "@/components/sections/TextSection";
-import { useCartStore } from "@/shared/store/useCartStore";
+import { addItem } from "@/shared/lib/commerce/cart.actions";
+import { VariantSelectorProvider } from "@/components/features/product-variant-selector/VariantSelectorProvider";
+import { VariantSelector } from "@/components/features/product-variant-selector/VariantSelector";
 import type { z } from "zod";
 import type { ProductDetailPageContentSchema } from "@/shared/lib/schemas/pages/product-detail-page.schema";
 import { cn } from "@/shared/lib/utils";
@@ -40,10 +48,43 @@ const StarRating = ({ rating }: { rating: number }) => (
   </div>
 );
 
+function AddToCartButton({
+  isAvailable,
+  variantId,
+  buttonText,
+  outOfStockText,
+}: {
+  isAvailable: boolean;
+  variantId: string | undefined;
+  buttonText: string;
+  outOfStockText: string;
+}) {
+  const [message, formAction] = useActionState(addItem, undefined);
+
+  if (!isAvailable) {
+    return (
+      <Button size="lg" className="w-full sm:w-auto flex-1" disabled>
+        {outOfStockText}
+      </Button>
+    );
+  }
+
+  return (
+    <form action={formAction.bind(null, variantId)}>
+      <Button type="submit" size="lg" className="w-full sm:w-auto flex-1">
+        <DynamicIcon name="ShoppingCart" className="mr-2 h-5 w-5" />
+        {buttonText}
+      </Button>
+      {message && <p className="text-sm text-red-500 mt-2">{message}</p>}
+    </form>
+  );
+}
+
 export function ProductInfo({ content }: ProductInfoProps) {
-  logger.info("[ProductInfo] Renderizando v2.1 (Full i18n).");
+  logger.info("[ProductInfo] Renderizando v4.0 (URL-Driven Variants).");
   const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCartStore();
+  const searchParams = useSearchParams();
+
   const {
     productData,
     description,
@@ -52,14 +93,23 @@ export function ProductInfo({ content }: ProductInfoProps) {
     stockStatus,
   } = content;
 
-  const handleAddToCart = () => {
-    logger.info(
-      `[ProductInfo] Añadiendo ${quantity} de "${productData.name}" al carrito.`
-    );
-    addItem(productData, quantity);
-  };
+  const options = productData.options ?? [];
+  const variants = productData.variants ?? [];
 
-  const stockAvailable = productData.inventory.available > 0;
+  // --- LÓGICA DE VARIANTE SELECCIONADA (URL-DRIVEN) ---
+  const selectedVariant = React.useMemo(() => {
+    return variants.find((variant) =>
+      variant.selectedOptions.every(
+        (option) => searchParams.get(option.name.toLowerCase()) === option.value
+      )
+    );
+  }, [variants, searchParams]);
+
+  const stockAvailable = selectedVariant
+    ? selectedVariant.availableForSale
+    : productData.inventory.available > 0;
+  const selectedVariantId = selectedVariant?.id;
+  // --- FIN DE LÓGICA ---
 
   return (
     <div className="flex flex-col gap-6">
@@ -70,12 +120,10 @@ export function ProductInfo({ content }: ProductInfoProps) {
         <h1 className="text-4xl lg:text-5xl font-bold text-foreground">
           {productData.name}
         </h1>
-
         <div className="flex items-center gap-4 mt-4">
           {productData.rating && <StarRating rating={productData.rating} />}
           <span className="text-3xl font-bold text-primary">
             {new Intl.NumberFormat("it-IT", {
-              // Locale debería ser una prop en el futuro
               style: "currency",
               currency: productData.currency,
             }).format(productData.price)}
@@ -91,6 +139,10 @@ export function ProductInfo({ content }: ProductInfoProps) {
       />
 
       <Separator />
+
+      <VariantSelectorProvider options={options} variants={variants}>
+        <VariantSelector />
+      </VariantSelectorProvider>
 
       <div className="flex flex-col sm:flex-row items-center gap-4">
         <div className="flex items-center gap-2">
@@ -129,15 +181,12 @@ export function ProductInfo({ content }: ProductInfoProps) {
           </div>
         </div>
 
-        <Button
-          onClick={handleAddToCart}
-          size="lg"
-          className="w-full sm:w-auto flex-1"
-          disabled={!stockAvailable}
-        >
-          <DynamicIcon name="ShoppingCart" className="mr-2 h-5 w-5" />
-          {addToCartButton}
-        </Button>
+        <AddToCartButton
+          isAvailable={stockAvailable}
+          variantId={selectedVariantId}
+          buttonText={addToCartButton}
+          outOfStockText={stockStatus.unavailable}
+        />
       </div>
 
       <div className="text-sm text-center">

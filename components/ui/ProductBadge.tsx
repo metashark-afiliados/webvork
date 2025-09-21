@@ -10,7 +10,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { cn } from "@/shared/lib/utils";
 import { logger } from "@/shared/lib/logging";
 import { Price } from "./Price"; // Consume nuestro componente de precio de élite
@@ -34,7 +34,7 @@ export function ProductBadge({
 }: ProductBadgeProps): React.ReactElement {
   logger.trace("[ProductBadge] Renderizando v1.0 (Elite & Semantic Rename).");
 
-  const variants = {
+  const variants: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,

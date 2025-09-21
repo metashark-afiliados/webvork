@@ -3,7 +3,7 @@
  * @file Card.tsx
  * @description Conjunto de componentes atómicos para la construcción de tarjetas de UI.
  *              Diseñado siguiendo un patrón de composición para máxima flexibilidad.
- * @version 1.0.0
+ * @version 1.2.0 (A11y & Explicit Children Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import * as React from "react";
@@ -36,10 +36,11 @@ const CardHeader = React.forwardRef<
 ));
 CardHeader.displayName = "CardHeader";
 
+// --- [INICIO DE REFACTORIZACIÓN DE ÉLITE: A11y & Type Fix] ---
 const CardTitle = React.forwardRef<
-  HTMLParagraphElement,
+  HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <h3
     ref={ref}
     className={twMerge(
@@ -47,41 +48,50 @@ const CardTitle = React.forwardRef<
       className
     )}
     {...props}
-  />
+  >
+    {children}
+  </h3>
 ));
 CardTitle.displayName = "CardTitle";
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <p
     ref={ref}
     className={twMerge("text-sm text-muted-foreground", className)}
     {...props}
-  />
+  >
+    {children}
+  </p>
 ));
 CardDescription.displayName = "CardDescription";
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={twMerge("p-6 pt-0", className)} {...props} />
+>(({ className, children, ...props }, ref) => (
+  <div ref={ref} className={twMerge("p-6 pt-0", className)} {...props}>
+    {children}
+  </div>
 ));
 CardContent.displayName = "CardContent";
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <div
     ref={ref}
     className={twMerge("flex items-center p-6 pt-0", className)}
     {...props}
-  />
+  >
+    {children}
+  </div>
 ));
 CardFooter.displayName = "CardFooter";
+// --- [FIN DE REFACTORIZACIÓN DE ÉLITE] ---
 
 export {
   Card,
@@ -91,4 +101,3 @@ export {
   CardDescription,
   CardContent,
 };
-// components/ui/Card.tsx

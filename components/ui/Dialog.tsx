@@ -4,14 +4,14 @@
  * @description Componente de diálogo modal de élite, inyectado con MEA/UX.
  *              Gestiona la presentación de contenido modal con animaciones
  *              suaves y accesibilidad robusta gracias a Radix UI.
- * @version 2.0.0 (MEA Injected)
+ * @version 2.0.0 (MEA Injected & Architectural Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { DynamicIcon } from "@/components/ui";
 import { cn } from "@/shared/lib/utils";
 import { logger } from "@/shared/lib/logging";
@@ -33,6 +33,7 @@ const DialogOverlay = React.forwardRef<
         "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm",
         className
       )}
+      {...props}
       asChild
     >
       <motion.div
@@ -40,7 +41,6 @@ const DialogOverlay = React.forwardRef<
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        {...props}
       />
     </DialogPrimitive.Overlay>
   );
@@ -61,6 +61,7 @@ const DialogContent = React.forwardRef<
           "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%]",
           className
         )}
+        {...props}
         asChild
       >
         <motion.div
@@ -69,7 +70,6 @@ const DialogContent = React.forwardRef<
           exit={{ opacity: 0, scale: 0.95, y: "2%" }}
           transition={{ duration: 0.2, ease: "easeOut" }}
           className="border bg-background p-6 shadow-lg sm:rounded-lg"
-          {...props}
         >
           {children}
           <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">

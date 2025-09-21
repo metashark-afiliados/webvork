@@ -2,27 +2,27 @@
 /**
  * @file Price.tsx
  * @description Componente de UI de élite para la visualización de precios.
- *              Inyectado con MEA (Micro-interacciones y Experiencia Adrenalínica):
- *              implementa una animación de conteo y un efecto de pulso para un
- *              feedback kinestésico superior.
- * @version 2.0.0 (MEA Injected)
+ *              Inyectado con MEA: implementa una animación de conteo y un
+ *              efecto de pulso para un feedback kinestésico superior.
+ * @version 2.1.0 (Architectural Decoupling Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import { motion, useSpring, useInView } from "framer-motion";
+import {
+  motion,
+  useSpring,
+  useInView,
+  type HTMLMotionProps,
+} from "framer-motion";
 import { cn } from "@/shared/lib/utils";
 import { logger } from "@/shared/lib/logging";
 
-interface PriceProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  amount: string | number;
-  locale: string;
-  currencyCode?: string;
-  currencyCodeClassName?: string;
-  isHighlighted?: boolean;
-}
+// --- INICIO DE REFACTORIZACIÓN ARQUITECTÓNICA ---
 
+// Componente atómico interno para el contador animado. No recibe ...props,
+// eliminando así el conflicto de tipos.
 const AnimatedCounter = ({
   value,
   locale,
@@ -35,7 +35,6 @@ const AnimatedCounter = ({
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  // Animación de resorte para el número
   const springValue = useSpring(isInView ? value : value * 0.9, {
     mass: 0.8,
     stiffness: 100,
@@ -43,6 +42,7 @@ const AnimatedCounter = ({
   });
 
   useEffect(() => {
+    // Asegura que la animación se dispare si el valor cambia después del montaje inicial
     springValue.set(value);
   }, [springValue, value]);
 
@@ -62,6 +62,17 @@ const AnimatedCounter = ({
   return <span ref={ref} />;
 };
 
+// Se define un tipo explícito para las props que acepta motion.p
+type MotionPProps = Omit<HTMLMotionProps<"p">, "children">;
+
+interface PriceProps extends MotionPProps {
+  amount: string | number;
+  locale: string;
+  currencyCode?: string;
+  currencyCodeClassName?: string;
+  isHighlighted?: boolean;
+}
+
 export function Price({
   amount,
   locale,
@@ -69,9 +80,9 @@ export function Price({
   currencyCode = "USD",
   currencyCodeClassName,
   isHighlighted = false,
-  ...props
+  ...props // ...props ahora es del tipo MotionPProps, seguro para motion.p
 }: PriceProps): React.ReactElement {
-  logger.trace(`[Price] Renderizando v2.0 (MEA) para locale: ${locale}`);
+  logger.trace(`[Price] Renderizando v2.1 para locale: ${locale}`);
 
   const numericAmount = Number(amount);
 
@@ -98,3 +109,4 @@ export function Price({
     </motion.p>
   );
 }
+// --- FIN DE REFACTORIZACIÓN ARQUITECTÓNICA ---

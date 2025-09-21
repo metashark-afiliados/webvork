@@ -4,14 +4,17 @@
  * @description Sistema de componentes de acordeón de élite, inyectado con MEA/UX.
  *              Permite la creación de contenido expandible con animaciones
  *              fluidas y accesibilidad de primer nivel gracias a Radix UI.
- * @version 2.0.0 (MEA Injected & Compositional API)
+ * @version 2.1.0 (Code Hygiene Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { motion, AnimatePresence } from "framer-motion";
+// --- [INICIO DE CORRECCIÓN DE HIGIENE] ---
+// Se elimina 'AnimatePresence' de esta importación ya que no se utiliza aquí.
+import { motion } from "framer-motion";
+// --- [FIN DE CORRECCIÓN DE HIGIENE] ---
 import { DynamicIcon } from "@/components/ui";
 import { cn } from "@/shared/lib/utils";
 import { logger } from "@/shared/lib/logging";
@@ -60,7 +63,7 @@ const AccordionContent = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  logger.trace("[AccordionContent] Renderizando contenido v2.0.");
+  logger.trace("[AccordionContent] Renderizando contenido v2.1.");
   return (
     <AccordionPrimitive.Content
       ref={ref}
@@ -68,7 +71,7 @@ const AccordionContent = React.forwardRef<
       {...props}
       asChild
     >
-      {/* MEA/UX: Envoltura con AnimatePresence y motion.div para animación fluida */}
+      {/* La lógica de animación se encapsula correctamente aquí */}
       <motion.div
         initial={{ opacity: 0, height: 0 }}
         animate={{

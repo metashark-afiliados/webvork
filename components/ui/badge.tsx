@@ -74,4 +74,3 @@ const AnimatedBadge = React.forwardRef<HTMLDivElement, BadgeProps>(
 AnimatedBadge.displayName = "Badge";
 
 export { AnimatedBadge as Badge, badgeVariants };
-

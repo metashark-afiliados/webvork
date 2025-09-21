@@ -1,12 +1,10 @@
 // RUTA: shared/lib/schemas/entities/product.schema.ts
 /**
  * @file product.schema.ts
- * @description SSoT para el contrato de datos de la entidad Producto v3.0.
- *              Esta versión introduce los sub-schemas para Opciones y Variantes,
- *              resolviendo la cascada de errores de tipo en el feature de
- *              selección de variantes y estableciendo un contrato robusto para
- *              productos complejos.
- * @version 3.0.0
+ * @description SSoT para el contrato de datos de la entidad Producto v2.0.
+ *              Esta versión introduce sub-schemas para Opciones y Variantes,
+ *              estableciendo un contrato robusto para productos complejos.
+ * @version 2.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -37,8 +35,6 @@ const TargetProfileSchema = z.object({
   ageRange: z.string().optional(),
 });
 
-// --- [INICIO DE REFACTORIZACIÓN ARQUITECTÓNICA] ---
-
 /**
  * @const ProductOptionSchema
  * @description Define una opción configurable de un producto (ej. "Color", "Talla").
@@ -51,7 +47,7 @@ export const ProductOptionSchema = z.object({
 
 /**
  * @const SelectedOptionSchema
- * @description Define una opción específica seleccionada para una variante (ej. { name: "Color", value: "Rojo" }).
+ * @description Define una opción específica seleccionada para una variante.
  */
 export const SelectedOptionSchema = z.object({
   name: z.string(),
@@ -60,8 +56,7 @@ export const SelectedOptionSchema = z.object({
 
 /**
  * @const ProductVariantSchema
- * @description Define una variante específica de un producto, que es una combinación
- *              única de opciones seleccionadas.
+ * @description Define una variante específica de un producto (una combinación de opciones).
  */
 export const ProductVariantSchema = z.object({
   id: z.string(),
@@ -73,8 +68,6 @@ export const ProductVariantSchema = z.object({
     currencyCode: z.string(),
   }),
 });
-
-// --- [FIN DE REFACTORIZACIÓN ARQUITECTÓNICA] ---
 
 /**
  * @description El schema principal y soberano para la entidad Producto.
@@ -93,10 +86,8 @@ export const ProductSchema = z.object({
   categorization: CategorizationSchema,
   targetProfile: TargetProfileSchema,
   rating: z.number().min(0).max(5).optional(),
-  // --- [INICIO] Se añaden las opciones y variantes al producto principal
   options: z.array(ProductOptionSchema).optional(),
   variants: z.array(ProductVariantSchema).optional(),
-  // --- [FIN]
 });
 
 export const ProductCatalogSchema = z.object({
@@ -104,7 +95,5 @@ export const ProductCatalogSchema = z.object({
 });
 
 export type Product = z.infer<typeof ProductSchema>;
-// --- [INICIO] Se exportan los nuevos tipos para consumo global
 export type ProductOption = z.infer<typeof ProductOptionSchema>;
 export type ProductVariant = z.infer<typeof ProductVariantSchema>;
-// --- [FIN]
