@@ -1,8 +1,8 @@
+// shared/lib/middleware/engine/pipeline.ts
 /**
  * @file pipeline.ts
  * @description Orquestador de middleware atómico y compatible con Vercel Edge Runtime.
- *              v1.1.0 (Code Hygiene): Limpia variables no utilizadas.
- * @version 1.1.0
+ * @version 1.2.0 (Code Hygiene & Elite Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { NextRequest, NextResponse } from "next/server";
@@ -15,7 +15,7 @@ export type MiddlewareHandler = (
 
 export function createPipeline(
   handlers: MiddlewareHandler[]
-): MiddlewareHandler {
+): (req: NextRequest) => Promise<NextResponse> {
   return async function (req: NextRequest): Promise<NextResponse> {
     let currentResponse = NextResponse.next();
 
@@ -29,17 +29,21 @@ export function createPipeline(
           result.headers.get("Location")
         ) {
           logger.trace(
-            `[Pipeline] Manejador '${handler.name}' ha cortocircuitado el pipeline.`
+            `[Pipeline] Manejador '${handler.name || "anónimo"}' ha cortocircuitado el pipeline.`
           );
           return result;
         }
       } catch (error) {
-        console.error(`[Pipeline] Error en el manejador '${handler.name}':`, {
-          error,
-        });
+        logger.error(
+          `[Pipeline] Error en el manejador '${handler.name || "anónimo"}':`,
+          {
+            error,
+          }
+        );
         return new NextResponse("Internal Server Error", { status: 500 });
       }
     }
     return currentResponse;
   };
 }
+// shared/lib/middleware/engine/pipeline.ts

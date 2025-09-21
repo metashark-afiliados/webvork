@@ -2,7 +2,10 @@
 /**
  * @file middleware.ts
  * @description SSoT para la lógica de middleware de gestión de sesión de Supabase.
- * @version 2.2.0 (Elite Code Hygiene)
+ *              v2.3.0 (Environment-Aware Dev Routes): La protección de rutas
+ *              del DCC ahora solo se activa en producción, permitiendo un
+ *              flujo de trabajo sin fricciones en desarrollo.
+ * @version 2.3.0
  * @author nextjs-with-supabase (original), RaZ Podestá - MetaShark Tech (naturalización)
  */
 import { createServerClient } from "@supabase/ssr";
@@ -44,16 +47,24 @@ export async function updateSession(
   const isDevRoute = pathname.includes("/dev");
   const isLoginPage = pathname.includes("/dev/login");
 
-  if (isDevRoute && !isLoginPage && !user) {
+  // --- [INICIO DE MEJORA DE LÓGICA DE ÉLITE] ---
+  // La protección de rutas de desarrollo ahora solo se aplica en producción.
+  if (
+    process.env.NODE_ENV === "production" &&
+    isDevRoute &&
+    !isLoginPage &&
+    !user
+  ) {
     const locale = pathname.split("/")[1] || "it-IT";
     const url = request.nextUrl.clone();
     url.pathname = `/${locale}/dev/login`;
     logger.warn(
-      `[Supabase Middleware] Acceso denegado a ruta protegida. Redirigiendo a login.`,
+      `[Supabase Middleware] Acceso denegado a ruta protegida en PRODUCCIÓN. Redirigiendo a login.`,
       { path: pathname }
     );
     return NextResponse.redirect(url);
   }
+  // --- [FIN DE MEJORA DE LÓGICA DE ÉLITE] ---
 
   return supabaseResponse;
 }

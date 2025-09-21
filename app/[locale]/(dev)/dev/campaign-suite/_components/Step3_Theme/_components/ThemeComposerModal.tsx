@@ -2,7 +2,7 @@
 /**
  * @file ThemeComposerModal.tsx
  * @description Orquestador modal para la composición visual de temas con previsualización en tiempo real.
- * @version 3.1.0 (Resilient Contract Sync)
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -66,9 +66,7 @@ export function ThemeComposerModal({
   onSave,
   content,
 }: ThemeComposerModalProps) {
-  logger.info(
-    "[ThemeComposerModal] Renderizando Compositor de Temas (v3.1 - Resilient)"
-  );
+  logger.info("[ThemeComposerModal] Renderizando Compositor de Temas.");
   const [localConfig, setLocalConfig] = useState(currentConfig);
   const { setPreviewTheme } = usePreviewStore();
 
@@ -78,7 +76,7 @@ export function ThemeComposerModal({
 
   useEffect(() => {
     if (!isOpen) {
-      setPreviewTheme(null);
+      setPreviewTheme(null); // Limpia la previsualización al cerrar
     }
   }, [isOpen, setPreviewTheme]);
 
@@ -133,22 +131,18 @@ export function ThemeComposerModal({
     handlePreviewUpdate({ radiusPreset: geometryName });
   };
 
-  // --- [INICIO] ELIMINACIÓN DE ASERCIÓN DE TIPO INSEGURA ---
   const palettes = Object.entries(fragments.colors).map(([name, data]) => ({
     name,
     colors: data.colors,
   }));
-
   const typographies = Object.entries(fragments.fonts).map(([name, data]) => ({
     name,
     fonts: data.fonts,
   }));
-
   const geometries = Object.entries(fragments.radii).map(([name, data]) => ({
     name,
     geometry: data.geometry,
   }));
-  // --- [FIN] ELIMINACIÓN DE ASERCIÓN DE TIPO INSEGURA ---
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

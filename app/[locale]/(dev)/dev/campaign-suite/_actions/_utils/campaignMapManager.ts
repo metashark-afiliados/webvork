@@ -5,6 +5,7 @@
  * @version 2.0.0 (Atomic & Resilient Logic)
  * @author RaZ Podestá - MetaShark Tech
  */
+import "server-only";
 import { promises as fs } from "fs";
 import path from "path";
 import {

@@ -11,7 +11,6 @@
 
 import { getSession } from "@/shared/lib/session";
 import type { ActionResult } from "@/shared/lib/types/actions.types";
-// El tipo 'Locale' ya no es necesario aquí.
 
 export async function loginDevAction(
   formData: FormData
@@ -22,7 +21,6 @@ export async function loginDevAction(
     const session = await getSession();
     session.isDevAuthenticated = true;
     await session.save();
-    // La redirección es manejada por el componente cliente para una mejor UX.
     return { success: true, data: { success: true } };
   }
 

@@ -1,90 +1,106 @@
 // app/[locale]/(dev)/dev/campaign-suite/_actions/saveAsTemplate.action.ts
 /**
  * @file saveAsTemplate.action.ts
- * @description Server Action para guardar un borrador como una nueva plantilla.
- * @version 2.0.0
+ * @description Server Action para persistir un borrador de campaña como una plantilla reutilizable.
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
-import { promises as fs } from "fs";
-import path from "path";
+import { z } from "zod";
+import { createId } from "@paralleldrive/cuid2";
+import { logger } from "@/shared/lib/logging";
+import { connectToDatabase } from "@/shared/lib/mongodb";
 import type { ActionResult } from "@/shared/lib/types/actions.types";
 import type { CampaignDraft } from "../_types/draft.types";
 import {
   CampaignTemplateSchema,
-  TemplatesManifestSchema,
-} from "@/shared/lib/schemas/templates/template.schema";
-import { logger } from "@/shared/lib/logging";
+  type CampaignTemplate,
+} from "@/shared/lib/schemas/entities/template.schema";
+import { CampaignDraftSchema } from "@/shared/lib/schemas/entities/draft.schema";
+
+const InputSchema = z.object({
+  name: z.string().min(3, "El nombre debe tener al menos 3 caracteres."),
+  description: z.string().optional(),
+});
 
 export async function saveAsTemplateAction(
   draft: CampaignDraft,
-  templateName: string,
+  name: string,
   description: string
 ): Promise<ActionResult<{ templateId: string }>> {
-  if (!draft.baseCampaignId) {
-    return { success: false, error: "El borrador no tiene una campaña base." };
-  }
-
-  const templateId = `${templateName
-    .toLowerCase()
-    .replace(/\s+/g, "-")}-${Date.now()}`;
-
-  const templateData = {
-    templateId,
-    name: templateName,
-    description,
-    sourceCampaignId: draft.baseCampaignId,
-    headerConfig: draft.headerConfig,
-    footerConfig: draft.footerConfig,
-    layoutConfig: draft.layoutConfig,
-    themeConfig: draft.themeConfig,
-    contentData: draft.contentData,
-  };
-
-  const validation = CampaignTemplateSchema.safeParse(templateData);
-  if (!validation.success) {
-    logger.error(
-      "Los datos del borrador no son válidos para crear una plantilla.",
-      {
-        error: validation.error.flatten(),
-      }
-    );
-    return { success: false, error: "Los datos del borrador son inválidos." };
-  }
+  const traceId = logger.startTrace("saveAsTemplateAction");
+  logger.info("[Action] Intentando guardar el borrador como plantilla...", {
+    name,
+    draftId: draft.draftId,
+  });
 
   try {
-    const manifestPath = path.join(
-      process.cwd(),
-      "content/templates/templates.manifest.json"
+    // 1. Validar las entradas del formulario (nombre, descripción)
+    const inputValidation = InputSchema.safeParse({ name, description });
+    if (!inputValidation.success) {
+      logger.warn("[Action] Validación de entrada fallida.", {
+        errors: inputValidation.error.flatten(),
+        traceId,
+      });
+      return {
+        success: false,
+        error: "Los datos proporcionados son inválidos.",
+      };
+    }
+
+    // 2. Validar la estructura del borrador completo
+    const draftValidation = CampaignDraftSchema.safeParse(draft);
+    if (!draftValidation.success) {
+      logger.error(
+        "[Action] El borrador a guardar es estructuralmente inválido.",
+        {
+          errors: draftValidation.error.flatten(),
+          traceId,
+        }
+      );
+      return { success: false, error: "El borrador contiene datos corruptos." };
+    }
+
+    // 3. Construir el documento de la plantilla
+    const now = new Date().toISOString();
+    const templateDocument: CampaignTemplate = {
+      templateId: createId(),
+      name: inputValidation.data.name,
+      description: inputValidation.data.description,
+      draft: draftValidation.data,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    // 4. Persistir en la base de datos
+    const client = await connectToDatabase();
+    const db = client.db(process.env.MONGODB_DB_NAME);
+    const collection = db.collection<CampaignTemplate>("campaign_templates");
+    await collection.insertOne(templateDocument);
+
+    logger.success(
+      "[Action] Plantilla guardada exitosamente en la base de datos.",
+      {
+        templateId: templateDocument.templateId,
+        traceId,
+      }
     );
-    const templatePath = path.join(
-      process.cwd(),
-      `content/templates/${templateId}.json`
-    );
 
-    await fs.writeFile(templatePath, JSON.stringify(validation.data, null, 2));
-
-    const manifestFile = await fs
-      .readFile(manifestPath, "utf-8")
-      .catch(() => "[]");
-    const manifest = TemplatesManifestSchema.parse(JSON.parse(manifestFile));
-
-    manifest.push({
-      templateId,
-      name: templateName,
-      description: description,
-      createdAt: new Date().toISOString(),
-    });
-
-    await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2));
-
-    return { success: true, data: { templateId } };
+    return { success: true, data: { templateId: templateDocument.templateId } };
   } catch (error) {
-    logger.error("No se pudo guardar la plantilla.", { error });
+    const errorMessage =
+      error instanceof Error ? error.message : "Error desconocido.";
+    logger.error(
+      "[Action] Fallo crítico al guardar la plantilla en la base de datos.",
+      { error: errorMessage, traceId }
+    );
     return {
       success: false,
-      error: "Error del servidor al guardar la plantilla.",
+      error: "No se pudo conectar con el servicio de base de datos.",
     };
+  } finally {
+    logger.endTrace(traceId);
   }
 }
+// app/[locale]/(dev)/dev/campaign-suite/_actions/saveAsTemplate.action.ts

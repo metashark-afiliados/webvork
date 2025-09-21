@@ -1,8 +1,9 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step3_Theme/Step3Client.tsx
 /**
  * @file Step3Client.tsx
- * @description Contenedor de Cliente para el Paso 3.
- * @version 5.2.0 (Error Handling & Observability Fix)
+ * @description Contenedor de Cliente para el Paso 3, ahora orquestando el
+ *              lanzamiento del Compositor de Temas.
+ * @version 5.0.0 (Theme Composer Integration)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -19,8 +20,8 @@ import { useWizard } from "../../_context/WizardContext";
 import { ThemeComposerModal } from "./_components/ThemeComposerModal";
 import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
 import { DynamicIcon } from "@/components/ui";
-import { z } from "zod";
-import { Step3ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step3.schema";
+import type { z } from "zod";
+import type { Step3ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step3.schema";
 
 type Step3Content = z.infer<typeof Step3ContentSchema>;
 
@@ -40,7 +41,7 @@ export function Step3Client({
   content,
   fragmentsResult,
 }: Step3ClientProps): React.ReactElement {
-  logger.info("[Step3Client] Renderizando v5.2 (Error Handling Fix).");
+  logger.info("[Step3Client] Renderizando v5.0 (Theme Composer Integration).");
 
   const { draft, updateDraft } = useCampaignDraft();
   const { goToNextStep, goToPrevStep } = useWizard();
@@ -100,17 +101,8 @@ export function Step3Client({
           radii: Object.fromEntries(radii.map((r) => [r.name, r.data])),
         });
       } catch (error) {
-        // --- [INICIO DE CORRECCIÓN DE OBSERVABILIDAD] ---
-        const errorMessage =
-          error instanceof Error ? error.message : String(error);
-        logger.error(
-          "[Step3Client] Fallo crítico al cargar los fragmentos de tema.",
-          { error }
-        );
-        toast.error("Error al cargar datos de tema", {
-          description: errorMessage,
-        });
-        // --- [FIN DE CORRECCIÓN DE OBSERVABILIDAD] ---
+        logger.error("Fallo al cargar los fragmentos de tema.", { error });
+        toast.error("Error al cargar datos de tema.");
       } finally {
         setIsLoadingFragments(false);
       }

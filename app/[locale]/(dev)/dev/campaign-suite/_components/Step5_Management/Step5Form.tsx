@@ -2,7 +2,7 @@
 /**
  * @file Step5Form.tsx
  * @description Orquestador de presentación puro para el Paso 5.
- * @version 8.0.0 (Absolute Path & Contract Sync)
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -21,10 +21,7 @@ import {
   ManagementActions,
   LaunchChecklist,
 } from "./_components";
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
-// Se utiliza la ruta absoluta canónica, resolviendo el error TS2307.
 import type { Step5ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step5.schema";
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import type { z } from "zod";
 import type { ChecklistItem } from "../../_utils/draft.validator";
 import type { CampaignDraft } from "../../_types/draft.types";
@@ -60,7 +57,9 @@ export function Step5Form({
   isLaunchReady,
   checklistItems,
 }: Step5FormProps): React.ReactElement {
-  logger.info("[Step5Form] Renderizando orquestador de presentación v8.0.");
+  logger.info(
+    "[Step5Form] Renderizando orquestador de presentación del Paso 5."
+  );
 
   return (
     <Card>

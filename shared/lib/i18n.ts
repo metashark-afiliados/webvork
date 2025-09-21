@@ -1,10 +1,10 @@
-// lib/i18n.ts
+// shared/lib/i18n.ts
 /**
  * @file i18n.ts
  * @description Orquestador de i18n consciente del entorno. Delega la carga
  *              de diccionarios al motor apropiado. En producción, utiliza
  *              `React.cache` para memoizar la lectura de archivos.
- * @version 17.0.0
+ * @version 17.0.0 (Elite Performance & Resilience)
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
@@ -89,8 +89,8 @@ const getProductionDictionary = async (
 /**
  * @const getCachedProductionDictionary
  * @description Versión memoizada de `getProductionDictionary` usando `React.cache`.
- *              Esto asegura que, dentro de un mismo ciclo de renderizado en servidor,
- *              la lectura y parseo de un archivo de locale solo ocurra una vez. [1]
+ *              Asegura que, dentro de un mismo ciclo de renderizado en servidor,
+ *              la lectura de un archivo de locale solo ocurra una vez.
  */
 const getCachedProductionDictionary = cache(getProductionDictionary);
 
@@ -121,3 +121,4 @@ export const getDictionary = async (
   logger.trace(`[i18n Orquestador] Entorno PROD. Usando motor cacheado...`);
   return getCachedProductionDictionary(validatedLocale);
 };
+// shared/lib/i18n.ts

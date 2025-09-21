@@ -2,7 +2,7 @@
 /**
  * @file GeometrySelector.tsx
  * @description Aparato de UI atómico y de élite para la selección visual de estilos de geometría.
- * @version 1.1.0 (Resilient Contract)
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -13,16 +13,21 @@ import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/shared/lib/logging";
 
-// --- [INICIO] REFACTORIZACIÓN DE CONTRATO ---
+/**
+ * @interface Geometry
+ * @description Contrato de datos para una única configuración de geometría.
+ */
 interface Geometry {
   name: string;
   geometry?: {
-    // La propiedad 'geometry' ahora es opcional
     "--radius"?: string;
   };
 }
-// --- [FIN] REFACTORIZACIÓN DE CONTRATO ---
 
+/**
+ * @interface GeometrySelectorProps
+ * @description Contrato de props para el componente GeometrySelector.
+ */
 interface GeometrySelectorProps {
   geometries: Geometry[];
   selectedGeometryName: string | null;
@@ -53,9 +58,8 @@ export function GeometrySelector({
         </div>
       )}
       {geometries.map((geometry) => {
-        // --- [INICIO] GUARDIA DE RESILIENCIA ---
+        // Guardia de resiliencia
         const radiusValue = geometry.geometry?.["--radius"] || "0rem";
-        // --- [FIN] GUARDIA DE RESILIENCIA ---
         return (
           <motion.div
             key={geometry.name}

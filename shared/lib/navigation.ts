@@ -1,14 +1,23 @@
-// lib/navigation.ts
+// shared/lib/navigation.ts
 /**
  * @file navigation.ts
- * @description Manifiesto y SSoT para la definición de rutas.
- *              ESTE ARCHIVO ES GENERADO AUTOMÁTICAMENTE. NO LO EDITE MANUALMENTE.
- *              Ejecute 'pnpm gen:routes' para actualizarlo.
- * @version 2025-09-18T17:06:28.479Z
- * @author Script de Generación Automática de Élite
+ * @description Manifiesto y SSoT para la definición de rutas del ecosistema.
+ *              ESTE ARCHIVO ES GENERADO Y MANTENIDO PARA REFLEJAR LA ARQUITECTURA
+ *              COMPLETA DEL PROYECTO.
+ * @version 9.0.0 (CogniRead Domain Integration)
+ * @author RaZ Podestá - MetaShark Tech
  */
 import { defaultLocale, type Locale } from "@/shared/lib/i18n.config";
+import { logger } from "@/shared/lib/logging";
 
+logger.info(
+  "[Observabilidad][ARQUITECTURA-RAIZ] Cargando Manifiesto de Rutas v9.0..."
+);
+
+/**
+ * @const RouteType
+ * @description Define los tipos de acceso para las rutas.
+ */
 export const RouteType = {
   Public: "public",
   DevOnly: "dev-only",
@@ -16,26 +25,69 @@ export const RouteType = {
 
 export type RouteType = (typeof RouteType)[keyof typeof RouteType];
 
+/**
+ * @type RouteParams
+ * @description Contrato de tipo base para los parámetros de una función de ruta.
+ *              Toda ruta requiere, como mínimo, un `locale`.
+ */
 export type RouteParams = {
   locale?: Locale;
   [key: string]: string | number | undefined;
 };
 
+/**
+ * @const routes
+ * @description El registro soberano de todas las rutas de la aplicación. Cada entrada
+ *              define una función `path` para construir la URL de forma segura y un `type`
+ *              para control de acceso.
+ */
 export const routes = {
-  about: {
+  // --- Dominio Público ---
+  home: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/about`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
+      `/${params.locale || defaultLocale}`.replace(/\/$/, "") || "/",
     type: RouteType.Public,
   },
-  bavi: {
-    path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/dev/bavi`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.DevOnly,
+  store: {
+    path: (params: RouteParams) => `/${params.locale || defaultLocale}/store`,
+    type: RouteType.Public,
   },
+  storeBySlug: {
+    path: (params: RouteParams & { slug: string | number }) =>
+      `/${params.locale || defaultLocale}/store/${params.slug}`,
+    type: RouteType.Public,
+  },
+  news: {
+    path: (params: RouteParams) => `/${params.locale || defaultLocale}/news`,
+    type: RouteType.Public,
+  },
+  newsBySlug: {
+    path: (params: RouteParams & { slug: string | number }) =>
+      `/${params.locale || defaultLocale}/news/${params.slug}`,
+    type: RouteType.Public,
+  },
+  about: {
+    path: (params: RouteParams) => `/${params.locale || defaultLocale}/about`,
+    type: RouteType.Public,
+  },
+  terms: {
+    path: (params: RouteParams) => `/${params.locale || defaultLocale}/terms`,
+    type: RouteType.Public,
+  },
+  privacy: {
+    path: (params: RouteParams) => `/${params.locale || defaultLocale}/privacy`,
+    type: RouteType.Public,
+  },
+  cookies: {
+    path: (params: RouteParams) => `/${params.locale || defaultLocale}/cookies`,
+    type: RouteType.Public,
+  },
+  notFound: {
+    path: (params: RouteParams) =>
+      `/${params.locale || defaultLocale}/not-found`,
+    type: RouteType.Public,
+  },
+  // --- Dominio de Campañas ---
   cByCampaignIdByVariantSlugBySeoKeywordSlug: {
     path: (
       params: RouteParams & {
@@ -44,114 +96,60 @@ export const routes = {
         seoKeywordSlug: string | number;
       }
     ) =>
-      `/${params.locale || defaultLocale}/c/${params.campaignId}/${params.variantSlug}/${params.seoKeywordSlug}`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
+      `/${params.locale || defaultLocale}/c/${params.campaignId}/${
+        params.variantSlug
+      }/${params.seoKeywordSlug}`,
     type: RouteType.Public,
   },
-  cookies: {
-    path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/cookies`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
-  },
-  devCampaignSuiteCreate: {
-    path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/dev/campaign-suite/create`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.DevOnly,
-  },
-  devComponentShowcase: {
-    path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/dev/component-showcase`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.DevOnly,
-  },
+
+  // --- Dominio del Developer Command Center (DCC) ---
   devDashboard: {
-    path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/dev`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
+    path: (params: RouteParams) => `/${params.locale || defaultLocale}/dev`,
     type: RouteType.DevOnly,
   },
   devLogin: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/dev/login`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
+      `/${params.locale || defaultLocale}/dev/login`,
     type: RouteType.DevOnly,
   },
   devTestPage: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/dev/test-page`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
+      `/${params.locale || defaultLocale}/dev/test-page`,
     type: RouteType.DevOnly,
   },
-  home: {
+  devComponentShowcase: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
+      `/${params.locale || defaultLocale}/dev/component-showcase`,
+    type: RouteType.DevOnly,
   },
-  news: {
+  // Sub-dominio: Suite de Diseño de Campañas (SDC)
+  devCampaignSuiteCreate: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/news`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
+      `/${params.locale || defaultLocale}/dev/campaign-suite/create`,
+    type: RouteType.DevOnly,
   },
-  newsBySlug: {
-    path: (params: RouteParams & { slug: string | number }) =>
-      `/${params.locale || defaultLocale}/news/${params.slug}`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
-  },
-  notFound: {
+  // Sub-dominio: BAVI
+  bavi: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/not-found`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
+      `/${params.locale || defaultLocale}/dev/bavi`,
+    type: RouteType.DevOnly,
   },
-  privacy: {
-    path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/privacy`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
-  },
+  // Sub-dominio: RaZPrompts
   razPrompts: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/dev/raz-prompts`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
+      `/${params.locale || defaultLocale}/dev/raz-prompts`,
     type: RouteType.DevOnly,
   },
-  store: {
+  // --- (NUEVO) Sub-dominio: CogniRead ---
+  cogniReadDashboard: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/store`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
+      `/${params.locale || defaultLocale}/dev/cogniread`,
+    type: RouteType.DevOnly,
   },
-  storeBySlug: {
-    path: (params: RouteParams & { slug: string | number }) =>
-      `/${params.locale || defaultLocale}/store/${params.slug}`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
-  },
-  terms: {
+  cogniReadEditor: {
     path: (params: RouteParams) =>
-      `/${params.locale || defaultLocale}/terms`
-        .replace(/[/]{2,}/g, "/")
-        .replace(/[/]$/, "") || "/",
-    type: RouteType.Public,
+      `/${params.locale || defaultLocale}/dev/cogniread/editor`,
+    type: RouteType.DevOnly,
   },
 } as const;
+// shared/lib/navigation.ts

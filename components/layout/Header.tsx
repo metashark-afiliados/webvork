@@ -1,9 +1,8 @@
-// RUTA: components/layout/Header.tsx
+// components/layout/Header.tsx
 /**
  * @file Header.tsx
- * @description Componente de cabecera principal del portal, ahora como un
- *              orquestador de cliente para la lógica del carrito.
- * @version 26.0.0 (Client-Side Cart Orchestration)
+ * @description Componente de cabecera principal, ahora como orquestador de cliente para la lógica del carrito.
+ * @version 27.0.0 (Client-side Cart Orchestration)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -42,7 +41,7 @@ export default function Header({
   currentLocale,
   supportedLocales,
 }: HeaderProps): React.ReactElement | null {
-  logger.info("[Header] Renderizando v26.0 (Client-Side Cart Orchestration)");
+  logger.info("[Header] Renderizando v27.0 (Client Cart Orchestration)");
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -120,3 +119,4 @@ export default function Header({
     </>
   );
 }
+// components/layout/Header.tsx

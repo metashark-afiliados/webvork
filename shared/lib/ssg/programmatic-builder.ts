@@ -22,6 +22,7 @@ export function runScopedNextBuild(
     });
 
     const env = { ...process.env };
+    // Estas variables de entorno instruirán a Next.js para que realice un build parcial/enfocado si la lógica lo soporta.
     env.BUILD_TARGET_CAMPAIGN_ID = campaignId;
     env.BUILD_TARGET_VARIANT_ID = variantId;
     if (tempContentDir) {
@@ -34,7 +35,7 @@ export function runScopedNextBuild(
     const buildProcess = spawn("pnpm", ["next", "build"], {
       env: env,
       stdio: ["ignore", "pipe", "pipe"],
-      shell: true,
+      shell: true, // Necesario en Windows para que pnpm sea encontrado
     });
 
     let stderr = "";

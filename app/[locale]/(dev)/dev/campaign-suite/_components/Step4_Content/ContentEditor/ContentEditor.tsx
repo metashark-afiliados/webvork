@@ -4,8 +4,8 @@
  * @description Orquestador de alto nivel para la edición de contenido de una sección.
  *              Gestiona el estado del formulario, la sincronización con el borrador
  *              y la comunicación con el padre. Ahora pasa el `sectionName` a sus
- *              hijos para habilitar el Modo Enfoque.
- * @version 8.0.0 (Focus Mode Prop Drilling)
+ *              hijos y limpia el foco al cerrar para habilitar el Modo Enfoque.
+ * @version 8.1.0 (Focus Mode Cleanup)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -92,7 +92,7 @@ export function ContentEditor({
           sectionSchema={sectionSchema}
           onPersistChange={handlePersistChange}
           onSubmit={form.handleSubmit(handleSubmit)}
-          sectionName={sectionName} // <-- Se pasa la prop para el Modo Foco
+          sectionName={sectionName}
         />
         <ContentEditorFooter onClose={handleClose} onSubmit={handleSubmit} />
       </div>

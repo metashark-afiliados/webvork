@@ -1,102 +1,130 @@
 // app/[locale]/(dev)/dev/campaign-suite/_actions/packageCampaign.action.ts
 /**
  * @file packageCampaign.action.ts
- * @description Server Action orquestadora para el empaquetado de una campaña.
- * @version 7.1.0 (Elite Compliance Leveling)
+ * @description Server Action de élite que orquesta el empaquetado de una campaña
+ *              en una aplicación Next.js completa, funcional y descargable.
+ * @version 3.0.0 (Production Ready - Full Component Generation)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
 
-import { promises as fs } from "fs";
+import fs from "fs/promises";
 import path from "path";
-import os from "os";
+import { put } from "@vercel/blob";
 import { logger } from "@/shared/lib/logging";
 import type { ActionResult } from "@/shared/lib/types/actions.types";
 import type { CampaignDraft } from "../_types/draft.types";
-import { runScopedNextBuild } from "@/shared/lib/ssg/programmatic-builder";
-import { packageDirectory } from "@/shared/lib/ssg/packager";
-import {
-  getOrCreateNextVariantId,
-  updateCampaignMap,
-} from "./_utils/campaignMapManager";
-import { generateCampaignAssets } from "./_utils/assetGenerator";
+import { CampaignDraftSchema } from "@/shared/lib/schemas/entities/draft.schema";
 
-interface PackageSuccessPayload {
-  message: string;
-  downloadUrl: string;
-}
+// Importación de todos los generadores y utilidades
+import { zipDirectory } from "./_utils/zipper";
+import { copyComponentDependencies } from "./_utils/componentCopier";
+import * as Generators from "./_generators";
 
 export async function packageCampaignAction(
   draft: CampaignDraft
-): Promise<ActionResult<PackageSuccessPayload>> {
-  const { draftId, baseCampaignId } = draft;
-  if (!draftId || !baseCampaignId) {
-    return {
-      success: false,
-      error: "Faltan datos fundamentales del borrador.",
-    };
+): Promise<ActionResult<{ downloadUrl: string }>> {
+  const traceId = logger.startTrace("packageCampaignAction_v3_Production");
+  logger.info(
+    "[Action] Iniciando proceso de empaquetado v3.0 (Production)...",
+    {
+      draftId: draft.draftId,
+    }
+  );
+
+  const draftValidation = CampaignDraftSchema.safeParse(draft);
+  if (!draftValidation.success) {
+    logger.error("[Action] Borrador a empaquetar inválido.", {
+      errors: draftValidation.error.flatten(),
+      traceId,
+    });
+    return { success: false, error: "El borrador contiene datos corruptos." };
   }
 
-  const traceId = logger.startTrace(`packageCampaign:${draftId}`);
-  logger.startGroup("[Action] Empaquetando Campaña (DRY & Elite)...");
-  let tempDir: string | null = null;
+  const validatedDraft = draftValidation.data;
+  const tempDir = path.join("/tmp", `campaign-${validatedDraft.draftId}`);
+  const zipPath = `${tempDir}.zip`;
 
   try {
-    tempDir = await fs.mkdtemp(path.join(os.tmpdir(), `campaign-${draftId}-`));
-    const tempCampaignDir = path.join(
-      tempDir,
-      "content",
-      "campaigns",
-      baseCampaignId
+    await fs.rm(tempDir, { recursive: true, force: true });
+    await fs.mkdir(tempDir, { recursive: true });
+    logger.traceEvent(traceId, "Directorio temporal limpio creado.", {
+      path: tempDir,
+    });
+
+    // --- ORQUESTACIÓN DE GENERACIÓN COMPLETA ---
+    await Promise.all([
+      Generators.generatePackageJson(validatedDraft, tempDir),
+      Generators.generateTailwindConfig(tempDir),
+      Generators.generatePostcssConfig(tempDir),
+      Generators.generateTsconfig(tempDir),
+      Generators.generateNextConfig(validatedDraft, tempDir),
+      Generators.generateGlobalsCss(validatedDraft, tempDir),
+      Generators.generateLayout(validatedDraft, tempDir),
+      Generators.generateContentFile(validatedDraft, tempDir),
+      Generators.generateThemeFile(validatedDraft, tempDir),
+      Generators.generatePage(validatedDraft, tempDir),
+      // Generadores de archivos estáticos
+      fs.writeFile(
+        path.join(tempDir, ".gitignore"),
+        "node_modules\n.next\nout\n.env*\n"
+      ),
+      fs.writeFile(
+        path.join(tempDir, "next-env.d.ts"),
+        '/// <reference types="next" />\n/// <reference types="next/image-types/global" />'
+      ),
+    ]);
+    logger.traceEvent(
+      traceId,
+      "Generación de archivos de esqueleto y contenido completada."
     );
 
-    const { nextVariantId, campaignMap } =
-      await getOrCreateNextVariantId(tempCampaignDir);
-    const { updatedMap, mapPath } = await generateCampaignAssets(
-      draft,
-      campaignMap,
-      nextVariantId,
-      tempCampaignDir
+    // 4. Copiar componentes de React y sus dependencias
+    await copyComponentDependencies(validatedDraft, tempDir);
+    logger.traceEvent(
+      traceId,
+      "Copia de dependencias de componentes completada."
     );
-    await updateCampaignMap(updatedMap, mapPath);
-    logger.traceEvent(traceId, "Activos temporales generados.");
 
-    await runScopedNextBuild(baseCampaignId, nextVariantId, tempDir);
-    logger.traceEvent(traceId, "Build estático de Next.js completado.");
+    // 5. Comprimir el directorio generado
+    await zipDirectory(tempDir, zipPath);
+    logger.traceEvent(traceId, "Directorio comprimido en .zip exitosamente.");
 
-    const buildOutputDir = path.join(process.cwd(), "out");
-    const zipFileName = `campaign-package-${draftId}.zip`;
-    const zipOutputPath = path.join(tempDir, zipFileName);
+    // 6. Subir el archivo .zip a Vercel Blob
+    const zipBuffer = await fs.readFile(zipPath);
+    const blob = await put(
+      `campaign-packages/${validatedDraft.draftId}.zip`,
+      zipBuffer,
+      { access: "public", contentType: "application/zip" }
+    );
 
-    await packageDirectory(buildOutputDir, zipOutputPath);
-    logger.traceEvent(traceId, "Salida del build empaquetada en .zip.");
+    logger.success("[Action] Paquete subido a Vercel Blob.", {
+      url: blob.url,
+      traceId,
+    });
 
-    const fileBuffer = await fs.readFile(zipOutputPath);
-    const dataUrl = `data:application/zip;base64,${fileBuffer.toString("base64")}`;
-
-    logger.endGroup();
-    logger.endTrace(traceId);
-    return {
-      success: true,
-      data: { message: "Paquete generado con éxito.", downloadUrl: dataUrl },
-    };
+    return { success: true, data: { downloadUrl: blob.url } };
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : "Error desconocido.";
-    logger.error("Fallo crítico durante el empaquetado.", {
+    logger.error("[Action] Fallo crítico durante el empaquetado.", {
       error: errorMessage,
+      traceId,
     });
-    logger.endGroup();
-    logger.endTrace(traceId);
     return {
       success: false,
-      error: `No se pudo generar el paquete: ${errorMessage}`,
+      error: "No se pudo generar el paquete de la campaña.",
     };
   } finally {
-    if (tempDir) {
+    // 7. Limpieza
+    try {
       await fs.rm(tempDir, { recursive: true, force: true });
-      logger.traceEvent(traceId, "Directorio temporal completo eliminado.");
+      await fs.unlink(zipPath).catch(() => {});
+      logger.traceEvent(traceId, "Limpieza del entorno temporal completada.");
+    } catch (cleanupError) {
+      logger.warn("[Action] Fallo durante la limpieza.", { cleanupError });
     }
+    logger.endTrace(traceId);
   }
 }
 // app/[locale]/(dev)/dev/campaign-suite/_actions/packageCampaign.action.ts

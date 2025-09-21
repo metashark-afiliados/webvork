@@ -2,7 +2,7 @@
 /**
  * @file CampaignSummary.tsx
  * @description Aparato atómico para la vista de resumen de la campaña en el Paso 5.
- *              Ahora muestra un resumen estructurado y detallado del borrador de la campaña.
+ *              Muestra un resumen estructurado y detallado del borrador de la campaña.
  * @version 2.0.0 (Detailed Draft Summary)
  * @author RaZ Podestá - MetaShark Tech
  */
@@ -21,9 +21,9 @@ import {
 import { DynamicIcon } from "@/components/ui";
 
 interface CampaignSummaryProps {
-  draft: CampaignDraft; // <-- NUEVO: Recibe el borrador completo
+  draft: CampaignDraft;
   title: string;
-  placeholder: string; // Se mantiene, pero se usa como fallback o parte de una descripción general
+  placeholder: string;
 }
 
 export function CampaignSummary({
@@ -138,3 +138,4 @@ export function CampaignSummary({
     </Card>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step5_Management/_components/CampaignSummary.tsx

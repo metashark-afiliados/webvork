@@ -1,109 +1,172 @@
-// RUTA: app/[locale]/news/[slug]/page.tsx
+// app/[locale]/news/[slug]/page.tsx
 /**
  * @file page.tsx
- * @description Página de artículo de blog individual. Orquesta la carga de datos
- *              y la composición de componentes de élite con animación de entrada.
- * @version 2.0.0 (Holistic Elite Compliance & MEA/UX)
+ * @description Página de artículo de blog individual. SSoT para la visualización de
+ *              contenido de CogniRead. Orquesta la obtención de datos del servidor y
+ *              la composición de componentes de élite para renderizar el artículo completo,
+ *              incluyendo la sección de comentarios interactiva.
+ * @version 3.1.0 (Holistic Type Safety & Elite Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import Image from "next/image";
-import { getDictionary } from "@/shared/lib/i18n";
-import type { Locale } from "@/shared/lib/i18n.config";
+import { notFound } from "next/navigation";
+import { CldImage } from "next-cloudinary";
+import type { Metadata } from "next";
+import { i18n, type Locale } from "@/shared/lib/i18n.config";
 import { logger } from "@/shared/lib/logging";
-import { Container, Badge } from "@/components/ui";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { TextSection } from "@/components/sections/TextSection";
+import { ArticleBody, CommentSection } from "@/components/sections";
 import { DeveloperErrorDisplay } from "@/components/dev";
 import { SectionAnimator } from "@/components/layout/SectionAnimator";
-import type { NewsArticlePageContent } from "@/shared/lib/schemas/pages/news-article-page.schema";
-import { notFound } from "next/navigation";
+import {
+  getArticleBySlugAction,
+  getPublishedArticlesAction,
+} from "../../(dev)/cogniread/_actions";
+import type { CogniReadArticle } from "@/shared/lib/schemas/cogniread/article.schema";
 
+/**
+ * @interface NewsArticlePageProps
+ * @description Contrato de props para la página de artículo, proporcionado por Next.js.
+ */
 interface NewsArticlePageProps {
   params: { locale: Locale; slug: string };
 }
 
-// TODO: Implementar generateStaticParams para pre-renderizar todas las rutas de artículos en tiempo de build.
-
-export default async function NewsArticlePage({
-  params: { locale, slug },
-}: NewsArticlePageProps) {
+/**
+ * @function generateStaticParams
+ * @description SSoT para la Generación de Sitios Estáticos (SSG). Descubre todos los
+ *              artículos publicados en todos los idiomas en tiempo de build y genera
+ *              las rutas estáticas correspondientes para un rendimiento de carga óptimo.
+ * @returns {Promise<{ locale: Locale; slug: string }[]>} Un array de objetos de parámetros para cada página a pre-renderizar.
+ */
+export async function generateStaticParams(): Promise<
+  { locale: Locale; slug: string }[]
+> {
   logger.info(
-    `[NewsArticlePage] Renderizando v2.0 (Elite Compliance) para slug: "${slug}", locale: ${locale}`
+    "[SSG] Iniciando generación de parámetros estáticos para artículos..."
+  );
+  const result = await getPublishedArticlesAction({ page: 1, limit: 100 });
+  if (!result.success) {
+    logger.error(
+      "[SSG] No se pudieron obtener los artículos para generateStaticParams."
+    );
+    return [];
+  }
+
+  // Se añade tipado explícito a los argumentos para erradicar 'any' implícito.
+  const paths = result.data.articles.flatMap((article: CogniReadArticle) =>
+    Object.entries(article.content).map(([locale, content]) => ({
+      locale: locale as Locale,
+      slug: (content as { slug: string }).slug,
+    }))
   );
 
-  const { dictionary, error } = await getDictionary(locale);
+  logger.success(
+    `[SSG] Se generarán ${paths.length} rutas de artículo estáticas.`
+  );
+  return paths;
+}
 
-  // --- Pilar III: Guardia de Resiliencia Robusta ---
-  if (error) {
-    const errorMessage = `Fallo al cargar el diccionario para la página del artículo [slug: ${slug}].`;
-    logger.error(`[NewsArticlePage] ${errorMessage}`, { error });
-    if (process.env.NODE_ENV === "production") {
-      return notFound();
-    }
+/**
+ * @function generateMetadata
+ * @description Genera los metadatos SEO (título y descripción) para la página del artículo
+ *              de forma dinámica en el servidor.
+ * @param {NewsArticlePageProps} props - Las props de la página.
+ * @returns {Promise<Metadata>} El objeto de metadatos para el <head> de la página.
+ */
+export async function generateMetadata({
+  params: { locale, slug },
+}: NewsArticlePageProps): Promise<Metadata> {
+  const articleResult = await getArticleBySlugAction(slug, locale);
+  if (!articleResult.success || !articleResult.data.article) {
+    return {
+      title: "Artículo no encontrado",
+      description: "La página que buscas no existe o ha sido movida.",
+    };
+  }
+  const content = articleResult.data.article.content[locale];
+  return {
+    title: content?.title,
+    description: content?.summary,
+    openGraph: {
+      title: content?.title,
+      description: content?.summary,
+      images: articleResult.data.article.baviHeroImageId
+        ? [
+            {
+              url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_fill,g_auto,w_1200,h_630/${articleResult.data.article.baviHeroImageId}`,
+              width: 1200,
+              height: 630,
+              alt: content?.title,
+            },
+          ]
+        : [],
+    },
+  };
+}
+
+/**
+ * @component NewsArticlePage
+ * @description El Server Component principal para la página de un artículo.
+ * @param {NewsArticlePageProps} props - Las props de la página.
+ * @returns {Promise<React.ReactElement>} El elemento JSX de la página.
+ */
+export default async function NewsArticlePage({
+  params: { locale, slug },
+}: NewsArticlePageProps): Promise<React.ReactElement> {
+  logger.info(
+    `[NewsArticlePage] Renderizando v3.1 (Elite) para slug: "${slug}", locale: ${locale}`
+  );
+
+  const articleResult = await getArticleBySlugAction(slug, locale);
+
+  if (!articleResult.success) {
     return (
       <DeveloperErrorDisplay
         context="NewsArticlePage"
-        errorMessage={errorMessage}
-        errorDetails={error}
+        errorMessage={`No se pudo cargar el artículo [slug: ${slug}].`}
+        errorDetails={articleResult.error}
       />
     );
   }
 
-  // --- Pilar IV: Seguridad de Tipos (Sin @ts-ignore) ---
-  // Se accede de forma segura y se realiza una aserción de tipo después de la comprobación.
-  const articleContent = dictionary[slug] as NewsArticlePageContent | undefined;
+  if (!articleResult.data.article) {
+    return notFound();
+  }
 
-  if (!articleContent) {
-    logger.error(
-      `[NewsArticlePage] Contenido para el slug "${slug}" no encontrado en el diccionario.`
+  const { article } = articleResult.data;
+  const content = article.content[locale];
+
+  if (!content) {
+    logger.warn(
+      `[NewsArticlePage] No se encontró traducción para el locale '${locale}' en el artículo '${article.articleId}'.`
     );
     return notFound();
   }
 
-  const {
-    title,
-    subtitle,
-    author,
-    publishedDate,
-    readTime,
-    category,
-    featuredImageUrl,
-    featuredImageAlt,
-    content,
-  } = articleContent;
-
   return (
     <>
-      {/* --- Pilar V: Adherencia al Contrato de PageHeader --- */}
-      <PageHeader content={{ title, subtitle }} />
-
+      <PageHeader
+        content={{ title: content.title, subtitle: content.summary }}
+      />
       <SectionAnimator>
-        <Container className="py-8 max-w-4xl">
-          <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-            <div className="flex items-center gap-2">
-              <Badge variant="secondary">{category}</Badge>
-              <span>Por {author}</span>
-            </div>
-            <span>
-              {publishedDate} · {readTime} min de lectura
-            </span>
-          </div>
-
-          <div className="relative w-full aspect-video rounded-lg overflow-hidden my-8 shadow-lg">
-            <Image
-              src={featuredImageUrl}
-              alt={featuredImageAlt}
+        {article.baviHeroImageId && (
+          <div className="relative w-full aspect-video max-w-5xl mx-auto -mt-16 rounded-lg overflow-hidden shadow-lg z-10">
+            <CldImage
+              src={article.baviHeroImageId}
+              alt={content.title}
               fill
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 896px"
+              sizes="(max-width: 1024px) 100vw, 1280px"
               priority
             />
           </div>
-
-          <TextSection content={content} spacing="compact" />
-        </Container>
+        )}
+        <ArticleBody content={content.body} />
       </SectionAnimator>
+      <CommentSection articleId={article.articleId} articleSlug={slug} />
     </>
   );
 }
+// app/[locale]/news/[slug]/page.tsx
+

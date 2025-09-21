@@ -1,13 +1,11 @@
-// lib/i18n/locale-detector.ts
+// shared/lib/i18n/locale-detector.ts
 /**
  * @file locale-detector.ts
  * @description Utilidad pura y atómica para detectar el locale preferido del
  *              navegador. Es la SSoT para esta lógica y es compatible con el
  *              Vercel Edge Runtime.
- *              v2.1.0 (Linter Alignment): Se alinea con la política de supresión de errores.
- * @version 2.1.0
+ * @version 3.0.0 (Holistic Elite Compliance & Linter Alignment)
  * @author RaZ Podestá - MetaShark Tech
- * @see roadmap-v2.md - Tarea 4.1
  */
 import "server-only";
 import { type NextRequest } from "next/server";
@@ -31,14 +29,16 @@ export function getLocaleFromBrowser(request: NextRequest): Locale {
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
-  // --- [INICIO DE CORRECCIÓN DE LINTING] ---
-  // @ ts-expect-error -- Los tipos de Negotiator pueden no estar perfectamente
-  // alineados con las cabeceras de NextRequest, pero la lógica es funcional y
-  // es la práctica recomendada por la comunidad.
+  // --- [INICIO DE REFACTORIZACIÓN DE LINTING Y CALIDAD] ---
+  // ts-expect-error - Los tipos de 'Negotiator' y los de 'NextRequest' para las
+  // cabeceras no están perfectamente alineados. Sin embargo, esta es la forma
+  // canónica y recomendada por la comunidad para implementar la negociación de
+  // idiomas. Aceptamos este error de tipo esperado como un compromiso técnico
+  // para utilizar la herramienta estándar de la industria.
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages([
     ...supportedLocales,
   ]);
-  // --- [FIN DE CORRECCIÓN DE LINTING] ---
+  // --- [FIN DE REFACTORIZACIÓN DE LINTING Y CALIDAD] ---
 
   const locale = matchLocale(
     languages,
@@ -46,7 +46,14 @@ export function getLocaleFromBrowser(request: NextRequest): Locale {
     defaultLocale
   ) as Locale;
 
-  logger.trace(`[LocaleDetector] Locale detectado del navegador: ${locale}`);
+  logger.trace(
+    `[LocaleDetector] Locale detectado del navegador: "${locale}".`,
+    {
+      "Accept-Language": request.headers.get("accept-language"),
+      languages,
+    }
+  );
+
   return locale;
 }
-// lib/i18n/locale-detector.ts
+// shared/lib/i18n/locale-detector.ts

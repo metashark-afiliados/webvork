@@ -67,10 +67,8 @@ export function ManagementActions({
     "[ManagementActions] Renderizando orquestador de presentación v6.0."
   );
 
-  // Lógica centralizada para determinar si alguna acción está en curso.
   const isAnyActionPending =
     isPublishing || isPackaging || isDeleting || isSavingTemplate;
-  // Lógica centralizada para deshabilitar las acciones de "lanzamiento".
   const isLaunchDisabled = isAnyActionPending || !isLaunchReady;
 
   return (
@@ -80,7 +78,6 @@ export function ManagementActions({
       </Button>
 
       <div className="flex flex-wrap gap-2 justify-end">
-        {/* Acción Destructiva: Eliminar Borrador */}
         <AlertDialogTrigger asChild>
           <Button variant="destructive" disabled={isAnyActionPending}>
             {isDeleting && <DotsWave className="mr-2 h-4 w-4" />}
@@ -88,7 +85,6 @@ export function ManagementActions({
           </Button>
         </AlertDialogTrigger>
 
-        {/* Acción de Guardado: Guardar como Plantilla */}
         <SaveAsTemplateDialog
           onSave={onSaveAsTemplate}
           isSaving={isSavingTemplate}
@@ -97,13 +93,11 @@ export function ManagementActions({
           content={templateDialogContent}
         />
 
-        {/* Acción de Empaquetado */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="inline-block">
                 {" "}
-                {/* Contenedor necesario para Tooltip en elementos deshabilitados */}
                 <Button
                   variant="secondary"
                   onClick={onPackage}
@@ -125,7 +119,6 @@ export function ManagementActions({
           </Tooltip>
         </TooltipProvider>
 
-        {/* Acción Principal: Publicar */}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

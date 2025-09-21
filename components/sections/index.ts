@@ -31,3 +31,5 @@ export * from "./TestimonialCarouselSection";
 export * from "./TestimonialGrid";
 export * from "./TextSection";
 export * from "./ThumbnailCarousel";
+export * from "./ArticleBody";
+export * from "./CommentSection";

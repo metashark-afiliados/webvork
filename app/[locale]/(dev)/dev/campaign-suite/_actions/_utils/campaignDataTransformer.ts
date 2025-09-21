@@ -5,6 +5,7 @@
  * @version 2.0.0 (FSD Architecture Alignment)
  * @author RaZ Podestá - MetaShark Tech
  */
+import "server-only";
 import type { CampaignDraft } from "../../_types/draft.types";
 import { supportedLocales, type Locale } from "@/shared/lib/i18n.config";
 import { sectionsConfig } from "@/shared/lib/config/sections.config";

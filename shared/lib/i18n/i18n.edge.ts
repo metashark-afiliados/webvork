@@ -1,13 +1,11 @@
-// lib/i18n/i18n.edge.ts
+// shared/lib/i18n/i18n.edge.ts
 /**
  * @file i18n.edge.ts
  * @description SSoT de carga de activos JSON para el Vercel Edge Runtime.
- *              v2.1.0 (Observability & Linter Fix): Resuelve el error de
- *              variable no utilizada al incluir el objeto de error en el log,
- *              mejorando la calidad del diagnóstico.
- * @version 2.1.0
+ * @version 3.0.0 (Holistic Elite Compliance & Observability Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
+import "server-only";
 import { type Locale } from "@/shared/lib/i18n.config";
 import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import { logger } from "@/shared/lib/logging";
@@ -25,9 +23,8 @@ export async function loadEdgeJsonAsset<T>(
   ...pathSegments: string[]
 ): Promise<T> {
   const finalPath = pathSegments.join("/");
+  const traceId = logger.startTrace(`loadEdgeJsonAsset:${finalPath}`);
   try {
-    // La variable de entorno VERCEL_URL está disponible en producción en Vercel
-    // y proporciona la URL de despliegue canónica.
     const baseUrl = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000";
@@ -39,14 +36,20 @@ export async function loadEdgeJsonAsset<T>(
         `HTTP error! status: ${response.status} for path: ${finalPath}`
       );
     }
+    logger.traceEvent(
+      traceId,
+      "Activo JSON cargado exitosamente desde el Edge."
+    );
     return (await response.json()) as T;
   } catch (error) {
     logger.error(`[loadEdgeJsonAsset] Fallo al hacer fetch del activo.`, {
       path: finalPath,
       error,
+      traceId,
     });
-    // Re-lanzamos el error para que el consumidor pueda manejarlo.
     throw error;
+  } finally {
+    logger.endTrace(traceId);
   }
 }
 
@@ -67,14 +70,14 @@ export async function getEdgeDictionary(
     );
     return { dictionary };
   } catch (error) {
-    // --- [INICIO DE CORRECCIÓN DE LINTING Y OBSERVABILIDAD] ---
-    // Ahora, el objeto de error capturado se pasa al logger.
+    // --- [INICIO DE CORRECCIÓN DE OBSERVABILIDAD Y LINTING] ---
+    // El objeto de error capturado ahora se pasa al logger.
     logger.error(
       `[i18n.edge] Fallo al obtener el diccionario para '${locale}'. Se devolverá un objeto vacío.`,
       { error }
     );
-    // --- [FIN DE CORRECCIÓN DE LINTING Y OBSERVABILIDAD] ---
+    // --- [FIN DE CORRECCIÓN DE OBSERVABILIDAD Y LINTING] ---
     return { dictionary: {} };
   }
 }
-// lib/i18n/i18n.edge.ts
+// shared/lib/i18n/i18n.edge.ts

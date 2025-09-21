@@ -9,9 +9,6 @@
 
 import React from "react";
 import { Button, DynamicIcon, ImageUploader } from "@/components/ui";
-// --- [INICIO DE CORRECCIÓN DE HIGIENE] ---
-// Se elimina la importación no utilizada de 'ActionResult'.
-// --- [FIN DE CORRECCIÓN DE HIGIENE] ---
 
 interface ImageFieldActionsProps {
   onUpload: (formData: FormData) => Promise<void>;
@@ -31,6 +28,7 @@ export function ImageFieldActions({
       <ImageUploader
         onUpload={async (formData) => {
           await onUpload(formData);
+          // La acción onUpload ya maneja el resultado, no necesitamos devolver un ActionResult aquí.
           return { success: true, data: { path: "" } };
         }}
         onUploadSuccess={() => {}}

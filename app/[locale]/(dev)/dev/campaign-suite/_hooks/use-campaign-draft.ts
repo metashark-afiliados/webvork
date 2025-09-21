@@ -1,10 +1,14 @@
 // app/[locale]/(dev)/dev/campaign-suite/_hooks/use-campaign-draft.ts
 /**
  * @file use-campaign-draft.ts
- * @description Hook de Zustand para la gestión de estado híbrida.
- * @version 15.1.0 (Elite Linter Compliance)
+ * @description Hook de Zustand y SSoT para la gestión de estado híbrida (localStorage + DB)
+ *              del borrador de campaña. Implementa guardado debounced y lógica de
+ *              sincronización inteligente.
+ * @version 16.1.0 (Direct Action Import Fix & Elite Compliance)
  * @author RaZ Podestá - MetaShark Tech
  */
+"use client";
+
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { StateCreator } from "zustand";
@@ -13,12 +17,17 @@ import { logger } from "@/shared/lib/logging";
 import { generateDraftId } from "@/shared/lib/drafts/draft-utils";
 import { stepsConfig } from "../_config/wizard.config";
 import { initialCampaignDraftState } from "../_config/draft.initial-state";
-import type { CampaignDraft, CampaignDraftState } from "../_types/draft.types";
+import type {
+  CampaignDraft,
+  CampaignDraftState,
+} from "../_types/draft.types";
 import { saveDraftAction, getDraftAction } from "../_actions/draft.actions";
+import { deleteDraftAction } from "../_actions/deleteDraft.action";
 import {
   CampaignDraftDataSchema,
   type CampaignDraftDb,
 } from "@/shared/lib/schemas/campaigns/draft.schema";
+import type { Locale } from "@/shared/lib/i18n.config";
 
 let debounceTimeout: NodeJS.Timeout;
 const DEBOUNCE_DELAY = 1500;
@@ -71,13 +80,7 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
       `[useCampaignDraft] Guardando borrador ${draftToSave.draftId} en DB...`
     );
 
-    // --- [INICIO DE CORRECCIÓN DE LINTING DE ÉLITE] ---
-    // Esta sintaxis desestructura `draftToSave`, omitiendo `step` y `updatedAt`
-    // sin crear nuevas variables no utilizadas. El resto de las propiedades
-    // se agrupan en `dataToSave`.
-    const { ...dataToSave } = draftToSave;
-    // --- [FIN DE CORRECCIÓN DE LINTING DE ÉLITE] ---
-
+    const { step, ...dataToSave } = draftToSave;
     const validation = CampaignDraftDataSchema.safeParse(dataToSave);
 
     if (!validation.success) {
@@ -106,7 +109,6 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
     newDraftState: Partial<Omit<CampaignDraft, "draftId" | "step">>
   ) => {
     clearTimeout(debounceTimeout);
-
     const currentState = get().draft;
     const newDraft: CampaignDraft = {
       ...currentState,
@@ -151,10 +153,24 @@ const storeCreator: StateCreator<CampaignDraftState> = (set, get) => ({
     }
   },
 
-  deleteDraft: () => {
-    logger.warn("[useCampaignDraft] Eliminando borrador de campaña...");
+  deleteDraft: async () => {
+    const draftIdToDelete = get().draft.draftId;
+    logger.warn("[useCampaignDraft] Iniciando eliminación de borrador...", {
+      draftId: draftIdToDelete,
+    });
     set({ draft: initialCampaignDraftState, isLoading: false });
-    toast.success("Borrador local eliminado.");
+    toast.success("Borrador eliminado de la sesión local.");
+    clearTimeout(debounceTimeout);
+    if (draftIdToDelete) {
+      const result = await deleteDraftAction(draftIdToDelete);
+      if (result.success) {
+        toast.info("Borrador eliminado de la base de datos.");
+      } else {
+        toast.error("Error al eliminar el borrador de la base de datos.", {
+          description: result.error,
+        });
+      }
+    }
   },
 });
 

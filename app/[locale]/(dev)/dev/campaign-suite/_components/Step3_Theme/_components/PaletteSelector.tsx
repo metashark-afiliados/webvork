@@ -2,7 +2,7 @@
 /**
  * @file PaletteSelector.tsx
  * @description Aparato de UI atómico y de élite para la selección visual de paletas de colores.
- * @version 1.2.0 (Resilient Contract)
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -11,12 +11,16 @@ import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
+import { logger } from "@/shared/lib/logging";
 
-// --- [INICIO] REFACTORIZACIÓN DE CONTRATO ---
+/**
+ * @interface Palette
+ * @description Contrato de datos para una única paleta de colores.
+ *              Las propiedades de colores son opcionales para resiliencia.
+ */
 interface Palette {
   name: string;
   colors?: {
-    // La propiedad 'colors' ahora es opcional
     primary?: string;
     secondary?: string;
     accent?: string;
@@ -24,8 +28,11 @@ interface Palette {
     foreground?: string;
   };
 }
-// --- [FIN] REFACTORIZACIÓN DE CONTRATO ---
 
+/**
+ * @interface PaletteSelectorProps
+ * @description Contrato de props para el componente PaletteSelector.
+ */
 interface PaletteSelectorProps {
   palettes: Palette[];
   selectedPaletteName: string | null;
@@ -47,12 +54,12 @@ export function PaletteSelector({
   onCreate,
   createNewPaletteButton,
 }: PaletteSelectorProps) {
+  logger.trace("[PaletteSelector] Renderizando selector visual de paletas.");
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {palettes.map((palette) => {
-        // --- [INICIO] GUARDIA DE RESILIENCIA ---
-        const colors = palette.colors ?? {}; // Fallback a objeto vacío
-        // --- [FIN] GUARDIA DE RESILIENCIA ---
+        // Guardia de resiliencia: si `colors` no existe, usa un objeto vacío.
+        const colors = palette.colors ?? {};
         return (
           <motion.div
             key={palette.name}
@@ -82,6 +89,7 @@ export function PaletteSelector({
           </motion.div>
         );
       })}
+      {/* Botón para la futura funcionalidad de creación de paletas */}
       <button
         onClick={onCreate}
         className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted/50 p-2 transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary"

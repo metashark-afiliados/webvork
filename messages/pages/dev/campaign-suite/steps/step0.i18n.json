@@ -14,7 +14,8 @@
       "affiliateNetworkLabel": "Rete di Affiliazione",
       "affiliateNetworkPlaceholder": "Seleziona una rete...",
       "affiliateUrlLabel": "URL Affiliato Base",
-      "affiliateUrlPlaceholder": "Incolla qui il link della tua offerta"
+      "affiliateUrlPlaceholder": "Incolla qui il link della tua offerta",
+      "passportStampLabel": "Passaporto Campagna Creato!"
     }
   },
   "es-ES": {
@@ -32,7 +33,8 @@
       "affiliateNetworkLabel": "Red de Afiliados",
       "affiliateNetworkPlaceholder": "Selecciona una red...",
       "affiliateUrlLabel": "URL de Afiliado Base",
-      "affiliateUrlPlaceholder": "Pega aquí el enlace de tu oferta"
+      "affiliateUrlPlaceholder": "Pega aquí el enlace de tu oferta",
+      "passportStampLabel": "¡Pasaporte de Campaña Creado!"
     }
   },
   "en-US": {
@@ -50,7 +52,8 @@
       "affiliateNetworkLabel": "Affiliate Network",
       "affiliateNetworkPlaceholder": "Select a network...",
       "affiliateUrlLabel": "Base Affiliate URL",
-      "affiliateUrlPlaceholder": "Paste your offer link here"
+      "affiliateUrlPlaceholder": "Paste your offer link here",
+      "passportStampLabel": "Campaign Passport Created!"
     }
   },
   "pt-BR": {
@@ -68,7 +71,8 @@
       "affiliateNetworkLabel": "Rede de Afiliados",
       "affiliateNetworkPlaceholder": "Selecione uma rede...",
       "affiliateUrlLabel": "URL de Afiliado Base",
-      "affiliateUrlPlaceholder": "Cole o link da sua oferta aqui"
+      "affiliateUrlPlaceholder": "Cole o link da sua oferta aqui",
+      "passportStampLabel": "Passaporte da Campanha Criado!"
     }
   }
 }

@@ -3,9 +3,10 @@
  * @file assetGenerator.ts
  * @description Motor de generación de activos de campaña. SSoT para la lógica de
  *              transformación de un borrador a archivos físicos.
- * @version 1.1.0 (Elite Compliance Leveling)
+ * @version 1.2.0 (Direct Import Refactor)
  * @author RaZ Podestá - MetaShark Tech
  */
+import "server-only";
 import { promises as fs } from "fs";
 import path from "path";
 import { logger } from "@/shared/lib/logging";
@@ -15,7 +16,9 @@ import type {
   CampaignVariantMap,
 } from "@/shared/lib/schemas/campaigns/campaign-map.schema";
 import { transformDraftToContentObject } from "./campaignDataTransformer";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { generateCampaignFileNames } from "./campaignMapManager";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 
 interface AssetGenerationResult {
   themePath: string;
@@ -96,4 +99,3 @@ export async function generateCampaignAssets(
 
   return { themePath, contentPath, mapPath, updatedMap };
 }
-// app/[locale]/(dev)/dev/campaign-suite/_actions/_utils/assetGenerator.ts

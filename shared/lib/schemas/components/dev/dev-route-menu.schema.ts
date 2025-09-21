@@ -1,51 +1,31 @@
-// lib/schemas/components/dev/dev-route-menu.schema.ts
+// shared/lib/schemas/components/dev/dev-route-menu.schema.ts
 /**
  * @file dev-route-menu.schema.ts
- * @description Esquema de Zod para el contenido i18n del componente DevRouteMenu.
- *              - v5.0.0 (Holistic Contract Fix): Se expande el schema para incluir
- *                TODAS las claves de texto requeridas por el generador de rutas y
- *                los componentes de UI, resolviendo la cascada de errores de tipo TS2339.
- * @version 5.0.0
+ * @description SSoT para el contrato i18n del DevRouteMenu.
+ *              v7.0.0 (Anti-fragile & Dynamic): Refactorizado para soportar un
+ *              número dinámico de claves de ruta, alineándose con el generador
+ *              de menú auto-sanable.
+ * @version 7.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
 import { logger } from "@/shared/lib/logging";
 
-logger.trace("[Schema] Definiendo contrato completo para [DevRouteMenu] v5.0");
+logger.trace("[Schema] Definiendo contrato para [DevRouteMenu] v7.0");
+
+export const DevRouteMenuContentSchema = z
+  .object({
+    devMenuLabel: z.string(),
+    devToolsGroup: z.string(),
+    campaignPagesGroup: z.string(),
+    portalPagesGroup: z.string(),
+    legalPagesGroup: z.string(),
+  })
+  // .passthrough() permite que el objeto contenga claves adicionales (nuestras
+  // claves de ruta dinámicas) sin fallar la validación.
+  .passthrough();
 
 export const DevRouteMenuLocaleSchema = z.object({
-  devRouteMenu: z
-    .object({
-      // --- [INICIO] REFACTORIZACIÓN DEL CONTRATO ---
-      devMenuLabel: z.string(),
-      devToolsGroup: z.string(),
-      campaignPagesGroup: z.string(),
-      portalPagesGroup: z.string(),
-      legalPagesGroup: z.string(),
-      campaignDesignSuite: z.string(),
-      testPage: z.string(),
-      branding: z.string(),
-      campaignSimulator: z.string(),
-      componentCanvas: z.string(),
-      campaignPage: z.string(),
-      home: z.string(),
-      store: z.string(),
-      news: z.string(),
-      about: z.string(),
-      terms: z.string(),
-      privacy: z.string(),
-      cookies: z.string(),
-      changeLanguage: z.string(),
-      currentLanguageIs: z.string(),
-      // --- [FIN] REFACTORIZACIÓN DEL CONTRATO ---
-    })
-    .optional(),
+  devRouteMenu: DevRouteMenuContentSchema.optional(),
 });
-
-export const DevRouteMenuI18nSchema = z.object({
-  "es-ES": DevRouteMenuLocaleSchema,
-  "pt-BR": DevRouteMenuLocaleSchema,
-  "en-US": DevRouteMenuLocaleSchema,
-  "it-IT": DevRouteMenuLocaleSchema,
-});
-// lib/schemas/components/dev/dev-route-menu.schema.ts
+// shared/lib/schemas/components/dev/dev-route-menu.schema.ts

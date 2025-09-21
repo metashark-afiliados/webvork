@@ -1,11 +1,10 @@
-// RUTA: shared/lib/commerce/index.ts
+// shared/lib/commerce/index.ts
 /**
- * @file index.ts
+ * @file index.ts (Barrel File)
  * @description Capa de Acceso a Datos Soberana y Agregadora para E-commerce.
- *              v3.0.0 (Hybrid Engine): Integra el motor de Shopify y lo fusiona
- *              con el catálogo local de dropshipping, creando una fuente de
- *              datos de productos unificada y agnóstica al proveedor.
- * @version 3.0.0
+ *              v3.1.0 (Elite Refactor): Introduce `getProductBySlug` optimizado,
+ *              mejora la observabilidad con tracing y fortalece los contratos.
+ * @version 3.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
@@ -34,29 +33,39 @@ type ProductCatalogI18n = Partial<
  * @private
  */
 async function getLocalProducts(locale: Locale): Promise<Product[]> {
+  const traceId = logger.startTrace("getLocalProducts");
   try {
     const catalogData = await loadJsonAsset<ProductCatalogI18n>(
-      "campaigns",
-      `products/catalog.i18n.json`
+      "products/catalog.i18n.json" // Ruta corregida para ser relativa a /content
     );
     const catalogForLocale = catalogData[locale];
     if (!catalogForLocale) return [];
+
     const validation = ProductCatalogSchema.safeParse(catalogForLocale);
     if (!validation.success) {
       logger.error(
         "[Commerce Layer] Catálogo local de productos falló la validación.",
-        { error: validation.error.flatten() }
+        { error: validation.error.flatten(), traceId }
       );
       return [];
     }
-    return validation.data.products.filter(
+    // Filtramos para devolver solo los productos que NO son de nuestra marca principal.
+    const localProducts = validation.data.products.filter(
       (p) => p.producerInfo.name !== "Global Fitwell"
     );
+    logger.traceEvent(
+      traceId,
+      `Se encontraron ${localProducts.length} productos locales.`
+    );
+    return localProducts;
   } catch (error) {
     logger.error("Fallo crítico al cargar el catálogo de productos locales.", {
       error,
+      traceId,
     });
     return [];
+  } finally {
+    logger.endTrace(traceId);
   }
 }
 
@@ -67,50 +76,86 @@ async function getLocalProducts(locale: Locale): Promise<Product[]> {
 export async function getProducts(options: {
   locale: Locale;
 }): Promise<EnrichedProduct[]> {
+  const traceId = logger.startTrace("getProducts (Hybrid)");
   logger.info(
     `[Commerce Layer] Solicitando productos HÍBRIDOS para [${options.locale}]`
   );
 
-  const [shopifyProducts, localProducts] = await Promise.all([
-    getShopifyProducts().catch((e) => {
-      logger.error("Fallo al obtener productos de Shopify.", { error: e });
-      return [];
-    }),
-    getLocalProducts(options.locale),
-  ]);
+  try {
+    const [shopifyProducts, localProducts] = await Promise.all([
+      getShopifyProducts().catch((e) => {
+        logger.error("Fallo al obtener productos de Shopify.", {
+          error: e,
+          traceId,
+        });
+        return [];
+      }),
+      getLocalProducts(options.locale),
+    ]);
 
-  const allProducts = [...shopifyProducts, ...localProducts];
+    logger.traceEvent(
+      traceId,
+      `Shopify: ${shopifyProducts.length}, Local: ${localProducts.length}`
+    );
 
-  return reshapeProducts(allProducts);
+    const allProducts = [...shopifyProducts, ...localProducts];
+
+    return reshapeProducts(allProducts);
+  } catch (error) {
+    logger.error("Error inesperado en getProducts.", { error, traceId });
+    return [];
+  } finally {
+    logger.endTrace(traceId);
+  }
 }
 
 /**
- * @function getProduct
+ * @function getProductBySlug
  * @description Obtiene un único producto por su slug desde la fuente apropiada.
+ *              Esta es la SSoT para obtener detalles de un producto.
  */
-export async function getProduct(options: {
+export async function getProductBySlug(options: {
   locale: Locale;
   slug: string;
 }): Promise<EnrichedProduct | null> {
+  const traceId = logger.startTrace(`getProductBySlug:${options.slug}`);
   logger.info(
-    `[Commerce Layer] Solicitando producto HÍBRIDO: "${options.slug}"`
+    `[Commerce Layer] Solicitando producto HÍBRIDO por slug: "${options.slug}"`
   );
 
-  // Intenta obtener de Shopify primero
-  const shopifyProduct = await getShopifyProduct(options.slug).catch(
-    () => null
-  );
-  if (shopifyProduct) {
-    return reshapeProduct(shopifyProduct);
+  try {
+    // 1. Intenta obtener de Shopify primero.
+    const shopifyProduct = await getShopifyProduct(options.slug).catch(
+      () => null
+    );
+    if (shopifyProduct) {
+      logger.traceEvent(traceId, "Producto encontrado en Shopify.");
+      return reshapeProduct(shopifyProduct);
+    }
+    logger.traceEvent(
+      traceId,
+      "Producto no encontrado en Shopify. Buscando en catálogo local..."
+    );
+
+    // 2. Si no, busca en el catálogo local de forma optimizada.
+    const localProducts = await getLocalProducts(options.locale);
+    const localProduct = localProducts.find((p) => p.slug === options.slug);
+
+    if (localProduct) {
+      logger.traceEvent(traceId, "Producto encontrado en catálogo local.");
+      return reshapeProduct(localProduct);
+    }
+
+    logger.warn(
+      `[Commerce Layer] Producto con slug "${options.slug}" no fue encontrado en ninguna fuente de datos.`,
+      { traceId }
+    );
+    return null;
+  } catch (error) {
+    logger.error("Error inesperado en getProductBySlug.", { error, traceId });
+    return null;
+  } finally {
+    logger.endTrace(traceId);
   }
-
-  // Si no, busca en el catálogo local
-  const localProducts = await getLocalProducts(options.locale);
-  const localProduct = localProducts.find((p) => p.slug === options.slug);
-
-  if (localProduct) {
-    return reshapeProduct(localProduct);
-  }
-
-  return null;
 }
+// shared/lib/commerce/index.ts

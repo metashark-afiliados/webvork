@@ -1,4 +1,4 @@
-// RUTA: components/sections/ProductGrid.tsx
+// components/sections/ProductGrid.tsx
 /**
  * @file ProductGrid.tsx
  * @description Cuadrícula de productos de lujo para la Tienda v2.0.
@@ -10,7 +10,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { routes } from "@/shared/lib/navigation";
 import type { Locale } from "@/shared/lib/i18n.config";
 import { logger } from "@/shared/lib/logging";
@@ -22,6 +22,10 @@ import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 
 type StorePageContent = NonNullable<Dictionary["storePage"]>;
 
+/**
+ * @component StarRating
+ * @description Sub-componente atómico para renderizar la calificación de un producto.
+ */
 const StarRating = ({ rating }: { rating: number }) => (
   <div className="flex items-center gap-0.5">
     {[...Array(5)].map((_, i) => (
@@ -40,6 +44,11 @@ const StarRating = ({ rating }: { rating: number }) => (
   </div>
 );
 
+/**
+ * @component ProductCard
+ * @description Aparato de presentación atómico para una única tarjeta de producto.
+ *              Encapsula toda la lógica de UI y MEA/UX.
+ */
 const ProductCard = ({
   product,
   locale,
@@ -62,7 +71,7 @@ const ProductCard = ({
       <div className="relative w-full aspect-square overflow-hidden rounded-t-xl">
         <Image
           src={product.imageUrl}
-          alt={product.name} // Suponiendo que el nombre es un buen alt text. Idealmente, vendría del catálogo.
+          alt={product.name}
           fill
           className="object-contain p-4 transition-transform duration-500 ease-in-out group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -100,12 +109,21 @@ const ProductCard = ({
   </TiltCard>
 );
 
+/**
+ * @interface ProductGridProps
+ * @description Contrato de props para el orquestador de la cuadrícula.
+ */
 interface ProductGridProps {
   products: Product[];
   locale: Locale;
   content: StorePageContent;
 }
 
+/**
+ * @component ProductGrid
+ * @description Orquestador de la cuadrícula de productos. Aplica la animación
+ *              en cascada a sus hijos `ProductCard`.
+ */
 export function ProductGrid({
   products,
   locale,
@@ -113,7 +131,7 @@ export function ProductGrid({
 }: ProductGridProps): React.ReactElement {
   logger.info("[ProductGrid v4.0] Renderizando cuadrícula de lujo...");
 
-  const gridVariants = {
+  const gridVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -123,7 +141,7 @@ export function ProductGrid({
     },
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
@@ -143,3 +161,4 @@ export function ProductGrid({
     </motion.main>
   );
 }
+// components/sections/ProductGrid.tsx

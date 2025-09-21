@@ -1,13 +1,15 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step2_Layout/LayoutBuilder.tsx
 /**
  * @file LayoutBuilder.tsx
- * @description Orquestador de lógica y estado para la composición de layouts.
- * @version 3.1.0 (I18n Integration)
+ * @description Orquestador de lógica y estado para la composición de layouts,
+ *              con motor de detección de "Combos Estratégicos" y MEA/UX.
+ * @version 4.3.0 (Holistic Regression & Module Resolution Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React, { useState } from "react";
+// --- ¡CORRECCIÓN! Se elimina la importación no utilizada de 'useMemo'. ---
+import React, { useState, useEffect, useCallback } from "react";
 import {
   DndContext,
   closestCenter,
@@ -15,8 +17,8 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent,
-  DragStartEvent,
+  type DragEndEvent,
+  type DragStartEvent,
   DragOverlay,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
@@ -26,6 +28,8 @@ import { logger } from "@/shared/lib/logging";
 import { LayoutCanvas } from "./_components/LayoutCanvas";
 import { SectionLibrary } from "./_components/SectionLibrary";
 import { DynamicIcon } from "@/components/ui";
+// --- ¡CORRECCIÓN! Se utiliza la ruta relativa robusta. ---
+import { STRATEGIC_COMBOS } from "../../_config/combos.config";
 import type { Step2ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step2.schema";
 import type { z } from "zod";
 
@@ -53,10 +57,36 @@ export function LayoutBuilder({
   onLayoutChange,
   content,
 }: LayoutBuilderProps) {
-  logger.info("[LayoutBuilder] Renderizando orquestador de layout (v3.1).");
+  logger.info("[LayoutBuilder] Renderizando orquestador de layout (v4.3).");
   const [activeLayout, setActiveLayout] =
     useState<LayoutConfigItem[]>(initialLayout);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [comboSections, setComboSections] = useState(new Set<string>());
+
+  const detectStrategicCombos = useCallback((layout: LayoutConfigItem[]) => {
+    const layoutNames = layout.map((item) => item.name);
+    const newComboSections = new Set<string>();
+    STRATEGIC_COMBOS.forEach((combo: readonly string[]) => {
+      for (let i = 0; i <= layoutNames.length - combo.length; i++) {
+        const subLayout = layoutNames.slice(i, i + combo.length);
+        if (JSON.stringify(subLayout) === JSON.stringify(combo)) {
+          combo.forEach((sectionName: string) =>
+            newComboSections.add(sectionName)
+          );
+        }
+      }
+    });
+    setComboSections(newComboSections);
+    if (newComboSections.size > 0) {
+      logger.success("[LayoutBuilder] ¡Combo Estratégico Detectado!", {
+        combo: Array.from(newComboSections),
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    detectStrategicCombos(activeLayout);
+  }, [activeLayout, detectStrategicCombos]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -116,6 +146,7 @@ export function LayoutBuilder({
           activeLayout={activeLayout}
           onRemoveSection={removeSection}
           title={content.canvasTitle}
+          comboSections={comboSections}
         />
       </div>
       <DragOverlay>

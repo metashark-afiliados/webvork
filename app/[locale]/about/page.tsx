@@ -1,12 +1,8 @@
-// RUTA: app/[locale]/about/page.tsx
+// app/[locale]/about/page.tsx
 /**
  * @file page.tsx
  * @description Página "Sobre Nosotros", nivelada a un estándar de élite.
- *              v4.0.0 (Holistic Elite Leveling & MEA): Refactorizada para consumir
- *              el contrato del `PageHeader` de élite y orquestar la animación
- *              de sus componentes hijos (`PageHeader`, `TextSection`) para una
- *              experiencia de usuario fluida y memorable.
- * @version 4.0.0
+ * @version 4.0.0 (Holistic Elite Leveling & MEA)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -17,6 +13,7 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { TextSection } from "@/components/sections/TextSection";
 import { DeveloperErrorDisplay } from "@/components/dev";
 import { notFound } from "next/navigation";
+import { SectionAnimator } from "@/components/layout/SectionAnimator";
 
 interface AboutPageProps {
   params: { locale: Locale };
@@ -31,38 +28,28 @@ export default async function AboutPage({
 
   const { dictionary, error } = await getDictionary(locale);
   const content = dictionary.aboutPage;
-  const pageHeaderContent = dictionary.pageHeader; // Asumimos que las páginas de texto usan un header genérico
 
-  if (error || !content || !pageHeaderContent) {
+  if (error || !content) {
     const errorMessage =
       "Fallo al cargar el contenido i18n para la página 'Sobre Nosotros'.";
     logger.error(`[AboutPage] ${errorMessage}`, { error });
-    if (process.env.NODE_ENV === "production") {
-      return notFound();
-    }
+    if (process.env.NODE_ENV === "production") return notFound();
     return (
       <DeveloperErrorDisplay
         context="AboutPage"
         errorMessage={errorMessage}
-        errorDetails={
-          error ||
-          "La clave 'aboutPage' o 'pageHeader' falta en el diccionario."
-        }
+        errorDetails={error || "La clave 'aboutPage' falta en el diccionario."}
       />
     );
   }
 
   return (
-    <>
+    <SectionAnimator>
       <PageHeader
-        content={{
-          title: content.title,
-          subtitle: content.subtitle,
-          // Ejemplo de cómo se podría configurar un efecto visual sutil para esta página
-          lightRays: pageHeaderContent?.lightRays,
-        }}
+        content={{ title: content.title, subtitle: content.subtitle }}
       />
       <TextSection content={content.content} />
-    </>
+    </SectionAnimator>
   );
 }
+// app/[locale]/about/page.tsx

@@ -2,10 +2,10 @@
 /**
  * @file Step0.tsx
  * @description Ensamblador y Cargador de Datos para el Paso 0 de la SDC.
- *              v3.0.0 (Holistic Type Alignment): Se alinea con la nueva
- *              arquitectura de props "envueltas", desenvolviendo el contenido
- *              antes de pasarlo al cliente.
- * @version 3.0.0
+ *              v3.1.0 (Module Resolution Fix): Se refactoriza para usar una
+ *              importación directa de la Server Action, resolviendo un error de
+ *              dependencia de "server-only".
+ * @version 3.1.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -14,7 +14,10 @@ import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { logger } from "@/shared/lib/logging";
 import { Step0Client } from "./Step0Client";
-import { getBaseCampaignsAction } from "../../_actions";
+// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA] ---
+// Se importa la acción específica directamente, evitando el archivo de barril.
+import { getBaseCampaignsAction } from "../../_actions/getBaseCampaigns.action";
+// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA] ---
 import { DynamicIcon } from "@/components/ui";
 import type { StepProps } from "../../_types/step.types";
 import type { Step0ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step0.schema";

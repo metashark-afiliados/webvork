@@ -1,11 +1,9 @@
-// lib/i18n/i18n.dev.ts
+// shared/lib/i18n/i18n.dev.ts
 /**
  * @file i18n.dev.ts
- * @description Motor de i18n para el entorno de desarrollo.
- *              - v2.2.0 (Critical Bug Fix: DiscoveryResult Reduction): Resuelve el error
- *                de la propiedad 'reduce' no encontrada en `DiscoveryResult` al acceder
- *                correctamente al array `contents` dentro del objeto.
- * @version 2.2.0
+ * @description Motor de i18n para el entorno de desarrollo. Ensambla diccionarios
+ *              "en caliente" a partir de múltiples archivos fuente.
+ * @version 3.0.0 (Holistic Elite Compliance & Critical Bug Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
@@ -13,13 +11,12 @@ import { type ZodError } from "zod";
 import { type Locale } from "@/shared/lib/i18n.config";
 import { i18nSchema, type Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import { logger } from "@/shared/lib/logging";
-// --- [INICIO DE CORRECCIÓN: Importación correcta de tipos] ---
 import {
   discoverAndReadI18nFiles,
   type I18nFileContent,
 } from "@/shared/lib/dev/i18n-discoverer";
-// --- [FIN DE CORRECCIÓN] ---
 
+// Caché en memoria para el entorno de desarrollo para acelerar las recargas en caliente (HMR).
 const devDictionariesCache: Partial<
   Record<
     Locale,
@@ -27,33 +24,44 @@ const devDictionariesCache: Partial<
   >
 > = {};
 
+/**
+ * @function getDevDictionary
+ * @description Obtiene el diccionario para un locale específico en entorno de desarrollo.
+ * @param {Locale} locale - El locale a obtener.
+ * @returns {Promise<{ dictionary: Partial<Dictionary>; error: ZodError | Error | null; }>}
+ */
 export async function getDevDictionary(locale: Locale): Promise<{
   dictionary: Partial<Dictionary>;
   error: ZodError | Error | null;
 }> {
+  // En desarrollo, no usamos una caché persistente entre peticiones para reflejar cambios al instante.
+  // La caché aquí es solo para el ciclo de vida de una única petición si se llama varias veces.
   if (devDictionariesCache[locale]) {
     logger.trace(
-      `[i18n.dev] Sirviendo diccionario para [${locale}] desde caché.`
+      `[i18n.dev] Sirviendo diccionario para [${locale}] desde caché de petición.`
     );
     return devDictionariesCache[locale]!;
   }
 
-  logger.startGroup(`[i18n.dev] Creando diccionario para [${locale}]...`);
+  logger.startGroup(
+    `[i18n.dev] Ensamblando diccionario "en caliente" para [${locale}]...`
+  );
 
   try {
     const allI18nContents = await discoverAndReadI18nFiles();
 
-    // --- [INICIO DE CORRECCIÓN CRÍTICA] ---
+    // --- [INICIO DE CORRECCIÓN DE ERROR CRÍTICO TS2345] ---
     // El método .reduce() debe llamarse sobre el array 'contents' dentro del objeto 'allI18nContents'.
     const assembledDictionary: Partial<Dictionary> =
       allI18nContents.contents.reduce(
         (acc: Partial<Dictionary>, moduleContent: I18nFileContent) => {
           const contentForLocale = moduleContent[locale];
+          // Fusiona el contenido del locale actual en el acumulador.
           return { ...acc, ...(contentForLocale || {}) };
         },
         {}
       );
-    // --- [FIN DE CORRECCIÓN CRÍTICA] ---
+    // --- [FIN DE CORRECCIÓN DE ERROR CRÍTICO TS2345] ---
 
     const validation = i18nSchema.safeParse(assembledDictionary);
 
@@ -79,16 +87,18 @@ export async function getDevDictionary(locale: Locale): Promise<{
     logger.endGroup();
     return result;
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
     logger.error(
       `[i18n.dev] Fallo crítico al ensamblar el diccionario para ${locale}.`,
-      { error }
+      { error: errorMessage }
     );
     const result = {
       dictionary: {},
-      error: error instanceof Error ? error : new Error(String(error)),
+      error: error instanceof Error ? error : new Error(errorMessage),
     };
     devDictionariesCache[locale] = result;
     logger.endGroup();
     return result;
   }
 }
+// shared/lib/i18n/i18n.dev.ts

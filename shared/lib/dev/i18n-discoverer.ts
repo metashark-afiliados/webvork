@@ -1,12 +1,14 @@
-// lib/dev/i18n-discoverer.ts
+// shared/lib/dev/i18n-discoverer.ts
 /**
  * @file i18n-discoverer.ts
- * @description Utilidad pura y atómica del lado del servidor. Ahora puede
- *              devolver las rutas de los archivos junto con su contenido para
- *              habilitar builds incrementales y es más robusta a JSON malformados.
- * @version 3.1.0 (Robust JSON Parsing)
+ * @description Utilidad pura y atómica del lado del servidor. Escanea el proyecto
+ *              en busca de archivos de contenido .i18n.json, los lee y los parsea.
+ *              Esta versión es resiliente a errores de parsing de JSON individuales
+ *              y a fallos de lectura de directorios.
+ * @version 4.0.0 (Holistic Elite Compliance & Resilience)
  * @author RaZ Podestá - MetaShark Tech
  */
+import "server-only";
 import * as fs from "fs/promises";
 import * as path from "path";
 import chalk from "chalk";
@@ -30,8 +32,7 @@ export type I18nFileContent = { [key in Locale]?: Record<string, unknown> };
 
 /**
  * @type DiscoveryResult
- * @description Define la estructura del objeto de retorno, que ahora
- *              incluye tanto las rutas como el contenido de los archivos.
+ * @description Define la estructura del objeto de retorno.
  */
 export type DiscoveryResult = {
   files: string[];
@@ -42,7 +43,6 @@ export type DiscoveryResult = {
  * @function discoverAndReadI18nFiles
  * @description Escanea recursivamente los directorios de contenido, lee todos los
  *              archivos `.i18n.json` y devuelve sus rutas y contenidos parseados.
- *              Es resiliente a errores de parsing de JSON en archivos individuales.
  * @param {object} [options] - Opciones de configuración.
  * @param {boolean} [options.excludeDevContent=false] - Si es true, omite los archivos de contenido de desarrollo.
  * @returns {Promise<DiscoveryResult>} Un objeto con dos arrays: `files` (rutas) y `contents` (contenidos).
@@ -52,7 +52,7 @@ export async function discoverAndReadI18nFiles(options?: {
 }): Promise<DiscoveryResult> {
   const { excludeDevContent = false } = options || {};
   logger.trace(
-    "[i18n-discoverer] Iniciando descubrimiento de archivos (v3.1)..."
+    "[i18n-discoverer] Iniciando descubrimiento de archivos (v4.0 Elite)..."
   );
 
   const files: string[] = [];
@@ -73,7 +73,6 @@ export async function discoverAndReadI18nFiles(options?: {
         if (entry.isFile() && entry.name.endsWith(".i18n.json")) {
           const filePath = path.join(entry.path, entry.name);
 
-          // Lógica de exclusión
           if (
             excludeDevContent &&
             DEV_CONTENT_PATHS_TO_IGNORE.some((devPath) =>
@@ -89,14 +88,12 @@ export async function discoverAndReadI18nFiles(options?: {
             continue;
           }
 
-          // Resiliencia a nivel de archivo: `try...catch` para cada JSON.parse
           try {
             const contentString = await fs.readFile(filePath, "utf-8");
-            const parsedContent = JSON.parse(contentString); // Intenta parsear aquí
+            const parsedContent = JSON.parse(contentString);
             files.push(filePath);
             contents.push(parsedContent);
           } catch (error) {
-            // Este es el log de advertencia que viste. Ahora es más específico.
             console.warn(
               chalk.yellow(
                 `[i18n-discoverer] ADVERTENCIA: No se pudo leer o parsear el archivo ${path.relative(
@@ -106,20 +103,20 @@ export async function discoverAndReadI18nFiles(options?: {
               ),
               { error: error instanceof Error ? error.message : String(error) }
             );
-            // No se añade el archivo ni su contenido si hay error, el `object-hash` no recibirá `undefined`.
           }
         }
       }
     } catch (err) {
       logger.warn(
-        `[i18n-discoverer] ADVERTENCIA: No se pudo escanear el directorio ${dir}.`,
+        `[i18n-discoverer] ADVERTENCIA: No se pudo escanear el directorio raíz ${path.relative(process.cwd(), dir)}. Se omitirá.`,
         { error: err instanceof Error ? err.message : String(err) }
       );
     }
   }
 
   logger.trace(
-    `Descubrimiento finalizado. Se encontraron ${contents.length} archivos.`
+    `Descubrimiento finalizado. Se procesaron ${contents.length} archivos de contenido.`
   );
   return { files, contents };
 }
+// shared/lib/dev/i18n-discoverer.ts

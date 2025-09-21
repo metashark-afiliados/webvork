@@ -1,8 +1,7 @@
-// RUTA: app/[locale]/privacy/page.tsx
+// app/[locale]/privacy/page.tsx
 /**
  * @file page.tsx
- * @description Página de Política de Privacidad, elevada a un estándar de élite
- *              con animación de entrada y cumplimiento holístico de la Directiva 026.
+ * @description Página de Política de Privacidad, elevada a un estándar de élite.
  * @version 2.0.0 (Holistic Elite Compliance & MEA/UX)
  * @author RaZ Podestá - MetaShark Tech
  */
@@ -30,14 +29,11 @@ export default async function PrivacyPage({
   const { dictionary, error } = await getDictionary(locale);
   const content = dictionary.privacyPage;
 
-  // --- Pilar III: Guardia de Resiliencia Robusta ---
   if (error || !content) {
     const errorMessage =
       "Fallo al cargar el contenido i18n para la página de Política de Privacidad.";
     logger.error(`[PrivacyPage] ${errorMessage}`, { error });
-    if (process.env.NODE_ENV === "production") {
-      return notFound();
-    }
+    if (process.env.NODE_ENV === "production") return notFound();
     return (
       <DeveloperErrorDisplay
         context="PrivacyPage"
@@ -50,11 +46,10 @@ export default async function PrivacyPage({
   }
 
   return (
-    // --- MEA/UX: Orquestador de Animación ---
     <SectionAnimator>
-      {/* --- Pilar V: Adherencia al Contrato de PageHeader --- */}
       <PageHeader content={content} />
       <TextSection content={content.content} />
     </SectionAnimator>
   );
 }
+// app/[locale]/privacy/page.tsx

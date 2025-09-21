@@ -16,6 +16,10 @@ import jsxA11yPlugin from "eslint-plugin-jsx-a11y";
 const config = tseslint.config(
   {
     // --- [INICIO DE MEJORA DE AISLAMIENTO] ---
+    // Se añade la ruta `public/vendor/**/*.js` al array de ignores globales.
+    // Esto asegura que los scripts de terceros, como webvork.js, no sean
+    // procesados por ESLint, previniendo errores de linting irrelevantes y
+    // mejorando ligeramente el rendimiento.
     ignores: ["**/.next/**", "**/node_modules/**", "public/vendor/**/*.js"],
     // --- [FIN DE MEJORA DE AISLAMIENTO] ---
   },

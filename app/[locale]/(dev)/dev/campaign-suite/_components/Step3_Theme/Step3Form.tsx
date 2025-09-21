@@ -2,8 +2,8 @@
 /**
  * @file Step3Form.tsx
  * @description Orquestador de presentación para el Paso 3.
- *              v6.0.0 (Theme Composer i18n): Sincronizado con las nuevas claves
- *              i18n para el modal del Compositor de Temas.
+ *              v6.0.0 (Theme Composer Integration): Refactorizado para lanzar el
+ *              modal del Compositor de Temas en lugar de mostrar selectores estáticos.
  * @version 6.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
@@ -83,3 +83,4 @@ export function Step3Form({
     </Card>
   );
 }
+// app/[locale]/(dev)/dev/campaign-suite/_components/Step3_Theme/Step3Form.tsx

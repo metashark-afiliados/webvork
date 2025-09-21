@@ -2,7 +2,7 @@
 /**
  * @file TypographySelector.tsx
  * @description Aparato de UI atómico y de élite para la selección visual de tipografías.
- * @version 1.1.0 (Resilient Contract)
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -13,17 +13,22 @@ import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
 import { logger } from "@/shared/lib/logging";
 
-// --- [INICIO] REFACTORIZACIÓN DE CONTRATO ---
+/**
+ * @interface Typography
+ * @description Contrato de datos para una única combinación de tipografías.
+ */
 interface Typography {
   name: string;
   fonts?: {
-    // La propiedad 'fonts' ahora es opcional
     sans?: string;
     serif?: string;
   };
 }
-// --- [FIN] REFACTORIZACIÓN DE CONTRATO ---
 
+/**
+ * @interface TypographySelectorProps
+ * @description Contrato de props para el componente TypographySelector.
+ */
 interface TypographySelectorProps {
   typographies: Typography[];
   selectedTypographyName: string | null;
@@ -54,9 +59,7 @@ export function TypographySelector({
         </div>
       )}
       {typographies.map((typography) => {
-        // --- [INICIO] GUARDIA DE RESILIENCIA ---
         const fonts = typography.fonts ?? {};
-        // --- [FIN] GUARDIA DE RESILIENCIA ---
         return (
           <motion.div
             key={typography.name}

@@ -1,4 +1,4 @@
-// lib/ssg/packager.ts
+// shared/lib/ssg/packager.ts
 /**
  * @file packager.ts
  * @description Utilidad de bajo nivel para empaquetar un directorio en un
@@ -21,7 +21,8 @@ export function packageDirectory(
       destination: outPath,
     });
     const output = fs.createWriteStream(outPath);
-    const archive = archiver("zip", { zlib: { level: 9 } });
+    const archive = archiver("zip", { zlib: { level: 9 } }); // Máxima compresión
+
     output.on("close", () => {
       const sizeInKb = (archive.pointer() / 1024).toFixed(2);
       logger.success(
@@ -29,12 +30,15 @@ export function packageDirectory(
       );
       resolve();
     });
+
     archive.on("error", (err) => {
       logger.error("Error durante el archivado .zip.", { err });
       reject(err);
     });
+
     archive.pipe(output);
     archive.directory(sourceDir, false);
     archive.finalize();
   });
 }
+// shared/lib/ssg/packager.ts

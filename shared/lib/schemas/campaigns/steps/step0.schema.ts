@@ -1,8 +1,8 @@
-// app/[locale]/(dev)/dev/campaign-suite/_schemas/steps/step0.schema.ts
+// shared/lib/schemas/campaigns/steps/step0.schema.ts
 /**
  * @file step0.schema.ts
  * @description Schema atómico para el contenido i18n del Paso 0 de la SDC.
- * @version 1.0.0
+ * @version 2.0.0 (Gamification MEA/UX)
  * @author RaZ Podestá - MetaShark Tech
  */
 import { z } from "zod";
@@ -22,5 +22,9 @@ export const Step0ContentSchema = z.object({
   affiliateNetworkPlaceholder: z.string(),
   affiliateUrlLabel: z.string(),
   affiliateUrlPlaceholder: z.string(),
+  // --- NUEVA CLAVE PARA GAMIFICACIÓN ---
+  passportStampLabel: z
+    .string()
+    .describe("Texto que se muestra durante la animación del sello."),
 });
-// app/[locale]/(dev)/dev/campaign-suite/_schemas/steps/step0.schema.ts
+// shared/lib/schemas/campaigns/steps/step0.schema.ts

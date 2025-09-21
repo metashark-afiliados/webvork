@@ -1,8 +1,7 @@
-// RUTA: app/[locale]/terms/page.tsx
+// app/[locale]/terms/page.tsx
 /**
  * @file page.tsx
- * @description Página de Términos de Servicio, elevada a un estándar de élite
- *              con animación de entrada y cumplimiento holístico de la Directiva 026.
+ * @description Página de Términos de Servicio, elevada a un estándar de élite.
  * @version 2.0.0 (Holistic Elite Compliance & MEA/UX)
  * @author RaZ Podestá - MetaShark Tech
  */
@@ -20,24 +19,16 @@ interface TermsPageProps {
   params: { locale: Locale };
 }
 
-export default async function TermsPage({
-  params: { locale },
-}: TermsPageProps) {
-  logger.info(
-    `[TermsPage] Renderizando v2.0 (Elite Compliance) para locale: ${locale}`
-  );
+export default async function TermsPage({ params: { locale } }: TermsPageProps) {
+  logger.info(`[TermsPage] Renderizando v2.0 (Elite Compliance) para locale: ${locale}`);
 
   const { dictionary, error } = await getDictionary(locale);
   const content = dictionary.termsPage;
 
-  // --- Pilar III: Guardia de Resiliencia Robusta ---
   if (error || !content) {
-    const errorMessage =
-      "Fallo al cargar el contenido i18n para la página de Términos de Servicio.";
+    const errorMessage = "Fallo al cargar el contenido i18n para la página de Términos de Servicio.";
     logger.error(`[TermsPage] ${errorMessage}`, { error });
-    if (process.env.NODE_ENV === "production") {
-      return notFound();
-    }
+    if (process.env.NODE_ENV === "production") return notFound();
     return (
       <DeveloperErrorDisplay
         context="TermsPage"
@@ -48,11 +39,10 @@ export default async function TermsPage({
   }
 
   return (
-    // --- MEA/UX: Orquestador de Animación ---
     <SectionAnimator>
-      {/* --- Pilar V: Adherencia al Contrato de PageHeader --- */}
       <PageHeader content={content} />
       <TextSection content={content.content} />
     </SectionAnimator>
   );
 }
+// app/[locale]/terms/page.tsx

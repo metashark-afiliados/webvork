@@ -7,7 +7,13 @@
       "emptyStateButton": "Inizia lo Shopping",
       "subtotalLabel": "Subtotale",
       "checkoutButton": "Procedi al Checkout",
-      "continueShoppingButton": "Continua lo Shopping"
+      "continueShoppingButton": "Continua lo Shopping",
+      "errors": {
+        "addItemFailed": "Impossibile aggiungere l'articolo al carrello.",
+        "removeItemFailed": "Impossibile rimuovere l'articolo dal carrello.",
+        "updateItemFailed": "Impossibile aggiornare la quantità dell'articolo.",
+        "createCartFailed": "Impossibile creare un nuovo carrello."
+      }
     }
   },
   "es-ES": {
@@ -18,7 +24,13 @@
       "emptyStateButton": "Empezar a Comprar",
       "subtotalLabel": "Subtotal",
       "checkoutButton": "Proceder al Pago",
-      "continueShoppingButton": "Seguir Comprando"
+      "continueShoppingButton": "Seguir Comprando",
+      "errors": {
+        "addItemFailed": "No se pudo añadir el artículo al carrito.",
+        "removeItemFailed": "No se pudo eliminar el artículo del carrito.",
+        "updateItemFailed": "No se pudo actualizar la cantidad del artículo.",
+        "createCartFailed": "No se pudo crear un nuevo carrito."
+      }
     }
   },
   "en-US": {
@@ -29,7 +41,13 @@
       "emptyStateButton": "Start Shopping",
       "subtotalLabel": "Subtotal",
       "checkoutButton": "Proceed to Checkout",
-      "continueShoppingButton": "Continue Shopping"
+      "continueShoppingButton": "Continue Shopping",
+      "errors": {
+        "addItemFailed": "Could not add item to cart.",
+        "removeItemFailed": "Could not remove item from cart.",
+        "updateItemFailed": "Could not update item quantity.",
+        "createCartFailed": "Could not create a new cart."
+      }
     }
   },
   "pt-BR": {
@@ -40,7 +58,13 @@
       "emptyStateButton": "Começar a Comprar",
       "subtotalLabel": "Subtotal",
       "checkoutButton": "Finalizar Compra",
-      "continueShoppingButton": "Continuar Comprando"
+      "continueShoppingButton": "Continuar Comprando",
+      "errors": {
+        "addItemFailed": "Não foi possível adicionar o item ao carrinho.",
+        "removeItemFailed": "Não foi possível remover o item do carrinho.",
+        "updateItemFailed": "Não foi possível atualizar a quantidade do item.",
+        "createCartFailed": "Não foi possível criar um novo carrinho."
+      }
     }
   }
 }

@@ -1,57 +1,41 @@
 // components/sections/NewsGrid.tsx
 /**
  * @file NewsGrid.tsx
- * @description Cuadrícula de noticias.
- *              - v5.0.0 (Route Key Fix): Corrige la clave de ruta utilizada para
- *                enlazar a los artículos individuales, alineándose con la SSoT
- *                generada en `lib/navigation.ts`.
- * @version 5.0.0
+ * @description Cuadrícula de noticias, ahora data-driven desde CogniRead.
+ * @version 6.0.0 (CogniRead Integration & BAVI-Powered)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { CldImage } from "next-cloudinary";
 import { motion, type Variants } from "framer-motion";
-import { Container } from "@/components/ui/Container";
+import { Container, DynamicIcon } from "@/components/ui";
 import { routes } from "@/shared/lib/navigation";
-import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type { Locale } from "@/shared/lib/i18n.config";
-import type { ArticleCardData } from "@/shared/lib/schemas/components/news-grid.schema";
+import type { CogniReadArticle } from "@/shared/lib/schemas/cogniread/article.schema";
 import { logger } from "@/shared/lib/logging";
 
 interface NewsGridProps {
-  content?: Dictionary["newsGrid"];
+  articles: CogniReadArticle[];
   locale: Locale;
 }
 
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
 export function NewsGrid({
-  content,
+  articles,
   locale,
-}: NewsGridProps): React.ReactElement | null {
-  logger.info("[Observabilidad] Renderizando NewsGrid v5.0 (Route Key Fix)");
-
-  if (!content) {
-    logger.warn(
-      "[NewsGrid] No se proporcionó contenido. La sección no se renderizará."
-    );
-    return null;
-  }
-
-  const { title, articles } = content;
-
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
+}: NewsGridProps): React.ReactElement {
+  logger.info("[NewsGrid] Renderizando v6.0 (CogniRead & BAVI Powered).");
 
   return (
     <section className="py-16 sm:py-24 bg-background">
       <Container>
-        <h2 className="text-3xl font-bold text-center text-foreground mb-12 sm:text-4xl">
-          {title}
-        </h2>
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           initial="hidden"
@@ -59,40 +43,49 @@ export function NewsGrid({
           viewport={{ once: true, amount: 0.1 }}
           transition={{ staggerChildren: 0.1 }}
         >
-          {articles.map((article: ArticleCardData) => (
-            <motion.div key={article.title} variants={cardVariants}>
-              <Link
-                // --- [INICIO DE CORRECCIÓN] ---
-                // Se utiliza la clave correcta 'newsBySlug' en lugar de 'newsArticle'.
-                href={routes.newsBySlug.path({ locale, slug: article.slug })}
-                // --- [FIN DE CORRECCIÓN] ---
-                className="block group"
-              >
-                <div className="overflow-hidden rounded-lg shadow-lg border border-muted bg-muted/20 h-full flex flex-col transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
-                  <div className="relative w-full h-48">
-                    <Image
-                      src={article.imageUrl}
-                      alt={article.title}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
+          {articles.map((article) => {
+            const content = article.content[locale];
+            if (!content) return null; // No renderizar si no hay traducción
+
+            return (
+              <motion.div key={article.articleId} variants={cardVariants}>
+                <Link
+                  href={routes.newsBySlug.path({ locale, slug: content.slug })}
+                  className="block group"
+                >
+                  <div className="overflow-hidden rounded-lg shadow-lg border border-border bg-card h-full flex flex-col transition-all duration-300 hover:shadow-primary/20 hover:-translate-y-1">
+                    <div className="relative w-full h-48 bg-muted/50">
+                      {article.baviHeroImageId ? (
+                        <CldImage
+                          src={article.baviHeroImageId}
+                          alt={content.title}
+                          width={400}
+                          height={225}
+                          crop="fill"
+                          gravity="auto"
+                          format="auto"
+                          quality="auto"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                          <DynamicIcon name="ImageOff" size={48} />
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-6 flex-grow flex flex-col">
+                      <h3 className="text-lg font-bold text-primary flex-grow">
+                        {content.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground line-clamp-3">
+                        {content.summary}
+                      </p>
+                    </div>
                   </div>
-                  <div className="p-6 flex-grow flex flex-col">
-                    <p className="text-xs font-bold uppercase tracking-widest text-accent mb-2">
-                      {article.category}
-                    </p>
-                    <h3 className="text-lg font-bold text-primary flex-grow">
-                      {article.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {article.summary}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
+                </Link>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </Container>
     </section>

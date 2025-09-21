@@ -1,10 +1,9 @@
-// RUTA: components/ui/PassportStamp.tsx
+// components/ui/PassportStamp.tsx
 /**
  * @file PassportStamp.tsx
- * @description Componente de animación MEA/UX que simula un sello de pasaporte.
- *              Resuelve el error de tipo TS2322 con una aserción `as const` para
- *              una inferencia de tipos de élite.
- * @version 1.1.0 (Type Safety Fix)
+ * @description Componente de animación MEA/UX que simula un sello de pasaporte
+ *              para celebrar la finalización exitosa de un paso.
+ * @version 1.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -18,39 +17,56 @@ interface PassportStampProps {
   label: string;
 }
 
-// --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA DE TIPOS] ---
-// Se añade 'as const' para que TypeScript infiera los tipos más específicos.
 const stampVariants = {
-  hidden: { scale: 1.5, opacity: 0, rotate: -15 },
+  hidden: { scale: 1.8, opacity: 0, rotate: -25 },
   visible: {
     scale: 1,
     opacity: 1,
-    rotate: 0,
-    transition: { type: "spring", stiffness: 300, damping: 15 },
+    rotate: 10, // Un ligero ángulo para un look más natural
+    transition: { type: "spring", stiffness: 260, damping: 15, delay: 0.2 },
   },
 } as const;
-// --- [FIN DE CORRECCIÓN ARQUITECTÓNICA DE TIPOS] ---
+
+const textVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut", delay: 0.5 },
+  },
+} as const;
 
 export function PassportStamp({
   label,
 }: PassportStampProps): React.ReactElement {
-  logger.trace("[PassportStamp] Renderizando animación MEA/UX (v1.1).");
+  logger.trace("[PassportStamp] Renderizando animación MEA/UX (v1.0).");
 
   return (
-    <motion.div
-      variants={stampVariants}
-      initial="hidden"
-      animate="visible"
-      className="flex flex-col items-center justify-center"
+    <div
+      className="flex flex-col items-center justify-center p-8"
       aria-live="polite"
+      aria-label={label}
     >
-      <div className="relative w-32 h-32">
+      <motion.div
+        variants={stampVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative w-32 h-32 flex items-center justify-center"
+      >
         <DynamicIcon
-          name="CircleCheck"
-          className="w-full h-full text-green-500"
+          name="CircleCheckBig"
+          className="w-full h-full text-green-500 opacity-80"
         />
-      </div>
-      <p className="mt-4 text-lg font-semibold text-foreground">{label}</p>
-    </motion.div>
+      </motion.div>
+      <motion.p
+        variants={textVariants}
+        initial="hidden"
+        animate="visible"
+        className="mt-4 text-lg font-semibold text-foreground"
+      >
+        {label}
+      </motion.p>
+    </div>
   );
 }
+// components/ui/PassportStamp.tsx

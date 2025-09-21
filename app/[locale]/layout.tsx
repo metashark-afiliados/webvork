@@ -1,12 +1,12 @@
 // RUTA: app/[locale]/layout.tsx
 /**
  * @file layout.tsx
- * @description Layout Localizado, ahora con el Proveedor de Carrito integrado.
- * @version 8.0.0 (Cart Context Integration)
+ * @description Layout Localizado, con una arquitectura de datos de comercio
+ *              corregida y resiliente.
+ * @version 11.1.0 (Commerce Layer Import Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
-import { headers } from "next/headers";
 import { getDictionary } from "@/shared/lib/i18n";
 import {
   defaultLocale,
@@ -18,10 +18,10 @@ import AppProviders from "@/components/layout/AppProviders";
 import Header from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ThemeInjector } from "@/components/layout/ThemeInjector";
-import { DevHomepageHeader } from "@/components/layout/DevHomepageHeader";
+import { getCart } from "@/shared/lib/commerce/cart";
+import { CartProvider } from "@/components/features/cart/cart-context";
 import { DeveloperErrorDisplay } from "@/components/dev";
-import { getCart } from "@/shared/lib/commerce/cart"; // <-- NUEVA IMPORTACIÓN
-import { CartProvider } from "@/components/features/cart/cart-context"; // <-- NUEVA IMPORTACIÓN
+import { notFound } from "next/navigation";
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -36,30 +36,67 @@ export default async function LocaleLayout({
     ? params.locale!
     : defaultLocale;
 
-  logger.info(`[LocaleLayout] Renderizando v8.0 para locale: [${safeLocale}]`);
+  logger.info(`[LocaleLayout] Renderizando v11.1 para locale: [${safeLocale}]`);
 
-  const { dictionary, error } = await getDictionary(safeLocale);
-  const cartPromise = getCart(); // Inicia la obtención del carrito
+  const { dictionary, error: dictError } = await getDictionary(safeLocale);
+  const cartPromise = getCart();
 
-  // ... (guardia de resiliencia para el diccionario sin cambios) ...
+  const {
+    header,
+    footer,
+    cookieConsentBanner,
+    toggleTheme,
+    languageSwitcher,
+    cart,
+  } = dictionary;
 
-  const pathname = headers().get("x-next-pathname") || "";
-  const isHomePage = pathname === `/${safeLocale}` || pathname === "/";
-  // ... (resto de la lógica de header y contenido sin cambios) ...
+  const essentialContentIsMissing =
+    !header ||
+    !footer ||
+    !cookieConsentBanner ||
+    !toggleTheme ||
+    !languageSwitcher ||
+    !cart;
+
+  if (dictError || essentialContentIsMissing) {
+    const errorMessage =
+      "Fallo al cargar el contenido i18n esencial para el layout principal.";
+    logger.error(`[LocaleLayout] ${errorMessage}`, { error: dictError });
+    if (process.env.NODE_ENV === "production") return notFound();
+    return (
+      <html lang={safeLocale}>
+        <body>
+          <DeveloperErrorDisplay
+            context="LocaleLayout"
+            errorMessage={errorMessage}
+            errorDetails={dictError}
+          />
+        </body>
+      </html>
+    );
+  }
 
   return (
     <>
       <ThemeInjector />
       <AppProviders
         locale={safeLocale}
-        cookieConsentContent={dictionary.cookieConsentBanner}
+        cookieConsentContent={cookieConsentBanner}
       >
         <CartProvider cartPromise={cartPromise}>
-          {/* ... Header y otros componentes ... */}
+          <Header
+            content={header}
+            toggleThemeContent={toggleTheme}
+            languageSwitcherContent={languageSwitcher}
+            cartContent={cart}
+            currentLocale={safeLocale}
+            supportedLocales={supportedLocales}
+          />
           <main>{children}</main>
-          {dictionary.footer && <Footer content={dictionary.footer} />}
+          <Footer content={footer} />
         </CartProvider>
       </AppProviders>
     </>
   );
 }
+// RUTA: app/[locale]/layout.tsx

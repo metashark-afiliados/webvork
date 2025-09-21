@@ -1,67 +1,47 @@
-// lib/dev/preview-renderer.tsx
+// shared/lib/dev/preview-renderers/_utils.ts
 /**
- * @file preview-renderer.tsx
- * @description Orquestador que ahora consume el cargador de activos del Edge
- *              para ser 100% compatible con el runtime y resolver el error de build.
- * @version 8.0.0
+ * @file _utils.ts
+ * @description SSoT para la transformación de datos de tema a estilos en línea.
+ *              v3.0.0 (Holistic Transformation): Ahora gestiona la transformación
+ *              completa del tema, incluyendo colores y tipografía, para un
+ *              cumplimiento estricto del principio DRY.
+ * @version 3.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
-import * as React from "react";
-import { previewRenderers } from "./preview-renderers";
-import type { PreviewRenderResult } from "./preview-renderers/_types";
-import { defaultLocale } from "@/shared/lib/i18n.config";
-import { loadEdgeJsonAsset } from "@/shared/lib/i18n/i18n.edge";
-import { deepMerge } from "@/shared/lib/utils/merge";
 import type { AssembledTheme } from "@/shared/lib/schemas/theming/assembled-theme.schema";
-import type { ColorsFragment } from "@/shared/lib/schemas/theming/fragments/colors.schema";
-import type { FontsFragment } from "@/shared/lib/schemas/theming/fragments/fonts.schema";
-import type { GeometryFragment } from "@/shared/lib/schemas/theming/fragments/geometry.schema";
+import { logger } from "@/shared/lib/logging";
 
-const getPreviewTheme = async (): Promise<AssembledTheme> => {
-  const [base, colors, fonts, radii] = await Promise.all([
-    loadEdgeJsonAsset<Partial<AssembledTheme>>(
-      "theme-fragments",
-      "base",
-      "global.theme.json"
-    ),
-    loadEdgeJsonAsset<ColorsFragment>(
-      "theme-fragments",
-      "colors",
-      "scientific.colors.json"
-    ),
-    loadEdgeJsonAsset<FontsFragment>(
-      "theme-fragments",
-      "fonts",
-      "default-sans.fonts.json"
-    ),
-    loadEdgeJsonAsset<GeometryFragment>(
-      "theme-fragments",
-      "radii",
-      "default.radii.json"
-    ),
-  ]);
-  return deepMerge(deepMerge(deepMerge(base, colors), fonts), radii);
-};
+/**
+ * @function getStyleFromTheme
+ * @description Traduce un objeto de tema semántico a un objeto de estilo en línea
+ *              compatible con el motor de renderizado de @vercel/og (Satori).
+ *              Es resiliente a fragmentos de tema incompletos.
+ * @param theme El objeto de tema ensamblado, que puede ser parcial.
+ * @returns Un objeto con claves de estilo listas para ser usadas.
+ */
+export function getStyleFromTheme(theme: Partial<AssembledTheme>) {
+  logger.trace("[Preview Utils] Mapeando tema a estilos en línea (v3.0)...");
 
-export async function renderPreviewComponent(
-  componentName: string
-): Promise<PreviewRenderResult | null> {
-  const renderer = previewRenderers[componentName];
-  const theme = await getPreviewTheme();
+  const colors = theme.colors ?? {};
+  const geometry = theme.geometry ?? {};
+  const fonts = theme.fonts ?? {};
 
-  if (renderer) {
-    return renderer(defaultLocale, theme);
-  }
-
-  // Fallback si el renderizador no está registrado
   return {
-    jsx: (
-      <div tw="flex w-full h-full items-center justify-center bg-red-900/80 text-white border border-red-500/50 rounded-lg">
-        <span>Vista previa no definida para: {componentName}</span>
-      </div>
-    ),
-    width: 400,
-    height: 200,
+    backgroundColor: `hsl(${colors.background || "0 0% 100%"})`,
+    color: `hsl(${colors.foreground || "0 0% 3.9%"})`,
+    borderColor: `hsl(${geometry["--border"] || "0 0% 89.8%"})`,
+    primaryColor: `hsl(${colors.primary || "24.6 95% 53.1%"})`,
+    primaryForegroundColor: `hsl(${
+      colors.primaryForeground || "60 9.1% 97.8%"
+    })`,
+    mutedBackgroundColor: `hsl(${colors.muted || "60 4.8% 95.9%"})`,
+    mutedForegroundColor: `hsl(${colors.mutedForeground || "25 5.3% 44.7%"})`,
+    accentColor: `hsl(${colors.accent || "60 4.8% 95.9%"})`,
+    accentForegroundColor: `hsl(${colors.accentForeground || "24 9.8% 10%"})`,
+    // --- [INICIO DE MEJORA ARQUITECTÓNICA] ---
+    // La lógica de la fuente ahora reside aquí, en su SSoT.
+    fontFamily: fonts.sans || '"Inter", sans-serif',
+    // --- [FIN DE MEJORA ARQUITECTÓNICA] ---
   };
 }
-// lib/dev/preview-renderer.tsx
+// shared/lib/dev/preview-renderers/_utils.ts

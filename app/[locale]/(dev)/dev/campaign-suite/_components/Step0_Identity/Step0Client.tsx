@@ -1,22 +1,26 @@
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step0_Identity/Step0Client.tsx
 /**
  * @file Step0Client.tsx
- * @description Componente Contenedor de Cliente para el Paso 0.
- * @version 2.5.0 (Definitive Rules of Hooks Fix)
+ * @description Componente Contenedor de Cliente para el Paso 0, ahora con
+ *              flujo de UX gamificado "Sello del Pasaporte".
+ * @version 3.0.0 (MEA/UX Gamification)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
 import { logger } from "@/shared/lib/logging";
 import { step0Schema, type Step0Data } from "../../_schemas/step0.schema";
 import { useCampaignDraft } from "../../_hooks/use-campaign-draft";
 import { useWizard } from "../../_context/WizardContext";
 import { Step0Form } from "./Step0Form";
-import { Step0ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step0.schema";
-import { z } from "zod";
+import type { Step0ContentSchema } from "@/shared/lib/schemas/campaigns/steps/step0.schema";
+import type { z } from "zod";
+import { PassportStamp } from "@/components/ui/PassportStamp";
+import { Card, CardContent } from "@/components/ui/Card";
 
 type Step0Content = z.infer<typeof Step0ContentSchema>;
 
@@ -29,12 +33,13 @@ export function Step0Client({
   content,
   baseCampaigns,
 }: Step0ClientProps): React.ReactElement {
-  logger.info("Renderizando Step0Client (Definitive Hooks Fix)");
+  logger.info("Renderizando Step0Client (v3.0 - MEA/UX Gamification)");
 
-  // --- [INICIO DE CORRECCIÓN ARQUITECTÓNICA DEFINITIVA] ---
-  // Todos los hooks se declaran incondicionalmente en el nivel superior.
   const { draft, updateDraft } = useCampaignDraft();
   const { goToNextStep } = useWizard();
+  const [submissionState, setSubmissionState] = useState<
+    "form" | "stamping" | "complete"
+  >("form");
 
   const form = useForm<Step0Data>({
     resolver: zodResolver(step0Schema),
@@ -48,17 +53,18 @@ export function Step0Client({
   });
 
   useEffect(() => {
-    form.reset({
-      baseCampaignId: draft.baseCampaignId ?? baseCampaigns[0] ?? "",
-      variantName: draft.variantName ?? "Test Variant",
-      seoKeywords: draft.seoKeywords ?? "test, keywords, for, seo",
-      affiliateNetwork: draft.affiliateNetwork ?? "webvork",
-      affiliateUrl: draft.affiliateUrl ?? "https://example.com/offer/123",
-    });
-  }, [draft, baseCampaigns, form]);
-  // --- [FIN DE CORRECCIÓN ARQUITECTÓNICA DEFINITIVA] ---
+    if (submissionState === "stamping") {
+      const timer = setTimeout(() => {
+        setSubmissionState("complete");
+      }, 2000); // Duración de la animación + pausa
+      return () => clearTimeout(timer);
+    }
 
-  // La guardia de resiliencia solo protege el retorno del JSX.
+    if (submissionState === "complete") {
+      goToNextStep();
+    }
+  }, [submissionState, goToNextStep]);
+
   if (!content) {
     logger.error("[Step0Client] El contenido para el Paso 0 es indefinido.");
     return (
@@ -69,17 +75,56 @@ export function Step0Client({
   }
 
   const onSubmit = (data: Step0Data) => {
+    logger.startGroup("[Step0Client] Procesando envío de formulario...");
     updateDraft(data);
-    goToNextStep();
+    logger.success(
+      "[Step0Client] Borrador actualizado. Iniciando animación de sello."
+    );
+    setSubmissionState("stamping");
+    logger.endGroup();
+  };
+
+  const animationVariants = {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.95 },
   };
 
   return (
-    <Step0Form
-      form={form}
-      content={content}
-      baseCampaigns={baseCampaigns}
-      onSubmit={onSubmit}
-    />
+    <AnimatePresence mode="wait">
+      {submissionState === "form" && (
+        <motion.div
+          key="form"
+          variants={animationVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          <Step0Form
+            form={form}
+            content={content}
+            baseCampaigns={baseCampaigns}
+            onSubmit={onSubmit}
+          />
+        </motion.div>
+      )}
+
+      {submissionState === "stamping" && (
+        <motion.div
+          key="stamping"
+          variants={animationVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          <Card>
+            <CardContent className="pt-6 min-h-[500px] flex items-center justify-center">
+              <PassportStamp label={content.passportStampLabel} />
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 // app/[locale]/(dev)/dev/campaign-suite/_components/Step0_Identity/Step0Client.tsx

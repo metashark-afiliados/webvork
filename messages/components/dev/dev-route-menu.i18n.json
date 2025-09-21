@@ -2,16 +2,10 @@
   "it-IT": {
     "devRouteMenu": {
       "devMenuLabel": "Strumenti Dev",
-      "devToolsGroup": "DEV TOOLS",
+      "devToolsGroup": "STRUMENTI DEV",
       "campaignPagesGroup": "PAGINE CAMPAGNA",
       "portalPagesGroup": "PAGINE PORTALE",
       "legalPagesGroup": "PAGINE LEGALI",
-      "campaignDesignSuite": "Suite di Progettazione",
-      "componentCanvas": "Component Canvas",
-      "campaignSimulator": "Simulatore di Campagne",
-      "branding": "Guida di Stile",
-      "testPage": "Pagina de Prueba",
-      "campaignPage": "Campagna (ID 12157)",
       "home": "Homepage",
       "store": "Negozio",
       "news": "Notizie",
@@ -19,8 +13,13 @@
       "terms": "Termini",
       "privacy": "Privacy",
       "cookies": "Cookies",
-      "changeLanguage": "Cambia lingua",
-      "currentLanguageIs": "Lingua attuale"
+      "notFound": "Pagina 404",
+      "cByCampaignIdByVariantSlugBySeoKeywordSlug": "Campagna (ID 12157)",
+      "devDashboard": "Dashboard Sviluppo",
+      "devLogin": "Pagina di Login",
+      "devTestPage": "Pagina di Test",
+      "devComponentShowcase": "Vetrina Componenti",
+      "devCampaignSuiteCreate": "Suite di Progettazione"
     }
   },
   "es-ES": {
@@ -30,12 +29,6 @@
       "campaignPagesGroup": "PÁGINAS DE CAMPAÑA",
       "portalPagesGroup": "PÁGINAS DEL PORTAL",
       "legalPagesGroup": "PÁGINAS LEGALES",
-      "campaignDesignSuite": "Suite de Diseño",
-      "componentCanvas": "Lienzo de Componentes",
-      "campaignSimulator": "Simulador de Campañas",
-      "branding": "Guía de Estilo",
-      "testPage": "Página de Prueba",
-      "campaignPage": "Campaña (ID 12157)",
       "home": "Página de Inicio",
       "store": "Tienda",
       "news": "Noticias",
@@ -43,8 +36,13 @@
       "terms": "Términos",
       "privacy": "Privacidad",
       "cookies": "Cookies",
-      "changeLanguage": "Cambiar idioma",
-      "currentLanguageIs": "Idioma actual"
+      "notFound": "Página 404",
+      "cByCampaignIdByVariantSlugBySeoKeywordSlug": "Campaña (ID 12157)",
+      "devDashboard": "Dashboard Desarrollo",
+      "devLogin": "Página de Login",
+      "devTestPage": "Página de Prueba",
+      "devComponentShowcase": "Vitrina de Componentes",
+      "devCampaignSuiteCreate": "Suite de Diseño"
     }
   },
   "en-US": {
@@ -54,12 +52,6 @@
       "campaignPagesGroup": "CAMPAIGN PAGES",
       "portalPagesGroup": "PORTAL PAGES",
       "legalPagesGroup": "LEGAL PAGES",
-      "campaignDesignSuite": "Design Suite",
-      "componentCanvas": "Component Canvas",
-      "campaignSimulator": "Campaign Simulator",
-      "branding": "Style Guide",
-      "testPage": "Test Page",
-      "campaignPage": "Campaign (ID 12157)",
       "home": "Homepage",
       "store": "Store",
       "news": "News",
@@ -67,8 +59,13 @@
       "terms": "Terms",
       "privacy": "Privacy",
       "cookies": "Cookies",
-      "changeLanguage": "Change language",
-      "currentLanguageIs": "Current language"
+      "notFound": "404 Page",
+      "cByCampaignIdByVariantSlugBySeoKeywordSlug": "Campaign (ID 12157)",
+      "devDashboard": "Dev Dashboard",
+      "devLogin": "Login Page",
+      "devTestPage": "Test Page",
+      "devComponentShowcase": "Component Showcase",
+      "devCampaignSuiteCreate": "Design Suite"
     }
   },
   "pt-BR": {
@@ -78,12 +75,6 @@
       "campaignPagesGroup": "PÁGINAS DE CAMPANHA",
       "portalPagesGroup": "PÁGINAS DO PORTAL",
       "legalPagesGroup": "PÁGINAS LEGAIS",
-      "campaignDesignSuite": "Suite de Design",
-      "componentCanvas": "Canvas de Componentes",
-      "campaignSimulator": "Simulador de Campanhas",
-      "branding": "Guia de Estilo",
-      "testPage": "Página de Teste",
-      "campaignPage": "Campanha (ID 12157)",
       "home": "Página Inicial",
       "store": "Loja",
       "news": "Notícias",
@@ -91,8 +82,13 @@
       "terms": "Termos",
       "privacy": "Privacidade",
       "cookies": "Cookies",
-      "changeLanguage": "Mudar idioma",
-      "currentLanguageIs": "Idioma atual"
+      "notFound": "Página 404",
+      "cByCampaignIdByVariantSlugBySeoKeywordSlug": "Campanha (ID 12157)",
+      "devDashboard": "Dashboard de Desenvolvimento",
+      "devLogin": "Página de Login",
+      "devTestPage": "Página de Teste",
+      "devComponentShowcase": "Mostruário de Componentes",
+      "devCampaignSuiteCreate": "Suite de Design"
     }
   }
 }

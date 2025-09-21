@@ -2,7 +2,10 @@
 /**
  * @file publishCampaign.action.ts
  * @description Server Action orquestadora para publicar los activos de una campaña.
- * @version 6.1.0 (Elite Compliance Leveling)
+ *              v7.0.0 (Functional & Elite Compliance): Implementación completa
+ *              que orquesta las utilidades atómicas para una publicación robusta y
+ *              desacoplada.
+ * @version 7.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use server";
@@ -16,6 +19,7 @@ import {
   updateCampaignMap,
 } from "./_utils/campaignMapManager";
 import { generateCampaignAssets } from "./_utils/assetGenerator";
+import { CampaignDraftSchema } from "@/shared/lib/schemas/entities/draft.schema";
 
 interface PublishSuccessPayload {
   message: string;
@@ -25,18 +29,29 @@ interface PublishSuccessPayload {
 export async function publishCampaignAction(
   draft: CampaignDraft
 ): Promise<ActionResult<PublishSuccessPayload>> {
-  const { baseCampaignId, draftId } = draft;
-  if (!baseCampaignId) {
-    return {
-      success: false,
-      error: "Faltan datos fundamentales del borrador.",
-    };
-  }
-
-  const traceId = logger.startTrace(`publishCampaign:${draftId}`);
-  logger.startGroup("[Action] Publicando activos (DRY & Elite)...");
+  const traceId = logger.startTrace(`publishCampaign:${draft.draftId}`);
+  logger.startGroup("[Action] Publicando activos (v7.0 Elite)...");
 
   try {
+    // 1. Validar el borrador completo
+    const validation = CampaignDraftSchema.safeParse(draft);
+    if (!validation.success) {
+      logger.error("[Action] El borrador a publicar es inválido.", {
+        errors: validation.error.flatten(),
+        traceId,
+      });
+      return { success: false, error: "El borrador contiene datos corruptos." };
+    }
+    const validatedDraft = validation.data;
+    const { baseCampaignId, draftId } = validatedDraft;
+
+    if (!baseCampaignId) {
+      throw new Error(
+        "El borrador no tiene un ID de campaña base seleccionado."
+      );
+    }
+
+    // 2. Definir el directorio de producción
     const productionCampaignDir = path.join(
       process.cwd(),
       "content",
@@ -44,6 +59,7 @@ export async function publishCampaignAction(
       baseCampaignId
     );
 
+    // 3. Delegar la obtención del próximo ID de variante y el mapa actual
     const { nextVariantId, campaignMap } = await getOrCreateNextVariantId(
       productionCampaignDir
     );
@@ -51,9 +67,9 @@ export async function publishCampaignAction(
       nextVariantId,
     });
 
-    // Delegar la generación de archivos y la actualización del mapa en memoria
+    // 4. Delegar la generación de archivos y la actualización del mapa en memoria
     const { updatedMap, mapPath } = await generateCampaignAssets(
-      draft,
+      validatedDraft,
       campaignMap,
       nextVariantId,
       productionCampaignDir
@@ -63,7 +79,7 @@ export async function publishCampaignAction(
       "Archivos de activos generados en el directorio de producción."
     );
 
-    // Escribir el mapa actualizado en el disco
+    // 5. Delegar la escritura final del mapa actualizado en el disco
     await updateCampaignMap(updatedMap, mapPath);
     logger.traceEvent(
       traceId,
@@ -71,7 +87,11 @@ export async function publishCampaignAction(
     );
 
     logger.endGroup();
+    logger.success(
+      `[Action] Publicación completada para la nueva variante: ${nextVariantId}`
+    );
     logger.endTrace(traceId);
+
     return {
       success: true,
       data: {
@@ -84,6 +104,7 @@ export async function publishCampaignAction(
       error instanceof Error ? error.message : "Error desconocido.";
     logger.error("Fallo crítico durante la publicación de activos.", {
       error: errorMessage,
+      traceId,
     });
     logger.endGroup();
     logger.endTrace(traceId);

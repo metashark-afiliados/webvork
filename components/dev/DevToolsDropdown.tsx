@@ -2,9 +2,9 @@
 /**
  * @file DevToolsDropdown.tsx
  * @description Orquestador de datos para el DevRouteMenu.
- *              v3.1.0 (Holistic Refactor - Contract Alignment): Re-entrega para
- *              confirmar el consumo del contrato de diccionario completo.
- * @version 3.1.0
+ *              v4.0.0 (Full i18n): Ahora consume el diccionario completo y es
+ *              100% data-driven, cumpliendo con el Pilar I de Calidad.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -22,21 +22,29 @@ interface DevToolsDropdownProps {
 
 export default function DevToolsDropdown({
   dictionary,
-}: DevToolsDropdownProps): React.ReactElement {
+}: DevToolsDropdownProps): React.ReactElement | null {
   logger.info(
-    "[Observabilidad][DevToolsDropdown] Renderizando orquestador smart."
+    "[Observabilidad][DevToolsDropdown] Renderizando orquestador smart v4.0."
   );
   const pathname = usePathname();
   const currentLocale = getCurrentLocaleFromPathname(pathname);
+
+  // Guardia de resiliencia por si el diccionario no se carga correctamente.
+  if (!dictionary) {
+    logger.warn(
+      "[DevToolsDropdown] Diccionario no proporcionado. No se renderizará el menú."
+    );
+    return null;
+  }
 
   logger.trace(
     `[DevToolsDropdown] Orquestando menú para locale: ${currentLocale}`
   );
 
   const routeGroups = generateDevRoutes(dictionary, currentLocale);
-  // Con el schema corregido y el build ejecutado, `devMenuLabel` existirá y será un string.
-  const buttonLabel = dictionary.devMenuLabel;
+  const buttonLabel = dictionary.devMenuLabel; // Consume la nueva clave i18n
 
   return <DevRouteMenu routeGroups={routeGroups} buttonLabel={buttonLabel} />;
 }
 // components/dev/DevToolsDropdown.tsx
+

@@ -1,11 +1,10 @@
-// RUTA: components/layout/CartSheet.tsx
+// components/layout/CartSheet.tsx
 /**
  * @file CartSheet.tsx
  * @description Panel lateral (Sheet) de élite para el carrito de compras.
- *              v3.0.0 (Holistic Elite Compliance & MEA/UX): Refactorizado
- *              para alinearse con la SSoT de datos `CartItem`, resolver todos
- *              los errores de tipo, y añadir animaciones y accesibilidad mejoradas.
- * @version 3.0.0
+ *              v4.0.0 (Atomic State & MEA/UX): Consume el hook selector
+ *              `useCartTotals` y anima la lista de ítems con Framer Motion.
+ * @version 4.0.0
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -27,7 +26,7 @@ import {
   useCartStore,
   useCartTotals,
   type CartItem,
-} from "@/shared/store/useCartStore";
+} from "@/store/useCartStore";
 import { logger } from "@/shared/lib/logging";
 import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type { Locale } from "@/shared/lib/i18n.config";
@@ -112,7 +111,7 @@ export function CartSheet({
   content,
   locale,
 }: CartSheetProps) {
-  logger.info("[CartSheet] Renderizando v3.0 (Holistic Elite Compliance).");
+  logger.info("[CartSheet] Renderizando v4.0 (Atomic State & MEA).");
   const items = useCartStore((state) => state.items);
   const { cartTotal } = useCartTotals();
   const router = useRouter();
@@ -128,39 +127,37 @@ export function CartSheet({
         <SheetHeader className="px-6">
           <SheetTitle>{content.sheetTitle}</SheetTitle>
         </SheetHeader>
-        <AnimatePresence>
-          {items.length > 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex-1 overflow-y-auto px-6"
-            >
-              <div className="divide-y">
-                {items.map((item) => (
+        <div className="flex-1 overflow-y-auto px-6">
+          <div className="divide-y">
+            <AnimatePresence>
+              {items.length > 0 ? (
+                items.map((item) => (
                   <CartItemRow key={item.id} item={item} locale={locale} />
-                ))}
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="flex flex-1 flex-col items-center justify-center gap-4 text-center"
-            >
-              <DynamicIcon
-                name="ShoppingCart"
-                className="w-16 h-16 text-muted-foreground/30"
-                aria-hidden="true"
-              />
-              <p className="text-muted-foreground">{content.emptyStateText}</p>
-              <Button onClick={handleStartShopping}>
-                {content.emptyStateButton}
-              </Button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                ))
+              ) : (
+                <motion.div
+                  key="empty-cart"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  className="flex flex-1 flex-col items-center justify-center gap-4 text-center py-20"
+                >
+                  <DynamicIcon
+                    name="ShoppingCart"
+                    className="w-16 h-16 text-muted-foreground/30"
+                    aria-hidden="true"
+                  />
+                  <p className="text-muted-foreground">
+                    {content.emptyStateText}
+                  </p>
+                  <Button onClick={handleStartShopping}>
+                    {content.emptyStateButton}
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
 
         {items.length > 0 && (
           <SheetFooter className="px-6 py-4 bg-muted/50 mt-auto">
@@ -170,7 +167,7 @@ export function CartSheet({
                 <p>
                   {new Intl.NumberFormat(locale, {
                     style: "currency",
-                    currency: "EUR",
+                    currency: "EUR", // Asumimos EUR por ahora
                   }).format(cartTotal)}
                 </p>
               </div>
@@ -189,3 +186,4 @@ export function CartSheet({
     </Sheet>
   );
 }
+// components/layout/CartSheet.tsx
