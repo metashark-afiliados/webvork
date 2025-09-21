@@ -2,15 +2,16 @@
 /**
  * @file DotsWave.tsx
  * @description Loader SVG animado con efecto de onda.
- * @version 1.0.0
+ * @version 1.1.0 (Code Hygiene)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { cn } from "@/shared/lib/utils";
 
-interface DotsWaveProps extends React.SVGProps<SVGSVGElement> {}
-
-export function DotsWave({ className, ...props }: DotsWaveProps) {
+export function DotsWave({
+  className,
+  ...props
+}: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="24"
@@ -59,4 +60,3 @@ export function DotsWave({ className, ...props }: DotsWaveProps) {
     </svg>
   );
 }
-// components/ui/Loaders/DotsWave.tsx

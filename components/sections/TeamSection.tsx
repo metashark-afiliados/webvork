@@ -2,9 +2,7 @@
 /**
  * @file TeamSection.tsx
  * @description Componente de sección para presentar a los miembros del equipo.
- *              - v1.1.0: Consistencia confirmada.
- *              - v1.2.0 (Resilience): La prop `content` ahora es opcional.
- * @version 1.2.0
+ * @version 1.3.0 (A11y & Resilience Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
@@ -17,9 +15,7 @@ import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
 import type { TeamMember } from "@/shared/lib/schemas/components/team-section.schema";
 
 interface TeamSectionProps {
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   content?: Dictionary["teamSection"];
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 }
 
 export function TeamSection({
@@ -27,14 +23,12 @@ export function TeamSection({
 }: TeamSectionProps): React.ReactElement | null {
   logger.info("[Observabilidad] Renderizando TeamSection");
 
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content) {
     logger.warn(
       "[TeamSection] No se proporcionó contenido. La sección no se renderizará."
     );
     return null;
   }
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { eyebrow, title, members } = content;
 
@@ -49,10 +43,7 @@ export function TeamSection({
             {title}
           </p>
         </div>
-        <ul
-          role="list"
-          className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3"
-        >
+        <ul className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {members.map((member: TeamMember) => (
             <li key={`${member.firstName}-${member.lastName}`}>
               <Image
@@ -70,7 +61,7 @@ export function TeamSection({
                   <p key={index}>{position}</p>
                 ))}
               </div>
-              <ul role="list" className="mt-6 flex gap-x-6">
+              <ul className="mt-6 flex gap-x-6">
                 {member.socialNetworks.map((social) => (
                   <li key={social.name}>
                     <Link
@@ -92,4 +83,3 @@ export function TeamSection({
     </section>
   );
 }
-// components/sections/TeamSection.tsx

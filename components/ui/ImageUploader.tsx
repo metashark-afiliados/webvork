@@ -2,8 +2,7 @@
 /**
  * @file ImageUploader.tsx
  * @description Componente de UI global para la subida de imágenes.
- *              v2.2.0: Sincroniza el nombre del icono con la SSoT actualizada.
- * @version 2.2.0
+ * @version 2.3.0 (Code Hygiene)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -11,7 +10,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useDropzone, type Accept } from "react-dropzone";
-import { logger } from "@/shared/lib/logging";
 import { cn } from "@/shared/lib/utils";
 import { DynamicIcon } from "@/components/ui";
 import { toast } from "sonner";
@@ -34,7 +32,6 @@ interface ImageUploaderProps {
 export function ImageUploader({
   onUpload,
   onUploadSuccess,
-  // ... resto de props sin cambios
   acceptedFileTypes = {
     "image/png": [".png"],
     "image/jpeg": [".jpg", ".jpeg"],
@@ -44,9 +41,9 @@ export function ImageUploader({
   content,
   className,
 }: ImageUploaderProps) {
-  // ... lógica del componente sin cambios
   const [preview, setPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
@@ -69,11 +66,13 @@ export function ImageUploader({
     },
     [onUpload, onUploadSuccess]
   );
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: acceptedFileTypes,
     maxFiles: maxFiles,
   });
+
   useEffect(() => {
     return () => {
       if (preview) {
@@ -106,12 +105,10 @@ export function ImageUploader({
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center">
-            {/* --- [INICIO DE CORRECCIÓN] --- */}
             <DynamicIcon
-              name="Upload" // <-- Nombre canónico y más estable
+              name="Upload"
               className="w-12 h-12 text-muted-foreground/50 mb-2"
             />
-            {/* --- [FIN DE CORRECCIÓN] --- */}
             <p className="font-semibold text-foreground">
               {content.dropzoneText}
             </p>
@@ -133,4 +130,3 @@ export function ImageUploader({
     </div>
   );
 }
-// components/ui/ImageUploader.tsx

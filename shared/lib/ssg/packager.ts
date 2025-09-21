@@ -3,12 +3,11 @@
  * @file packager.ts
  * @description Utilidad de bajo nivel para empaquetar un directorio en un
  *              archivo .zip. NO es una Server Action.
- * @version 1.1.0
+ * @version 1.1.0 (Code Hygiene Fix)
  * @author RaZ Podestá - MetaShark Tech
  */
 import "server-only";
 import fs from "fs";
-import path from "path";
 import archiver from "archiver";
 import { logger } from "@/shared/lib/logging";
 
@@ -17,7 +16,6 @@ export function packageDirectory(
   outPath: string
 ): Promise<void> {
   return new Promise((resolve, reject) => {
-    // ... (Lógica interna sin cambios)
     logger.info("Iniciando proceso de empaquetado .zip...", {
       source: sourceDir,
       destination: outPath,
@@ -40,4 +38,3 @@ export function packageDirectory(
     archive.finalize();
   });
 }
-// lib/ssg/packager.ts

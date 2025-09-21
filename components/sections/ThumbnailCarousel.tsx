@@ -2,9 +2,7 @@
 /**
  * @file ThumbnailCarousel.tsx
  * @description Un carrusel visual que cicla a través de una serie de imágenes.
- *              - v5.0.0 (Alias Unification & Logic Refactor): Rutas y lógica mejoradas.
- *              - v5.1.0 (Resilience): La prop `content` ahora es opcional.
- * @version 5.1.0
+ * @version 5.2.0 (Code Hygiene)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
@@ -16,12 +14,9 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { logger } from "@/shared/lib/logging";
 import type { Dictionary } from "@/shared/lib/schemas/i18n.schema";
-import type { Thumbnail } from "@/shared/lib/schemas/components/thumbnail-carousel.schema";
 
 interface ThumbnailCarouselProps {
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   content?: Dictionary["thumbnailCarousel"];
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
   interval?: number;
 }
 
@@ -29,7 +24,7 @@ export function ThumbnailCarousel({
   content,
   interval = 5000,
 }: ThumbnailCarouselProps): React.ReactElement | null {
-  logger.info("[ThumbnailCarousel] Renderizando componente...");
+  logger.info("[ThumbnailCarousel] Renderizando componente v5.2...");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -49,12 +44,10 @@ export function ThumbnailCarousel({
     return () => clearInterval(timer);
   }, [currentIndex, thumbnails.length, interval, isHovered, nextSlide]);
 
-  // --- [INICIO DE REFACTORIZACIÓN DE RESILIENCIA] ---
   if (!content || thumbnails.length === 0) {
     logger.warn("[ThumbnailCarousel] Contenido inválido. No se renderizará.");
     return null;
   }
-  // --- [FIN DE REFACTORIZACIÓN DE RESILIENCIA] ---
 
   const { affiliateUrl, playButtonAriaLabel, playButtonTitle } = content;
   const currentThumbnail = thumbnails[currentIndex];
@@ -112,4 +105,3 @@ export function ThumbnailCarousel({
     </section>
   );
 }
-// components/sections/ThumbnailCarousel.tsx

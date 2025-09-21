@@ -2,15 +2,16 @@
 /**
  * @file FadingLines.tsx
  * @description Loader SVG animado con efecto de líneas que se desvanecen.
- * @version 1.0.0
+ * @version 1.1.0 (Code Hygiene)
  * @author RaZ Podestá - MetaShark Tech
  */
 import React from "react";
 import { cn } from "@/shared/lib/utils";
 
-interface FadingLinesProps extends React.SVGProps<SVGSVGElement> {}
-
-export function FadingLines({ className, ...props }: FadingLinesProps) {
+export function FadingLines({
+  className,
+  ...props
+}: React.SVGProps<SVGSVGElement>) {
   const lines = Array.from({ length: 12 });
   return (
     <svg
@@ -48,4 +49,3 @@ export function FadingLines({ className, ...props }: FadingLinesProps) {
     </svg>
   );
 }
-// components/ui/Loaders/FadingLines.tsx

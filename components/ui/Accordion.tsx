@@ -1,87 +1,92 @@
 // RUTA: components/ui/Accordion.tsx
 /**
  * @file Accordion.tsx
- * @description Componente atómico reutilizable `AccordionItem`.
- *              - v5.0.0: Refactorizado a componente de presentación puro. Consume el
- *                tipo `FaqItem` desde su SSoT y cumple con la Directiva 003.
- *              - v5.1.0: Movido a la ubicación canónica `components/ui/` y rutas de
- *                importación corregidas para resolver errores TS2307.
- * @version 5.1.0
+ * @description Sistema de componentes de acordeón de élite, inyectado con MEA/UX.
+ *              Permite la creación de contenido expandible con animaciones
+ *              fluidas y accesibilidad de primer nivel gracias a Radix UI.
+ * @version 2.0.0 (MEA Injected & Compositional API)
  * @author RaZ Podestá - MetaShark Tech
  */
 "use client";
 
-import React, { useState } from "react";
+import * as React from "react";
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { twMerge } from "tailwind-merge";
-import { clsx } from "clsx";
+import { DynamicIcon } from "@/components/ui";
+import { cn } from "@/shared/lib/utils";
 import { logger } from "@/shared/lib/logging";
-import type { FaqItem } from "@/shared/lib/schemas/components/faq-accordion.schema";
 
-interface AccordionItemProps {
-  content: FaqItem;
-}
+const Accordion = AccordionPrimitive.Root;
 
-/**
- * @component AccordionItem
- * @description Renderiza un único panel expandible de pregunta y respuesta.
- * @param {AccordionItemProps} props - Las propiedades que contienen la pregunta y la respuesta.
- * @returns {React.ReactElement} El elemento JSX del item del acordeón.
- */
-export function AccordionItem({
-  content,
-}: AccordionItemProps): React.ReactElement {
-  logger.trace("[Observabilidad] Renderizando AccordionItem", {
-    question: content.question,
-  });
-
-  const [isOpen, setIsOpen] = useState(false);
-  const panelId = React.useId();
-
+const AccordionItem = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
+>(({ className, ...props }, ref) => {
+  logger.trace("[AccordionItem] Renderizando.");
   return (
-    <div className="border-b border-muted/50">
-      <h2>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex justify-between items-center py-4 text-left font-semibold text-foreground hover:text-primary transition-colors"
-          aria-expanded={isOpen}
-          aria-controls={panelId}
-        >
-          <span>{content.question}</span>
-          <ChevronDown
-            className={twMerge(
-              clsx(
-                "h-5 w-5 transform transition-transform duration-300 shrink-0",
-                isOpen && "rotate-180"
-              )
-            )}
-            aria-hidden="true"
-          />
-        </button>
-      </h2>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            id={panelId}
-            role="region"
-            initial="collapsed"
-            animate="open"
-            exit="collapsed"
-            variants={{
-              open: { opacity: 1, height: "auto" },
-              collapsed: { opacity: 0, height: 0 },
-            }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div
-              className="pb-4 pr-8 text-muted-foreground prose prose-invert prose-sm"
-              dangerouslySetInnerHTML={{ __html: content.answer }}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <AccordionPrimitive.Item
+      ref={ref}
+      className={cn("border-b", className)}
+      {...props}
+    />
   );
-}
+});
+AccordionItem.displayName = "AccordionItem";
+
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+        className
+      )}
+      {...props}
+    >
+      {children}
+      <DynamicIcon
+        name="ChevronDown"
+        className="h-4 w-4 shrink-0 transition-transform duration-200"
+      />
+    </AccordionPrimitive.Trigger>
+  </AccordionPrimitive.Header>
+));
+AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+
+const AccordionContent = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Content>
+>(({ className, children, ...props }, ref) => {
+  logger.trace("[AccordionContent] Renderizando contenido v2.0.");
+  return (
+    <AccordionPrimitive.Content
+      ref={ref}
+      className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+      {...props}
+      asChild
+    >
+      {/* MEA/UX: Envoltura con AnimatePresence y motion.div para animación fluida */}
+      <motion.div
+        initial={{ opacity: 0, height: 0 }}
+        animate={{
+          opacity: 1,
+          height: "auto",
+          transition: { duration: 0.3, ease: "easeInOut" },
+        }}
+        exit={{
+          opacity: 0,
+          height: 0,
+          transition: { duration: 0.3, ease: "easeInOut" },
+        }}
+      >
+        <div className={cn("pb-4 pt-0", className)}>{children}</div>
+      </motion.div>
+    </AccordionPrimitive.Content>
+  );
+});
+AccordionContent.displayName = AccordionPrimitive.Content.displayName;
+
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };

@@ -1,10 +1,22 @@
-// components/ui/Alert.tsx
+// RUTA: components/ui/Alert.tsx
+/**
+ * @file Alert.tsx
+ * @description Componente de alerta de élite, inyectado con MEA/UX.
+ *              Muestra mensajes importantes con una animación de entrada sutil
+ *              y un pulso visual para captar la atención del usuario.
+ * @version 2.0.0 (MEA Injected & Elite Leveling)
+ * @author RaZ Podestá - MetaShark Tech
+ */
+"use client";
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "framer-motion";
 import { cn } from "@/shared/lib/utils";
+import { logger } from "@/shared/lib/logging";
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  "relative w-full rounded-lg border p-4 pl-14 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
   {
     variants: {
       variant: {
@@ -19,24 +31,27 @@ const alertVariants = cva(
   }
 );
 
-const Alert = React.forwardRef<
+const AlertComponent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div
-    ref={ref}
-    role="alert"
-    className={cn(alertVariants({ variant }), className)}
-    {...props}
-  />
-));
-Alert.displayName = "Alert";
+>(({ className, variant, ...props }, ref) => {
+  logger.trace("[AlertComponent] Renderizando componente base de alerta.");
+  return (
+    <div
+      ref={ref}
+      role="alert"
+      className={cn(alertVariants({ variant }), className)}
+      {...props}
+    />
+  );
+});
+AlertComponent.displayName = "AlertComponent";
 
 const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <h5
+  <div
     ref={ref}
     className={cn("mb-1 font-medium leading-none tracking-tight", className)}
     {...props}
@@ -56,5 +71,31 @@ const AlertDescription = React.forwardRef<
 ));
 AlertDescription.displayName = "AlertDescription";
 
-export { Alert, AlertTitle, AlertDescription };
-// components/ui/Alert.tsx
+/**
+ * @hoc AnimatedAlert
+ * @description High-Order Component que envuelve el Alert base con animación.
+ *              Esta es la exportación pública y recomendada.
+ */
+const AnimatedAlert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
+>(({ className, variant, ...props }, ref) => {
+  logger.trace("[AnimatedAlert] Renderizando alerta con animación MEA/UX.");
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <AlertComponent
+        ref={ref}
+        className={className}
+        variant={variant}
+        {...props}
+      />
+    </motion.div>
+  );
+});
+AnimatedAlert.displayName = "Alert";
+
+export { AnimatedAlert as Alert, AlertTitle, AlertDescription };

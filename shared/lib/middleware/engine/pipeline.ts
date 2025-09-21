@@ -1,4 +1,3 @@
-// lib/middleware/engine/pipeline.ts
 /**
  * @file pipeline.ts
  * @description Orquestador de middleware atómico y compatible con Vercel Edge Runtime.
@@ -17,12 +16,7 @@ export type MiddlewareHandler = (
 export function createPipeline(
   handlers: MiddlewareHandler[]
 ): MiddlewareHandler {
-  return async function (
-    req: NextRequest
-    // --- [INICIO DE CORRECCIÓN: @typescript-eslint/no-unused-vars] ---
-    // El parámetro 'res' no se utiliza en esta implementación.
-    // --- [FIN DE CORRECCIÓN] ---
-  ): Promise<NextResponse> {
+  return async function (req: NextRequest): Promise<NextResponse> {
     let currentResponse = NextResponse.next();
 
     for (const handler of handlers) {
@@ -49,4 +43,3 @@ export function createPipeline(
     return currentResponse;
   };
 }
-// lib/middleware/engine/pipeline.ts
